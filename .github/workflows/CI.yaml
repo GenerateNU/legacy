@@ -112,11 +112,6 @@ jobs:
           cd client
           yarn install
 
-      - name: Bundle React Native assets
-        run: |
-          cd client
-          react-native bundle --entry-file App.tsx --platform android --dev false --bundle-output /dev/null --assets-dest /dev/null
-
       - name: Build Go app
         run: |
           cd server

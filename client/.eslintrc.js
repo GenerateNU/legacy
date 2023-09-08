@@ -7,6 +7,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off'
   },
   env: {
-    // 'jest/globals': true
+    'jest/globals': true
   }
 };

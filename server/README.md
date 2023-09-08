@@ -4,11 +4,7 @@
 
 **Go**
 
-- [Installing Go (Golang)](https://golang.org/doc/install)
-
-**MongoDB**
-
-- [Installing MongoDB](https://docs.mongodb.com/manual/installation/)
+- [Installing Go (Golang)](https://golang.org/doc/install)s
 
 **Echo Web Framework for Go**
 

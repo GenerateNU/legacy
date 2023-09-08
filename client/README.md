@@ -20,14 +20,9 @@
 #### TypeScript
 [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 
-[TypeScript for Java Devs](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-oop.html)
-
 [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 
 [Learning TypeScript (book)](https://learning.oreilly.com/library/view/learning-typescript/9781098110321/)
 
 [Programming TypeScript (book)](https://learning.oreilly.com/library/view/programming-typescript/9781492037644/)
 
-Intro to typescript
-Web dev
-React Native
