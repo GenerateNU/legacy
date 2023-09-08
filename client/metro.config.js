@@ -10,10 +10,8 @@ module.exports = {
       '@/types': path.resolve(__dirname, 'src/types'),
       '@/context': path.resolve(__dirname, 'src/context'),
       '@/services': path.resolve(__dirname, 'src/services'),
-      '@/navigation': path.resolve(__dirname, 'src/navigation'),
+      '@/navigation': path.resolve(__dirname, 'src/navigation')
     }
   },
-  watchFolders: [
-    path.resolve(__dirname, 'src')
-  ]
+  watchFolders: [path.resolve(__dirname, 'src')]
 };

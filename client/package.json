@@ -8,23 +8,15 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "expo": "~49.0.8",
     "expo-status-bar": "~1.6.0",
+    "jest": "^29.6.4",
     "react": "18.2.0",
     "react-native": "0.72.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "prettier --write"
-    ]
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -32,8 +24,9 @@
     "@react-native-community/eslint-config": "^3.2.0",
     "@types/react": "~18.0.14",
     "babel-plugin-module-resolver": "^5.0.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
+    "eslint": "^8.48.0",
+    "eslint-plugin-jest": "^27.2.3",
+    "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.3",
     "typescript": "^5.1.3"
   },

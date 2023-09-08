@@ -1,0 +1,123 @@
+name: CI (Linting, Testing, Building)
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint
+    runs_on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+        go-version: [1.21.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+          cache-dependency-path: "frontend/yarn.lock"
+
+      - name: Install Node.js dependencies
+        run: |
+          cd client
+          yarn install
+
+      - name: Lint React Native code
+        run: |
+          cd client
+          yarn lint
+
+      - name: Lint Go code
+        run: |
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+          golangci-lint run ./server/...
+
+  test:
+    name: Test
+    runs_on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+        go-version: [1.21.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+          cache-dependency-path: "frontend/yarn.lock"
+
+      - name: Install Node.js dependencies
+        run: |
+          cd client
+          yarn install
+
+      - name: Run React Native tests
+        run: |
+          cd client
+          yarn test
+
+      - name: Run Go tests
+        run: |
+          cd server/tests
+          go test ./...
+
+  build:
+    name: Build
+    runs_on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+        go-version: [1.21.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+          cache-dependency-path: "frontend/yarn.lock"
+
+      - name: Install Node.js dependencies
+        run: |
+          cd client
+          yarn install
+
+      - name: Bundle React Native assets
+        run: |
+          cd client
+          react-native bundle --entry-file App.tsx --platform android --dev false --bundle-output /dev/null --assets-dest /dev/null
+
+      - name: Build Go app
+        run: |
+          cd server
+          go build -v ./src/...
