@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
+
 import TestComponent from '@/components/TestComponent';
 
 export default function App() {
