@@ -67,7 +67,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-          cache-dependency-path: "frontend/yarn.lock"
+          cache-dependency-path: "client/yarn.lock"
 
       - name: Install Node.js dependencies
         run: |
