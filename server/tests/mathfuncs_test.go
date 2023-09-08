@@ -6,10 +6,8 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	got :=
-		models.Add(3, 5)
-	want :=
-		8
+	got := models.Add(3, 5)
+	want := 8
 
 	if got != want {
 		t.Errorf("Add(3, 5) = %d; want %d", got, want)
