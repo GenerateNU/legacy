@@ -11,17 +11,17 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "test": "jest --passWithNoTests"
   },
-    "husky": {
-      "hooks": {
-        "pre-commit": "lint-staged"
-      }
-    },
-    "lint-staged": {
-      "*.{js,jsx,ts,tsx}": [
-        "prettier --write",
-        "git add"
-      ]
-    },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "dependencies": {
     "expo": "~49.0.8",
     "expo-splash-screen": "~0.20.5",
