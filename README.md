@@ -1,58 +1,111 @@
-# Legacy 
-An all encompassing end-of-life planning app
+# Legacy
+An all-encompassing end-of-life planning app.
 
-# Running Application
+## Running Application
 
-## Prerequisites
+### Prerequisites
 - [Node.js](https://nodejs.org/en/)
 - [yarn](https://yarnpkg.com/en/)
 - [expo](https://expo.io/)
 - [golang](https://golang.org/)
 - [docker](https://www.docker.com/)
 
-## Setup
-1. Clone the repository
-    a. `git clone
-    b. `cd legacy`
+### Setup
 
-## Frontend Setup
-2. Install dependencies
-    a. `cd client`
-    b. `yarn install`
-3. Start the server
-    a. `yarn start`
+1. **Clone the repository**
+    ```bash
+    git clone https://github.com/GenerateNU/legacy.git
+    cd legacy
+    ```
 
-## Backend Setup
-2. Install dependencies
-    a. `cd server`
-    b. `go get ./...`
+### Frontend Setup
 
+2. **Install dependencies**
+    ```bash
+    cd client
+    yarn install
+    ```
 
-<!-- # Directory Structure -->
+3. **Start the server**
+    ```bash
+    yarn start
+    ```
 
+### Backend Setup
 
-# Contributing
+2. **Install dependencies**
+    ```bash
+    cd server
+    go get ./...
+    ```
 
-## Getting Started
-1. Fork the repository
-2. Clone the repository
-3. Create a new branch 
-    a. `git checkout -b feature/<branch-name>`
-4. Make changes and commit
-    a. `git add .`
-    b. `git commit -m "commit message"`
-5. Push changes to GitHub
-    a. `git push origin feature/<branch-name>`
-6. Create a pull request
+## Contributing
 
-## Commit Messages
-Commit messages should be in the present tense and should be short and concise. For example, `Add login page` or `Update README.md`
+### Getting Started
 
-## Pull Requests
-Pull requests should be descriptive and should include a summary of changes made. For example, `Add login page` or `Update README.md`
+1. **Clone the repository**
+    ```bash
+    git clone <repository-url>
+    ```
 
-## Code Reviews
-Code reviews should be done by at least one other person. The reviewer should check for code quality, readability, and functionality. The reviewer should also check that the code follows the style guide.
+2. **Create a new branch**
+    ```bash
+    git checkout -b feature/<branch-name>
+    ```
 
+3. **Make changes, format code, and commit changes:**
+    
+    - **Frontend**
+        ```bash
+        cd client
+        yarn format
+        ```
+
+    - **Commit changes**
+        ```bash
+        git add .
+        git commit -m "commit message"
+        ```
+
+4. **Push changes to GitHub**
+    ```bash
+    git push origin feature/<branch-name>
+    ```
+
+5. **Create a pull request**
+    - Go to the [repository](https://github.com/GenerateNU/legacy) on GitHub
+    - Click on the `Pull requests` tab
+    - Click on the `New pull request` button
+    - Select the `base` branch as `main`
+    - Select the `compare` branch as `feature/<branch-name>`
+    - Click on the `Create pull request` button
+
+### Commit Messages
+
+- Commit messages should be in the present tense.
+- Keep them short and concise. If necessary, add a longer description in the body of the commit.
+- Use the following format for commit messages:
+    ```
+    <type>: <subject>
+    <BLANK LINE>
+    <body>
+    ```
+- The `<type>` can be one of the following:
+    - **feat**: A new feature
+    - **fix**: A bug fix
+    - **docs**: Documentation only changes
+    - **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc.)
+    - **refactor**: A code change that neither fixes a bug nor adds a feature
+    - **perf**: A code change that improves performance
+    - **test**: Adding missing tests
+    - **chore**: Changes to the build process or auxiliary tools and libraries such as documentation generation
+
+### Pull Requests
+
+- Ensure your pull request has a clear title and a summary of the changes made.
+- Describe the problem you're solving or the feature you're adding.
+- Mention any related issues or dependencies.
+- Ensure your changes don't break any existing functionality, add tests if necessary.
+- Request reviews from fellow developers or team members.
 
 
