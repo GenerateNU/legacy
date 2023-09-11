@@ -1,0 +1,13 @@
+# air.toml
+
+[build]
+  cmd = "server" # Replace with your binary name
+  path = "."              # Path to your project directory
+  exclude_dir = ["tmp", "vendor", "data"]
+  exclude_file = ["assets"]
+  log = "main"
+
+[run]
+  listen = "127.0.0.1:8080" # The address and port to run your application
+  restart_delay = "3s"     # Delay before restarting the application (optional)
+  start_delay = "5s"       # Delay before starting the application (optional)
