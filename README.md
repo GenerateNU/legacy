@@ -9,6 +9,8 @@ An all-encompassing end-of-life planning app.
 - [expo](https://expo.io/)
 - [golang](https://golang.org/)
 - [docker](https://www.docker.com/)
+- [postgresql](https://www.postgresql.org/)
+- [taskfile](https://taskfile.dev/#/installation?id=installation)
 
 ### Setup
 
@@ -18,26 +20,42 @@ An all-encompassing end-of-life planning app.
     cd legacy
     ```
 
-### Frontend Setup
-
 2. **Install dependencies**
     ```bash
     cd client
     yarn install
-    ```
 
-3. **Start the server**
-    ```bash
-    yarn start
-    ```
-
-### Backend Setup
-
-2. **Install dependencies**
-    ```bash
     cd server
     go get ./...
     ```
+
+### Running 
+
+1. **Start the client**
+    ```bash
+    cd client
+    yarn start
+    ```
+
+2. **Start the server**
+    ```bash
+    cd server
+    task run
+    ```
+
+3. **Start the database**
+    1. **Start postgresql**
+        - MacOS
+        ```bash
+        brew services start postgresql@[version]
+        ```
+
+    2. **Open Docker**
+
+    3. **Start the database**
+        ```bash
+        task docker
+        ```
 
 ## Contributing
 
@@ -53,13 +71,7 @@ An all-encompassing end-of-life planning app.
     git checkout -b feature/<branch-name>
     ```
 
-3. **Make changes, format code, and commit changes:**
-    
-    - **Frontend**
-        ```bash
-        cd client
-        yarn format
-        ```
+3. **Make changes and commit changes:**
 
     - **Commit changes**
         ```bash
