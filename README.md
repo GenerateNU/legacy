@@ -29,6 +29,13 @@ An all-encompassing end-of-life planning app.
     go get ./...
     ```
 
+3. **Install requirements.txt**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+    * Using a virtual environment is not necessary, but recommended.
+
 ### Running
 
 1. **Start the client**
@@ -37,13 +44,9 @@ An all-encompassing end-of-life planning app.
     yarn start
     ```
 
-2. **Start the server**
-    ```bash
-    cd server
-    task run
-    ```
+   * You can then open the app in the Expo app on your phone or in a simulator.
 
-3. **Start the database**
+2. **Start the database**
     1. **Start postgresql**
         - MacOS
         ```bash
@@ -56,6 +59,12 @@ An all-encompassing end-of-life planning app.
         ```bash
         task docker
         ```
+
+3. **Start the server**
+    ```bash
+    cd server
+    task run
+    ```
 
 ## Contributing
 
@@ -76,8 +85,10 @@ An all-encompassing end-of-life planning app.
     - **Commit changes**
         ```bash
         git add .
-        git commit -m "commit message"
+        cz commit
         ```
+
+    * More information on commit messages can be found [here](#commit-messages).
 
 4. **Push changes to GitHub**
     ```bash
@@ -93,6 +104,12 @@ An all-encompassing end-of-life planning app.
     - Click on the `Create pull request` button
 
 ### Commit Messages
+
+Use commitizen to create commit messages.
+
+```bash
+cz commit
+```
 
 - Commit messages should be in the present tense.
 - Keep them short and concise. If necessary, add a longer description in the body of the commit.
