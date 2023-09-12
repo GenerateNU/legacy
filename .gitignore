@@ -1,6 +1,19 @@
- .expo
+# React Native
+node_modules/
+npm-debug.log
+yarn-error.log
+expo-debug.log
+*.expo
+/.expo-shared
+.env
 .DS_Store
- *.exe
- .vscode/*
- node_modules
-venv/
+
+# Go
+*.exe
+/.vscode/*
+/venv/
+/vendor/
+/go.sum
+/go.mod
+/log/
+.idea
