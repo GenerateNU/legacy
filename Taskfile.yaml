@@ -16,3 +16,7 @@ tasks:
   connect:
     cmds:
       - psql -U postgres -W -p 5432 -h localhost -d legacy
+
+  format:
+    cmds:
+      - cd server && go fmt ./... && cd ../client && yarn format

@@ -88,6 +88,13 @@ An all-encompassing end-of-life planning app.
         cz commit
         ```
 
+    - **Bump version**
+        ```bash
+        cz bump
+        ```
+
+    * We use pre-commits that allow us to format code before committing. This ensures that all code is formatted the same way. If your code gets formatted you will need to run `git add .` again before committing to add the formatted code to the commit. You can also run `task format` to format all code.
+
     * More information on commit messages can be found [here](#commit-messages).
 
 4. **Push changes to GitHub**
@@ -109,6 +116,7 @@ Use commitizen to create commit messages.
 
 ```bash
 cz commit
+cz bump
 ```
 
 - Commit messages should be in the present tense.
