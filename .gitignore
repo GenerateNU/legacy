@@ -1,5 +1,6 @@
- *.exe
- node_modules
  .expo
- .vscode/*
 .DS_Store
+ *.exe
+ .vscode/*
+ node_modules
+venv/
