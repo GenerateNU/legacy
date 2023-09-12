@@ -1,16 +1,18 @@
-# https://taskfile.dev
-
 version: "3"
 
 tasks:
   run:
-    - cd server/src && go run main.go
+    cmds:
+      - cd server/src && go run main.go
 
   test-all:
-    - cd server && go test ./tests/...
+    cmds:
+      - cd server && go test ./tests/...
 
-  docker: 
-    - cd server && ./init_db.sh
+  docker:
+    cmds:
+      - cd scripts && ./init_db.sh
 
   connect:
-    - psql -U postgres -W -p 5432 -h localhost -d legacy
+    cmds:
+      - psql -U postgres -W -p 5432 -h localhost -d legacy

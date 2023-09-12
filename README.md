@@ -29,7 +29,7 @@ An all-encompassing end-of-life planning app.
     go get ./...
     ```
 
-### Running 
+### Running
 
 1. **Start the client**
     ```bash
@@ -119,5 +119,3 @@ An all-encompassing end-of-life planning app.
 - Mention any related issues or dependencies.
 - Ensure your changes don't break any existing functionality, add tests if necessary.
 - Request reviews from fellow developers or team members.
-
-

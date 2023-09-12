@@ -9,14 +9,14 @@ import (
 )
 
 func main() {
-    e := echo.New()
+	e := echo.New()
 
-    db, err := database.InitDB()
-    if err != nil {
-        log.Fatal("Failed to initialize the database: ", err)
-    }
+	db, err := database.InitDB()
+	if err != nil {
+		log.Fatal("Failed to initialize the database: ", err)
+	}
 
 	controller.SetupControllers(e, db)
 
-    e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":8080"))
 }

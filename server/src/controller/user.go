@@ -9,25 +9,25 @@ import (
 )
 
 type UserController struct {
-    DB *gorm.DB
+	DB *gorm.DB
 }
 
 func (u *UserController) GetAllUsers(c echo.Context) error {
-    var users []model.User
+	var users []model.User
 
-    u.DB.Find(&users)
-    return c.JSON(http.StatusOK, users)
+	u.DB.Find(&users)
+	return c.JSON(http.StatusOK, users)
 }
 
 func (u *UserController) GetUser(c echo.Context) error {
-    var user model.User
-    userID := c.Param("id")
+	var user model.User
+	userID := c.Param("id")
 
-    u.DB.First(&user, userID)
+	u.DB.First(&user, userID)
 
-    if user.ID == 0 {
-        return c.JSON(http.StatusNotFound, "User not found")
-    }
+	if user.ID == 0 {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
 
-    return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, user)
 }

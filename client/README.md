@@ -25,4 +25,3 @@
 [Learning TypeScript (book)](https://learning.oreilly.com/library/view/learning-typescript/9781098110321/)
 
 [Programming TypeScript (book)](https://learning.oreilly.com/library/view/programming-typescript/9781492037644/)
-

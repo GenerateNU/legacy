@@ -15,7 +15,7 @@ DB_HOST="${POSTGRES_HOST:=127.0.0.1}"
 
 if [[ -z "${SKIP_DOCKER}" ]]
 then
-  CONTAINER_NAME="postgres_$(date '+%s')" 
+  CONTAINER_NAME="postgres_$(date '+%s')"
   RUNNING_POSTGRES_CONTAINER=$(docker ps --filter 'name=postgres' --format '{{.ID}}')
   if [[ -n $RUNNING_POSTGRES_CONTAINER ]]; then
     echo >&2 "there is a postgres container already running, kill it with"
@@ -30,8 +30,8 @@ then
       -d \
       --name ${CONTAINER_NAME} \
       postgres -N 1000
-  sleep 5 
-  
+  sleep 5
+
   docker cp ./src/migrations/init.sql ${CONTAINER_NAME}:/init.sql
   docker exec -it ${CONTAINER_NAME} psql -U ${DB_USER} -d ${DB_NAME} -f /init.sql
 
