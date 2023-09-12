@@ -26,9 +26,9 @@ repos:
           entry: ./scripts/precommit-yarn-format.sh
           language: script
           always_run: true
--   repo: https://github.com/commitizen-tools/commitizen
-    rev: 3.8.2
-    hooks:
-      -   id: commitizen
-      -   id: commitizen-branch
-          stages: [push]
+# -   repo: https://github.com/commitizen-tools/commitizen
+#     rev: 3.8.2
+#     hooks:
+#       -   id: commitizen
+#       -   id: commitizen-branch
+#           stages: [push]
