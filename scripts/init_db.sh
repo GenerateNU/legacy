@@ -32,8 +32,6 @@ then
       postgres -N 1000
   sleep 5
 
-  echo "Current working directory: $(pwd)"
-
   docker cp ../server/src/migrations/init.sql ${CONTAINER_NAME}:/init.sql
   docker exec -it ${CONTAINER_NAME} psql -U ${DB_USER} -d ${DB_NAME} -f /init.sql
 
