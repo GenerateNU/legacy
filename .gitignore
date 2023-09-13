@@ -17,3 +17,7 @@ expo-debug.log
 /go.mod
 /log/
 .idea
+
+
+# Other
+**/tmp/
