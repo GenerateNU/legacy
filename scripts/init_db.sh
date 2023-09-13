@@ -32,7 +32,9 @@ then
       postgres -N 1000
   sleep 5
 
-  docker cp ./src/migrations/init.sql ${CONTAINER_NAME}:/init.sql
+  echo "Current working directory: $(pwd)"
+
+  docker cp ../server/src/migrations/init.sql ${CONTAINER_NAME}:/init.sql
   docker exec -it ${CONTAINER_NAME} psql -U ${DB_USER} -d ${DB_NAME} -f /init.sql
 
 fi
@@ -44,6 +46,6 @@ done
 
 >&2 echo "Postgres is up and running on port ${DB_PORT} - running migrations now!"
 
-PGPASSWORD="${DB_PASSWORD}" psql -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "${DB_NAME}" -a -f ./src/migrations/init.sql
+PGPASSWORD="${DB_PASSWORD}" psql -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "${DB_NAME}" -a -f ../server/src/migrations/init.sql
 
 >&2 echo "Postgres has been migrated, ready to go!"
