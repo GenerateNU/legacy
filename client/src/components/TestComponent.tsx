@@ -1,19 +1,13 @@
 import { Text, View } from 'react-native';
 
-type TestComponentProps =
- {
+type TestComponentProps = {
   name: string;
 };
 
-const TestComponent = 
-
-({ name }: TestComponentProps) => 
-
-{
+const TestComponent = ({ name }: TestComponentProps) => {
   return (
     <View>
-      <Text>Hello {name}
-      </Text>
+      <Text>Hello {name}</Text>
     </View>
   );
 };
