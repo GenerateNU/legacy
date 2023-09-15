@@ -24,7 +24,9 @@ An all-encompassing end-of-life planning app.
     ```bash
     cd client
     yarn install
+    ```
 
+    ```bash
     cd server
     go get ./...
     ```
@@ -32,6 +34,7 @@ An all-encompassing end-of-life planning app.
 3. **Install requirements.txt**
     ```bash
     pip install -r requirements.txt
+    pre-commit install
     ```
 
     * Using a virtual environment is not necessary, but recommended.
