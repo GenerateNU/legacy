@@ -7,7 +7,7 @@ type TestComponentProps = {
 const TestComponent = ({ name }: TestComponentProps) => {
   return (
     <View>
-      <Text>Hello {name}</Text>
+      <Text>Goodbye {name}</Text>
     </View>
   );
 };
