@@ -26,10 +26,14 @@ An all-encompassing end-of-life planning app.
     yarn install
     ```
 
+    * If you get an error about `expo-cli` not being installed, run `yarn global add expo-cli` and then run `yarn install` again.
+
     ```bash
     cd server
     go get ./...
     ```
+
+    * If this doesnt work, try running `go mod tidy` and then `go get ./...` again or delete the go.mod and go.sum files and then run `go mod init` and `go mod tidy` again.
 
 3. **Install requirements.txt**
     ```bash
@@ -56,6 +60,11 @@ An all-encompassing end-of-life planning app.
         brew services start postgresql@[version]
         ```
 
+        - Windows
+        ```bash
+        pg_ctl -D /usr/local/var/postgres start
+        ```
+
     2. **Open Docker**
 
     3. **Start the database**
@@ -66,7 +75,7 @@ An all-encompassing end-of-life planning app.
 3. **Start the server**
     ```bash
     cd server
-    task run
+    task run 
     ```
 
 ## Contributing
@@ -88,9 +97,11 @@ An all-encompassing end-of-life planning app.
     - **Commit changes**
         ```bash
         git add .
-        cz commit
+        cz commit 
         ```
 
+        * You are not required to use commitizen, but it is recommended. If you choose not to use commitizen, please follow the commit message format described [here](#commit-messages).
+        
     - **Bump version**
         ```bash
         cz bump
