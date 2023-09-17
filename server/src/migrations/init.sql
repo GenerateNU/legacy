@@ -1,4 +1,9 @@
-CREATE DATABASE IF NOT EXISTS "legacy";
+DO $$ 
+BEGIN 
+  IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'legacy') THEN
+    CREATE DATABASE "legacy";
+  END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS users
 (
