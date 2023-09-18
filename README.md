@@ -72,15 +72,15 @@ An all-encompassing end-of-life planning app.
         task docker
         ```
 
-        * If this returns an error like 'air does not exist' try running
-        ```bash
-        go install github.com/cosmtrek/air@latest
-        ```
-
 3. **Start the server**
     ```bash
     cd server
     task run 
+    ```
+
+    * If this returns an error like 'air does not exist' try running
+    ```bash
+    go install github.com/cosmtrek/air@latest
     ```
 
 ## Contributing
