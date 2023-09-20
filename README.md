@@ -33,7 +33,7 @@ An all-encompassing end-of-life planning app.
     go get ./...
     ```
 
-    * If this doesnt work, try running `go mod tidy` and then `go get ./...` again or delete the go.mod and go.sum files and then run `go mod init` and `go mod tidy` again.
+    * If this doesnt work, try running `go mod tidy` and then `go get ./...` again or delete the go.mod and go.sum files and then run `go mod init server` and `go mod tidy` again.
 
 3. **Install requirements.txt**
     ```bash
@@ -76,6 +76,11 @@ An all-encompassing end-of-life planning app.
     ```bash
     cd server
     task run 
+    ```
+
+    * If this returns an error like 'air does not exist' try running
+    ```bash
+    go install github.com/cosmtrek/air@latest
     ```
 
 ## Contributing
