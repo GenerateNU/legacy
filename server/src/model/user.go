@@ -11,4 +11,5 @@ type User struct {
 	Password  string    `gorm:"column:password"`
 	CreatedAt time.Time `gorm:"column:created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at"`
+	PersonaID uint      `gorm:"column:persona_id"`
 }
