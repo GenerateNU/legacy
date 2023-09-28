@@ -25,12 +25,15 @@ func (u *AwsController) dump(c echo.Context) error {
 		Region:      aws.String("us-east-2"),
 		Credentials: credentials.NewStaticCredentials("AKIA2WVH6R5ZEMKYG7VW", "kOQ4kRX6UWbDjlW8MqItnrJgR2UrMRXgD4V2vend", ""),
 	})
+	if err != nil {
+		exitErrorf("Unable to connect to s3, ", err)
+	}
 
 	// Create S3 service client
 	svc := s3.New(sess)
-	result, err := svc.ListBuckets(nil)
-	if err != nil {
-		exitErrorf("Unable to list buckets, %v", err)
+	result, err2 := svc.ListBuckets(nil)
+	if err2 != nil {
+		exitErrorf("Unable to list buckets, ", err2)
 	}
 	fmt.Println("Buckets:")
 	for _, b := range result.Buckets {
