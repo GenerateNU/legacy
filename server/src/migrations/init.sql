@@ -13,26 +13,16 @@ CREATE TABLE IF NOT EXISTS personas (
     persona_title VARCHAR(255)
 );
 
--- Create the persona_task table
-CREATE TABLE IF NOT EXISTS persona_tasks (
-    id UUID PRIMARY KEY,
-    persona_id UUID,
-    task_id UUID,
-    FOREIGN KEY (persona_id) REFERENCES personas (id),
-    FOREIGN KEY (task_id) REFERENCES tasks (id)
-);
-
 -- Create the task table
 CREATE TABLE IF NOT EXISTS tasks (
     id UUID PRIMARY KEY,
     task_name VARCHAR(255),
     task_description TEXT,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP
 );
 
 -- Create the users table
-CREATE TABLE IF NOT EXISTS users
-(
+CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY,
     username VARCHAR(255) UNIQUE,
     password TEXT,
@@ -44,8 +34,7 @@ CREATE TABLE IF NOT EXISTS users
 );
 
 -- Create the user_profile table
-CREATE TABLE IF NOT EXISTS user_profiles
-(
+CREATE TABLE IF NOT EXISTS user_profiles (
     id UUID PRIMARY KEY,
     name VARCHAR(255),
     date_of_birth DATE,
@@ -85,5 +74,14 @@ CREATE TABLE IF NOT EXISTS progress (
     user_id UUID,
     task_id UUID,
     FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (task_id) REFERENCES tasks (id)
+);
+
+-- Create the persona_task table
+CREATE TABLE IF NOT EXISTS persona_tasks (
+    id UUID PRIMARY KEY,
+    persona_id UUID,
+    task_id UUID,
+    FOREIGN KEY (persona_id) REFERENCES personas (id),
     FOREIGN KEY (task_id) REFERENCES tasks (id)
 );
