@@ -6,9 +6,9 @@ import (
 
 type User struct {
 	ID        uint      `gorm:"primaryKey"`
-	Name      string    `gorm:"column:name"`
-	Email     string    `gorm:"column:email"`
+	Username  string    `gorm:"column:username"`
 	Password  string    `gorm:"column:password"`
+	Email     string    `gorm:"column:email"`
 	CreatedAt time.Time `gorm:"column:created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at"`
 	PersonaID uint      `gorm:"column:persona_id"`
