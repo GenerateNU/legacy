@@ -6,7 +6,23 @@ BEGIN
   END IF;
 END $$;
 
--- Create the users table
+-- Create the persona table
+CREATE TABLE IF NOT EXISTS persona (
+    persona_id UUID PRIMARY KEY,
+    persona_description TEXT,
+    persona_title VARCHAR(255)
+);
+
+-- Create the task table
+CREATE TABLE IF NOT EXISTS task (
+    task_id UUID PRIMARY KEY,
+    task_name VARCHAR(255),
+    task_description TEXT,
+    created_at TIMESTAMP,
+    progress BOOLEAN
+);
+
+-- Create the users table if it doesn't exist
 CREATE TABLE IF NOT EXISTS users
 (
     user_id UUID PRIMARY KEY,
@@ -32,15 +48,6 @@ CREATE TABLE IF NOT EXISTS user_profile
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
--- Create the task table
-CREATE TABLE IF NOT EXISTS task (
-    task_id UUID PRIMARY KEY,
-    task_name VARCHAR(255),
-    task_description TEXT,
-    created_at TIMESTAMP,
-    progress BOOLEAN
-);
-
 -- Create the subtask table
 CREATE TABLE IF NOT EXISTS subtask (
     sub_task_id UUID PRIMARY KEY,
@@ -50,13 +57,6 @@ CREATE TABLE IF NOT EXISTS subtask (
     created_at TIMESTAMP,
     progress BOOLEAN,
     FOREIGN KEY (task_id) REFERENCES task (task_id)
-);
-
--- Create the persona table
-CREATE TABLE IF NOT EXISTS persona (
-    persona_id UUID PRIMARY KEY,
-    persona_description TEXT,
-    persona_title VARCHAR(255)
 );
 
 -- Create the persona_task table
