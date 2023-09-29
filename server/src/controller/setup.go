@@ -8,8 +8,10 @@ import (
 func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	// Create a new instance of the controller with the database connection
 	userController := UserController{db}
+	awsController := AwsController{db}
 
 	// Define your routes and associate them with controller functions
 	e.GET("v1/api/users", userController.GetAllUsers)
 	e.GET("v1/api/users/:id", userController.GetUser)
+	e.GET("v1/api/aws", awsController.dump)
 }
