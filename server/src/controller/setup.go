@@ -9,6 +9,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	// Create a new instance of the controller with the database connection
 	userController := UserController{db}
 	personaController := PersonaController{db}
+  awsController := AwsController{db}
 
 	// User routes
 	e.GET("api/users", userController.GetAllUsers)
@@ -23,5 +24,8 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.POST("api/personas", personaController.CreatePersona)
 	e.PUT("api/personas/:id", personaController.UpdatePersona)
 	e.DELETE("api/personas/:id", personaController.DeletePersona)
+
+  // AWS
+	e.GET("v1/api/aws", awsController.dump)
 
 }
