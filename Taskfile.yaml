@@ -11,7 +11,7 @@ tasks:
 
   docker:
     cmds:
-      - cd scripts && ./init_db_windows.sh
+      - cd scripts && ./verify_os.sh
 
   connect:
     cmds:
