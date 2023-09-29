@@ -10,6 +10,10 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	userController := UserController{db}
 
 	// Define your routes and associate them with controller functions
-	e.GET("v1/api/users", userController.GetAllUsers)
-	e.GET("v1/api/users/:id", userController.GetUser)
+	e.GET("api/users", userController.GetAllUsers)
+	e.GET("api/users/:id", userController.GetUser)
+	e.POST("api/users", userController.CreateUser)
+	e.PUT("api/users/:id", userController.UpdateUser)
+	e.DELETE("api/users/:id", userController.DeleteUser)
+
 }

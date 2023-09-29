@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS users
     email VARCHAR(255) UNIQUE,
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
-    persona_id UUID,
+    persona_id UUID NULL,
     FOREIGN KEY (persona_id) REFERENCES persona (persona_id)
 );
 
