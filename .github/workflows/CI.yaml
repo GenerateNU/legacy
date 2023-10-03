@@ -19,13 +19,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Go and Node.js
-        uses: ./.github/actions/setup-go-node
+      - name: Set up Go
+        uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
           node-version: ${{ matrix.node-version }}
-          yarn-cache: true 
-        id: setup
+          cache: "yarn"
+          cache-dependency-path: "client/yarn.lock"
 
       - name: Install Node.js dependencies
         run: |
@@ -40,54 +44,46 @@ jobs:
       - name: Lint Go code
         run: |
           cd server
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
           golangci-lint run ./...
-
-  build-postgres:
-    runs-on: ubuntu-latest
-    needs: lint
-
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: legacy
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: [lint, build-postgres]
-
+    strategy:
+      matrix:
+        node-version: [20.x]
+        go-version: [1.21.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Go and Node.js
-        uses: ./.github/actions/setup-go-node
+      - name: Set up Go
+        uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
           node-version: ${{ matrix.node-version }}
-          yarn-cache: true 
-        id: setup
+          cache: "yarn"
+          cache-dependency-path: "client/yarn.lock"
 
       - name: Install Node.js dependencies
         run: |
           cd client
           yarn install
 
+      - name: Start Postgresql
+        run: |
+          sudo service postgresql start
+          task docker
+
       - name: Run React Native tests
         run: |
           cd client
           yarn test
-
-      - name: Run PostgreSQL migrations
-        run: |
-          cd scripts
-          ./verify_os.sh
 
       - name: Run Go tests
         run: |
@@ -97,19 +93,25 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [lint, build-postgres, test]
-
+    strategy:
+      matrix:
+        node-version: [20.x]
+        go-version: [1.21.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Go and Node.js
-        uses: ./.github/actions/setup-go-node
+      - name: Set up Go
+        uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
           node-version: ${{ matrix.node-version }}
-          yarn-cache: true 
-        id: setup
+          cache: "yarn"
+          cache-dependency-path: "client/yarn.lock"
 
       - name: Install Node.js dependencies
         run: |

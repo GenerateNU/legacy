@@ -8,7 +8,10 @@ require (
 	gorm.io/gorm v1.25.4
 )
 
-require gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
+require (
+	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0 // indirect
+	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
+)
 
 require (
 	github.com/aws/aws-sdk-go v1.45.14
