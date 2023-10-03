@@ -75,13 +75,17 @@ jobs:
           cd client
           yarn install
 
+      - name: Kill existing PostgreSQL process
+        run: |
+          sudo service postgresql stop || true
+        continue-on-error: true
+
       - name: Start Postgresql
         run: |
           sudo service postgresql start
           sleep 5
           cd scripts
           ./verify_os.sh
-
 
       - name: Run React Native tests
         run: |
@@ -92,6 +96,13 @@ jobs:
         run: |
           cd server/tests
           go test ./...
+        
+      - name: Clean up PostgreSQL container
+        run: |
+          docker stop ${CONTAINER_NAME} || true
+          docker rm ${CONTAINER_NAME} || true
+        continue-on-error: true
+
 
   build:
     name: Build
