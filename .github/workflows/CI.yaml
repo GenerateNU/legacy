@@ -78,7 +78,10 @@ jobs:
       - name: Start Postgresql
         run: |
           sudo service postgresql start
-          task docker
+          sleep 5
+          cd scripts
+          ./verify_os.sh
+
 
       - name: Run React Native tests
         run: |
