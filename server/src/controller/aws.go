@@ -132,7 +132,7 @@ func (a *AwsController) GetFile(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, c.Response)
+	return nil
 
 }
 
