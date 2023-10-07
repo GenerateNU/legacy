@@ -50,6 +50,21 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13.2-alpine
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: legacy
+
     strategy:
       matrix:
         node-version: [20.x]
@@ -75,18 +90,6 @@ jobs:
           cd client
           yarn install
 
-      - name: Kill existing PostgreSQL process
-        run: |
-          sudo service postgresql stop || true
-        continue-on-error: true
-
-      - name: Start Postgresql
-        run: |
-          sudo service postgresql start
-          sleep 5
-          cd scripts
-          ./verify_os.sh
-
       - name: Run React Native tests
         run: |
           cd client
@@ -96,13 +99,6 @@ jobs:
         run: |
           cd server/tests
           go test ./...
-        
-      - name: Clean up PostgreSQL container
-        run: |
-          docker stop ${CONTAINER_NAME} || true
-          docker rm ${CONTAINER_NAME} || true
-        continue-on-error: true
-
 
   build:
     name: Build

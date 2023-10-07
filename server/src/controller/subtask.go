@@ -14,14 +14,14 @@ type SubtaskController struct {
 }
 
 func (s *SubtaskController) GetAllSubtasks(c echo.Context) error {
-	var subtasks []model.Subtask
+	var subtasks []model.SubTask
 
 	s.DB.Find(&subtasks)
 	return c.JSON(http.StatusOK, subtasks)
 }
 
 func (s *SubtaskController) GetSubtask(c echo.Context) error {
-	var subtask model.Subtask
+	var subtask model.SubTask
 	subtaskID := c.Param("id")
 
 	s.DB.First(&subtask, subtaskID)
@@ -34,7 +34,7 @@ func (s *SubtaskController) GetSubtask(c echo.Context) error {
 }
 
 func (s *SubtaskController) CreateSubtask(c echo.Context) error {
-	var subtask model.Subtask
+	var subtask model.SubTask
 
 	if err := c.Bind(&subtask); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
@@ -52,7 +52,7 @@ func (s *SubtaskController) CreateSubtask(c echo.Context) error {
 }
 
 func (s *SubtaskController) UpdateSubtask(c echo.Context) error {
-	var subtask model.Subtask
+	var subtask model.SubTask
 	subtaskID := c.Param("id")
 
 	s.DB.First(&subtask, subtaskID)
@@ -71,7 +71,7 @@ func (s *SubtaskController) UpdateSubtask(c echo.Context) error {
 }
 
 func (s *SubtaskController) DeleteSubtask(c echo.Context) error {
-	var subtask model.Subtask
+	var subtask model.SubTask
 	subtaskID := c.Param("id")
 
 	s.DB.First(&subtask, subtaskID)

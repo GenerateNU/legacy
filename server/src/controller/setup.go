@@ -13,7 +13,8 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	userProfileController := UserProfileController{db}
 	taskController := TaskController{db}
 	subtaskController := SubtaskController{db}
-	progressController := ProgressController{db}
+	taskprogressController := TaskProgressController{db}
+	subtaskprogressController := SubTaskProgressController{db}
 
 	awsController := AwsController{db}
 
@@ -52,12 +53,29 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.PUT("api/subtask/:id", subtaskController.UpdateSubtask)
 	e.DELETE("api/subtask/:id", subtaskController.DeleteSubtask)
 
-	// Progress routes
-	e.GET("api/progress", progressController.GetAllProgress)
-	e.GET("api/progress/:id", progressController.GetProgress)
-	e.POST("api/progress", progressController.CreateProgress)
-	e.PUT("api/progress/:id", progressController.UpdateProgress)
-	e.DELETE("api/progress/:id", progressController.DeleteProgress)
+	// Task Progress routes
+	e.GET("api/progress", taskprogressController.GetAllTaskProgress)
+	e.GET("api/progress/:id", taskprogressController.GetTaskProgress)
+	e.POST("api/progress", taskprogressController.CreateTaskProgress)
+	e.PUT("api/progress/:id", taskprogressController.UpdateTaskProgress)
+	e.DELETE("api/progress/:id", taskprogressController.DeleteTaskProgress)
+
+	// Subtask Progress routes
+	e.GET("api/subprogress", subtaskprogressController.GetAllSubTaskProgress)
+	e.GET("api/subprogress/:id", subtaskprogressController.GetSubTaskProgress)
+	e.POST("api/subprogress", subtaskprogressController.CreateSubTaskProgress)
+	e.PUT("api/subprogress/:id", subtaskprogressController.UpdateSubTaskProgress)
+	e.DELETE("api/subprogress/:id", subtaskprogressController.DeleteSubTaskProgress)
+
+	// TODO: Add nonCRUD routes for the following:
+	// - Get a user's persona.
+	// - Get personas associated with tasks or subtasks.
+	// - Get all subtasks for a user, optionally filtered by completion status.
+	// - Get all tasks for a user, optionally filtered by completion status.
+	// - Get all files (file names and tags and id getting the actual file is seperate) for a user.
+	// - Get a count of tasks for a user.
+	// - Get a count of completed tasks for a user.
+	// - Auth-related routes (login, logout).
 
 	// AWS
 	e.GET("v1/api/aws", awsController.dump)

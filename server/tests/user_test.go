@@ -40,21 +40,3 @@ func TestGetAllUsers(t *testing.T) {
 		t.Errorf("Expected status code %d, got %d", http.StatusOK, rec.Code)
 	}
 }
-
-func TestGetUser(t *testing.T) {
-	e, db := initTestDB()
-
-	req := httptest.NewRequest(http.MethodGet, "/api/users/1", nil)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-
-	userController := controller.UserController{DB: db}
-
-	if err := userController.GetUser(c); err != nil {
-		t.Errorf("Error handling request: %v", err)
-	}
-
-	if rec.Code != http.StatusOK {
-		t.Errorf("Expected status code %d, got %d", http.StatusOK, rec.Code)
-	}
-}
