@@ -51,7 +51,7 @@ func InitDB() (*gorm.DB, error) {
 		}
 	}
 
-	db.AutoMigrate(
+	if err := db.AutoMigrate(
 		&model.File{},
 		&model.Persona{},
 		&model.PersonaTaskJunction{},
@@ -61,7 +61,9 @@ func InitDB() (*gorm.DB, error) {
 		&model.Task{},
 		&model.UserProfile{},
 		&model.User{},
-	)
+	); err != nil {
+		return nil, fmt.Errorf("failed to perform database auto migration: %v", err)
+	}
 
 	return db, nil
 }
