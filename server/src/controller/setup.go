@@ -9,6 +9,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	// Create a new instance of the controller with the database connection
 	userController := UserController{db}
 	personaController := PersonaController{db}
+
 	userProfileController := UserProfileController{db}
 	taskController := TaskController{db}
 	subtaskController := SubtaskController{db}
@@ -60,5 +61,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 
 	// AWS
 	e.GET("v1/api/aws", awsController.dump)
+	e.GET("v1/api/aws/:file-key", awsController.GetFile)
+	e.POST("v1/api/aws", awsController.CreateFile)
 
 }
