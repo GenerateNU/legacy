@@ -1,3 +1,19 @@
+## 0.1.0 (2023-10-07)
+
+### Feat
+
+- **aws.go**: established s3 connectivity
+
+### Fix
+
+- added permissions
+- **CI.yaml**: port change
+- **CI.yaml**: remove alove instances of postgres
+- **CI.yaml**: missing dependency
+- **scripts/verify_os.sh**: added functionality to differ scripts per os
+- **make-linter-happy**: made distinct err names
+- **init.sql**: spelling
+
 ## 0.0.4 (2023-09-28)
 
 ### Fix
