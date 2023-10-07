@@ -1,13 +1,13 @@
 package model
 
 import (
-	"time"
+	"gorm.io/gorm"
 )
 
-type Subtask struct {
-	ID              int       `gorm:"primaryKey" json:"id"`
-	TaskName        string    `gorm:"column:task_name" json:"task_name"`
-	TaskDescription string    `gorm:"column:task_description" json:"task_description"`
-	CreatedAt       time.Time `gorm:"column:created_at" json:"created_at"`
-	TaskID          int       `json:"task_id"`
+type SubTask struct {
+	gorm.Model
+	TaskName string `gorm:"type:varchar(255)" json:"task_name"`
+	TaskDesc string `gorm:"type:text" json:"task_description"`
+	TaskID   uint   `json:"task_id"`
+	Task     Task   `gorm:"foreignkey:TaskID"`
 }

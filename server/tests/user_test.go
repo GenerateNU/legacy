@@ -26,7 +26,7 @@ func initTestDB() (*echo.Echo, *gorm.DB) {
 func TestGetAllUsers(t *testing.T) {
 	e, db := initTestDB()
 
-	req := httptest.NewRequest(http.MethodGet, "/v1/api/users", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/users", nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 
@@ -44,7 +44,7 @@ func TestGetAllUsers(t *testing.T) {
 func TestGetUser(t *testing.T) {
 	e, db := initTestDB()
 
-	req := httptest.NewRequest(http.MethodGet, "/v1/api/users/1", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/users/1", nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 

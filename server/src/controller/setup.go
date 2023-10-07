@@ -13,6 +13,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	taskController := TaskController{db}
 	subtaskController := SubtaskController{db}
 	progressController := ProgressController{db}
+
 	awsController := AwsController{db}
 
 	// User routes

@@ -1,7 +1,9 @@
 package model
 
+import "gorm.io/gorm"
+
 type Persona struct {
-	ID                 int    `gorm:"primaryKey" json:"id"`
-	PersonaDescription string `gorm:"column:persona_description" json:"persona_description"`
-	PersonaTitle       string `gorm:"column:persona_title" json:"persona_title"`
+	gorm.Model
+	PersonaDescription string `gorm:"type:text" json:"persona_description"`
+	PersonaTitle       string `gorm:"type:varchar(255)" json:"persona_title"`
 }
