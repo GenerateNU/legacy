@@ -1,15 +1,12 @@
 package model
 
-import (
-	"time"
-)
+import "gorm.io/gorm"
 
 type File struct {
-	ID              int       `gorm:"primaryKey" json:"id"`
-	FileName        string    `gorm:"column:file_name" json:"file_name"`
-	FileDescription string    `gorm:"column:file_description" json:"file_description"`
-	FilePath        string    `gorm:"column:file_path" json:"file_path"`
-	CreatedAt       time.Time `gorm:"column:created_at" json:"created_at"`
-	UpdatedAt       time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UserID          int       `json:"user_id"`
+	gorm.Model
+	FileName        string `gorm:"type:varchar(255)" json:"file_name"`
+	FileDescription string `gorm:"type:text" json:"file_description"`
+	FilePath        string `gorm:"type:varchar(255)" json:"file_path"`
+	UserID          uint   `json:"user_id"`
+	User            User   `gorm:"foreignkey:UserID"`
 }

@@ -1,21 +1,14 @@
 package model
 
 import (
-	"time"
+	"gorm.io/gorm"
 )
 
-//	{
-//	  "username": "admin",
-//	  "password": "admin",
-//	  "email": "admin@admin",
-//	  "persona_id": 1,
-//	}
 type User struct {
-	ID        int       `gorm:"primaryKey" json:"id"`
-	Username  string    `gorm:"column:username;unique" json:"username"`
-	Password  string    `gorm:"column:password" json:"password"`
-	Email     string    `gorm:"column:email;unique" json:"email"`
-	CreatedAt time.Time `gorm:"column:created_at" json:"created_at"`
-	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
-	PersonaID int       `json:"persona_id"`
+	gorm.Model
+	Username  string  `gorm:"type:varchar(255);unique" json:"username"`
+	Password  string  `gorm:"type:text" json:"password"`
+	Email     string  `gorm:"type:varchar(255);unique" json:"email"`
+	PersonaID uint    `json:"persona_id"`
+	Persona   Persona `gorm:"foreignkey:PersonaID" json:"persona"`
 }

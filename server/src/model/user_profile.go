@@ -2,14 +2,16 @@ package model
 
 import (
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type UserProfile struct {
-	ID                 int                    `gorm:"primaryKey" json:"id"`
-	Name               string                 `gorm:"column:name" json:"name"`
-	DateOfBirth        time.Time              `gorm:"column:date_of_birth" json:"date_of_birth"`
-	PhoneNumber        string                 `gorm:"column:phone_number" json:"phone_number"`
-	Age                int                    `gorm:"column:age" json:"age"`
-	OnboardingResponse map[string]interface{} `gorm:"type:jsonb" json:"onboarding_response"`
-	UserID             int                    `json:"user_id"`
+	gorm.Model
+	Name        string    `gorm:"type:varchar(255)" json:"name"`
+	DateOfBirth time.Time `gorm:"type:date" json:"date_of_birth"`
+	PhoneNumber string    `gorm:"type:varchar(20)" json:"phone_number"`
+	Response    string    `gorm:"type:jsonb" json:"onboarding_response"`
+	UserID      uint      `gorm:"foreignkey:User;unique" json:"user_id"`
+	User        User
 }
