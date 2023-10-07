@@ -53,24 +53,16 @@ An all-encompassing end-of-life planning app.
 
    * You can then open the app in the Expo app on your phone or in a simulator.
 
-2. **Start the database**
-    1. **Start postgresql**
-        - MacOS
-        ```bash
-        brew services start postgresql@[version]
-        ```
+2. **Start Postgres**
+    - MacOS
+    ```bash
+    brew services start postgresql@[version]
+    ```
 
-        - Windows
-        ```bash
-        pg_ctl -D /usr/local/var/postgres start
-        ```
-
-    2. **Open Docker**
-
-    3. **Start the database**
-        ```bash
-        task docker
-        ```
+    - Windows
+    ```bash
+    pg_ctl -D /usr/local/var/postgres start
+    ```
 
 3. **Start the server**
     ```bash
