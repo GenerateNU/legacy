@@ -70,18 +70,20 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.DELETE("api/subprogress/:id", subtaskprogressController.DeleteSubTaskProgress)
 
 	// TODO: Add nonCRUD routes for the following:
-	// - Get a user's persona.
+	// - Get a user's persona. X
+	// - Add tasks to a persona.
+	//  (This is a many-to-many relationship so this includes adding a relationship between a persona and a task in the persona_tasks table.)
 	// - Get personas associated with tasks or subtasks.
 	// - Get all subtasks for a user, optionally filtered by completion status.
-	// - Get all tasks for a user, optionally filtered by completion status.
-	// - Get all files (file names and tags and id getting the actual file is seperate) for a user.
+	// - Get all tasks for a user, X optionally filtered by completion status. (not complete)
 	// - Get a count of tasks for a user.
 	// - Get a count of completed tasks for a user.
+
+	// - Get all files (file names and tags and id getting the actual file is seperate) for a user.
 	// - Auth-related routes (login, logout).
 
 	// AWS
 	e.GET("v1/api/aws", awsController.dump)
 	e.GET("v1/api/aws/:file-key", awsController.GetFile)
 	e.POST("v1/api/aws", awsController.CreateFile)
-
 }

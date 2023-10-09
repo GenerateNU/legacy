@@ -16,3 +16,7 @@ tasks:
   format:
     cmds:
       - cd server && go fmt ./... && cd ../client && yarn format
+  
+  insertData:
+    cmds:
+      - cd server/src/migrations && psql -h localhost -U postgres -d legacy -f data.sql

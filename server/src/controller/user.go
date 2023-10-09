@@ -34,11 +34,16 @@ func (u *UserController) GetUser(c echo.Context) error {
 }
 
 func (u *UserController) GetUserPersona(c echo.Context) error {
+	var user model.User
 	var persona model.Persona
 	userID := c.Param("id")
 
-	u.DB.First(&persona, "user_id = ?", userID)
+	err := u.DB.First(&user, userID).Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
 
+	u.DB.Model(&user).Association("Persona").Find(&persona)
 	if persona.ID == 0 {
 		return c.JSON(http.StatusNotFound, "User does not have a persona")
 	}
@@ -46,21 +51,32 @@ func (u *UserController) GetUserPersona(c echo.Context) error {
 	return c.JSON(http.StatusOK, persona)
 }
 
-// func (u *UserController) GetUserTasks(c echo.Context) error {
-// 	var tasks []model.Task
-// 	var persona model.Persona
+func (u *UserController) GetUserTasks(c echo.Context) error {
+	// User -> Persona -> Tasks
+	var user model.User
+	var persona model.Persona
+	var tasks []model.Task
 
-// 	userID := c.Param("id")
+	userID := c.Param("id")
 
-// 	u.DB.First(&persona, "user_id = ?", userID)
+	err := u.DB.First(&user, userID).Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
 
-// 	if persona.ID == 0 {
-// 		return c.JSON(http.StatusNotFound, "User does not have a persona")
-// 	}
+	u.DB.Model(&user).Association("Persona").Find(&persona)
+	if persona.ID == 0 {
+		return c.JSON(http.StatusNotFound, "User does not have a persona")
+	}
 
-// 	err := u.DB.Preload("Tasks").First(&persona, userID).Error
+	u.DB.Model(&persona).Association("Tasks").Find(&tasks)
+	if len(tasks) == 0 {
+		return c.JSON(http.StatusNotFound, "Persona does not have any tasks")
+	}
 
-// }
+	return c.JSON(http.StatusOK, tasks)
+}
+
 func (u *UserController) CreateUser(c echo.Context) error {
 	var user model.User
 
