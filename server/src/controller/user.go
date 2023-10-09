@@ -33,6 +33,34 @@ func (u *UserController) GetUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
+func (u *UserController) GetUserPersona(c echo.Context) error {
+	var persona model.Persona
+	userID := c.Param("id")
+
+	u.DB.First(&persona, "user_id = ?", userID)
+
+	if persona.ID == 0 {
+		return c.JSON(http.StatusNotFound, "User does not have a persona")
+	}
+
+	return c.JSON(http.StatusOK, persona)
+}
+
+// func (u *UserController) GetUserTasks(c echo.Context) error {
+// 	var tasks []model.Task
+// 	var persona model.Persona
+
+// 	userID := c.Param("id")
+
+// 	u.DB.First(&persona, "user_id = ?", userID)
+
+// 	if persona.ID == 0 {
+// 		return c.JSON(http.StatusNotFound, "User does not have a persona")
+// 	}
+
+// 	err := u.DB.Preload("Tasks").First(&persona, userID).Error
+
+// }
 func (u *UserController) CreateUser(c echo.Context) error {
 	var user model.User
 

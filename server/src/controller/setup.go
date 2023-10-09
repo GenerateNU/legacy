@@ -21,6 +21,8 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	// User routes
 	e.GET("api/users", userController.GetAllUsers)
 	e.GET("api/users/:id", userController.GetUser)
+	e.GET("api/users/:id/persona", userController.GetUserPersona)
+	e.GET("api/users/:id/tasks", userController.GetUserTasks)
 	e.POST("api/users", userController.CreateUser)
 	e.PUT("api/users/:id", userController.UpdateUser)
 	e.DELETE("api/users/:id", userController.DeleteUser)
@@ -46,7 +48,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.PUT("api/task/:id", taskController.UpdateTask)
 	e.DELETE("api/task/:id", taskController.DeleteTask)
 
-	// Task routes
+	// SubTask routes
 	e.GET("api/subtask", subtaskController.GetAllSubtasks)
 	e.GET("api/subtask/:id", subtaskController.GetAllSubtasks)
 	e.POST("api/subtask", subtaskController.CreateSubtask)

@@ -64,7 +64,6 @@ func InitDB() (*gorm.DB, error) {
 	if err := db.AutoMigrate(
 		&model.File{},
 		&model.Persona{},
-		&model.PersonaTaskJunction{},
 		&model.SubTaskProgress{},
 		&model.SubTask{},
 		&model.TaskProgress{},
