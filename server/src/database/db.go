@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"os/exec"
 	"server/src/model"
 
 	"gorm.io/driver/postgres"
@@ -27,6 +28,15 @@ func connectDatabase(host, user, password, dbname, port string) (*gorm.DB, error
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 }
+
+func addData() {
+	command := "psql -h localhost -U postgres -d legacy -f ../migrations/data.sql"
+	_, err := exec.Command("bash", "-c", command).Output()
+	if err != nil {
+		fmt.Println("Error running command: ", err)
+	}
+}
+
 func InitDB() (*gorm.DB, error) {
 	dbHost := "localhost"
 	dbUser := "postgres"
@@ -64,6 +74,8 @@ func InitDB() (*gorm.DB, error) {
 	); err != nil {
 		return nil, fmt.Errorf("failed to perform database auto migration: %v", err)
 	}
+
+	addData()
 
 	return db, nil
 }
