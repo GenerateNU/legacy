@@ -19,9 +19,17 @@ if psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -t -c "$CHECK_TA
 else
   echo "Error: Database $PGDATABASE does not exist or has no tables. Running database migration."
   task run > /dev/null &
-  pid=$!
-  sleep 1
-  kill -INT $pid
+  sleep 3
+
+  # Find the process running on port 8080 and kill it
+  PROCESS_ID=$(lsof -i :8080 | awk 'NR==2{print $2}')
+  if [ -n "$PROCESS_ID" ]; then
+    kill -INT $PROCESS_ID
+    echo "Killed process $PROCESS_ID running on port 8080."
+  else
+    echo "No process running on port 8080."
+    exit 0
+  fi
 fi
 
 # Insert data from data.sql
