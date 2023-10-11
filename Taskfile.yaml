@@ -9,14 +9,22 @@ tasks:
     cmds:
       - cd server && go test ./tests/...
 
-  connect:
-    cmds:
-      - psql -U postgres -W -p 5432 -h localhost -d legacy
-
   format:
     cmds:
       - cd server && go fmt ./... && cd ../client && yarn format
   
-  insertData:
+  insert:
     cmds:
-      - cd server/src/migrations && psql -h localhost -U postgres -d legacy -f data.sql
+      - cd scripts && ./insert-db.sh
+  
+  drop:
+    cmds:
+      - cd scripts && ./reset-db.sh
+  
+  reset:
+    cmds:
+      - cd scripts && ./reset-db.sh && ./insert-db.sh
+  
+  connect:
+    cmds:
+      - psql -U postgres -W -p 5432 -h localhost -d legacy

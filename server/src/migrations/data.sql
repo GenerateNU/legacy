@@ -15,7 +15,7 @@ INSERT INTO tasks (id, task_name, task_description)  VALUES
 (11, 'Tax Planning', 'Leverage tax planning strategies'),
 (12, 'Family Governance', 'Develop a family governance plan.'),
 (13, 'Emotional and Spiritual', 'Address emotional and spiritual concerns.'),
-(14, 'Create Project', 'Create a legacy project')
+(14, 'Create Project', 'Create a legacy project');
 
 INSERT INTO sub_tasks(task_id, task_name, task_description) VALUES
 (0, 'Research Fear', 'Research books, articles, or podcasts on overcoming fear of death.'),
@@ -40,7 +40,7 @@ INSERT INTO sub_tasks(task_id, task_name, task_description) VALUES
 (5, 'Important Contacts', 'Create a comprehensive list of  important contacts.'),
 (5, 'Organ Donation', 'Document your preferred organ donation choices'),
 (5, 'Burial/Cremation', 'Document your preferred  burial or cremation preferences.'),
-(5, 'Eulogy', 'Create a eulogy for yourself')
+(5, 'Eulogy', 'Create a eulogy for yourself'),
 
 (6, 'Asset Distribution', 'Leverage draft specific clauses regarding asset distribution, including any conditional bequests.'),
 (6, 'Minor Children', 'Designate a guardian for minor children and establish trusts for their care.'),
@@ -75,4 +75,4 @@ INSERT INTO sub_tasks(task_id, task_name, task_description) VALUES
 (13, 'Death Doula', 'Arrange meetings with a death doula and spiritual advisor to explore emotional and spiritual concerns.'),
 
 (14, 'Life Story', 'Record your life story and personal anecdotes to pass on your legacy.'),
-(14, 'Family Philanthropic Participation', 'Establish a process for family members to participate in philanthropic initiatives and maintain alignment with family values.')
+(14, 'Family Philanthropic Participation', 'Establish a process for family members to participate in philanthropic initiatives and maintain alignment with family values.');
