@@ -45,13 +45,26 @@ An all-encompassing end-of-life planning app.
 
 ### Running
 
+1. **Create client build**
+    ```bash
+    cd client
+    eas login
+    eas build:configure
+    # ios
+    eas build -p ios --profile development
+    # android
+    eas build -p android --profile development
+    
+    ```
+2. **Download the build and drag into simulator**
+
 1. **Start the client**
     ```bash
     cd client
-    yarn start
+    npx expo start --dev-client
     ```
 
-   * You can then open the app in the Expo app on your phone or in a simulator.
+   * You can then open the app in the Expo app in the simulator.
 
 2. **Start Postgres**
     - MacOS
