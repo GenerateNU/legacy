@@ -2,10 +2,13 @@ package controller
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"server/src/model"
+	"strconv"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -39,7 +42,6 @@ func createAwsSession() (*session.Session, error) {
 func (a *AwsController) CreateFile(c echo.Context) error {
 	var file model.File
 	jsonString := c.FormValue("file_info")
-	fmt.Println(jsonString)
 
 	// bind data sent in POST request to file model
 	if err := json.Unmarshal([]byte(jsonString), &file); err != nil {
@@ -100,6 +102,16 @@ func (a *AwsController) CreateFile(c echo.Context) error {
 }
 
 func (a *AwsController) GetFile(c echo.Context) error {
+	// attempt to locate file in DB
+	var dbFile model.File
+	fileID := c.Param("id")
+	result := a.DB.First(&dbFile, fileID)
+
+	// check if file exists
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return c.JSON(http.StatusNotFound, "File not found")
+	}
+
 	// create session and service client
 	sess, err := createAwsSession()
 	if err != nil {
@@ -109,7 +121,7 @@ func (a *AwsController) GetFile(c echo.Context) error {
 
 	// define parameters to get file
 	bucketName := "generate-legacy-storage"
-	key := c.Param("file-key")
+	key := fmt.Sprintf("%v-%v", dbFile.UserID, dbFile.FileName)
 
 	// download file from s3 bucket
 	file, err := svc.GetObject(&s3.GetObjectInput{
@@ -118,7 +130,7 @@ func (a *AwsController) GetFile(c echo.Context) error {
 	})
 
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	defer file.Body.Close()
 
@@ -133,7 +145,82 @@ func (a *AwsController) GetFile(c echo.Context) error {
 	}
 
 	return nil
+}
 
+func (a *AwsController) DeleteFile(c echo.Context) error {
+	// attempt to locate file in DB
+	var file model.File
+	fileID := c.Param("id")
+	result := a.DB.First(&file, fileID)
+
+	// check if file exists
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return c.JSON(http.StatusNotFound, "File not found")
+	}
+
+	// create session and service client, then delete file
+	sess, err := createAwsSession()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	svc := s3.New(sess)
+
+	bucketName := "generate-legacy-storage"
+	objectKey := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
+
+	_, err = svc.DeleteObject(&s3.DeleteObjectInput{
+		Bucket: aws.String(bucketName),
+		Key:    aws.String(objectKey),
+	})
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	// delete file from DB after successful removal from AWS
+	a.DB.Delete(&file)
+
+	return c.JSON(http.StatusOK, "File deleted")
+}
+
+func (a *AwsController) GetPresignedURL(c echo.Context) error {
+	// attempt to locate file in DB
+	var file model.File
+	fileID := c.Param("id")
+	result := a.DB.First(&file, fileID)
+
+	// check if file exists
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return c.JSON(http.StatusNotFound, "File not found")
+	}
+
+	// create session and service client, then create presigned url
+	sess, err := createAwsSession()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	svc := s3.New(sess)
+
+	bucketName := "generate-legacy-storage"
+	objectKey := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
+
+	req, _ := svc.GetObjectRequest(&s3.GetObjectInput{
+		Bucket: aws.String(bucketName),
+		Key:    aws.String(objectKey),
+	})
+
+	// set URL expiration and get url
+	days, err := strconv.Atoi(c.Param("days"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, "Invalid expiration time. Expecting integer days")
+	}
+	expiration := time.Duration(24*time.Hour) * time.Duration(days)
+
+	url, err := req.Presign(expiration)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, url)
 }
 
 func (a *AwsController) dump(c echo.Context) error {

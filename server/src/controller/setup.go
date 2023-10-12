@@ -79,7 +79,9 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 
 	// AWS
 	e.GET("v1/api/aws", awsController.dump)
-	e.GET("v1/api/aws/:file-key", awsController.GetFile)
+	e.GET("v1/api/aws/:id", awsController.GetFile)
 	e.POST("v1/api/aws", awsController.CreateFile)
+	e.DELETE("v1/api/aws/:id", awsController.DeleteFile)
+	e.GET("v1/api/aws/:id/:days", awsController.GetPresignedURL)
 
 }
