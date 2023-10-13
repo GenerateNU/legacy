@@ -8,6 +8,8 @@ import (
 	"os/signal"
 	"server/src/controller"
 	"server/src/database"
+	"sync"
+	"syscall"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -23,21 +25,28 @@ func main() {
 
 	controller.SetupControllers(e, db)
 
-	// https://echo.labstack.com/docs/cookbook/graceful-shutdown
+	var wg sync.WaitGroup
+	wg.Add(1)
+
 	go func() {
+		defer wg.Done()
+
 		if err := e.Start(":8080"); err != nil && err != http.ErrServerClosed {
-			e.Logger.Fatal("Shutting down the server")
+			e.Logger.Fatalf("shutting down the server: %v", err)
 		}
 	}()
 
-	// Wait for interrupt signal to gracefully shutdown the server with a timeout of 10 seconds.
-	// Use a buffered channel to avoid missing signals as recommended for signal.Notify
+	// https://echo.labstack.com/cookbook/graceful-shutdown
 	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, os.Interrupt)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 	<-quit
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+
 	if err := e.Shutdown(ctx); err != nil {
-		e.Logger.Fatal(err)
+		e.Logger.Fatalf("Error shutting down server: %v", err)
 	}
+
+	wg.Wait()
 }

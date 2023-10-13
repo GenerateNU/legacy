@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"server/src/model"
 
@@ -79,6 +80,8 @@ func (u *UserController) GetUserTasks(c echo.Context) error {
 
 func (u *UserController) CreateUser(c echo.Context) error {
 	var user model.User
+
+	fmt.Println("Creating user", user)
 
 	// Bind the data sent in the POST request to the user model
 	// Handle the error if there is one
