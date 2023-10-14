@@ -4,6 +4,10 @@ tasks:
   run:
     cmds:
       - cd scripts && ./run.sh 
+    
+  kill:
+    cmds:
+      - kill $(lsof -i :8080 | grep "main" | awk '{print $2}')
 
   test-all:
     cmds:
