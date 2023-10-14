@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/radovskyb/watcher v1.0.7 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 )
 

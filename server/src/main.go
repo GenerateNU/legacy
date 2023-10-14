@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -32,7 +33,7 @@ func main() {
 		defer wg.Done()
 
 		if err := e.Start(":8080"); err != nil && err != http.ErrServerClosed {
-			e.Logger.Fatalf("shutting down the server: %v", err)
+			fmt.Println("still running server: ", err)
 		}
 	}()
 
@@ -45,7 +46,7 @@ func main() {
 	defer cancel()
 
 	if err := e.Shutdown(ctx); err != nil {
-		e.Logger.Fatalf("Error shutting down server: %v", err)
+		fmt.Println("error shutting down server: ", err)
 	}
 
 	wg.Wait()
