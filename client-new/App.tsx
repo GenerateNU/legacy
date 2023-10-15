@@ -4,6 +4,7 @@ import Router from "./src/navigation/Router";
 import { NativeBaseProvider, extendTheme } from "native-base";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Auth0Provider } from "react-native-auth0";
+import { AuthProvider } from "./src/contexts/AuthContext";
 
 export default function App() {
   const theme = extendTheme({
@@ -11,16 +12,13 @@ export default function App() {
     colors: {},
   });
   return (
-    <Auth0Provider 
-    domain={"dev-145d20j331samjak.us.auth0.com"}
-    clientId={"0tAv4FM6AkiCPREr9MgbT13aiV5rUVSq"}>
+    <AuthProvider>
       <SafeAreaProvider>
-      <NativeBaseProvider>
-        <Router />
-      </NativeBaseProvider>
-    </SafeAreaProvider>
-    </Auth0Provider>
-    
+        <NativeBaseProvider>
+          <Router />
+        </NativeBaseProvider>
+      </SafeAreaProvider>
+    </AuthProvider>
   );
 }
 
