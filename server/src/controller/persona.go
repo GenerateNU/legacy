@@ -22,7 +22,7 @@ func (u *PersonaController) GetAllPersonas(c echo.Context) error {
 
 func (u *PersonaController) GetPersona(c echo.Context) error {
 	var persona model.Persona
-	personaID := c.Param("id")
+	personaID := c.Param("pid")
 
 	u.DB.First(&persona, personaID)
 
@@ -53,7 +53,7 @@ func (u *PersonaController) CreatePersona(c echo.Context) error {
 
 func (u *PersonaController) UpdatePersona(c echo.Context) error {
 	var persona model.Persona
-	personaID := c.Param("id")
+	personaID := c.Param("pid")
 
 	u.DB.First(&persona, personaID)
 
@@ -72,7 +72,7 @@ func (u *PersonaController) UpdatePersona(c echo.Context) error {
 
 func (u *PersonaController) DeletePersona(c echo.Context) error {
 	var persona model.Persona
-	personaID := c.Param("id")
+	personaID := c.Param("pid")
 
 	u.DB.First(&persona, personaID)
 
