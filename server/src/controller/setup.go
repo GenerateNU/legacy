@@ -23,12 +23,13 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.GET("api/users/:uid", userController.GetUser)
 	e.GET("api/users/username/:username", userController.GetUserFromUsername)
 
-	// Get a user from username
-	// e.GET("api/users?username=", userController.GetUserFromUsername)
+	// Once user gets created call this functon X
+	// e.POST("api/progress/:uid", taskprogressController.CreateAllTaskProgress)
+	// User has 4 tasks -> (User 1, Task 1), (User 1, Task 2), (User 1, Task 3), (User 1, Task 4)
+	// e.POST("api/subprogress/:uid", subtaskprogressController.CreateAllSubTaskProgress)
 
 	e.GET("api/users/:uid/persona", userController.GetUserPersona)
 	e.GET("api/users/:uid/tasks", userController.GetUserTasks)
-	// e.GET("api/users/:uid/profile", userController.GetUserProfile)
 
 	e.POST("api/users", userController.CreateUser)
 	e.PUT("api/users/:uid", userController.UpdateUser)
@@ -44,7 +45,6 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.POST("api/personas/", personaController.CreatePersona)
 	e.PUT("api/personas/:pid", personaController.UpdatePersona)
 	e.DELETE("api/personas/:pid", personaController.DeletePersona)
-	// Add tasks to a persona.
 	e.PUT("api/personas/:pid/tasks", personaController.AddTasksToPersona)
 
 	// User Profile routes
@@ -70,20 +70,15 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	// Task Progress routes
 	e.GET("api/progress", taskprogressController.GetAllTaskProgress)
 	e.GET("api/progress/:id", taskprogressController.GetTaskProgress)
-	// e.POST("api/progress", taskprogressController.CreateTaskProgress)
+
 	e.PUT("api/progress/:id", taskprogressController.UpdateTaskProgress)
 	e.DELETE("api/progress/:id", taskprogressController.DeleteTaskProgress)
 
 	// Subtask Progress routes
 	e.GET("api/subprogress", subtaskprogressController.GetAllSubTaskProgress)
 	e.GET("api/subprogress/:id", subtaskprogressController.GetSubTaskProgress)
-	// e.POST("api/subprogress", subtaskprogressController.CreateSubTaskProgress)
 	e.PUT("api/subprogress/:id", subtaskprogressController.UpdateSubTaskProgress)
 	e.DELETE("api/subprogress/:id", subtaskprogressController.DeleteSubTaskProgress)
-
-	// TODO: Add nonCRUD routes for the following:
-	// - Update (Create associated task progress/subtask progress for a task/subtask)
-	// - Get personas associated with tasks.
 
 	// - Get all files (file names and tags and id getting the actual file is seperate) for a user.
 	// - Auth-related routes (login, logout).
