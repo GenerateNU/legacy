@@ -22,7 +22,7 @@ const Guide = (/*NO PROPS*/) => {
               py={hp("1%")}
               fontSize={wp("11.5%")}
               bold
-              style={(styles.headingColor, styles.madeFont)}
+              style={styles.headingColor}
             >
               Preserving Your Legacy:
             </Text>
