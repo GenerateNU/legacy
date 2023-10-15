@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import { ScrollView } from "react-native";
-import { Box, View, Text, Image } from "native-base";
+//import { ScrollView } from "react-native";
+import { StyleSheet } from "react-native";
+import { ScrollView, Box, View, Text, Image } from "native-base";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -13,16 +14,27 @@ import {
 const Guide = (/*NO PROPS*/) => {
   return (
     <ScrollView>
-      <View bg="#FFB017" width={wp("100%")} height={hp("100%")}>
+      <View bg="#FFB017" w={wp("100%")}>
         <View alignItems={"center"}>
-          <View flexDirection={"column"} w={wp("75%")}>
-            <Text fontSize="4xl" bold>
+          <View pt={hp("7%")} flexDirection={"column"} w={wp("75%")}>
+            <Text
+              maxW={wp("80%")}
+              py={hp("1%")}
+              fontSize={wp("11.5%")}
+              bold
+              style={(styles.headingColor, styles.madeFont)}
+            >
               Preserving Your Legacy:
             </Text>
-            <Text fontSize="2xl">
+            <Text
+              maxW={wp("65%")}
+              fontSize="2xl"
+              max-width
+              style={styles.headingColor}
+            >
               Practical Steps for Funeral Affordability
             </Text>
-            <View flexDirection={"row"} alignItems={"center"}>
+            <View py={hp("1%")} flexDirection={"row"} alignItems={"center"}>
               <Image
                 size={50}
                 borderRadius={35}
@@ -31,16 +43,31 @@ const Guide = (/*NO PROPS*/) => {
                 }}
                 alt="barack"
               />
-              <Text> Written by Barack Obama</Text>
+              <Text
+                mx={wp("0.75%")}
+                fontSize={"xs"}
+                style={styles.headingColor}
+              >
+                Written by Barack Obama
+              </Text>
             </View>
-            <View flexDirection={"row"}>
-              <Text m-1> 5 min read </Text>
-              <Text m-1> Oct 1, 2023 </Text>
+            <View pb={hp("3%")} flexDirection={"row"}>
+              <Text fontSize={"xs"} style={styles.headingColor}>
+                5 min read
+              </Text>
+              <Text mx={wp("1%")} fontSize={"xs"} style={styles.headingColor}>
+                Oct 1, 2023
+              </Text>
             </View>
           </View>
           <View>
-            <Box rounded={55} bg="white" w={wp("100%")} h={hp("100%")}>
-              <Text px={"12"} py={"10"} w={wp("75%")} h={hp("100%")}>
+            <Box
+              roundedTop={wp("17%")}
+              bg="#FAF8F2"
+              w={wp("100%")}
+              h={hp("100%")}
+            >
+              <Text px={"12"} py={"10"} style={styles.guideColor}>
                 In the grand symphony of life, there are few certainties. Among
                 them, one stands out starkly: our time here is finite. Yet, it's
                 the inevitability of our final encore that many of us prefer not
@@ -113,5 +140,17 @@ const Guide = (/*NO PROPS*/) => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  headingColor: {
+    color: "#0C362F",
+  },
+  guideColor: {
+    color: "#251B22",
+  },
+  madeFont: {
+    fontFamily: "MADE Dillan",
+  },
+});
 
 export default Guide;
