@@ -21,13 +21,14 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	// User routes
 	e.GET("api/users", userController.GetAllUsers)
 	e.GET("api/users/:uid", userController.GetUser)
+	e.GET("api/users/username/:username", userController.GetUserFromUsername)
 
 	// Get a user from username
 	// e.GET("api/users?username=", userController.GetUserFromUsername)
 
 	e.GET("api/users/:uid/persona", userController.GetUserPersona)
 	e.GET("api/users/:uid/tasks", userController.GetUserTasks)
-	e.GET("api/users/:uid/profile", userController.GetUserProfile)
+	// e.GET("api/users/:uid/profile", userController.GetUserProfile)
 
 	e.POST("api/users", userController.CreateUser)
 	e.PUT("api/users/:uid", userController.UpdateUser)
