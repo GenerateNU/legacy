@@ -20,41 +20,49 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 
 	// User routes
 	e.GET("api/users", userController.GetAllUsers)
-	e.GET("api/users/:id", userController.GetUser)
-	e.GET("api/users/:id/persona", userController.GetUserPersona)
-	e.GET("api/users/:id/tasks", userController.GetUserTasks)
-	e.GET("api/users/:id/subtasks", userController.GetUserSubtasks)
+	e.GET("api/users/:uid", userController.GetUser)
+
+	// Get a user from their email and password
+	// e.GET("api/users/:email/:password", userController.GetUserFromEmailAndPassword)
+
+	e.GET("api/users/:uid/persona", userController.GetUserPersona)
+	e.GET("api/users/:uid/tasks", userController.GetUserTasks)
+	e.GET("api/users/:uid/profile", userController.GetUserProfile)
+
 	e.POST("api/users", userController.CreateUser)
-	e.PUT("api/users/:id", userController.UpdateUser)
-	e.DELETE("api/users/:id", userController.DeleteUser)
+	e.PUT("api/users/:uid", userController.UpdateUser)
+	e.DELETE("api/users/:uid", userController.DeleteUser)
 
 	// Persona routes
 	e.GET("api/personas", personaController.GetAllPersonas)
-	e.GET("api/personas/:id", personaController.GetPersona)
-	e.POST("api/personas", personaController.CreatePersona)
-	e.PUT("api/personas/:id", personaController.UpdatePersona)
-	e.DELETE("api/personas/:id", personaController.DeletePersona)
+	e.GET("api/personas/:pid", personaController.GetPersona)
+
+	// Get a persona tasks
+	// e.GET("api/personas/:pid/tasks", personaController.GetPersonaTasks)
+
+	e.POST("api/personas/", personaController.CreatePersona)
+	e.PUT("api/personas/:pid", personaController.UpdatePersona)
+	e.DELETE("api/personas/:pid", personaController.DeletePersona)
 
 	// User Profile routes
-	e.GET("api/profile", userProfileController.GetAllUserProfiles)
-	e.GET("api/profile/:id", userProfileController.GetUserProfile)
-	e.POST("api/profile", userProfileController.CreateUserProfile)
-	e.PUT("api/profile/:id", userProfileController.UpdateUserProfile)
-	e.DELETE("api/profile/:id", userProfileController.DeleteUserProfile)
+	e.GET("api/profiles/:upid", userProfileController.GetUserProfile)
+	e.POST("api/profiles/:uid/", userProfileController.CreateUserProfile)
+	e.PUT("api/profiles/:upid", userProfileController.UpdateUserProfile)
+	e.DELETE("api/profiles/:upid", userProfileController.DeleteUserProfile)
 
 	// Task routes
-	e.GET("api/task", taskController.GetAllTasks)
-	e.GET("api/task/:id", taskController.GetTask)
-	e.POST("api/task", taskController.CreateTask)
-	e.PUT("api/task/:id", taskController.UpdateTask)
-	e.DELETE("api/task/:id", taskController.DeleteTask)
+	e.GET("api/tasks", taskController.GetAllTasks)
+	e.GET("api/tasks/:id", taskController.GetTask)
+	e.POST("api/tasks", taskController.CreateTask)
+	e.PUT("api/tasks/:id", taskController.UpdateTask)
+	e.DELETE("api/tasks/:id", taskController.DeleteTask)
 
 	// SubTask routes
-	e.GET("api/subtask", subtaskController.GetAllSubtasks)
-	e.GET("api/subtask/:id", subtaskController.GetAllSubtasks)
-	e.POST("api/subtask", subtaskController.CreateSubtask)
-	e.PUT("api/subtask/:id", subtaskController.UpdateSubtask)
-	e.DELETE("api/subtask/:id", subtaskController.DeleteSubtask)
+	e.GET("api/subtasks", subtaskController.GetAllSubtasks)
+	e.GET("api/subtasks/:id", subtaskController.GetAllSubtasks)
+	e.POST("api/subtasks", subtaskController.CreateSubtask)
+	e.PUT("api/subtasks/:id", subtaskController.UpdateSubtask)
+	e.DELETE("api/subtasks/:id", subtaskController.DeleteSubtask)
 
 	// Task Progress routes
 	e.GET("api/progress", taskprogressController.GetAllTaskProgress)
