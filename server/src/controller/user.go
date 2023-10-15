@@ -53,10 +53,51 @@ func (u *UserController) GetUserPersona(c echo.Context) error {
 }
 
 func (u *UserController) GetUserTasks(c echo.Context) error {
-	// User -> Persona -> Tasks
+	var user model.User
+	var persona model.Persona
+	var taskProgress []model.TaskProgress
+	var tasks []model.Task
+
+	userID := c.Param("id")
+	completedParam := c.QueryParam("completed") // Extract completed path parameter
+
+	err := u.DB.First(&user, userID).Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
+
+	u.DB.Model(&user).Association("Persona").Find(&persona)
+	if persona.ID == 0 {
+		return c.JSON(http.StatusNotFound, "User does not have a persona")
+	}
+
+	// Fetch task progress based on completion status
+	switch completedParam {
+	case "true":
+		u.DB.Where("user_id = ? AND completed = ?", user.ID, true).Find(&taskProgress)
+	case "false":
+		u.DB.Where("user_id = ? AND completed = ?", user.ID, false).Find(&taskProgress)
+	default:
+		u.DB.Where("user_id = ?", user.ID).Find(&taskProgress) // Fetch all task progress
+	}
+
+	// Converts filtered task progress to tasks
+	for _, progress := range taskProgress {
+		tasks = append(tasks, progress.Task)
+	}
+
+	if len(tasks) == 0 {
+		return c.JSON(http.StatusNotFound, "Persona does not have any tasks")
+	}
+
+	return c.JSON(http.StatusOK, tasks)
+}
+
+func (u *UserController) GetUserSubtasks(c echo.Context) error {
 	var user model.User
 	var persona model.Persona
 	var tasks []model.Task
+	var subtasks []model.SubTask
 
 	userID := c.Param("id")
 
@@ -75,7 +116,12 @@ func (u *UserController) GetUserTasks(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, "Persona does not have any tasks")
 	}
 
-	return c.JSON(http.StatusOK, tasks)
+	u.DB.Model(&tasks).Association("Subtasks").Find(&subtasks)
+	if len(subtasks) == 0 {
+		return c.JSON(http.StatusNotFound, "Persona does not have any subtasks")
+	}
+
+	return c.JSON(http.StatusOK, subtasks)
 }
 
 func (u *UserController) CreateUser(c echo.Context) error {

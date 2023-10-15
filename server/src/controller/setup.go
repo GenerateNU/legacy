@@ -23,6 +23,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.GET("api/users/:id", userController.GetUser)
 	e.GET("api/users/:id/persona", userController.GetUserPersona)
 	e.GET("api/users/:id/tasks", userController.GetUserTasks)
+	e.GET("api/users/:id/subtasks", userController.GetUserSubtasks)
 	e.POST("api/users", userController.CreateUser)
 	e.PUT("api/users/:id", userController.UpdateUser)
 	e.DELETE("api/users/:id", userController.DeleteUser)
@@ -74,7 +75,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	// - Add tasks to a persona.
 	//  (This is a many-to-many relationship so this includes adding a relationship between a persona and a task in the persona_tasks table.)
 	// - Get personas associated with tasks or subtasks.
-	// - Get all subtasks for a user, optionally filtered by completion status.
+	// - Get all subtasks for a user, (done) optionally filtered by completion status. (not complete)
 	// - Get all tasks for a user, (done) optionally filtered by completion status. (not complete)
 	// - Get x amount of tasks for a user, optionally filtered by completion status.
 
