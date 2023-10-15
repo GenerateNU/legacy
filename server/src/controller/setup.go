@@ -38,11 +38,13 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.GET("api/personas/:pid", personaController.GetPersona)
 
 	// Get a persona tasks
-	// e.GET("api/personas/:pid/tasks", personaController.GetPersonaTasks)
+	e.GET("api/personas/:pid/tasks", personaController.GetPersonaTasks)
 
 	e.POST("api/personas/", personaController.CreatePersona)
 	e.PUT("api/personas/:pid", personaController.UpdatePersona)
 	e.DELETE("api/personas/:pid", personaController.DeletePersona)
+	// Add tasks to a persona.
+	e.PUT("api/personas/:pid/tasks", personaController.AddTasksToPersona)
 
 	// User Profile routes
 	e.GET("api/profiles/:upid", userProfileController.GetUserProfile)
@@ -79,8 +81,16 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.DELETE("api/subprogress/:id", subtaskprogressController.DeleteSubTaskProgress)
 
 	// TODO: Add nonCRUD routes for the following:
+<<<<<<< Updated upstream
 	// - Update (Create associated task progress/subtask progress for a task/subtask)
 	// - Get personas associated with tasks
+=======
+	// - Get a user's persona. (done)
+	// - Get personas associated with tasks.
+	// - Get all subtasks for a user, optionally filtered by completion status.
+	// - Get all tasks for a user, (done) optionally filtered by completion status. (not complete)
+	// - Get x amount of tasks for a user, optionally filtered by completion status.
+>>>>>>> Stashed changes
 
 	// - Get all files (file names and tags and id getting the actual file is seperate) for a user.
 	// - Auth-related routes (login, logout).
