@@ -81,16 +81,8 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.DELETE("api/subprogress/:id", subtaskprogressController.DeleteSubTaskProgress)
 
 	// TODO: Add nonCRUD routes for the following:
-<<<<<<< Updated upstream
 	// - Update (Create associated task progress/subtask progress for a task/subtask)
-	// - Get personas associated with tasks
-=======
-	// - Get a user's persona. (done)
 	// - Get personas associated with tasks.
-	// - Get all subtasks for a user, optionally filtered by completion status.
-	// - Get all tasks for a user, (done) optionally filtered by completion status. (not complete)
-	// - Get x amount of tasks for a user, optionally filtered by completion status.
->>>>>>> Stashed changes
 
 	// - Get all files (file names and tags and id getting the actual file is seperate) for a user.
 	// - Auth-related routes (login, logout).
