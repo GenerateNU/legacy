@@ -22,8 +22,8 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.GET("api/users", userController.GetAllUsers)
 	e.GET("api/users/:uid", userController.GetUser)
 
-	// Get a user from their email and password
-	// e.GET("api/users/:email/:password", userController.GetUserFromEmailAndPassword)
+	// Get a user from username
+	// e.GET("api/users?username=", userController.GetUserFromUsername)
 
 	e.GET("api/users/:uid/persona", userController.GetUserPersona)
 	e.GET("api/users/:uid/tasks", userController.GetUserTasks)
@@ -67,25 +67,20 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	// Task Progress routes
 	e.GET("api/progress", taskprogressController.GetAllTaskProgress)
 	e.GET("api/progress/:id", taskprogressController.GetTaskProgress)
-	e.POST("api/progress", taskprogressController.CreateTaskProgress)
+	// e.POST("api/progress", taskprogressController.CreateTaskProgress)
 	e.PUT("api/progress/:id", taskprogressController.UpdateTaskProgress)
 	e.DELETE("api/progress/:id", taskprogressController.DeleteTaskProgress)
 
 	// Subtask Progress routes
 	e.GET("api/subprogress", subtaskprogressController.GetAllSubTaskProgress)
 	e.GET("api/subprogress/:id", subtaskprogressController.GetSubTaskProgress)
-	e.POST("api/subprogress", subtaskprogressController.CreateSubTaskProgress)
+	// e.POST("api/subprogress", subtaskprogressController.CreateSubTaskProgress)
 	e.PUT("api/subprogress/:id", subtaskprogressController.UpdateSubTaskProgress)
 	e.DELETE("api/subprogress/:id", subtaskprogressController.DeleteSubTaskProgress)
 
 	// TODO: Add nonCRUD routes for the following:
-	// - Get a user's persona. (done)
-	// - Add tasks to a persona.
-	//  (This is a many-to-many relationship so this includes adding a relationship between a persona and a task in the persona_tasks table.)
-	// - Get personas associated with tasks or subtasks.
-	// - Get all subtasks for a user, (done) optionally filtered by completion status. (not complete)
-	// - Get all tasks for a user, (done) optionally filtered by completion status. (not complete)
-	// - Get x amount of tasks for a user, optionally filtered by completion status.
+	// - Update (Create associated task progress/subtask progress for a task/subtask)
+	// - Get personas associated with tasks
 
 	// - Get all files (file names and tags and id getting the actual file is seperate) for a user.
 	// - Auth-related routes (login, logout).
