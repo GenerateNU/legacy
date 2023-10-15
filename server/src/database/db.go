@@ -27,6 +27,7 @@ func connectDatabase(host, user, password, dbname, port string) (*gorm.DB, error
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 }
+
 func InitDB() (*gorm.DB, error) {
 	dbHost := "localhost"
 	dbUser := "postgres"
@@ -54,7 +55,6 @@ func InitDB() (*gorm.DB, error) {
 	if err := db.AutoMigrate(
 		&model.File{},
 		&model.Persona{},
-		&model.PersonaTaskJunction{},
 		&model.SubTaskProgress{},
 		&model.SubTask{},
 		&model.TaskProgress{},
