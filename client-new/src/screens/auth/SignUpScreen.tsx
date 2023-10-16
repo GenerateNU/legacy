@@ -43,14 +43,14 @@ export default function AccessScreen() {
           <ScreenWideInput
             placeholderText="example@email.com"
             title="Email"
-            icon={<FontAwesome name="envelope" size={20} color="grey" />}
+            iconName="envelope-o"
             onChangeText={(value) => setEmail(value)}
             value={email}
           />
           <ScreenWideInput
             placeholderText="Must be at least 8 characters long"
             title="Password"
-            icon={<FontAwesome name="lock" size={20} color="grey" />}
+            iconName="lock"
             password={true}
             onChangeText={(value) => setPassword(value)}
             value={password}
