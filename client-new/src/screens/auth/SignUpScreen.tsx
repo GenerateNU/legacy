@@ -23,14 +23,13 @@ export default function AccessScreen() {
     login(email, password);
   };
 
-  
+
 
 
 
   return (
     <SafeAreaView>
       <KeyboardAvoidingView>
-        {
         <View alignItems={"center"}>
           <SquareButton
             title = "LOGIN"
@@ -41,8 +40,6 @@ export default function AccessScreen() {
             onChangeText={(value) => setFullName(value)}
             value={fullName}
           />
-
-
           <ScreenWideInput
             placeholderText="example@email.com"
             title="Email"
@@ -60,7 +57,7 @@ export default function AccessScreen() {
           />
           <ScreenWideButton text="Login to Legacy" textColor="#FFFFFF" backgroundColor="#8F8F8F"/>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAvoidingView> 
     </SafeAreaView>
   );
 }
