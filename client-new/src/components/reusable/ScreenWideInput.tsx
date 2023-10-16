@@ -1,5 +1,5 @@
-import { Input, FormControl, Container, Button } from "native-base";
-import React, { useState } from "react";
+import { Input, FormControl, Container, Button, Text} from "native-base";
+import React, { ReactNode, useState } from "react";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
@@ -11,31 +11,32 @@ type ScreenWideInputProps = {
   password?: boolean;
   placeholderText?: string;
   onChangeText: (value) => void;
-  icon?: string;
+  icon?: ReactNode;
   value: string;
 };
 
 export default function ScreenWideInput(props: ScreenWideInputProps) {
-  const [show, setShow] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleClick = () => setShow(!show);
+  const toggleShowPassword = () => setShowPassword(!showPassword);
 
   const inputLeftElement = props.icon ? (
-    <FontAwesome name={props.icon} size={60} color={"green"} />
+    props.icon
   ) : undefined;
 
   const inputRightElement = props.password ? (
-    <Button size="xs" rounded="none" w="1/6" h="full" onPress={handleClick}>
-      {show ? "Hide" : "Show"}
+    <Button size="xs" rounded="none" width={w("20%")} height={h("80%")} backgroundColor="transparent" color="black" onPress={toggleShowPassword}>
+      <Text style={{ color: "black", fontWeight: "bold", fontSize: 12}}>{showPassword ? "HIDE" : "SHOW"} </Text>
     </Button>
   ) : undefined;
+
 
   return (
     <>
       <Container>
         <FormControl>{props.title}</FormControl>
         <Input
-          type={props.password ? "password" : "text"}
+          type={(showPassword || !props.password) ? "text" : "password"}
           width={w("80%")}
           height={h("5%")}
           paddingX={"auto"}
@@ -44,6 +45,7 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
           placeholder={props.placeholderText}
           InputLeftElement={inputLeftElement}
           InputRightElement={inputRightElement}
+          rounded="full"
         />
       </Container>
     </>

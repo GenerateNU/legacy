@@ -4,6 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
+import { FontAwesome } from "@expo/vector-icons";
+import ScreenWideButton from "../../components/reusable/ScreenWideButton";
+import SquareButton from "../../components/reusable/SquareButton";
 
 export default function AccessScreen() {
   const { user, createAccount, login, logout } = useAuth();
@@ -22,7 +25,7 @@ export default function AccessScreen() {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView>
-        <View style={styles.inputContainer}>
+        {/* <View style={styles.inputContainer}>
           <TextInput
             placeholder="Email"
             value={email}
@@ -36,9 +39,9 @@ export default function AccessScreen() {
             style={styles.input}
             secureTextEntry
           />
-        </View>
+        </View> */}
 
-        <View style={styles.buttonContainer}>
+        {/* <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={signIn} style={styles.button}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
@@ -54,22 +57,27 @@ export default function AccessScreen() {
           >
             <Text style={styles.buttonOutlineText}>Logout</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
         <View alignItems={"center"}>
+          <SquareButton
+            title = "SIGN UP"
+          />
           <ScreenWideInput
             placeholderText="example@email.com"
             title="Email"
-            icon="envelope"
+            icon={<FontAwesome name="envelope" size={20} color="grey" />}
             onChangeText={(value) => setEmail(value)}
             value={email}
           />
           <ScreenWideInput
             placeholderText="Must be at least 8 characters long"
             title="Password"
+            icon={<FontAwesome name="lock" size={20} color="grey" />}
             password={true}
             onChangeText={(value) => setPassword(value)}
             value={password}
           />
+          <ScreenWideButton text="Login to Legacy" textColor="#FFFFFF" backgroundColor="#8F8F8F"/>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
