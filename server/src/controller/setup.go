@@ -17,6 +17,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	subtaskprogressController := SubTaskProgressController{db}
 
 	awsController := AwsController{db}
+	guideController := GuideController{db}
 
 	// User routes
 	e.GET("api/users", userController.GetAllUsers)
@@ -87,4 +88,9 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.GET("v1/api/aws", awsController.dump)
 	e.GET("v1/api/aws/:file-key", awsController.GetFile)
 	e.POST("v1/api/aws", awsController.CreateFile)
+
+	// Guide
+	e.POST("api/guides", guideController.CreateGuide)
+	e.GET("api/guides/:gid", guideController.GetGuide)
+	e.DELETE("api/guides/:gid", guideController.DeleteGuide)
 }

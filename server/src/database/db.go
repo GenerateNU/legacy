@@ -61,6 +61,7 @@ func InitDB() (*gorm.DB, error) {
 		&model.Task{},
 		&model.UserProfile{},
 		&model.User{},
+		&model.Guide{},
 	); err != nil {
 		return nil, fmt.Errorf("failed to perform database auto migration: %v", err)
 	}
