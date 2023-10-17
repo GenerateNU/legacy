@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -40,13 +39,24 @@ func createAwsSession() (*session.Session, error) {
 }
 
 func (a *AwsController) CreateFile(c echo.Context) error {
-	var file model.File
-	jsonString := c.FormValue("file_info")
 
-	// bind data sent in POST request to file model
-	if err := json.Unmarshal([]byte(jsonString), &file); err != nil {
+	var file model.File
+
+	file.FileName = c.FormValue("file_name")
+	file.FileDescription = c.FormValue("file_description")
+	file.FilePath = c.FormValue("file_path")
+	user_id, err := strconv.ParseUint(c.FormValue("user_id"), 10, 0)
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
+	file.UserID = uint(user_id)
+
+	var user model.User
+	a.DB.First(&user, uint(user_id))
+	if user.ID == 0 {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
+	file.User = user
 
 	// check if binded data is valid according to rules defined in model
 	validator := validator.New()
@@ -61,6 +71,23 @@ func (a *AwsController) CreateFile(c echo.Context) error {
 		return c.JSON(http.StatusNotAcceptable, "Filename already exists")
 	}
 
+	// get file and check that size < 5 MB
+	data, err := c.FormFile("file_data")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	fmt.Printf("%v", data.Size)
+	if data.Size > 5000000 {
+		return c.JSON(http.StatusBadRequest, "Maximum file size 5 MB")
+	}
+
+	src, err := data.Open()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	defer src.Close()
+
 	// file info validated, now upload to s3 bucket
 	sess, err := createAwsSession()
 	if err != nil {
@@ -71,18 +98,6 @@ func (a *AwsController) CreateFile(c echo.Context) error {
 	uploader := s3manager.NewUploader(sess)
 	bucket := "generate-legacy-storage"
 	filename := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
-	data, err := c.FormFile("file_data")
-
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	// open file to be uploaded
-	src, err := data.Open()
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-	defer src.Close()
 
 	// upload file
 	_, err = uploader.Upload(&s3manager.UploadInput{
@@ -104,7 +119,7 @@ func (a *AwsController) CreateFile(c echo.Context) error {
 func (a *AwsController) GetFile(c echo.Context) error {
 	// attempt to locate file in DB
 	var dbFile model.File
-	fileID := c.Param("id")
+	fileID := c.Param("fid")
 	result := a.DB.First(&dbFile, fileID)
 
 	// check if file exists
@@ -150,7 +165,7 @@ func (a *AwsController) GetFile(c echo.Context) error {
 func (a *AwsController) DeleteFile(c echo.Context) error {
 	// attempt to locate file in DB
 	var file model.File
-	fileID := c.Param("id")
+	fileID := c.Param("fid")
 	result := a.DB.First(&file, fileID)
 
 	// check if file exists
@@ -185,7 +200,7 @@ func (a *AwsController) DeleteFile(c echo.Context) error {
 func (a *AwsController) GetPresignedURL(c echo.Context) error {
 	// attempt to locate file in DB
 	var file model.File
-	fileID := c.Param("id")
+	fileID := c.Param("fid")
 	result := a.DB.First(&file, fileID)
 
 	// check if file exists
@@ -223,32 +238,10 @@ func (a *AwsController) GetPresignedURL(c echo.Context) error {
 	return c.JSON(http.StatusOK, url)
 }
 
-func (a *AwsController) dump(c echo.Context) error {
+func (a *AwsController) GetAllFiles(c echo.Context) error {
+	var files []model.File
+	userID := c.Param("uid")
 
-	// Create new session
-	sess, err := createAwsSession()
-	if err != nil {
-		exitErrorf("Unable to create session: ", err)
-	}
-
-	// create s3 service client
-	svc := s3.New(sess)
-
-	result, err := svc.ListBuckets(nil)
-	if err != nil {
-		exitErrorf("Unable to list buckets, ", err)
-	}
-
-	fmt.Println("Buckets:")
-	for _, b := range result.Buckets {
-		fmt.Printf("* %s created on %s\n",
-			aws.StringValue(b.Name), aws.TimeValue(b.CreationDate))
-	}
-
-	return c.JSON(http.StatusOK, result)
-
-}
-
-func exitErrorf(s string, err error) {
-	panic(s)
+	a.DB.Where("user_id = ?", userID).Find(&files)
+	return c.JSON(http.StatusOK, files)
 }
