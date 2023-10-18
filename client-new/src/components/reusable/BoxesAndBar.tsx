@@ -8,9 +8,9 @@ export default function BoxesAndBars() {
   const bigCircle = (
     <View
       backgroundColor="#FFFFFF"
-      height={h("1.1%")}
-      width={h("1.1%")}
-      borderRadius={h("1.1%")}
+      height={h("1.5%")}
+      width={h("1.5%")}
+      borderRadius={h("1.5%")}
       borderWidth={1}
       borderColor={"#000000"}
     ></View>
@@ -18,9 +18,9 @@ export default function BoxesAndBars() {
   const smallCircle = (
     <View
       backgroundColor="#FFFFFF"
-      height={h("1.1%") * 0.75}
-      width={h("1.1%") * 0.75}
-      borderRadius={h("1.1%") * 0.75}
+      height={h("1.5%") * 0.75}
+      width={h("1.5%") * 0.75}
+      borderRadius={h("1.5%") * 0.75}
       borderWidth={1}
       borderColor={"#000000"}
     ></View>

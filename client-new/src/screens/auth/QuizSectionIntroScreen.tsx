@@ -8,7 +8,9 @@ import {
 } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function QuizSectionIntroScreen() {
+export default function QuizSectionIntroScreen({ route, navigation }) {
+  // TODO: Uncomment this and abstract this screen
+  //const { props } = route.params;
   return (
     <SafeAreaView>
       <KeyboardAvoidingView alignItems="center">

@@ -73,7 +73,7 @@ export default function LoginScreen({ route, navigation }) {
           >
             <ScreenWideButton
               text="Login with SSO"
-              textColor="#x"
+              textColor="#8F8F8F"
               backgroundColor="#FFFFFF"
               borderColor="#8F8F8F"
             />
@@ -82,6 +82,7 @@ export default function LoginScreen({ route, navigation }) {
               textColor="#FFFFFF"
               backgroundColor="#8F8F8F"
               borderColor="#8F8F8F"
+              onClick={signIn}
             />
           </View>
           <View paddingTop={h("4%")}>

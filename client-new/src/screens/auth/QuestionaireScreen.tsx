@@ -10,7 +10,9 @@ import {
 } from "react-native-responsive-screen";
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
 
-export default function QuestionaireScreen() {
+export default function QuestionaireScreen({ route, navigation }) {
+  // TODO: Uncomment this and abstract this screen
+  //const { props } = route.params;
   return (
     <SafeAreaView>
       <KeyboardAvoidingView alignItems="center">

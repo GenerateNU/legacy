@@ -15,7 +15,7 @@ import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
 
 export default function SignUpScreen({ route, navigation }) {
-  const { user, createAccount, login, logout } = useAuth();
+  const { user, createAccount, login} = useAuth();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -92,6 +92,7 @@ export default function SignUpScreen({ route, navigation }) {
               textColor="#FFFFFF"
               backgroundColor="#8F8F8F"
               borderColor="#8F8F8F"
+              onClick={signUp}
             />
           </View>
           <View paddingTop={h("4%")}>

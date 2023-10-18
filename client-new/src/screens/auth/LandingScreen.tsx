@@ -5,7 +5,7 @@ import {
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 
-export default function LandingScreen() {
+export default function LandingScreen({ route, navigation }) {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView>

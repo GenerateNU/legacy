@@ -7,7 +7,7 @@ import {
 } from "react-native-responsive-screen";
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
 
-export default function PersonaScreen() {
+export default function PersonaScreen({ route, navigation }) {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView alignItems="center">

@@ -53,6 +53,7 @@ export default function AccessScreen({ route, navigation }) {
               textColor={"#FFFFFF"}
               backgroundColor={"#8F8F8F"}
               borderColor={"#8F8F8F"}
+              onClick={toSignUp}
             />
           </View>
 
@@ -62,6 +63,7 @@ export default function AccessScreen({ route, navigation }) {
               textColor={"#000000"}
               backgroundColor={"#FFFFFF"}
               borderColor={"#D9D9D9"}
+              onClick={toLogin}
             />
           </View>
         </View>
