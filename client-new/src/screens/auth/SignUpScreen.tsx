@@ -5,10 +5,17 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
 import { FontAwesome } from "@expo/vector-icons";
-import ScreenWideButton from "../../components/reusable/ScreenWideButton";
+import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
 import SquareButton from "../../components/reusable/SquareButton";
+import CompaniesFooter from "../../components/reusable/CompaniesFooter";
+import {
+  widthPercentageToDP as w,
+  heightPercentageToDP as h,
+} from "react-native-responsive-screen";
+import LegacyWordmark from "../../components/reusable/LegacyWordmark";
+import LetsGo from "../../components/LetsGo";
 
-export default function AccessScreen() {
+export default function SignUpScreen({ route, navigation }) {
   const { user, createAccount, login, logout } = useAuth();
 
   const [fullName, setFullName] = useState("");
@@ -23,42 +30,108 @@ export default function AccessScreen() {
     login(email, password);
   };
 
-
-
-
+  const switchToLogin = () => {
+    navigation.navigate("Login Screen");
+  };
 
   return (
     <SafeAreaView>
-      <KeyboardAvoidingView>
-        <View alignItems={"center"}>
-          <SquareButton
-            title = "LOGIN"
-          />
-         <ScreenWideInput
+      <KeyboardAvoidingView alignItems="center">
+        <View
+          width={w("80%")}
+          flexDirection="row"
+          justifyContent="space-between"
+          justifyItems={"center"}
+        >
+          <LegacyWordmark />
+          <SquareButton title="LOGIN" onClick={switchToLogin} />
+        </View>
+        <View paddingTop={h("7%")}>
+          <LetsGo />
+        </View>
+        <View alignItems={"center"} paddingTop={h("6.5%")}>
+          <ScreenWideInput
             placeholderText="Example"
             title="Full Name"
+            iconName="user-o"
             onChangeText={(value) => setFullName(value)}
             value={fullName}
           />
-          <ScreenWideInput
-            placeholderText="example@email.com"
-            title="Email"
-            iconName="envelope-o"
-            onChangeText={(value) => setEmail(value)}
-            value={email}
-          />
-          <ScreenWideInput
-            placeholderText="Must be at least 8 characters long"
-            title="Password"
-            iconName="lock"
-            password={true}
-            onChangeText={(value) => setPassword(value)}
-            value={password}
-          />
-          <ScreenWideButton text="Login to Legacy" textColor="#FFFFFF" backgroundColor="#8F8F8F"/>
+          <View paddingTop={h("3%")}>
+            <ScreenWideInput
+              placeholderText="example@email.com"
+              title="Email"
+              iconName="envelope-o"
+              onChangeText={(value) => setEmail(value)}
+              value={email}
+            />
+          </View>
+          <View paddingTop={h("3%")} paddingBottom={h("3%")}>
+            <ScreenWideInput
+              placeholderText="Must be at least 8 characters long"
+              title="Password"
+              iconName="lock"
+              password={true}
+              onChangeText={(value) => setPassword(value)}
+              value={password}
+            />
+          </View>
+          <View
+            width={w("80%")}
+            alignItems={"center"}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+          >
+            <ScreenWideButton
+              text="Sign up with SSO"
+              textColor="#8F8F8F"
+              backgroundColor="#FFFFFF"
+              borderColor="#8F8F8F"
+            />
+            <ScreenWideButton
+              text="Sign up to Legacy"
+              textColor="#FFFFFF"
+              backgroundColor="#8F8F8F"
+              borderColor="#8F8F8F"
+            />
+          </View>
+          <View paddingTop={h("4%")}>
+            <CompaniesFooter />
+          </View>
         </View>
-      </KeyboardAvoidingView> 
+      </KeyboardAvoidingView>
     </SafeAreaView>
+    // <SafeAreaView>
+    //   <KeyboardAvoidingView>
+    //     <View alignItems={"center"}>
+    //       <SquareButton
+    //         title = "LOGIN"
+    //       />
+    //      <ScreenWideInput
+    //         placeholderText="Example"
+    //         title="Full Name"
+    //         onChangeText={(value) => setFullName(value)}
+    //         value={fullName}
+    //       />
+    //       <ScreenWideInput
+    //         placeholderText="example@email.com"
+    //         title="Email"
+    //         iconName="envelope-o"
+    //         onChangeText={(value) => setEmail(value)}
+    //         value={email}
+    //       />
+    //       <ScreenWideInput
+    //         placeholderText="Must be at least 8 characters long"
+    //         title="Password"
+    //         iconName="lock"
+    //         password={true}
+    //         onChangeText={(value) => setPassword(value)}
+    //         value={password}
+    //       />
+    //       <ScreenWideButton text="Login to Legacy" textColor="#FFFFFF" backgroundColor="#8F8F8F"/>
+    //     </View>
+    //   </KeyboardAvoidingView>
+    // </SafeAreaView>
   );
 }
 

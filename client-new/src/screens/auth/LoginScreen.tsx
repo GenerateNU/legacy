@@ -1,14 +1,20 @@
-import { Button, Input, KeyboardAvoidingView, View } from "native-base";
-import { Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { KeyboardAvoidingView, View } from "native-base";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
-import { FontAwesome } from "@expo/vector-icons";
-import ScreenWideButton from "../../components/reusable/ScreenWideButton";
+import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
 import SquareButton from "../../components/reusable/SquareButton";
+import CompaniesFooter from "../../components/reusable/CompaniesFooter";
+import {
+  widthPercentageToDP as w,
+  heightPercentageToDP as h,
+} from "react-native-responsive-screen";
+import LegacyWordmark from "../../components/reusable/LegacyWordmark";
+import LetsGo from "../../components/LetsGo";
 
-export default function AccessScreen() {
+export default function LoginScreen({ route, navigation }) {
   const { user, createAccount, login, logout } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -22,46 +28,26 @@ export default function AccessScreen() {
     login(email, password);
   };
 
+  const switchToSignUp = () => {
+    navigation.navigate("Sign Up Screen");
+  };
+
   return (
     <SafeAreaView>
-      <KeyboardAvoidingView>
-        {/* <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            style={styles.input}
-            secureTextEntry
-          />
-        </View> */}
-
-        {/* <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={signIn} style={styles.button}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={signUp}
-            style={[styles.button, styles.buttonOutline]}
-          >
-            <Text style={styles.buttonOutlineText}>Register</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={logout}
-            style={[styles.button, styles.buttonOutline]}
-          >
-            <Text style={styles.buttonOutlineText}>Logout</Text>
-          </TouchableOpacity>
-        </View> */}
-        <View alignItems={"center"}>
-          <SquareButton
-            title = "SIGN UP"
-          />
+      <KeyboardAvoidingView alignItems="center">
+        <View
+          width={w("80%")}
+          flexDirection="row"
+          justifyContent="space-between"
+          justifyItems={"center"}
+        >
+          <LegacyWordmark />
+          <SquareButton title="SIGN UP" onClick={switchToSignUp} />
+        </View>
+        <View paddingTop={h("7%")}>
+          <LetsGo />
+        </View>
+        <View alignItems={"center"} paddingTop={h("6.5%")}>
           <ScreenWideInput
             placeholderText="example@email.com"
             title="Email"
@@ -69,15 +55,38 @@ export default function AccessScreen() {
             onChangeText={(value) => setEmail(value)}
             value={email}
           />
-          <ScreenWideInput
-            placeholderText="Must be at least 8 characters long"
-            title="Password"
-            iconName="lock"
-            password={true}
-            onChangeText={(value) => setPassword(value)}
-            value={password}
-          />
-          <ScreenWideButton text="Login to Legacy" textColor="#FFFFFF" backgroundColor="#8F8F8F"/>
+          <View paddingTop={h("3%")} paddingBottom={h("3%")}>
+            <ScreenWideInput
+              placeholderText="Must be at least 8 characters long"
+              title="Password"
+              iconName="lock"
+              password={true}
+              onChangeText={(value) => setPassword(value)}
+              value={password}
+            />
+          </View>
+          <View
+            width={w("80%")}
+            alignItems={"center"}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+          >
+            <ScreenWideButton
+              text="Login with SSO"
+              textColor="#x"
+              backgroundColor="#FFFFFF"
+              borderColor="#8F8F8F"
+            />
+            <ScreenWideButton
+              text="Login to Legacy"
+              textColor="#FFFFFF"
+              backgroundColor="#8F8F8F"
+              borderColor="#8F8F8F"
+            />
+          </View>
+          <View paddingTop={h("4%")}>
+            <CompaniesFooter />
+          </View>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

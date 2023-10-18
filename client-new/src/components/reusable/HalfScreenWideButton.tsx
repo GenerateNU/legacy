@@ -13,12 +13,12 @@ type ScreenWideButtonProps = {
   onClick?: (input) => any;
 };
 
-export default function ScreenWideButton(props: ScreenWideButtonProps) {
+export default function HalfScreenWideButton(props: ScreenWideButtonProps) {
   return (
     <>
       <Button
         backgroundColor={props.backgroundColor}
-        width={w("80%")}
+        width={w("37.5%")}
         height={h("5%")}
         borderRadius={w("80%") / 2}
         onPress={props.onClick}
