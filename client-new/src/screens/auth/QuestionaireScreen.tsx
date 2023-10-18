@@ -28,7 +28,7 @@ export default function QuestionaireScreen() {
         </View>
 
         <View paddingBottom={h("1%")}>
-          <CircleProgressBar totalCircles={6} completedCircles={0} />
+          <CircleProgressBar totalCircles={6} completedCircles={4} />
         </View>
         <Divider
           marginTop={h("2%")}

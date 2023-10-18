@@ -26,7 +26,7 @@ export default function SignUpTransitionScreen() {
           paddingTop={h("4%")}
           paddingBottom={h("5%")}
         >
-          <Text fontSize={20} fontWeight={"semibold"} paddingRight={w("3%")}>
+          <Text fontSize={20} fontWeight={"semibold"} paddingRight={w("2%")}>
             Welcome Max!
           </Text>
           <Icon name="flower-tulip-outline" size={30}></Icon>

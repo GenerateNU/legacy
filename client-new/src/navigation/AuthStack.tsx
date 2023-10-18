@@ -5,13 +5,15 @@ import QuestionaireScreen from "../screens/auth/QuestionaireScreen";
 import AccessScreen from "../screens/auth/AccessScreen";
 import SignUpTransitionScreen from "../screens/auth/SignUpTransitionScreen";
 import QuizSectionIntroScreen from "../screens/auth/QuizSectionIntroScreen";
+import PersonaScreen from "../screens/auth/PersonaScreen";
+import LandingScreen from "../screens/auth/LandingScreen";
 
 const Stack = createNativeStackNavigator();
 
 export default function AuthStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Quiz Section Intro Screen"
+      initialRouteName="Access Screen"
       screenOptions={{
         headerShown: false,
       }}
@@ -28,6 +30,8 @@ export default function AuthStack() {
         name="Quiz Section Intro Screen"
         component={QuizSectionIntroScreen}
       />
+      <Stack.Screen name="Persona Screen" component={PersonaScreen} />
+      <Stack.Screen name="Landing Screen" component={LandingScreen} />
     </Stack.Navigator>
   );
 }
