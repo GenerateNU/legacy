@@ -1,10 +1,9 @@
-import { Button, Input, KeyboardAvoidingView, View } from "native-base";
-import { Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { KeyboardAvoidingView, View } from "native-base";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
-import { FontAwesome } from "@expo/vector-icons";
 import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
 import SquareButton from "../../components/reusable/SquareButton";
 import CompaniesFooter from "../../components/reusable/CompaniesFooter";
@@ -66,7 +65,7 @@ export default function SignUpScreen({ route, navigation }) {
               value={email}
             />
           </View>
-          <View paddingTop={h("3%")} paddingBottom={h("3%")}>
+          <View paddingTop={h("3%")} paddingBottom={h("4%")}>
             <ScreenWideInput
               placeholderText="Must be at least 8 characters long"
               title="Password"

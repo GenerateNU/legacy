@@ -8,13 +8,13 @@ import {
 } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function TransitionScreen() {
+export default function QuizSectionIntroScreen() {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView alignItems="center">
         <LegacyWordmark />
-        <View paddingTop={h("2%")} paddingBottom={h("2%")}>
-          <CircleProgressBar totalCircles={6} completedCircles={0} />
+        <View paddingTop={h("4.5%")} paddingBottom={h("2%")}>
+          <CircleProgressBar totalCircles={3} completedCircles={0} />
         </View>
         <Divider marginTop={h("2%")} width={w("100%")} color={"#D9D9D9"} />
 
@@ -24,36 +24,36 @@ export default function TransitionScreen() {
           justifyContent={"space-between"}
           alignItems={"center"}
           paddingTop={h("4%")}
-          paddingBottom={h("5%")}
+          paddingBottom={h("3.5%")}
         >
-          <Text fontSize={20} fontWeight={"semibold"}>
-            {" "}
-            Welcome Max!{" "}
+          <Text paddingRight={w("3%")} fontSize={20} fontWeight={"semibold"}>
+            Quiz Section Title
           </Text>
           <Icon name="flower-tulip-outline" size={30}></Icon>
         </View>
 
-        <Text
-          fontSize={18}
-          color={"#C4C4C4"}
-          fontWeight={"semibold"}
-          paddingBottom={h("3%")}
-          textAlign="center"
-        >
-          Our mission is to mission, your mission here, your mission statement
-          here
-        </Text>
-        <Text
-          fontSize={18}
-          color={"#C4C4C4"}
-          fontWeight={"semibold"}
-          paddingTop={h("3%")}
-          paddingBottom={h("3%")}
-          textAlign="center"
-        >
-          {" "}
-          We have a few questions before we going.{" "}
-        </Text>
+        <View width={w("80%")}>
+          <Text
+            fontSize={18}
+            color={"#7D7D7D"}
+            fontWeight={600}
+            paddingBottom={h("1%")}
+            textAlign="center"
+          >
+            Section description here, section purpose and outline here
+          </Text>
+          <Text
+            fontSize={14}
+            color={"#4A4A4A"}
+            fontWeight={300}
+            paddingTop={h("3%")}
+            paddingBottom={h("4%")}
+            textAlign="center"
+          >
+            Lorem ipsum dolor sit amet consectetur. Rhoncus viverra adipiscing
+            cursus amet viverra adipiscing cursus amet
+          </Text>
+        </View>
 
         <Button backgroundColor={"#D9D9D9"} borderRadius={20} width={w("35%")}>
           <Text color={"#000000"} fontWeight={"bold"}>

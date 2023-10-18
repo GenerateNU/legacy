@@ -55,7 +55,7 @@ export default function LoginScreen({ route, navigation }) {
             onChangeText={(value) => setEmail(value)}
             value={email}
           />
-          <View paddingTop={h("3%")} paddingBottom={h("3%")}>
+          <View paddingTop={h("3%")} paddingBottom={h("4%")}>
             <ScreenWideInput
               placeholderText="Must be at least 8 characters long"
               title="Password"
