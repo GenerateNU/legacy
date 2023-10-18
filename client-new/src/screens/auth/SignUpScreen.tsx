@@ -13,7 +13,7 @@ import {
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import LetsGo from "../../components/LetsGo";
+import LetsGo from "../../components/reusable/LetsGo";
 
 export default function SignUpScreen({ route, navigation }) {
   const { user, createAccount, login, logout } = useAuth();

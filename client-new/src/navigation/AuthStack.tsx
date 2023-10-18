@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/auth/LoginScreen";
 import SignUpScreen from "../screens/auth/SignUpScreen";
-import QuestionaireScreen from "../screens/app/QuestionaireScreen";
+import QuestionaireScreen from "../screens/auth/QuestionaireScreen";
 import AccessScreen from "../screens/auth/AccessScreen";
 import TransitionScreen from "../screens/auth/TransitionScreen";
 
