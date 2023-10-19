@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"server/src/model"
 
@@ -33,8 +34,94 @@ func (u *UserController) GetUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
+func (u *UserController) GetUserPersona(c echo.Context) error {
+	var user model.User
+	var persona model.Persona
+	userID := c.Param("id")
+
+	err := u.DB.First(&user, userID).Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
+
+	u.DB.Model(&user).Association("Persona").Find(&persona)
+	if persona.ID == 0 {
+		return c.JSON(http.StatusNotFound, "User does not have a persona")
+	}
+
+	return c.JSON(http.StatusOK, persona)
+}
+
+func (u *UserController) GetUserTasks(c echo.Context) error {
+	// User -> Persona -> Tasks
+	var user model.User
+	var persona model.Persona
+	var tasks []model.Task
+	userID := c.Param("uid")
+
+	err := u.DB.First(&user, userID).Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
+	u.DB.Model(&user).Association("Persona").Find(&persona)
+	if persona.ID == 0 {
+		return c.JSON(http.StatusNotFound, "User does not have a persona")
+	}
+	u.DB.Model(&persona).Association("Tasks").Find(&tasks)
+	if len(tasks) == 0 {
+		return c.JSON(http.StatusNotFound, "Persona does not have any tasks")
+	}
+
+	return c.JSON(http.StatusOK, tasks)
+}
+
+func (u *UserController) GetUserProfile(c echo.Context) error {
+	var user model.User
+	var userProfile model.UserProfile
+	userID := c.Param("uid")
+
+	err := u.DB.First(&user, userID).Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
+
+	err = u.DB.Where("user_id = ?", user.ID).First(&userProfile).Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "User does not have a profile")
+	}
+
+	return c.JSON(http.StatusOK, userProfile)
+}
+
+func (u *UserController) GetUserFromUsername(c echo.Context) error {
+	username := c.Param("username") // Extract username from the query parameter
+	var user model.User
+	err := u.DB.Model(&user).Where("username = ?", username).First(&user).Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
+
+	return c.JSON(http.StatusOK, user)
+}
+
+func (u *UserController) GetUserFromFirebaseID(c echo.Context) error {
+	var user model.User
+	fib := c.Param("firebaseid")
+
+	u.DB.Where("firebase_id = ?", fib).First(&user)
+
+	if user.ID == 0 {
+		return c.JSON(http.StatusNotFound, "User not found or does not havea firebase id")
+	}
+
+	return c.JSON(http.StatusOK, user)
+}
+
+// TODO: Should create a user profile when a user is created
 func (u *UserController) CreateUser(c echo.Context) error {
 	var user model.User
+
+	fmt.Println("Creating user", user)
 
 	// Bind the data sent in the POST request to the user model
 	// Handle the error if there is one
@@ -51,7 +138,10 @@ func (u *UserController) CreateUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
 
-	u.DB.Create(&user)
+	err := u.DB.Create(&user).Error
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
 
 	return c.JSON(http.StatusCreated, user)
 }

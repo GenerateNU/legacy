@@ -9,7 +9,7 @@ require (
 )
 
 require (
-	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0 // indirect
+	github.com/radovskyb/watcher v1.0.7 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 )
 

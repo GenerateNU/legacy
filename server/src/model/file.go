@@ -8,5 +8,5 @@ type File struct {
 	FileDescription string `gorm:"type:text" json:"file_description"`
 	FilePath        string `gorm:"type:varchar(255)" json:"file_path"`
 	UserID          uint   `json:"user_id"`
-	User            User   `gorm:"foreignkey:UserID"`
+	User            User   `gorm:"foreignkey:UserID" json:"-"`
 }
