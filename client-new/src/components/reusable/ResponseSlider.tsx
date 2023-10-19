@@ -3,7 +3,6 @@ import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import Slider from "@react-native-community/slider";
 
 export default function ResponseSlider() {
   const bigCircle = (
@@ -31,14 +30,6 @@ export default function ResponseSlider() {
 
   return (
     <>
-      {/* <Slider
-        style={{ width: 200, height: 40 }}
-        minimumValue={0}
-        maximumValue={1}
-        minimumTrackTintColor="#FFFFFF"
-        maximumTrackTintColor="#000000"
-      /> */}
-
       <View
         width={w("68%")}
         flexDirection="row"
@@ -49,6 +40,7 @@ export default function ResponseSlider() {
         <Text fontSize={9}>1</Text>
         <Text fontSize={9}>5</Text>
       </View>
+
       <View
         width={w("80%")}
         flexDirection="row"

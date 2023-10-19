@@ -57,6 +57,7 @@ export default function QuestionaireScreen({ route, navigation }) {
           text2={
             props.question
           }
+          initialSliderValue={3}
         />
 
         <View paddingTop={h("4%")}>
