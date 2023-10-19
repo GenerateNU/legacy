@@ -11,7 +11,7 @@ import {
   name: string;
 };  PROPS INPUT */
 
-const Guide = (/*NO PROPS*/) => {
+const GuideScreen = (/*NO PROPS*/) => {
   return (
     <ScrollView>
       <View bg="#FFB017" w={wp("100%")}>
@@ -153,4 +153,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Guide;
+export default GuideScreen;
