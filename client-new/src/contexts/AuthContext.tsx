@@ -49,19 +49,64 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const createAccount = async (username: string, password: string) => {
     try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        username,
-        password
-      );
+      const user = await createUserWithEmailAndPassword(auth, username, password);
+
+      console.log(user);
+
+      // very ugly code
+      const response = await fetch("http://localhost:8080/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: 'password',
+          email: user.user.email,
+          persona_id: 1,
+          firebase_id: user.user.uid,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('test', data);
+
+      // this should probably be in the login function
+      const profileResponse = await fetch(`http://localhost:8080/api/profiles/${data.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: user.user.email.split('@')[0]
+        }),
+      });
+
+      const profileData = await profileResponse.json();
+      console.log('test', profileData);
     } catch (error) {
-      console.log(error.message);
+      console.log('Error:', error.message);
     }
   };
+
 
   const login = async (username: string, password: string) => {
     try {
       const user = await signInWithEmailAndPassword(auth, username, password);
+
+      const response = await fetch(`http://localhost:8080/api/users/firebase/${user.user.uid}`);
+
+      response.json().then((data) => {
+        console.log(data);
+      });
+
+      const data = await response.json();
+      console.log('test', data);
+
     } catch (error) {
       console.log(error.message);
     }

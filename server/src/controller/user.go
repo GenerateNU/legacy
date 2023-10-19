@@ -85,6 +85,20 @@ func (u *UserController) GetUserFromUsername(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
+func (u *UserController) GetUserFromFirebaseID(c echo.Context) error {
+	var user model.User
+	fib := c.Param("firebaseid")
+
+	u.DB.Where("firebase_id = ?", fib).First(&user)
+
+	if user.ID == 0 {
+		return c.JSON(http.StatusNotFound, "User not found or does not havea firebase id")
+	}
+
+	return c.JSON(http.StatusOK, user)
+}
+
+// TODO: Should create a user profile when a user is created
 func (u *UserController) CreateUser(c echo.Context) error {
 	var user model.User
 
@@ -105,7 +119,10 @@ func (u *UserController) CreateUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
 
-	u.DB.Create(&user)
+	err := u.DB.Create(&user).Error
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
 
 	return c.JSON(http.StatusCreated, user)
 }
