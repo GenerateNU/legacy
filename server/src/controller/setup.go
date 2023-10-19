@@ -31,6 +31,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 
 	e.GET("api/users/:uid/persona", userController.GetUserPersona)
 	e.GET("api/users/:uid/tasks", userController.GetUserTasks)
+	e.GET("api/users/:uid/profile", userController.GetUserProfile)
 
 	e.POST("api/users", userController.CreateUser)
 	e.PUT("api/users/:uid", userController.UpdateUser)
