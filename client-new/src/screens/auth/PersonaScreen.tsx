@@ -6,8 +6,24 @@ import {
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
+import { useOnboarding } from "../../contexts/OnboardingContext";
 
 export default function PersonaScreen({ route, navigation }) {
+  const {
+    page,
+    setPage,
+    onboardingState,
+    setOnboardingState,
+    onboardingFlow,
+    handleChange,
+  } = useOnboarding();
+
+  const next = async () => {
+    const nextPage = onboardingFlow[page + 1];
+    setPage(page + 1);
+    navigation.push(nextPage.page, { props: nextPage.props });
+  };
+
   return (
     <SafeAreaView>
       <KeyboardAvoidingView alignItems="center">
@@ -70,6 +86,7 @@ export default function PersonaScreen({ route, navigation }) {
             textColor={"#FFFFFF"}
             backgroundColor={"#8F8F8F"}
             borderColor={"#8F8F8F"}
+            onClick={next}
           />
         </View>
       </KeyboardAvoidingView>

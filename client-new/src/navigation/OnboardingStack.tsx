@@ -12,8 +12,10 @@ export default function OnboardingStack() {
   return (
     <OnboardingProvider>
       <Stack.Navigator
+        initialRouteName="Sign Up Transition Screen"
         screenOptions={{
           headerShown: false,
+          
         }}
       >
         <Stack.Screen

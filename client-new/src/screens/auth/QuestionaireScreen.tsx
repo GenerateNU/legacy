@@ -9,10 +9,24 @@ import {
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
+import { useOnboarding } from "../../contexts/OnboardingContext";
 
 export default function QuestionaireScreen({ route, navigation }) {
-  // TODO: Uncomment this and abstract this screen
-  //const { props } = route.params;
+  const {page, setPage, onboardingState, setOnboardingState, onboardingFlow, handleChange} = useOnboarding();
+  const { props } = route.params;
+
+  const back = async () => {
+    const prevPage = onboardingFlow[page - 1];
+    setPage(page - 1);
+    navigation.pop();
+  };
+
+  const next = async () => {
+    const nextPage = onboardingFlow[page + 1];
+    setPage(page + 1);
+    navigation.push(nextPage.page, { props: nextPage.props });
+  };
+
   return (
     <SafeAreaView>
       <KeyboardAvoidingView alignItems="center">
@@ -30,7 +44,7 @@ export default function QuestionaireScreen({ route, navigation }) {
         </View>
 
         <View paddingBottom={h("1%")}>
-          <CircleProgressBar totalCircles={6} completedCircles={4} />
+          <CircleProgressBar totalCircles={props.totalCircles} completedCircles={props.completedCircles} />
         </View>
         <Divider
           marginTop={h("2%")}
@@ -39,9 +53,9 @@ export default function QuestionaireScreen({ route, navigation }) {
           color={"#D9D9D9"}
         />
         <QuestionaireBox
-          text1={"Question 1"}
+          text1={"Question " + props.questionNumber}
           text2={
-            "Lorem ipsum dolor sit amet consectetur. Rhoncus viverra adipiscing cursus amet viverra adipiscing cursus amet ? "
+            props.question
           }
         />
 
@@ -51,6 +65,7 @@ export default function QuestionaireScreen({ route, navigation }) {
             textColor={"#FFFFFF"}
             backgroundColor={"#8F8F8F"}
             borderColor={"#8F8F8F"}
+            onClick={next}
           />
         </View>
 
@@ -60,6 +75,7 @@ export default function QuestionaireScreen({ route, navigation }) {
           textColor={"#000000"}
           backgroundColor={"#FFFFFF"}
           borderColor={"#D9D9D9"}
+          onClick={back}
         />
         </View>
 

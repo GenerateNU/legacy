@@ -7,8 +7,25 @@ import {
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useOnboarding } from "../../contexts/OnboardingContext";
 
-export default function SignUpTransitionScreen() {
+export default function SignUpTransitionScreen({ route, navigation }) {
+  console.log(route);
+  const {
+    page,
+    setPage,
+    onboardingState,
+    setOnboardingState,
+    onboardingFlow,
+    handleChange,
+  } = useOnboarding();
+
+  const next = async () => {
+    const nextPage = onboardingFlow[page + 1];
+    setPage(page + 1);
+    navigation.push(nextPage.page, { props: nextPage.props });
+  };
+
   return (
     <SafeAreaView>
       <KeyboardAvoidingView alignItems="center">
@@ -27,7 +44,8 @@ export default function SignUpTransitionScreen() {
           paddingBottom={h("5%")}
         >
           <Text fontSize={20} fontWeight={"semibold"} paddingRight={w("2%")}>
-            Welcome Max!
+            Welcome {route.param.fullName}
+            !
           </Text>
           <Icon name="flower-tulip-outline" size={30}></Icon>
         </View>
@@ -56,7 +74,12 @@ export default function SignUpTransitionScreen() {
           </Text>
         </View>
 
-        <Button backgroundColor={"#D9D9D9"} borderRadius={20} width={w("35%")}>
+        <Button
+          backgroundColor={"#D9D9D9"}
+          borderRadius={20}
+          width={w("35%")}
+          onPress={next}
+        > 
           <Text color={"#000000"} fontWeight={"bold"}>
             Get Started!
           </Text>

@@ -7,16 +7,33 @@ import {
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useOnboarding } from "../../contexts/OnboardingContext";
 
 export default function QuizSectionIntroScreen({ route, navigation }) {
-  // TODO: Uncomment this and abstract this screen
-  //const { props } = route.params;
+  const {
+    page,
+    setPage,
+    onboardingState,
+    setOnboardingState,
+    onboardingFlow,
+    handleChange,
+  } = useOnboarding();
+
+  const next = async () => {
+    const nextPage = onboardingFlow[page + 1];
+    setPage(page + 1);
+    navigation.push(nextPage.page, { props: nextPage.props });
+  };
+  const { props } = route.params;
   return (
     <SafeAreaView>
       <KeyboardAvoidingView alignItems="center">
         <LegacyWordmark />
         <View paddingTop={h("4.5%")} paddingBottom={h("2%")}>
-          <CircleProgressBar totalCircles={3} completedCircles={0} />
+          <CircleProgressBar
+            totalCircles={props.totalCircles}
+            completedCircles={0}
+          />
         </View>
         <Divider marginTop={h("2%")} width={w("100%")} color={"#D9D9D9"} />
 
@@ -57,7 +74,12 @@ export default function QuizSectionIntroScreen({ route, navigation }) {
           </Text>
         </View>
 
-        <Button backgroundColor={"#D9D9D9"} borderRadius={20} width={w("35%")}>
+        <Button
+          backgroundColor={"#D9D9D9"}
+          borderRadius={20}
+          width={w("35%")}
+          onPress={next}
+        >
           <Text color={"#000000"} fontWeight={"bold"}>
             Get Started!
           </Text>
