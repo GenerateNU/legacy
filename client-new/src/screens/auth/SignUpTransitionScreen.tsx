@@ -44,7 +44,7 @@ export default function SignUpTransitionScreen({ route, navigation }) {
           paddingBottom={h("5%")}
         >
           <Text fontSize={20} fontWeight={"semibold"} paddingRight={w("2%")}>
-            Welcome {route.param.fullName}
+            Welcome Max!
             !
           </Text>
           <Icon name="flower-tulip-outline" size={30}></Icon>

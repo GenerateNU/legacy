@@ -1,10 +1,10 @@
-import { Divider, View } from "native-base";
+import { Divider, View, Text, Button } from "native-base";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 
-export default function BoxesAndBars() {
+export default function ResponseSlider() {
   const bigCircle = (
     <View
       backgroundColor="#FFFFFF"
@@ -13,7 +13,8 @@ export default function BoxesAndBars() {
       borderRadius={h("1.5%")}
       borderWidth={1}
       borderColor={"#000000"}
-    ></View>
+    >
+    </View>
   );
   const smallCircle = (
     <View
@@ -30,6 +31,15 @@ export default function BoxesAndBars() {
 
   return (
     <>
+    <View width={w("68%")} 
+        flexDirection="row"
+        justifyContent={"space-between"}
+        alignItems="center"
+        paddingBottom={h("0.5%")}
+        >
+      <Text fontSize={9} >1</Text>
+      <Text fontSize={9}>5</Text>
+    </View>
       <View
         width={w("80%")}
         flexDirection="row"

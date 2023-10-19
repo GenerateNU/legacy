@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import BoxesAndBars from "./BoxesAndBar";
+import ResponseSlider from "./ResponseSlider";
 
 type QuestionaireBoxProps = {
   text1: string;
@@ -40,9 +40,9 @@ export default function QuestionaireBox(props: QuestionaireBoxProps) {
         width={w("40%")}
         height={w("40%")}
         backgroundColor={"#D9D9D9"}
-        marginBottom={h("8%")}
+        marginBottom={h("6.1%")}
       ></View>
-      <BoxesAndBars />
+      <ResponseSlider />
     </View>
   );
 }

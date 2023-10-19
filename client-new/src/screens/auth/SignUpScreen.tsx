@@ -24,7 +24,7 @@ export default function SignUpScreen({ route, navigation }) {
   const signUp = () => {
     createAccount(email, password);
     navigation.setOptions()
-    navigation.navigate("Onboarding Stack", <param name="fullName" value={fullName}></param>);
+    navigation.navigate("Onboarding Stack");
   };
 
   const signIn = () => {
