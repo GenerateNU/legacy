@@ -57,7 +57,9 @@ export default function QuestionaireScreen({ route, navigation }) {
           text2={
             props.question
           }
-          initialSliderValue={3}
+          initialSliderValue={onboardingState[props.inputName]}
+          field={props.inputName}
+          handleChange={handleChange}
         />
 
         <View paddingTop={h("4%")}>

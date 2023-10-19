@@ -23,24 +23,24 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
 }) => {
   const [page, setPage] = useState(0);
   const [onboardingState, setOnboardingState] = useState<IOnboardingFlowState>({
-    worldviewQ1: undefined,
-    worldviewQ2: undefined,
-    worldviewQ3: undefined,
-    worldviewQ4: undefined,
-    worldviewQ5: undefined,
-    worldviewQ6: undefined,
-    emotionalPatternQ1: undefined,
-    emotionalPatternQ2: undefined,
-    emotionalPatternQ3: undefined,
-    workstyleQ1: undefined,
-    workstyleQ2: undefined,
-    workstyleQ3: undefined,
-    workstyleQ4: undefined,
-    socialInclinationQ1: undefined,
-    socialInclinationQ2: undefined,
-    socialInclinationQ3: undefined,
-    funnelActivitiesQ1: undefined,
-    funnelActivitiesQ2: undefined,
+    worldviewQ1: 3,
+    worldviewQ2: 3,
+    worldviewQ3: 3,
+    worldviewQ4: 3,
+    worldviewQ5: 3,
+    worldviewQ6: 3,
+    emotionalPatternQ1: 3,
+    emotionalPatternQ2: 3,
+    emotionalPatternQ3: 3,
+    workstyleQ1: 3,
+    workstyleQ2: 3,
+    workstyleQ3: 3,
+    workstyleQ4: 3,
+    socialInclinationQ1: 3,
+    socialInclinationQ2: 3,
+    socialInclinationQ3: 3,
+    funnelActivitiesQ1: 3,
+    funnelActivitiesQ2: 3,
   });
 
   const onboardingFlow = [
@@ -283,6 +283,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
   ];
 
   const handleChange = (name: string, value: any) => {
+    console.log(value);
     setOnboardingState((prevData) => ({
       ...prevData,
       [name]: value,

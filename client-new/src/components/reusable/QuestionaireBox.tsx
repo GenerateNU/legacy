@@ -10,6 +10,8 @@ type QuestionaireBoxProps = {
   text1: string;
   text2: string;
   initialSliderValue: number;
+  field: string;
+  handleChange: (name, value) => void
 };
 
 export default function QuestionaireBox(props: QuestionaireBoxProps) {
@@ -62,6 +64,7 @@ export default function QuestionaireBox(props: QuestionaireBoxProps) {
         minValue={1}
         maxValue={5}
         step={1}
+        onChange={(value) => props.handleChange(props.field, value)}
       >
         <Slider.Track>
           <Slider.FilledTrack />
