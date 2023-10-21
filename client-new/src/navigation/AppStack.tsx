@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/app/HomeScreen";
+import GuideScreen from "../screens/app/GuideScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -11,6 +12,7 @@ export default function AppStack() {
             headerShown: false,
           }}>
           <Stack.Screen name="Home Screen" component={HomeScreen} />
+        <Stack.Screen name="Guides Page" component={GuideScreen} />
         </Stack.Navigator>
       );
 }
