@@ -10,6 +10,7 @@ import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import { SvgUri } from "react-native-svg";
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import HomeScreenTaskCard from "../../components/reusable/HomeScreenTaskCard";
 
 
 export default function HomeScreen() {
@@ -64,7 +65,7 @@ export default function HomeScreen() {
               <View style={{ marginTop: 20, flexDirection: 'column', justifyContent: 'space-between' }}>
                 {testData.map((item, index) => (
                   <View key={index} style={{ marginBottom: 20 }}>
-                    <Card title={item.title} description={item.description} progress={item.progress} />
+                    <HomeScreenTaskCard title={item.title} description={item.description} progress={item.progress} />
                   </View>
                 ))}
               </View>
@@ -75,103 +76,3 @@ export default function HomeScreen() {
     </>
   );
 }
-
-const Card = (props) => {
-  return (
-    <View
-      style={{
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 16,
-        paddingBottom: 16,
-        backgroundColor: 'white',
-        borderRadius: 13,
-        borderWidth: 1,
-        borderColor: '#EFEFEF',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexDirection: 'row'
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          alignSelf: 'stretch',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-          marginHorizontal: 12,
-        }}
-      >
-        <Text
-          style={{
-            color: '#252525',
-            fontSize: 15,
-            fontFamily: 'Open Sans',
-            fontWeight: '600',
-            lineHeight: 20,
-            flexWrap: 'wrap',
-          }}
-        >
-          {props.title}
-        </Text>
-        <Text
-          style={{
-            color: '#C1C3C7',
-            fontSize: 12,
-            fontFamily: 'Open Sans',
-            fontWeight: '400',
-            lineHeight: 20,
-            flexWrap: 'wrap',
-          }}
-        >
-          {props.description}
-        </Text>
-      </View>
-      <View
-        style={{
-          width: 72,
-          height: 74,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative',
-        }}
-      >
-        <View
-          style={{
-            width: 65.13,
-            height: 63.43,
-            position: 'absolute',
-            backgroundColor: '#D9D9D9',
-            borderRadius: 9999,
-            transform: [{ rotate: '-96.92deg' }],
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <View
-            style={{
-              width: '100%',
-              height: '100%',
-              transform: [{ rotate: '-98.20deg' }],
-              backgroundColor: '#F7F7F8',
-              borderRadius: 9999,
-            }}
-          />
-        </View>
-        <Text
-          style={{
-            position: 'absolute',
-            textAlign: 'center',
-            color: '#252525',
-            fontSize: 8,
-            fontFamily: 'Open Sans',
-            fontWeight: '600',
-            lineHeight: 20,
-          }}
-        >
-          {props.progress}%
-        </Text>
-      </View>
-    </View>
-  );
-};
