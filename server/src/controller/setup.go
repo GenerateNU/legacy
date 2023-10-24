@@ -18,6 +18,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 
 	awsController := AwsController{db}
 	guideController := GuideController{db}
+	guideController := GuideController{db}
 
 	// User routes
 	e.GET("api/users", userController.GetAllUsers)
