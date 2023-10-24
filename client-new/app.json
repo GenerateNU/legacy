@@ -16,13 +16,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dupuguntla.a.legacy"
+      "bundleIdentifier": "com.legacy"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.legacy"
     },
     "web": {
       "favicon": "./assets/favicon.png"

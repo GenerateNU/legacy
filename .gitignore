@@ -17,7 +17,14 @@ expo-debug.log
 /go.mod
 /log/
 .idea
+/Lib
+/scripts/activate
+/scripts/activate.bat
+/scripts/Activate.ps1
+/scripts/deactivate.bat
+
 
 
 # Other
 **/tmp/
+pyvenv.cfg

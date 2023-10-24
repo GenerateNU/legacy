@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import Router from "./src/navigation/Router";
 import { NativeBaseProvider, extendTheme } from "native-base";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Auth0Provider } from "react-native-auth0";
+import { AuthProvider } from "./src/contexts/AuthContext";
 
 export default function App() {
   const theme = extendTheme({
@@ -10,11 +12,13 @@ export default function App() {
     colors: {},
   });
   return (
-    <SafeAreaProvider>
-      <NativeBaseProvider>
-        <Router />
-      </NativeBaseProvider>
-    </SafeAreaProvider>
+    <AuthProvider>
+      <SafeAreaProvider>
+        <NativeBaseProvider>
+          <Router />
+        </NativeBaseProvider>
+      </SafeAreaProvider>
+    </AuthProvider>
   );
 }
 

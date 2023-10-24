@@ -1,13 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { useState } from 'react';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Router() {
-    const [authData, setAuthData] = useState(false);
+    const {user} = useAuth();
 
     return <NavigationContainer>
-        {authData ? <AppStack /> : <AuthStack />}
+        {false ? <AppStack /> : <AuthStack />}
 
     </NavigationContainer>
 }
