@@ -1,108 +1,41 @@
-import { View, Text } from "react-native";
+import { View, Text } from "native-base";
 
 type HSTCProps = {
     title: String,
     description: String,
-    progress: Number
+    progress: number
   };
 
-export default function HomeScreenTaskCard(props) {
+  const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
+
+    const rotationAngle = -98.2 + ( 1.96 * props.progress);
+
     return (
         <View
-        style={{
-            paddingLeft: 20,
-            paddingRight: 20,
-            paddingTop: 16,
-            paddingBottom: 16,
-            backgroundColor: 'white',
-            borderRadius: 13,
-            borderWidth: 1,
-            borderColor: '#EFEFEF',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            flexDirection: 'row'
-        }}
-        >
-        <View
             style={{
-            flex: 1,
-            alignSelf: 'stretch',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            marginHorizontal: 12,
-            }}
-        >
-            <Text
-            style={{
-                color: '#252525',
-                fontSize: 15,
-                fontFamily: 'Open Sans',
-                fontWeight: '600',
-                lineHeight: 20,
-                flexWrap: 'wrap',
-            }}
-            >
-            {props.title}
-            </Text>
-            <Text
-            style={{
-                color: '#C1C3C7',
-                fontSize: 12,
-                fontFamily: 'Open Sans',
-                fontWeight: '400',
-                lineHeight: 20,
-                flexWrap: 'wrap',
-            }}
-            >
-            {props.description}
-            </Text>
-        </View>
-        <View
-            style={{
-            width: 72,
-            height: 74,
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative',
-            }}
-        >
-            <View
-            style={{
-                width: 65.13,
-                height: 63.43,
-                position: 'absolute',
-                backgroundColor: '#D9D9D9',
-                borderRadius: 9999,
-                transform: [{ rotate: '-96.92deg' }],
-                justifyContent: 'center',
+                paddingLeft: 20,
+                paddingRight: 20,
+                paddingTop: 16,
+                paddingBottom: 16,
+                backgroundColor: 'white',
+                borderRadius: 13,
+                borderWidth: 1,
+                borderColor: '#EFEFEF',
+                flexDirection: 'row',
                 alignItems: 'center',
+                marginBottom: 16
             }}
-            >
-            <View
-                style={{
-                width: '100%',
-                height: '100%',
-                transform: [{ rotate: '-98.20deg' }],
-                backgroundColor: '#F7F7F8',
-                borderRadius: 9999,
-                }}
-            />
+        >
+            <View style={{ flex: 1, marginLeft: 12 }}>
+                <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 8 }}>{props.title}</Text>
+                <Text style={{fontSize: 12, color: '#C1C3C7', marginBottom: 8,}}>{props.description}</Text>
             </View>
-            <Text
-            style={{
-                position: 'absolute',
-                textAlign: 'center',
-                color: '#252525',
-                fontSize: 8,
-                fontFamily: 'Open Sans',
-                fontWeight: '600',
-                lineHeight: 20,
-            }}
-            >
-            {props.progress}%
-            </Text>
-        </View>
+            <View style={{ width: 72, height: 72, borderRadius: 9999, backgroundColor: '#D9D9D9', justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ width: 65.13, height: 63.43, position: 'absolute', backgroundColor: '#F7F7F8', borderRadius: 9999, transform: [{ rotate: `${rotationAngle}deg` }] }} />
+                <Text style={{ fontSize: 8, fontWeight: '600', color: '#252525' }}>{props.progress}%</Text>
+            </View>
         </View>
     );
 };
 
+export default HomeScreenTaskCard; 
