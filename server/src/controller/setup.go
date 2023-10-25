@@ -54,10 +54,11 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 
 	// Task routes
 	e.GET("api/tasks", taskController.GetAllTasks)
-	e.GET("api/tasks/:id", taskController.GetTask)
+	e.GET("api/tasks/:tid", taskController.GetTask)
 	e.POST("api/tasks", taskController.CreateTask)
-	e.PUT("api/tasks/:id", taskController.UpdateTask)
-	e.DELETE("api/tasks/:id", taskController.DeleteTask)
+	e.PUT("api/tasks/:tid", taskController.UpdateTask)
+	e.DELETE("api/tasks/:tid", taskController.DeleteTask)
+	e.GET("api/tasks/:tid/subtasks", taskController.GetSubtasksFromTask)
 
 	// SubTask routes
 	e.GET("api/subtasks", subtaskController.GetAllSubtasks)

@@ -22,7 +22,7 @@ func (t *TaskController) GetAllTasks(c echo.Context) error {
 
 func (t *TaskController) GetTask(c echo.Context) error {
 	var task model.Task
-	taskID := c.Param("id")
+	taskID := c.Param("tid")
 
 	t.DB.First(&task, taskID)
 
@@ -53,7 +53,7 @@ func (t *TaskController) CreateTask(c echo.Context) error {
 
 func (t *TaskController) UpdateTask(c echo.Context) error {
 	var task model.Task
-	taskID := c.Param("id")
+	taskID := c.Param("tid")
 
 	t.DB.First(&task, taskID)
 
@@ -72,7 +72,7 @@ func (t *TaskController) UpdateTask(c echo.Context) error {
 
 func (t *TaskController) DeleteTask(c echo.Context) error {
 	var task model.Task
-	taskID := c.Param("id")
+	taskID := c.Param("tid")
 
 	t.DB.First(&task, taskID)
 
@@ -83,4 +83,16 @@ func (t *TaskController) DeleteTask(c echo.Context) error {
 	t.DB.Delete(&task)
 
 	return c.JSON(http.StatusOK, "Task deleted")
+}
+
+func (t *TaskController) GetSubtasksFromTask(c echo.Context) error {
+	taskID := c.Param("tid")
+
+	// Retrieve the subtasks related to the task by ID
+	var subtasks []model.SubTask
+	if err := t.DB.Where("task_id = ?", taskID).Find(&subtasks).Error; err != nil {
+		return c.JSON(http.StatusNotFound, "Subtasks not found")
+	}
+
+	return c.JSON(http.StatusOK, subtasks)
 }
