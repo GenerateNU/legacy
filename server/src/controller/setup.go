@@ -93,6 +93,6 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 
 	// Guide
 	e.POST("api/guides", guideController.CreateGuide)
-	e.GET("api/guides/:gid", guideController.GetGuide)
-	e.DELETE("api/guides/:gid", guideController.DeleteGuide)
+	e.GET("api/guides/:g_name", guideController.GetGuide)
+	e.DELETE("api/guides/:g_name", guideController.DeleteGuide)
 }

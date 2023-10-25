@@ -34,9 +34,9 @@ func (g *GuideController) CreateGuide(c echo.Context) error {
 
 func (g *GuideController) GetGuide(c echo.Context) error {
 	var guide model.Guide
-	guideID := c.Param("gid")
+	guideName := c.Param("g_name")
 
-	result := g.DB.First(&guide, guideID)
+	result := g.DB.First(&guide, "guide_name = ?", guideName)
 
 	if result.Error != nil {
 		return c.JSON(http.StatusNotFound, result.Error.Error())
@@ -47,9 +47,9 @@ func (g *GuideController) GetGuide(c echo.Context) error {
 
 func (g *GuideController) DeleteGuide(c echo.Context) error {
 	var guide model.Guide
-	guideID := c.Param("gid")
+	guideName := c.Param("gid")
 
-	result := g.DB.First(&guide, guideID)
+	result := g.DB.First(&guide, "guide_name = ?", guideName)
 
 	if result.Error != nil {
 		return c.JSON(http.StatusNotFound, result.Error.Error())
