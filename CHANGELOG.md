@@ -1,3 +1,27 @@
+## 0.2.0 (2023-10-19)
+
+### BREAKING CHANGE
+
+- Completely redos frontend
+
+### Feat
+
+- **migrations**: added insert, drop, and reset
+- **db.go**: function to add data to the db
+- **Onboarding-Flow**: Added boiler plate for Onboarding Context
+- redo how the frontend is set up
+
+### Fix
+
+- **taskfile.yaml**: added task kill function
+- **Yarn-lock**: Fix node package issues that causes build to fail
+
+## 0.1.1 (2023-10-07)
+
+### Fix
+
+- **db.go**: added error checking for migration
+
 ## 0.1.0 (2023-10-07)
 
 ### Feat
