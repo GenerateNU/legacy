@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 	"server/src/model"
+	"strings"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -20,6 +21,17 @@ func (g *GuideController) CreateGuide(c echo.Context) error {
 	if err := c.Bind(&guide); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
+
+	// check if guide name is already taken
+	var checkGuide model.Guide
+	result := g.DB.Where("guide_name = ?", guide.GuideName).First(&checkGuide)
+	if result.Error == nil {
+		return c.JSON(http.StatusNotAcceptable, "Guide name already exists")
+	}
+
+	// Calculate the minutes to read the article and add to guide struct
+	mins_read := uint(len(strings.Fields(guide.FullText)) / 200)
+	guide.MinsRead = mins_read
 
 	// Checks if the binded data is valid according to the rules defined in the model
 	validator := validator.New()
@@ -47,7 +59,7 @@ func (g *GuideController) GetGuide(c echo.Context) error {
 
 func (g *GuideController) DeleteGuide(c echo.Context) error {
 	var guide model.Guide
-	guideName := c.Param("gid")
+	guideName := c.Param("g_name")
 
 	result := g.DB.First(&guide, "guide_name = ?", guideName)
 
