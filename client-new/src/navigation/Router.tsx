@@ -7,7 +7,7 @@ export default function Router() {
     const {user} = useAuth();
 
     return <NavigationContainer>
-        {false ? <AppStack /> : <AuthStack />}
+        {true ? <AppStack /> : <AuthStack />}
 
     </NavigationContainer>
 }
