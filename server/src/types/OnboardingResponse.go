@@ -19,4 +19,5 @@ type OnboardingResponse struct {
 	SocialInclinationQ3 string `json:"socialInclinationQ3"`
 	FunnelActivitiesQ1  string `json:"funnelActivitiesQ1"`
 	FunnelActivitiesQ2  string `json:"funnelActivitiesQ2"`
+	Score               int    `json:"score"`
 }

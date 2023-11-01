@@ -72,6 +72,7 @@ func (p *ProfileService) InsertOnboardingResponse(id string, onboardingResponse 
 
 	// Update the OnboardingResponse field of the user profile
 	profile.OnboardingResponse = string(response)
+	profile.CompletedOnboardingResponse = true
 
 	// Update the user profile with the new onboarding response
 	profile, err = p.UpdateProfile(id, profile)

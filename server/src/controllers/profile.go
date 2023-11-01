@@ -68,6 +68,11 @@ func (p *ProfileController) InsertOnboardingResponse(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Failed to process the request")
 	}
 
+	// 1. Get Score
+	// 2. Remove it from struct
+	// 3. Calculate Score to determine persona
+	// 4. Insert persona into user
+	// 5. Return user
 	profile, err := p.profileService.InsertOnboardingResponse(profileID, onboardingResponse, profile)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to insert onboarding response")
