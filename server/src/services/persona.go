@@ -1,46 +1,87 @@
 package services
 
 import (
-	"server/src/model"
+	"server/src/models"
 
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-type PersonaServices struct {
+type PersonaServiceInterface interface {
+	GetAllPersonas() ([]models.Persona, error)
+	GetPersona(id string) (models.Persona, error)
+	GetPersonaTasks(id string) ([]models.Task, error)
+
+	CreatePersona(persona models.Persona) (models.Persona, error)
+	UpdatePersona(id string, persona models.Persona) (models.Persona, error)
+	DeletePersona(id string) error
+}
+
+type PersonaService struct {
 	DB *gorm.DB
 }
 
-func (u *PersonaServices) GetPersonaAllTasks(c echo.Context) ([]map[string]interface{}, error) {
-	var persona model.Persona
-	personaID := c.Param("pid")
+func (p *PersonaService) GetAllPersonas() ([]models.Persona, error) {
+	var persona []models.Persona
 
-	if err := u.DB.First(&persona, personaID).Error; err != nil {
+	if err := p.DB.Find(&persona).Error; err != nil {
 		return nil, err
 	}
 
-	// Retrieve tasks related to the persona
-	var tasks []model.Task
-	u.DB.Model(&persona).Association("Tasks").Find(&tasks)
+	return persona, nil
+}
 
-	// Create a slice to store the JSON response
-	var taskList []map[string]interface{}
+func (p *PersonaService) GetPersona(id string) (models.Persona, error) {
+	var persona models.Persona
 
-	// Loop through the tasks and retrieve their related subtasks
-	for _, task := range tasks {
-		var subtasks []model.SubTask
-		if err := u.DB.Where("task_id = ?", task.ID).Find(&subtasks).Error; err != nil {
-			subtasks = []model.SubTask{} // No subtasks found
-		}
-
-		// Form the JSON response for each task with its related subtasks
-		taskInfo := map[string]interface{}{
-			"task":     task,
-			"subtasks": subtasks,
-		}
-
-		taskList = append(taskList, taskInfo)
+	if err := p.DB.First(&persona, id).Error; err != nil {
+		return models.Persona{}, err
 	}
 
-	return taskList, nil
+	return persona, nil
+}
+
+func (p *PersonaService) GetPersonaTasks(id string) ([]models.Task, error) {
+	var tasks []models.Task
+
+	if err := p.DB.Where("persona_id = ?", id).Find(&tasks).Error; err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
+}
+
+func (p *PersonaService) CreatePersona(persona models.Persona) (models.Persona, error) {
+	if err := p.DB.Create(&persona).Error; err != nil {
+		return models.Persona{}, err
+	}
+
+	return persona, nil
+}
+
+func (p *PersonaService) UpdatePersona(id string, persona models.Persona) (models.Persona, error) {
+	var oldPersona models.Persona
+
+	if err := p.DB.First(&oldPersona, id).Error; err != nil {
+		return models.Persona{}, err
+	}
+
+	if err := p.DB.Model(&oldPersona).Updates(persona).Error; err != nil {
+		return models.Persona{}, err
+	}
+
+	return oldPersona, nil
+}
+
+func (p *PersonaService) DeletePersona(id string) error {
+	var persona models.Persona
+
+	if err := p.DB.First(&persona, id).Error; err != nil {
+		return err
+	}
+
+	if err := p.DB.Delete(&persona).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

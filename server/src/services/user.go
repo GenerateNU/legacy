@@ -1,93 +1,152 @@
 package services
 
 import (
-	"server/src/model"
-	"time"
+	"server/src/models"
 
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
+// TODO: Possible optimization is to pass the user object to the service as well
+
 type UserServiceInterface interface {
-	GetAllUsers(c echo.Context) ([]model.User, error)
-	GetUser(c echo.Context) (*model.User, error)
-	CreateUser(c echo.Context) (*model.User, error)
-	UpdateUser(c echo.Context) (*model.User, error)
-	DeleteUser(c echo.Context) error
+	GetAllUsers() ([]models.User, error)
+	GetUser(id string) (models.User, error)
+	GetUserFromUsername(username string) (models.User, error)
+	GetUserFromFirebaseID(firebaseID string) (models.User, error)
+	GetUserPersona(id string) (models.Persona, error)
+	GetUserTasks(id string) ([]models.Task, error)
+	GetUserProfile(id string) (models.Profile, error)
+
+	CreateUser(user models.User) (models.User, error)
+	UpdateUser(id string, user models.User) (models.User, error)
+	DeleteUser(id string) error
 }
 
 type UserService struct {
 	DB *gorm.DB
 }
 
-func (u *UserService) GetAllUsers(c echo.Context) ([]model.User, error) {
-	var users []model.User
-
-	if err := u.DB.Omit("password").Find(&users).Error; err != nil {
+// Gets all users (including soft deleted users)
+func (u *UserService) GetAllUsers() ([]models.User, error) {
+	var users []models.User
+	if err := u.DB.Unscoped().Omit("password").Find(&users).Error; err != nil {
 		return nil, err
 	}
 
 	return users, nil
 }
 
-func (u *UserService) GetUser(c echo.Context) (*model.User, error) {
-	var user *model.User
-
-	userID := c.Param("uid")
-
-	if err := u.DB.Omit("password").First(&user, userID).Error; err != nil {
-		return nil, err
+func (u *UserService) GetUser(id string) (models.User, error) {
+	var user models.User
+	if err := u.DB.Omit("password").First(&user, id).Error; err != nil {
+		return models.User{}, err
 	}
 
 	return user, nil
 }
 
-func (u *UserService) CreateUser(c echo.Context) (*model.User, error) {
-	var user *model.User
-
-	if err := validateData(c, &user); err != nil {
-		return nil, err
-	}
-
-	user.CreatedAt = time.Now()
-	user.UpdatedAt = time.Now()
-
-	if result := u.DB.Create(&user); result.Error != nil {
-		return nil, result.Error
+func (u *UserService) GetUserFromUsername(username string) (models.User, error) {
+	var user models.User
+	if err := u.DB.Where("username = ?", username).Omit("password").First(&user).Error; err != nil {
+		return models.User{}, err
 	}
 
 	return user, nil
 }
 
-func (u *UserService) UpdateUser(c echo.Context) (*model.User, error) {
-	var user *model.User
+func (u *UserService) GetUserFromFirebaseID(firebaseID string) (models.User, error) {
+	var user models.User
+	if err := u.DB.Where("firebase_id = ?", firebaseID).Omit("password").First(&user).Error; err != nil {
+		return models.User{}, err
+	}
 
-	userID := c.Param("uid")
+	return user, nil
+}
 
-	if err := u.DB.First(&user, userID).Error; err != nil {
+func (u *UserService) GetUserPersona(id string) (models.Persona, error) {
+	var persona models.Persona
+	var user models.User
+
+	user, err := u.GetUser(id)
+	if err != nil {
+		return models.Persona{}, err
+	}
+
+	if err := u.DB.Model(&user).Association("Persona").Find(&persona); err != nil {
+		return models.Persona{}, err
+	}
+
+	return persona, nil
+}
+
+func (u *UserService) GetUserTasks(id string) ([]models.Task, error) {
+	var tasks []models.Task
+	var persona models.Persona
+
+	persona, err := u.GetUserPersona(id)
+	if err != nil {
 		return nil, err
 	}
 
-	if err := c.Bind(&user); err != nil {
+	if err := u.DB.Model(&persona).Association("Tasks").Find(&tasks); err != nil {
 		return nil, err
 	}
 
-	u.DB.Save(&user)
+	return tasks, nil
+}
+
+func (u *UserService) GetUserProfile(id string) (models.Profile, error) {
+	var profile models.Profile
+	var user models.User
+
+	user, err := u.GetUser(id)
+	if err != nil {
+		return models.Profile{}, err
+	}
+
+	if err := u.DB.Where("user_id = ?", user.ID).First(&profile).Error; err != nil {
+		return models.Profile{}, err
+	}
+
+	return profile, nil
+}
+
+func (u *UserService) CreateUser(user models.User) (models.User, error) {
+	if err := u.DB.Create(&user).Error; err != nil {
+		return models.User{}, err
+	}
 
 	user.Password = ""
 
 	return user, nil
 }
 
-func (u *UserService) DeleteUser(c echo.Context) error {
-	var user model.User
-	userID := c.Param("uid")
+func (u *UserService) UpdateUser(id string, user models.User) (models.User, error) {
+	var oldUser models.User
 
-	if err := u.DB.First(&user, userID).Error; err != nil {
+	if err := u.DB.First(&oldUser, id).Error; err != nil {
+		return models.User{}, err
+	}
+
+	if err := u.DB.Model(&oldUser).Updates(&user).Error; err != nil {
+		return models.User{}, err
+	}
+
+	user.Password = ""
+
+	return oldUser, nil
+}
+
+func (u *UserService) DeleteUser(id string) error {
+	var user models.User
+
+	if err := u.DB.First(&user, id).Error; err != nil {
 		return err
 	}
 
-	u.DB.Delete(&user)
+	if err := u.DB.Delete(&user).Error; err != nil {
+		return err
+	}
 
 	return nil
 }
