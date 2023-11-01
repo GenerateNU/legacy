@@ -23,6 +23,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.GET("api/users", userController.GetAllUsers)
 	e.GET("api/users/:uid", userController.GetUser)
 	e.GET("api/users/username/:username", userController.GetUserFromUsername)
+	e.GET("api/users/firebase/:firebaseid", userController.GetUserFromFirebaseID)
 
 	// Once user gets created call this functon X
 	// e.POST("api/progress/:uid", taskprogressController.CreateAllTaskProgress)
@@ -31,6 +32,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 
 	e.GET("api/users/:uid/persona", userController.GetUserPersona)
 	e.GET("api/users/:uid/tasks", userController.GetUserTasks)
+	e.GET("api/users/:uid/profile", userController.GetUserProfile)
 
 	e.POST("api/users", userController.CreateUser)
 	e.PUT("api/users/:uid", userController.UpdateUser)
@@ -52,6 +54,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.GET("api/profiles/:upid", userProfileController.GetUserProfile)
 	e.POST("api/profiles/:uid/", userProfileController.CreateUserProfile)
 	e.PUT("api/profiles/:upid", userProfileController.UpdateUserProfile)
+	e.PUT("api/profiles/response/:uid", userProfileController.CreateOnboardingResponse)
 	e.DELETE("api/profiles/:upid", userProfileController.DeleteUserProfile)
 
 	// Task routes
