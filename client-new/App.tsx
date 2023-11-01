@@ -5,6 +5,7 @@ import { NativeBaseProvider, extendTheme } from "native-base";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Auth0Provider } from "react-native-auth0";
 import { AuthProvider } from "./src/contexts/AuthContext";
+import { getUser } from "./src/services/TestService";
 
 export default function App() {
   const theme = extendTheme({
@@ -16,6 +17,7 @@ export default function App() {
       <SafeAreaProvider>
         <NativeBaseProvider>
           <Router />
+          getUser()
         </NativeBaseProvider>
       </SafeAreaProvider>
     </AuthProvider>
