@@ -71,7 +71,7 @@ func (g *GuideController) DeleteGuide(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, result.Error.Error())
 	}
 
-	g.DB.Delete(&guide)
+	g.DB.Unscoped().Delete(&guide)
 
 	return c.JSON(http.StatusOK, "Guide deleted")
 }

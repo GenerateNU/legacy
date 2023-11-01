@@ -44,7 +44,6 @@ func (a *AwsController) CreateFile(c echo.Context) error {
 
 	file.FileName = c.FormValue("file_name")
 	file.FileDescription = c.FormValue("file_description")
-	file.FilePath = c.FormValue("file_path")
 	user_id, err := strconv.ParseUint(c.FormValue("user_id"), 10, 0)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -192,7 +191,7 @@ func (a *AwsController) DeleteFile(c echo.Context) error {
 	}
 
 	// delete file from DB after successful removal from AWS
-	a.DB.Delete(&file)
+	a.DB.Unscoped().Delete(&file)
 
 	return c.JSON(http.StatusOK, "File deleted")
 }
