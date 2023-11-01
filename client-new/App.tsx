@@ -9,12 +9,15 @@ import { AuthProvider } from "./src/contexts/AuthContext";
 export default function App() {
   const theme = extendTheme({
     fontConfig: {},
-    colors: {},
+    colors: {
+      deepEvergreen: "#0C362F",
+    },
   });
+
   return (
     <AuthProvider>
       <SafeAreaProvider>
-        <NativeBaseProvider>
+        <NativeBaseProvider theme={theme}>
           <Router />
         </NativeBaseProvider>
       </SafeAreaProvider>
