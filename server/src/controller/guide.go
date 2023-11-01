@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"server/src/model"
 	"strings"
+	"time"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -32,6 +33,9 @@ func (g *GuideController) CreateGuide(c echo.Context) error {
 	// Calculate the minutes to read the article and add to guide struct
 	mins_read := uint(len(strings.Fields(guide.FullText)) / 200)
 	guide.MinsRead = mins_read
+
+	// Insert current time for the date
+	guide.Date = time.Now()
 
 	// Checks if the binded data is valid according to the rules defined in the model
 	validator := validator.New()
