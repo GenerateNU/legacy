@@ -21,17 +21,23 @@ export default function LoginScreen({ route, navigation }) {
   const [password, setPassword] = useState("");
 
   const signIn = () => {
-    if (login(email, password)) {
-      // ONCE WE FIGURE OUT HOW TO GO TO HOME SCREEN, PUT HERE
-      navigation.navigate("");
-    } 
-    else {
-      Alert.alert(
-        "Error",
-        "There was an error with authentication. Please try again.",
-        [{ text: "OK", onPress: () => {}}]
-      );
-    }
+    login(email, password);
+    navigation.navigate("");
+
+    // login(email, password).then((response) => {
+    //   if (response === true) {
+    //     // ONCE WE FIGURE OUT HOW TO GO TO HOME SCREEN, PUT HERE
+    //     navigation.navigate("");
+    //   } else {
+    //     const err = JSON.parse(JSON.stringify(response)).code;
+    //     console.log("ERROR: ", err)
+    //     Alert.alert(
+    //       "Error",
+    //       "There was an error with authentication. Please try again.",
+    //       [{ text: "OK", onPress: () => {} }]
+    //     );
+    //   }
+    // });
   };
 
   const switchToSignUp = () => {

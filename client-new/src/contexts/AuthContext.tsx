@@ -73,11 +73,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         persona_id: 1,
         firebase_id: user.user.uid,
       });
-      console.log(data);
       return true;
-    } 
-    catch (error) {
-      console.log("This is the ERROR: ", error);
+    } catch (error) {
       return error;
     }
   }
@@ -88,8 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       authService.signIn(username, password, user.user.uid);
       return true;
     } catch (error) {
-      console.log(error.message);
-      return false;
+      return error;
     }
   };
 

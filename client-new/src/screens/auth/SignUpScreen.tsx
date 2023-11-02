@@ -22,36 +22,39 @@ export default function SignUpScreen({ route, navigation }) {
   const [password, setPassword] = useState("");
 
   const signUp = () => {
-    createAccount(fullName, email, password).then((response) => {
-      if (response === true) {
-        navigation.setOptions();
-        navigation.navigate("Onboarding Stack");
-      } else {
-        const errorMessage = JSON.parse(JSON.stringify(response)).code;
-        console.log("ERROR: ", errorMessage);
-        if (errorMessage === "auth/invalid-email") {
-          Alert.alert("Error", "Invalid email, please try again.", [
-            { text: "OK", onPress: () => {} },
-          ]);
-        } else if (errorMessage === "auth/email-already-in-use") {
-          Alert.alert(
-            "Error",
-            "A Legacy account already exists for this email. Please log in.",
-            [{ text: "OK", onPress: () => {} }]
-          );
-        } else if (errorMessage === "auth/weak-password") {
-          Alert.alert("Error", "Password must be 8 characters long.", [
-            { text: "OK", onPress: () => {} },
-          ]);
-        } else {
-          Alert.alert(
-            "Error",
-            "There was an error with signing up. Please try again.",
-            [{ text: "OK", onPress: () => {} }]
-          );
-        }
-      }
-    });
+    createAccount(fullName, email, password);
+    navigation.setOptions();
+    navigation.navigate("Onboarding Stack");
+    // createAccount(fullName, email, password).then((response) => {
+    //   if (response === true) {
+    //     navigation.setOptions();
+    //     navigation.navigate("Onboarding Stack");
+    //   } else {
+    //     const errorMessage = response.code;
+    //     console.log("ERROR: ", errorMessage);
+    //     if (errorMessage === "auth/invalid-email") {
+    //       Alert.alert("Error", "Invalid email, please try again.", [
+    //         { text: "OK", onPress: () => {} },
+    //       ]);
+    //     } else if (errorMessage === "auth/email-already-in-use") {
+    //       Alert.alert(
+    //         "Error",
+    //         "A Legacy account already exists for this email. Please log in.",
+    //         [{ text: "OK", onPress: () => {} }]
+    //       );
+    //     } else if (errorMessage === "auth/weak-password") {
+    //       Alert.alert("Error", "Password must be 8 characters long.", [
+    //         { text: "OK", onPress: () => {} },
+    //       ]);
+    //     } else {
+    //       Alert.alert(
+    //         "Error",
+    //         "There was an error with signing up. Please try again.",
+    //         [{ text: "OK", onPress: () => {} }]
+    //       );
+    //     }
+    //   }
+    // });
   };
 
   const switchToLogin = () => {
