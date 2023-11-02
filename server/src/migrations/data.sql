@@ -5,15 +5,15 @@ INSERT INTO personas (persona_title, persona_description, created_at, updated_at
 ('Adventurous Optimist with Wealth', 'Expert driven and death positive', clock_timestamp(), clock_timestamp());
 
 -- Creating test users
-INSERT INTO users (username, password, email, persona_id, created_at, updated_at) VALUES 
-('testuser1', 'password', 'user1@example.com', 1, clock_timestamp(), clock_timestamp()),
-('testuser2', 'password', 'user2@example.com', 2, clock_timestamp(), clock_timestamp()),
-('testuser3', 'password', 'user3@example.com', 3, clock_timestamp(), clock_timestamp()),
-('testuser4', 'password', 'user4@example.com', 1, clock_timestamp(), clock_timestamp()),
-('testuser5', 'password', 'user5@example.com', 2, clock_timestamp(), clock_timestamp());
+INSERT INTO users (username, password, firebase_id, email, persona_id, created_at, updated_at) VALUES 
+('testuser1', 'password', 'abcdefgh', 'user1@example.com', 1, clock_timestamp(), clock_timestamp()),
+('testuser2', 'password', 'ijklmn', 'user2@example.com', 2, clock_timestamp(), clock_timestamp()),
+('testuser3', 'password', 'opqrst', 'user3@example.com', 3, clock_timestamp(), clock_timestamp()),
+('testuser4', 'password', 'vwxyz', 'user4@example.com', 1, clock_timestamp(), clock_timestamp()),
+('testuser5', 'password', '12345', 'user5@example.com', 2, clock_timestamp(), clock_timestamp());
 
 -- Creating user profile
-INSERT INTO user_profiles (name, user_id, date_of_birth, phone_number, created_at, updated_at) VALUES 
+INSERT INTO profiles (name, user_id, date_of_birth, phone_number, created_at, updated_at) VALUES 
 ('Test User 1', 1, '1990-01-01', '5555555555', clock_timestamp(), clock_timestamp()),
 ('Test User 2', 2, '1990-01-01', '5555555555', clock_timestamp(), clock_timestamp()),
 ('Test User 3', 3, '1990-01-01', '5555555555', clock_timestamp(), clock_timestamp()),

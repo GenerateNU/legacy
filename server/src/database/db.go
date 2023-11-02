@@ -2,8 +2,10 @@ package database
 
 import (
 	"fmt"
-	"server/src/model"
+	"server/src/routes"
+	"server/src/services"
 
+	"github.com/labstack/echo/v4"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -26,6 +28,24 @@ func connectDatabase(host, user, password, dbname, port string) (*gorm.DB, error
 	return gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
+}
+
+func AddRoutes(db *gorm.DB, e *echo.Echo) {
+	userService := services.UserService{DB: db}
+	profileService := services.ProfileService{DB: db}
+	personaService := services.PersonaService{DB: db}
+	taskService := services.TaskService{DB: db}
+	subTaskService := services.SubTaskService{DB: db}
+	fileService := services.FileService{DB: db}
+	// guideService := services.GuideService{DB: db}
+
+	routes.UserRoutes(e.Group("/api/users"), &userService)
+	routes.ProfileRoutes(e.Group("/api/profiles"), &profileService)
+	routes.PersonaRoutes(e.Group("/api/personas"), &personaService)
+	routes.TaskRoutes(e.Group("/api/tasks"), &taskService)
+	routes.SubTaskRoutes(e.Group("/api/subtasks"), &subTaskService)
+	routes.FileRoutes(e.Group("/api/files"), &fileService)
+	// routes.GuideRoutes(e.Group("/api/guides"), &guideService)
 }
 
 func InitDB() (*gorm.DB, error) {
@@ -53,15 +73,15 @@ func InitDB() (*gorm.DB, error) {
 	}
 
 	if err := db.AutoMigrate(
-		&model.File{},
-		&model.Persona{},
-		&model.SubTaskProgress{},
-		&model.SubTask{},
-		&model.TaskProgress{},
-		&model.Task{},
-		&model.UserProfile{},
-		&model.User{},
-		&model.Guide{},
+		&models.File{},
+		&models.Persona{},
+		&models.SubTaskProgress{},
+		&models.SubTask{},
+		&models.TaskProgress{},
+		&models.Task{},
+		&models.UserProfile{},
+		&models.User{},
+		&models.Guide{},
 	); err != nil {
 		return nil, fmt.Errorf("failed to perform database auto migration: %v", err)
 	}
