@@ -17,6 +17,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	subtaskprogressController := SubTaskProgressController{db}
 
 	awsController := AwsController{db}
+	guideController := GuideController{db}
 
 	// User routes
 	e.GET("api/users", userController.GetAllUsers)
@@ -51,7 +52,7 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 
 	// User Profile routes
 	e.GET("api/profiles/:upid", userProfileController.GetUserProfile)
-	e.POST("api/profiles/:uid/", userProfileController.CreateUserProfile) // Creates a user profile for the given user
+	e.POST("api/profiles/:uid/", userProfileController.CreateUserProfile)
 	e.PUT("api/profiles/:upid", userProfileController.UpdateUserProfile)
 	e.PUT("api/profiles/response/:uid", userProfileController.CreateOnboardingResponse)
 	e.DELETE("api/profiles/:upid", userProfileController.DeleteUserProfile)
@@ -92,4 +93,9 @@ func SetupControllers(e *echo.Echo, db *gorm.DB) {
 	e.DELETE("/api/aws/:fid", awsController.DeleteFile)
 	e.GET("/api/aws/:fid/:days", awsController.GetPresignedURL)
 	e.GET("/api/aws/user/:uid", awsController.GetAllFiles)
+
+	// Guide
+	e.POST("api/guides", guideController.CreateGuide)
+	e.GET("api/guides/:g_name", guideController.GetGuide)
+	e.DELETE("api/guides/:g_name", guideController.DeleteGuide)
 }
