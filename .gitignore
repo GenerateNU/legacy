@@ -1,0 +1,30 @@
+# React Native
+node_modules/
+npm-debug.log
+yarn-error.log
+expo-debug.log
+*.expo
+/.expo-shared
+.env
+.DS_Store
+
+# Go
+*.exe
+/.vscode/*
+/venv/
+/vendor/
+/go.sum
+/go.mod
+/log/
+.idea
+/Lib
+/scripts/activate
+/scripts/activate.bat
+/scripts/Activate.ps1
+/scripts/deactivate.bat
+
+
+
+# Other
+**/tmp/
+pyvenv.cfg
