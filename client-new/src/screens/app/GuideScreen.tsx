@@ -56,25 +56,29 @@ const GuideScreen = (props) => {
       <ScrollView>
         <View bg="#FFB017" w={wp("100%")}>
           <View alignItems={"center"}>
-            <View pt={hp("7%")} flexDirection={"column"} w={wp("75%")}>
+            <View pt={hp("11%")} flexDirection={"column"} w={wp("75%")}>
               <Text
                 maxW={wp("80%")}
                 py={hp("1%")}
+                fontFamily={"madeDillan"}
                 fontSize={wp("11.5%")}
                 bold
-                style={styles.headingColor}
+                color={"deepEvergreen"}
               >
                 {state.title}
               </Text>
               <Text
                 maxW={wp("65%")}
+                fontFamily={"dmSans"}
+                fontWeight={"Regular"}
+                fontStyle={"normal"}
                 fontSize="2xl"
                 max-width
-                style={styles.headingColor}
+                color={"deepEvergreen"}
               >
                 {state.sub_title}
               </Text>
-              <View py={hp("1%")} flexDirection={"row"} alignItems={"center"}>
+              <View py={hp("2%")} flexDirection={"row"} alignItems={"center"}>
                 <Image
                   size={50}
                   borderRadius={35}
@@ -84,18 +88,34 @@ const GuideScreen = (props) => {
                   alt="barack"
                 />
                 <Text
-                  mx={wp("0.75%")}
+                  px={wp("1.25%")}
+                  fontFamily={"dmSans"}
+                  fontWeight={"Bold"}
+                  fontStyle={"normal"}
                   fontSize={"xs"}
-                  style={styles.headingColor}
+                  color={"deepEvergreen"}
                 >
                   Written by {state.author}
                 </Text>
               </View>
-              <View pb={hp("3%")} flexDirection={"row"}>
-                <Text fontSize={"xs"} style={styles.headingColor}>
+              <View pb={hp("4%")} flexDirection={"row"}>
+                <Text
+                  fontFamily={"dmSans"}
+                  fontWeight={"Bold"}
+                  fontStyle={"normal"}
+                  fontSize={"xs"}
+                  color={"deepEvergreen"}
+                >
                   {state.mins_read.toString()} min read
                 </Text>
-                <Text mx={wp("1%")} fontSize={"xs"} style={styles.headingColor}>
+                <Text
+                  px={wp("2%")}
+                  fontFamily={"dmSans"}
+                  fontWeight={"Bold"}
+                  fontStyle={"normal"}
+                  fontSize={"xs"}
+                  color={"deepEvergreen"}
+                >
                   {getMonth(new Date(state.date).getMonth())}{" "}
                   {new Date(state.date).getDay().toString()},{" "}
                   {new Date(state.date).getFullYear().toString()}
@@ -109,7 +129,14 @@ const GuideScreen = (props) => {
                 w={wp("100%")}
                 h={hp("100%")}
               >
-                <Text px={"12"} py={"10"} style={styles.guideColor}>
+                <Text
+                  px={"12"}
+                  py={"10"}
+                  fontFamily={"dmSans"}
+                  fontWeight={"Regular"}
+                  fontStyle={"normal"}
+                  color={"muteEggplant"}
+                >
                   {state.full_text}
                 </Text>
               </Box>
@@ -120,17 +147,5 @@ const GuideScreen = (props) => {
     )
   );
 };
-
-const styles = StyleSheet.create({
-  headingColor: {
-    color: "#0C362F",
-  },
-  guideColor: {
-    color: "#251B22",
-  },
-  madeFont: {
-    fontFamily: "MADE Dillan",
-  },
-});
 
 export default GuideScreen;
