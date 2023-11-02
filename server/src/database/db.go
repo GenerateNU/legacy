@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"server/src/models"
 	"server/src/routes"
 	"server/src/services"
 
@@ -37,7 +38,7 @@ func AddRoutes(db *gorm.DB, e *echo.Echo) {
 	taskService := services.TaskService{DB: db}
 	subTaskService := services.SubTaskService{DB: db}
 	fileService := services.FileService{DB: db}
-	// guideService := services.GuideService{DB: db}
+	guideService := services.GuideService{DB: db}
 
 	routes.UserRoutes(e.Group("/api/users"), &userService)
 	routes.ProfileRoutes(e.Group("/api/profiles"), &profileService)
@@ -45,7 +46,7 @@ func AddRoutes(db *gorm.DB, e *echo.Echo) {
 	routes.TaskRoutes(e.Group("/api/tasks"), &taskService)
 	routes.SubTaskRoutes(e.Group("/api/subtasks"), &subTaskService)
 	routes.FileRoutes(e.Group("/api/files"), &fileService)
-	// routes.GuideRoutes(e.Group("/api/guides"), &guideService)
+	routes.GuideRoutes(e.Group("/api/guides"), &guideService)
 }
 
 func InitDB() (*gorm.DB, error) {
@@ -79,7 +80,7 @@ func InitDB() (*gorm.DB, error) {
 		&models.SubTask{},
 		&models.TaskProgress{},
 		&models.Task{},
-		&models.UserProfile{},
+		&models.Profile{},
 		&models.User{},
 		&models.Guide{},
 	); err != nil {

@@ -215,7 +215,8 @@ func (f *FileService) DeleteFile(id string) error {
 		return err
 	}
 
-	if err := f.DB.Delete(&file).Error; err != nil {
+	// Required to delete the file from the database permanently
+	if err := f.DB.Unscoped().Delete(&file).Error; err != nil {
 		return err
 	}
 

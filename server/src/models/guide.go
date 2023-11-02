@@ -1,19 +1,18 @@
-package model
+package models
 
 import (
+	"server/src/types"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Guide struct {
-	gorm.Model
-	GuideName      string    `gorm:"type:varchar(255)" json:"guide_name"`
-	Title          string    `gorm:"type:varchar(255)" json:"title"`
-	SubTitle       string    `gorm:"type:varchar(255)" json:"sub_title"`
-	Author         string    `gorm:"type:varchar(255)" json:"author"`
-	AuthorImageUrl string    `gorm:"type:varchar(255)" json:"author_image_url"`
+	types.Model
+	GuideName      string    `gorm:"type:varchar(255);unique" json:"guide_name" validate:"required"`
+	Title          string    `gorm:"type:varchar(255)" json:"title" validate:"required"`
+	SubTitle       string    `gorm:"type:varchar(255)" json:"sub_title" validate:"required"`
+	Author         string    `gorm:"type:varchar(255)" json:"author" validate:"required"`
+	AuthorImageUrl string    `gorm:"type:varchar(255)" json:"author_image_url" validate:"required"`
 	MinsRead       uint      `json:"mins_read"`
-	Date           time.Time `json:"date"`
-	FullText       string    `gorm:"type:text" json:"full_text"`
+	Date           time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP" json:"date"`
+	FullText       string    `gorm:"type:text" json:"full_text" validate:"required"`
 }
