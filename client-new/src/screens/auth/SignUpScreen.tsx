@@ -27,8 +27,29 @@ export default function SignUpScreen({ route, navigation }) {
         navigation.setOptions();
         navigation.navigate("Onboarding Stack");
       } else {
-        console.log("This is the error 2", JSON.stringify(response));
-        Alert.alert("Error", "", [{ text: "OK", onPress: () => {} }]);
+        const errorMessage = JSON.parse(JSON.stringify(response)).code;
+        console.log("ERROR: ", errorMessage);
+        if (errorMessage === "auth/invalid-email") {
+          Alert.alert("Error", "Invalid email, please try again.", [
+            { text: "OK", onPress: () => {} },
+          ]);
+        } else if (errorMessage === "auth/email-already-in-use") {
+          Alert.alert(
+            "Error",
+            "A Legacy account already exists for this email. Please log in.",
+            [{ text: "OK", onPress: () => {} }]
+          );
+        } else if (errorMessage === "auth/weak-password") {
+          Alert.alert("Error", "Password must be 8 characters long.", [
+            { text: "OK", onPress: () => {} },
+          ]);
+        } else {
+          Alert.alert(
+            "Error",
+            "There was an error with signing up. Please try again.",
+            [{ text: "OK", onPress: () => {} }]
+          );
+        }
       }
     });
   };
