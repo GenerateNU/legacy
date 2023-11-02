@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"server/src/models"
 	"server/src/routes"
 	"server/src/services"
 
@@ -80,8 +79,9 @@ func InitDB() (*gorm.DB, error) {
 		&models.SubTask{},
 		&models.TaskProgress{},
 		&models.Task{},
-		&models.Profile{},
+		&models.UserProfile{},
 		&models.User{},
+		&models.Guide{},
 	); err != nil {
 		return nil, fmt.Errorf("failed to perform database auto migration: %v", err)
 	}
