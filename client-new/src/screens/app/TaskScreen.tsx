@@ -2,7 +2,7 @@ import {  View, Text, CircularProgress, } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../contexts/AuthContext";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import HomeScreenTaskCard from "../../components/reusable/HomeScreenTaskCard";
+import HomeScreenTaskCard from "../../components/homescreen components/HomeScreenTaskCard";
 import CircleProgressBar from "../../components/reusable/CircleProgressBar";
 import Circle from "../../components/reusable/Circle";
 import CircleProgress from "../../components/reusable/CircleProgress";

@@ -1,4 +1,5 @@
-import { View, Text } from "native-base";
+import { View, Text} from "native-base";
+
 
 type HSTCProps = {
     title: String,

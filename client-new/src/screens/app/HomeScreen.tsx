@@ -7,55 +7,30 @@ import {
     heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import { SvgUri } from "react-native-svg";
-import { NavigationContainer } from '@react-navigation/native';
-import HomeScreenTaskCard from "../../components/reusable/HomeScreenTaskCard";
-import HomeScreenGuideCard from "../../components/HomeScreenGuideCard";
-
+import { useEffect, useState } from "react";
+import { getTasks } from "../../services/TaskService";
+import HomeScreenTasks from "../../components/homescreen components/HomeScreenTasks";
+import HomeScreenGuides from "../../components/homescreen components/HomeScreenGuides";
 
 export default function HomeScreen() {
     const { user, logout } = useAuth();
-    const testData = [
-        {
-            title: 'Acknowledge Your Aversion to End-Of-Life-Planning',
-            description: 'Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.',
-            progress: 33,
-        },
-        {
-            title: 'Create Familiarity with the Process',
-            description: 'Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.',
-            progress: 10,
-        },
-        {
-            title: 'Define Your Values and Priorities',
-            description: 'Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.',
-            progress: 0,
-        },
-    ];
+
+    const [tasks, setTasks] = useState([])
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const response = await getTasks("1")
+      setTasks(response)
+    }
+    fetchTasks()
+  }, [])
 
 
     const guideData = [
-        { title: 'Guide 1', },
-        { title: 'Guide 2' },
-        { title: 'Guide 3' },
+        { title: 'Guide 1', description: 'Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.'},
+        { title: 'Guide 2', description: 'Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.' },
+        { title: 'Guide 3', description: 'Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.' },
     ];
-
-
-    const testUser = {
-        username: "melody",
-        email: "yu.melo@example.com"
-
-
-    }
-
-
-    // Username string `gorm:"type:varchar(255);unique" json:"username"`
-    // FirebaseID string `gorm:"type:varchar(255);unique" json:"firebase_id"`
-    // Password string `gorm:"type:text" json:"password"`
-    // Email string `gorm:"type:varchar(255);unique" json:"email"`
-    // PersonaID uint `json:"persona_id"`
-    // Persona Persona `gorm:"foreignkey:PersonaID" json:"persona"
-
 
     return (
         <>
@@ -78,26 +53,7 @@ export default function HomeScreen() {
                                 </Text>
                             </View>
 
-
-                            <View style={{ width: '100%', marginTop: 20 }}>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                                    <Text style={{ color: '#252525', fontSize: 15, fontFamily: 'Open Sans', fontWeight: '700', lineHeight: 20 }}>
-                                        Your Journey
-                                    </Text>
-                                    <Text style={{ color: '#909090', fontSize: 15, fontFamily: 'Open Sans', fontWeight: '400', textDecorationLine: 'underline', lineHeight: 20 }}>
-                                        See all
-                                    </Text>
-                                </View>
-
-
-                                <View style={{ marginTop: 20, flexDirection: 'column', justifyContent: 'space-between' }}>
-                                    {testData.map((item, index) => (
-                                        <View key={index} style={{ marginBottom: 0 }}>
-                                            <HomeScreenTaskCard title={item.title} description={item.description} progress={item.progress} />
-                                        </View>
-                                    ))}
-                                </View>
-                            </View>
+                            <HomeScreenTasks tasks = {tasks}/>
                         </View>
 
 
@@ -112,13 +68,8 @@ export default function HomeScreen() {
                                     See all
                                 </Text>
                             </View>
-                            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 20 }}>
-                                {guideData.map((item, index) => (
-                                    <View key={index} style={{ marginRight: 20 }}>
-                                        <HomeScreenGuideCard title={item.title} />
-                                    </View>
-                                ))}
-                            </ScrollView>
+
+                            <HomeScreenGuides guides = {guideData}/>
                         </View>
 
 
