@@ -1,7 +1,7 @@
 import { ScrollView, Box, View, Text, Image } from "native-base";
 import { useEffect, useState } from "react";
 import { IGuide } from "../../interfaces/IGuide";
-import { getMonth } from "../../utils/dateUtils";
+import { getMonth } from "../../utils/DateUtils";
 import { moderateScale, verticalScale } from "../../utils/FontSizeUtils";
 import {
   widthPercentageToDP as wp,
