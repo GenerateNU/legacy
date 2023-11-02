@@ -1,67 +1,44 @@
-/* eslint-disable react-native/no-inline-styles */
-//import { ScrollView } from "react-native";
-import { StyleSheet } from "react-native";
 import { ScrollView, Box, View, Text, Image } from "native-base";
+import { useEffect, useState } from "react";
+import { IGuide } from "../../interfaces/IGuide";
+import { getMonth } from "../../utils/dateUtils";
+import { moderateScale, verticalScale } from "../../utils/FontSizeUtils";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { getGuide } from "../../services/GuideService";
-import { useEffect, useState } from "react";
 
-type Guide = {
-  guide_name: string;
-  title: string;
-  sub_title: string;
-  author: string;
-  author_image_url: string;
-  mins_read: Number;
-  date: Date;
-  full_text: string;
-};
 const GuideScreen = (props) => {
   // props should include a guideName field.
-  const [state, setState] = useState<Guide>(null);
+  const [state, setState] = useState<IGuide>(null);
 
   useEffect(() => {
-    const init = async (guideName: String) => {
-      const guide = await getGuide(guideName);
-      console.log(guide);
-      setState(guide);
+    const initialGuide = async (guideName: string) => {
+      try {
+        const guide = await getGuide(guideName);
+        console.log("initialize guide success: ", guide);
+        setState(guide);
+      } catch (err) {
+        console.log("failed to initialize guide: ", err);
+      }
     };
 
-    init(props.guideName);
-  }, []);
-
-  const getMonth = (month: number) => {
-    const map = {
-      1: "January",
-      2: "February",
-      3: "March",
-      4: "April",
-      5: "May",
-      6: "June",
-      7: "July",
-      8: "August",
-      9: "September",
-      10: "October",
-      11: "November",
-      12: "December",
-    };
-    return map[month];
-  };
+    initialGuide(props.guideName);
+  }, [props.guideName]);
 
   return (
     state && (
       <ScrollView>
         <View bg="#FFB017" w={wp("100%")}>
           <View alignItems={"center"}>
-            <View pt={hp("11%")} flexDirection={"column"} w={wp("75%")}>
+            <View pt={hp("12%")} flexDirection={"column"} w={wp("75%")}>
               <Text
-                maxW={wp("80%")}
-                py={hp("1%")}
+                maxW={wp("90%")}
+                py={hp("1.25%")}
                 fontFamily={"madeDillan"}
-                fontSize={wp("11.5%")}
+                fontSize={moderateScale(43)}
+                lineHeight={verticalScale(35)}
                 bold
                 color={"deepEvergreen"}
               >
@@ -72,7 +49,8 @@ const GuideScreen = (props) => {
                 fontFamily={"dmSans"}
                 fontWeight={"Regular"}
                 fontStyle={"normal"}
-                fontSize="2xl"
+                fontSize={moderateScale(24)}
+                lineHeight={verticalScale(25)}
                 max-width
                 color={"deepEvergreen"}
               >
@@ -92,7 +70,7 @@ const GuideScreen = (props) => {
                   fontFamily={"dmSans"}
                   fontWeight={"Bold"}
                   fontStyle={"normal"}
-                  fontSize={"xs"}
+                  fontSize={moderateScale(10.5)}
                   color={"deepEvergreen"}
                 >
                   Written by {state.author}
@@ -103,7 +81,7 @@ const GuideScreen = (props) => {
                   fontFamily={"dmSans"}
                   fontWeight={"Bold"}
                   fontStyle={"normal"}
-                  fontSize={"xs"}
+                  fontSize={moderateScale(10.5)}
                   color={"deepEvergreen"}
                 >
                   {state.mins_read.toString()} min read
@@ -113,7 +91,7 @@ const GuideScreen = (props) => {
                   fontFamily={"dmSans"}
                   fontWeight={"Bold"}
                   fontStyle={"normal"}
-                  fontSize={"xs"}
+                  fontSize={moderateScale(10.5)}
                   color={"deepEvergreen"}
                 >
                   {getMonth(new Date(state.date).getMonth())}{" "}
@@ -123,18 +101,14 @@ const GuideScreen = (props) => {
               </View>
             </View>
             <View>
-              <Box
-                roundedTop={wp("17%")}
-                bg="#FAF8F2"
-                w={wp("100%")}
-                h={hp("100%")}
-              >
+              <Box roundedTop={wp("17%")} bg="#FAF8F2" w={wp("100%")}>
                 <Text
-                  px={"12"}
-                  py={"10"}
+                  px={wp("14%")}
+                  py={hp("5.5%")}
                   fontFamily={"dmSans"}
                   fontWeight={"Regular"}
                   fontStyle={"normal"}
+                  fontSize={moderateScale(12)}
                   color={"muteEggplant"}
                 >
                   {state.full_text}
