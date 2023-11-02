@@ -59,17 +59,17 @@ func (p *PersonaService) CreatePersona(persona models.Persona) (models.Persona, 
 }
 
 func (p *PersonaService) UpdatePersona(id string, persona models.Persona) (models.Persona, error) {
-	var oldPersona models.Persona
+	var existingPersona models.Persona
 
-	if err := p.DB.First(&oldPersona, id).Error; err != nil {
+	if err := p.DB.First(&existingPersona, id).Error; err != nil {
 		return models.Persona{}, err
 	}
 
-	if err := p.DB.Model(&oldPersona).Updates(persona).Error; err != nil {
+	if err := p.DB.Model(&existingPersona).Updates(persona).Error; err != nil {
 		return models.Persona{}, err
 	}
 
-	return oldPersona, nil
+	return existingPersona, nil
 }
 
 func (p *PersonaService) DeletePersona(id string) error {

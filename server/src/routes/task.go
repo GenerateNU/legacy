@@ -14,6 +14,6 @@ func TaskRoutes(g *echo.Group, taskService services.TaskServiceInterface) {
 	g.GET("/:tid", taskController.GetTasks)
 	g.GET("/:tid/subtasks", taskController.GetAllSubtasksOfTask)
 	g.POST("/", taskController.CreateTask)
-	g.PUT("/:tid", taskController.UpdateTask)
+	g.PATCH("/:tid", taskController.UpdateTask)
 	g.DELETE("/:tid", taskController.DeleteTask)
 }

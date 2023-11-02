@@ -47,17 +47,17 @@ func (s *SubTaskService) CreateSubTask(subTask models.SubTask) (models.SubTask, 
 }
 
 func (s *SubTaskService) UpdateSubTask(id string, subTask models.SubTask) (models.SubTask, error) {
-	var oldSubTask models.SubTask
+	var existingSubTask models.SubTask
 
-	if err := s.DB.First(&oldSubTask, id).Error; err != nil {
+	if err := s.DB.First(&existingSubTask, id).Error; err != nil {
 		return models.SubTask{}, err
 	}
 
-	if err := s.DB.Model(&oldSubTask).Updates(&subTask).Error; err != nil {
+	if err := s.DB.Model(&existingSubTask).Updates(&subTask).Error; err != nil {
 		return models.SubTask{}, err
 	}
 
-	return oldSubTask, nil
+	return existingSubTask, nil
 }
 
 func (s *SubTaskService) DeleteSubTask(id string) error {

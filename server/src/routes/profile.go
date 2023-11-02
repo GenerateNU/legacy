@@ -12,7 +12,7 @@ func ProfileRoutes(g *echo.Group, profileService services.ProfileServiceInterfac
 
 	g.GET("/:pid", profileController.GetProfile)
 	g.POST("/", profileController.CreateProfile)
-	g.PUT("/:pid", profileController.UpdateProfile)
-	g.PUT("/response/:uid", profileController.InsertOnboardingResponse)
+	g.PATCH("/:pid", profileController.UpdateProfile)
+	g.PATCH("/response/:uid", profileController.InsertOnboardingResponse)
 	g.DELETE("/:pid", profileController.DeleteProfile)
 }

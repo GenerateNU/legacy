@@ -39,17 +39,17 @@ func (p *ProfileService) CreateProfile(profile models.Profile) (models.Profile, 
 }
 
 func (p *ProfileService) UpdateProfile(id string, profile models.Profile) (models.Profile, error) {
-	var oldProfile models.Profile
+	var existingProfile models.Profile
 
-	if err := p.DB.First(&oldProfile, id).Error; err != nil {
+	if err := p.DB.First(&existingProfile, id).Error; err != nil {
 		return models.Profile{}, err
 	}
 
-	if err := p.DB.Model(&oldProfile).Updates(&profile).Error; err != nil {
+	if err := p.DB.Model(&existingProfile).Updates(&profile).Error; err != nil {
 		return models.Profile{}, err
 	}
 
-	return oldProfile, nil
+	return existingProfile, nil
 }
 
 func (p *ProfileService) InsertOnboardingResponse(id string, onboardingResponse types.OnboardingResponse, profile models.Profile) (models.Profile, error) {

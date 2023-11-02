@@ -58,17 +58,17 @@ func (t *TaskService) CreateTask(task models.Task) (models.Task, error) {
 }
 
 func (t *TaskService) UpdateTask(id string, task models.Task) (models.Task, error) {
-	var oldTask models.Task
+	var existingTask models.Task
 
-	if err := t.DB.First(&oldTask, id).Error; err != nil {
+	if err := t.DB.First(&existingTask, id).Error; err != nil {
 		return models.Task{}, err
 	}
 
-	if err := t.DB.Model(&oldTask).Updates(&task).Error; err != nil {
+	if err := t.DB.Model(&existingTask).Updates(&task).Error; err != nil {
 		return models.Task{}, err
 	}
 
-	return oldTask, nil
+	return existingTask, nil
 }
 
 func (t *TaskService) DeleteTask(id string) error {

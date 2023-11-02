@@ -3,7 +3,6 @@ package services
 import (
 	"errors"
 	"fmt"
-	"io"
 	"mime/multipart"
 	"server/src/models"
 	"strconv"
@@ -22,11 +21,12 @@ var ID = "AKIA2WVH6R5ZEMKYG7VW"
 var SECRET = "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"
 
 type FileServiceInterface interface {
+	GetAllFiles() ([]models.File, error)
 	GetAllUserFiles(id string) ([]models.File, error)
 	GetFile(id string) (models.File, error)
-	GetFileObject(id string) ([]byte, string, error)
+	// GetFileObject(id string) ([]byte, string, error)
 	GetPresignedURL(id string, days string) (string, error)
-	CreateFile(file models.File, data *multipart.FileHeader) (models.File, error)
+	CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error)
 	DeleteFile(id string) error
 }
 
@@ -35,7 +35,7 @@ type FileService struct {
 }
 
 func createAWSSession() (*session.Session, error) {
-	// TODO --> consider caching active session so we dont make f new one every time
+	// TODO:--> consider caching active session so we dont make f new one every time
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String("us-east-2"),
 		Credentials: credentials.NewStaticCredentials(ID, SECRET, ""),
@@ -46,6 +46,16 @@ func createAWSSession() (*session.Session, error) {
 	}
 
 	return sess, nil
+}
+
+func (f *FileService) GetAllFiles() ([]models.File, error) {
+	var files []models.File
+
+	if err := f.DB.Find(&files).Error; err != nil {
+		return nil, err
+	}
+
+	return files, nil
 }
 
 func (f *FileService) GetAllUserFiles(id string) ([]models.File, error) {
@@ -68,38 +78,39 @@ func (f *FileService) GetFile(id string) (models.File, error) {
 	return file, nil
 }
 
-func (f *FileService) GetFileObject(id string) ([]byte, string, error) {
-	file, err := f.GetFile(id)
-	if err != nil {
-		return nil, "", err
-	}
+// [REMOVED]
+// func (f *FileService) GetFileObject(id string) ([]byte, string, error) {
+// 	file, err := f.GetFile(id)
+// 	if err != nil {
+// 		return nil, "", err
+// 	}
 
-	sess, err := createAWSSession()
-	if err != nil {
-		return nil, "", err
-	}
+// 	sess, err := createAWSSession()
+// 	if err != nil {
+// 		return nil, "", err
+// 	}
 
-	svc := s3.New(sess)
-	key := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
+// 	svc := s3.New(sess)
+// 	key := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
 
-	fileResponse, err := svc.GetObject(&s3.GetObjectInput{
-		Bucket: aws.String(BUCKET_NAME),
-		Key:    aws.String(key),
-	})
+// 	fileResponse, err := svc.GetObject(&s3.GetObjectInput{
+// 		Bucket: aws.String(BUCKET_NAME),
+// 		Key:    aws.String(key),
+// 	})
 
-	if err != nil {
-		return nil, "", err
-	}
+// 	if err != nil {
+// 		return nil, "", err
+// 	}
 
-	defer fileResponse.Body.Close()
+// 	defer fileResponse.Body.Close()
 
-	fileContent, err := io.ReadAll(fileResponse.Body)
-	if err != nil {
-		return nil, "", err
-	}
+// 	fileContent, err := io.ReadAll(fileResponse.Body)
+// 	if err != nil {
+// 		return nil, "", err
+// 	}
 
-	return fileContent, file.FileName, nil
-}
+// 	return fileContent, file.FileName, nil
+// }
 
 func (f *FileService) GetPresignedURL(id string, days string) (string, error) {
 	file, err := f.GetFile(id)
@@ -135,9 +146,13 @@ func (f *FileService) GetPresignedURL(id string, days string) (string, error) {
 	return url, nil
 }
 
-func (f *FileService) CreateFile(file models.File, data *multipart.FileHeader) (models.File, error) {
+func (f *FileService) CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error) {
 	file.FileName = data.Filename
-	file.UserID = 1
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		return models.File{}, errors.New("failed to convert id to int")
+	}
+	file.UserID = uint(idInt)
 
 	// Check if the file size is greater than 5 MB
 	if data.Size > 5000000 {

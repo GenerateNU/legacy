@@ -31,6 +31,10 @@ func (p *ProfileController) GetProfile(c echo.Context) error {
 func (p *ProfileController) CreateProfile(c echo.Context) error {
 	var profile models.Profile
 
+	if err := c.Bind(&profile); err != nil {
+		return err
+	}
+
 	if err := services.ValidateData(c, profile); err != nil {
 		return c.JSON(http.StatusBadRequest, "Failed to validate the data"+err.Error())
 	}

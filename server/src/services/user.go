@@ -26,7 +26,7 @@ type UserService struct {
 	DB *gorm.DB
 }
 
-// Gets all users (including soft deleted users)
+// Gets all users (including soft deleted users) for testing
 func (u *UserService) GetAllUsers() ([]models.User, error) {
 	var users []models.User
 	if err := u.DB.Unscoped().Omit("password").Find(&users).Error; err != nil {
@@ -122,19 +122,19 @@ func (u *UserService) CreateUser(user models.User) (models.User, error) {
 }
 
 func (u *UserService) UpdateUser(id string, user models.User) (models.User, error) {
-	var oldUser models.User
+	var existingUser models.User
 
-	if err := u.DB.First(&oldUser, id).Error; err != nil {
+	if err := u.DB.First(&existingUser, id).Error; err != nil {
 		return models.User{}, err
 	}
 
-	if err := u.DB.Model(&oldUser).Updates(&user).Error; err != nil {
+	if err := u.DB.Model(&existingUser).Updates(&user).Error; err != nil {
 		return models.User{}, err
 	}
 
-	user.Password = ""
+	existingUser.Password = ""
 
-	return oldUser, nil
+	return existingUser, nil
 }
 
 func (u *UserService) DeleteUser(id string) error {

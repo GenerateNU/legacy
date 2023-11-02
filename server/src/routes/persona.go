@@ -15,6 +15,6 @@ func PersonaRoutes(g *echo.Group, personaService services.PersonaServiceInterfac
 	g.GET("/:pid/tasks", personaController.GetPersonaTasks)
 
 	g.POST("/", personaController.CreatePersona)
-	g.PUT("/:pid", personaController.UpdatePersona)
+	g.PATCH("/:pid", personaController.UpdatePersona)
 	g.DELETE("/:pid", personaController.DeletePersona)
 }

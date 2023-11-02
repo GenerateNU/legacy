@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"server/src/models"
 	"server/src/services"
@@ -17,6 +16,15 @@ func NewFileController(fileService services.FileServiceInterface) *FileControlle
 	return &FileController{fileService: fileService}
 }
 
+func (f *FileController) GetAllFiles(c echo.Context) error {
+	file, err := f.fileService.GetAllFiles()
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "Failed to fetch files")
+	}
+
+	return c.JSON(http.StatusOK, file)
+}
+
 func (f *FileController) GetAllUserFiles(c echo.Context) error {
 	userID := c.Param("uid")
 	file, err := f.fileService.GetAllUserFiles(userID)
@@ -27,23 +35,24 @@ func (f *FileController) GetAllUserFiles(c echo.Context) error {
 	return c.JSON(http.StatusOK, file)
 }
 
-func (f *FileController) GetFileObject(c echo.Context) error {
-	fileID := c.Param("fid")
+// [REMOVED]
+// func (f *FileController) GetFileObject(c echo.Context) error {
+// 	fileID := c.Param("fid")
 
-	file, fileName, err := f.fileService.GetFileObject(fileID)
-	if err != nil {
-		return c.JSON(http.StatusNotFound, "Failed to fetch file")
-	}
+// 	file, fileName, err := f.fileService.GetFileObject(fileID)
+// 	if err != nil {
+// 		return c.JSON(http.StatusNotFound, "Failed to fetch file")
+// 	}
 
-	key := fmt.Sprintf("%v-%v", fileID, fileName)
+// 	key := fmt.Sprintf("%v-%v", fileID, fileName)
 
-	contentDisposition := fmt.Sprintf("attachment; filename=%s", key)
+// 	contentDisposition := fmt.Sprintf("attachment; filename=%s", key)
 
-	c.Response().Header().Set("Content-Type", "application/octet-stream")
-	c.Response().Header().Set("Content-Disposition", contentDisposition)
+// 	c.Response().Header().Set("Content-Type", "application/octet-stream")
+// 	c.Response().Header().Set("Content-Disposition", contentDisposition)
 
-	return c.Blob(http.StatusOK, "application/octet-stream", file)
-}
+// 	return c.Blob(http.StatusOK, "application/octet-stream", file)
+// }
 
 func (f *FileController) GetPresignedURL(c echo.Context) error {
 	fileID := c.Param("fid")
@@ -63,6 +72,7 @@ func (f *FileController) GetPresignedURL(c echo.Context) error {
 
 func (f *FileController) CreateFile(c echo.Context) error {
 	var file models.File
+	userID := c.Param("uid")
 
 	if err := c.Bind(&file); err != nil {
 		return err
@@ -79,7 +89,7 @@ func (f *FileController) CreateFile(c echo.Context) error {
 
 	fileResponse := form.File["file_data"][0]
 
-	file, err = f.fileService.CreateFile(file, fileResponse)
+	file, err = f.fileService.CreateFile(userID, file, fileResponse)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, err)
 	}

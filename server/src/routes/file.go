@@ -10,9 +10,10 @@ import (
 func FileRoutes(g *echo.Group, fileService services.FileServiceInterface) {
 	fileController := controllers.NewFileController(fileService)
 
+	g.GET("/", fileController.GetAllFiles)
 	g.GET("/:uid/user", fileController.GetAllUserFiles)
-	g.GET("/:fid", fileController.GetFileObject)
+	// g.GET("/:fid", fileController.GetFileObject)
 	g.GET("/:fid?days=:days", fileController.GetPresignedURL)
-	g.POST("/", fileController.CreateFile)
+	g.POST("/:uid", fileController.CreateFile)
 	g.DELETE("/:fid", fileController.DeleteFile)
 }

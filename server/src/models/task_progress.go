@@ -1,9 +1,11 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"server/src/types"
+)
 
 type TaskProgress struct {
-	gorm.Model
+	types.Model
 	Completed bool  `json:"completed" validate:"required"`
 	UserID    uint  `json:"user_id" validate:"required"`
 	TaskID    uint  `json:"task_id" validate:"required"`

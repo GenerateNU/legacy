@@ -20,6 +20,6 @@ func UserRoutes(g *echo.Group, userService services.UserServiceInterface) {
 	g.GET("/:uid/profile", userController.GetUserProfile)
 
 	g.POST("/", userController.CreateUser)
-	g.PUT("/:uid", userController.UpdateUser)
+	g.PATCH("/:uid", userController.UpdateUser)
 	g.DELETE("/:uid", userController.DeleteUser)
 }

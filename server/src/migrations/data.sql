@@ -13,7 +13,7 @@ INSERT INTO users (username, password, firebase_id, email, persona_id, created_a
 ('testuser5', 'password', '12345', 'user5@example.com', 2, clock_timestamp(), clock_timestamp());
 
 -- Creating user profile
-INSERT INTO user_profiles (name, user_id, date_of_birth, phone_number, created_at, updated_at) VALUES 
+INSERT INTO profiles (name, user_id, date_of_birth, phone_number, created_at, updated_at) VALUES 
 ('Test User 1', 1, '1990-01-01', '5555555555', clock_timestamp(), clock_timestamp()),
 ('Test User 2', 2, '1990-01-01', '5555555555', clock_timestamp(), clock_timestamp()),
 ('Test User 3', 3, '1990-01-01', '5555555555', clock_timestamp(), clock_timestamp()),

@@ -41,7 +41,7 @@ func AddRoutes(db *gorm.DB, e *echo.Echo) {
 	// guideService := services.GuideService{DB: db}
 
 	routes.UserRoutes(e.Group("/api/users"), &userService)
-	routes.ProfileRoutes(e.Group("/api/profile"), &profileService)
+	routes.ProfileRoutes(e.Group("/api/profiles"), &profileService)
 	routes.PersonaRoutes(e.Group("/api/personas"), &personaService)
 	routes.TaskRoutes(e.Group("/api/tasks"), &taskService)
 	routes.SubTaskRoutes(e.Group("/api/subtasks"), &subTaskService)

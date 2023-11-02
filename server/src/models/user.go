@@ -1,11 +1,9 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
+import "server/src/types"
 
 type User struct {
-	gorm.Model
+	types.Model
 	Username   string   `gorm:"type:varchar(255);unique" json:"username" validate:"required"`
 	FirebaseID string   `gorm:"type:varchar(255);unique" json:"firebase_id" validate:"required"`
 	Password   string   `gorm:"type:text" json:"password" validate:"required"`
