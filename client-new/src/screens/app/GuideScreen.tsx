@@ -14,7 +14,7 @@ const GuideScreen = (props) => {
   const [state, setState] = useState<IGuide>(null);
 
   useEffect(() => {
-    const initialGuide = async (guideName: string) => {
+    const fetchGuide = async (guideName: string) => {
       try {
         const guide = await getGuide(guideName);
         console.log("initialize guide success: ", guide);
@@ -24,7 +24,7 @@ const GuideScreen = (props) => {
       }
     };
 
-    initialGuide(props.guideName);
+    fetchGuide(props.guideName);
   }, [props.guideName]);
 
   return (
