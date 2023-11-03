@@ -9,6 +9,9 @@ require (
 )
 
 require (
+	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
+	github.com/go-playground/validator/v10 v10.15.5 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/radovskyb/watcher v1.0.7 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 )
