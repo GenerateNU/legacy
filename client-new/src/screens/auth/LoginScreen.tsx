@@ -24,6 +24,7 @@ export default function LoginScreen({ route, navigation }) {
     login(email, password);
     navigation.navigate("");
 
+    //
     // login(email, password).then((response) => {
     //   if (response === true) {
     //     // ONCE WE FIGURE OUT HOW TO GO TO HOME SCREEN, PUT HERE
