@@ -9,7 +9,7 @@ import (
 type TaskServiceInterface interface {
 	GetAllTasks() ([]models.Task, error)
 	GetTask(id string) (models.Task, error)
-	GetAllSubtasksOfTask(id string) ([]models.SubTask, error)
+	GetAllSubTasksOfTask(id string) ([]models.SubTask, error)
 	CreateTask(task models.Task) (models.Task, error)
 	UpdateTask(id string, task models.Task) (models.Task, error)
 	DeleteTask(id string) error
@@ -39,7 +39,7 @@ func (t *TaskService) GetTask(id string) (models.Task, error) {
 	return task, nil
 }
 
-func (t *TaskService) GetAllSubtasksOfTask(id string) ([]models.SubTask, error) {
+func (t *TaskService) GetAllSubTasksOfTask(id string) ([]models.SubTask, error) {
 	var subtasks []models.SubTask
 
 	if err := t.DB.Where("task_id = ?", id).Find(&subtasks).Error; err != nil {

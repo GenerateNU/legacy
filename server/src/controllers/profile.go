@@ -39,12 +39,12 @@ func (p *ProfileController) CreateProfile(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Failed to validate the data"+err.Error())
 	}
 
-	createdUserProfile, err := p.profileService.CreateProfile(profile)
+	createdProfile, err := p.profileService.CreateProfile(profile)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to create the profile")
 	}
 
-	return c.JSON(http.StatusOK, createdUserProfile)
+	return c.JSON(http.StatusOK, createdProfile)
 }
 
 func (p *ProfileController) UpdateProfile(c echo.Context) error {

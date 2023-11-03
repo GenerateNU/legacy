@@ -38,14 +38,6 @@ INSERT INTO tasks (task_name, task_description) VALUES
 ('Emotional and Spiritual', 'Address emotional and spiritual concerns.'),
 ('Create Project', 'Create a legacy project');
 
--- Creating test task progress
-INSERT INTO task_progresses (user_id, task_id, completed) VALUES 
-(1, 1, True),
-(1, 2, True),
-(1, 3, False),
-(1, 4, True);
-
-
 -- Creating test subtasks
 INSERT INTO sub_tasks (task_id, task_name, task_description) VALUES
 (1, 'Research Fear', 'Research books, articles, or podcasts on overcoming fear of death.'),
