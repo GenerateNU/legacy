@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, View } from "native-base";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
@@ -15,17 +15,29 @@ import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
 
 export default function LoginScreen({ route, navigation }) {
-  const { user, createAccount, login, logout } = useAuth();
+  const { user, login, logout } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signUp = () => {
-    createAccount(email, password);
-  };
-
   const signIn = () => {
     login(email, password);
+    navigation.navigate("");
+
+    // login(email, password).then((response) => {
+    //   if (response === true) {
+    //     // ONCE WE FIGURE OUT HOW TO GO TO HOME SCREEN, PUT HERE
+    //     navigation.navigate("");
+    //   } else {
+    //     const err = JSON.parse(JSON.stringify(response)).code;
+    //     console.log("ERROR: ", err)
+    //     Alert.alert(
+    //       "Error",
+    //       "There was an error with authentication. Please try again.",
+    //       [{ text: "OK", onPress: () => {} }]
+    //     );
+    //   }
+    // });
   };
 
   const switchToSignUp = () => {
