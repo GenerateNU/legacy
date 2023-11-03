@@ -110,6 +110,20 @@ func (u *UserController) CreateUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, createdUser)
 }
 
+func (u *UserController) InitializeUserProgress(c echo.Context) error {
+	userID := c.Param("uid")
+
+	task, subtask, err := u.userService.InitializeUserProgress(userID)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "Failed to initialize user progress")
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"task":    task,
+		"subtask": subtask,
+	})
+}
+
 func (u *UserController) UpdateUser(c echo.Context) error {
 	var user models.User
 

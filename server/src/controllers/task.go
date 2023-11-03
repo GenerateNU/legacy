@@ -36,9 +36,9 @@ func (t *TaskController) GetTasks(c echo.Context) error {
 	return c.JSON(http.StatusOK, task)
 }
 
-func (t *TaskController) GetAllSubtasksOfTask(c echo.Context) error {
+func (t *TaskController) GetAllSubTasksOfTask(c echo.Context) error {
 	taskID := c.Param("tid")
-	subtasks, err := t.taskService.GetAllSubtasksOfTask(taskID)
+	subtasks, err := t.taskService.GetAllSubTasksOfTask(taskID)
 
 	if err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to fetch subtasks")

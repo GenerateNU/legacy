@@ -6,9 +6,9 @@ import (
 
 type SubTaskProgress struct {
 	types.Model
-	Completed bool     `json:"completed" validate:"required"`
-	UserID    int      `json:"user_id" validate:"required"`
-	SubTaskID int      `json:"subtask_id" validate:"required"`
+	Completed bool     `gorm:"default:false" json:"completed"`
+	UserID    uint     `json:"user_id"`
+	SubTaskID uint     `json:"subtask_id"`
 	User      *User    `gorm:"foreignkey:UserID" json:"-"`
 	SubTask   *SubTask `gorm:"foreignkey:SubTaskID" json:"-"`
 }

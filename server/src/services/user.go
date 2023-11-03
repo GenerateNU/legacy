@@ -20,6 +20,8 @@ type UserServiceInterface interface {
 	CreateUser(user models.User) (models.User, error)
 	UpdateUser(id string, user models.User) (models.User, error)
 	DeleteUser(id string) error
+
+	InitializeUserProgress(id string) ([]models.TaskProgress, []models.SubTaskProgress, error)
 }
 
 type UserService struct {
@@ -117,8 +119,28 @@ func (u *UserService) CreateUser(user models.User) (models.User, error) {
 	}
 
 	user.Password = ""
-
 	return user, nil
+}
+
+func (u *UserService) InitializeUserProgress(id string) ([]models.TaskProgress, []models.SubTaskProgress, error) {
+	var allTaskProgress []models.TaskProgress
+	var allSubTaskProgress []models.SubTaskProgress
+	var p ProgressServiceInterface = &ProgressService{DB: u.DB}
+
+	taskProgress, err := p.CreateAllTaskProgress(id)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	subTaskProgress, err := p.CreateAllSubTaskProgress(id)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	allTaskProgress = append(allTaskProgress, taskProgress...)
+	allSubTaskProgress = append(allSubTaskProgress, subTaskProgress...)
+
+	return allTaskProgress, allSubTaskProgress, nil
 }
 
 func (u *UserService) UpdateUser(id string, user models.User) (models.User, error) {
