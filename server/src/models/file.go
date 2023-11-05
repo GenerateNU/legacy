@@ -6,8 +6,8 @@ import (
 
 type File struct {
 	types.Model
-	FileName string `gorm:"type:varchar(255);unique" json:"file_name"`
-	// FileDescription string `gorm:"type:text" json:"file_description" validate:"required"`
-	UserID uint  `gorm:"foreignkey:User;unique" json:"user_id"`
-	User   *User `gorm:"foreignkey:UserID" json:"-"`
+	FileName  string `gorm:"type:varchar(255)" json:"file_name"`
+	ObjectKey string `gorm:"type:varchar(255);unique" json:"object_key"`
+	UserID    uint   `gorm:"foreignkey:User" json:"user_id"`
+	User      *User  `gorm:"foreignkey:UserID" json:"-"`
 }

@@ -9,6 +9,7 @@ import (
 type TaskServiceInterface interface {
 	GetAllTasks() ([]models.Task, error)
 	GetTask(id string) (models.Task, error)
+	GetTaskTag(id string) ([]models.Tag, error)
 	GetAllSubTasksOfTask(id string) ([]models.SubTask, error)
 	CreateTask(task models.Task) (models.Task, error)
 	UpdateTask(id string, task models.Task) (models.Task, error)
@@ -37,6 +38,16 @@ func (t *TaskService) GetTask(id string) (models.Task, error) {
 	}
 
 	return task, nil
+}
+
+func (t *TaskService) GetTaskTag(id string) ([]models.Tag, error) {
+	var tags []models.Tag
+
+	if err := t.DB.Where("task_id = ?", id).Find(&tags).Error; err != nil {
+		return []models.Tag{}, err
+	}
+
+	return tags, nil
 }
 
 func (t *TaskService) GetAllSubTasksOfTask(id string) ([]models.SubTask, error) {
