@@ -81,7 +81,8 @@ func (f *FileService) GetFile(id string) (models.File, error) {
 func (f *FileService) GetFileTag(id string) ([]models.Tag, error) {
 	var tags []models.Tag
 
-	if err := f.DB.Where("file_id = ?", id).Find(&tags).Error; err != nil {
+	// join file and tag table using file_tag table
+	if err := f.DB.Joins("JOIN file_tag ON file_tag.tag_id = tags.id").Where("file_tag.file_id = ?", id).Find(&tags).Error; err != nil {
 		return nil, err
 	}
 
