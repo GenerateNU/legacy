@@ -1,9 +1,9 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import {StatusBar} from "expo-status-bar";
+import {StyleSheet, Text, View} from "react-native";
 import Router from "./src/navigation/Router";
-import { NativeBaseProvider, extendTheme } from "native-base";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { AuthProvider } from "./src/contexts/AuthContext";
+import {NativeBaseProvider, extendTheme} from "native-base";
+import {SafeAreaProvider} from "react-native-safe-area-context";
+import {AuthProvider} from "./src/contexts/AuthContext";
 import {
   useFonts,
   DMSans_400Regular,
@@ -13,6 +13,7 @@ import {
   DMSans_700Bold,
   DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
+import {Auth0Provider} from "react-native-auth0";
 
 export default function App() {
   const [fontsLoaded] = useFonts({

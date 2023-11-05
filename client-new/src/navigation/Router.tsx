@@ -1,14 +1,18 @@
-import { NavigationContainer } from "@react-navigation/native";
+import {NavigationContainer} from "@react-navigation/native";
+import {StyleSheet, Text, View} from "react-native";
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
-import { useAuth } from "../contexts/AuthContext";
+import {useAuth} from "../contexts/AuthContext";
+import ProfileStack from "./ProfileStack";
+import App from "../../App";
+import {Button} from "native-base";
 
 export default function Router() {
-  const { user, completedOnboarding } = useAuth();
+  const {user} = useAuth();
 
   return (
     <NavigationContainer>
-      {false ? <AppStack /> : <AuthStack />}
+      {true ? <ProfileStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }
