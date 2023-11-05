@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"server/src/controller"
 	"server/src/database"
 	"sync"
 	"syscall"
@@ -24,7 +23,8 @@ func main() {
 		log.Fatal("Failed to initialize the database: ", err)
 	}
 
-	controller.SetupControllers(e, db)
+	database.AddRoutes(db, e)
+	// godotenv.Load("../.env") TODO:, load env vars
 
 	var wg sync.WaitGroup
 	wg.Add(1)
