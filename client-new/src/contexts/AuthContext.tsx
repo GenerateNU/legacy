@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
   User as FirebaseUser,
   UserCredential,
@@ -6,9 +6,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "../../firebase";
-import { getItemAsync, setItemAsync, deleteItemAsync } from "expo-secure-store";
-import { authService } from "../services/authService";
+import {auth} from "../../firebase";
+import {getItemAsync, setItemAsync, deleteItemAsync} from "expo-secure-store";
 
 type AuthContextData = {
   user: FirebaseUser | null;
@@ -27,7 +26,7 @@ type AuthProviderProps = {
 };
 const AuthContext = React.createContext<AuthContextData>({} as AuthContextData);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   const [user, setUser] = useState<FirebaseUser | null>(null);
 
   useEffect(() => {
@@ -65,25 +64,65 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         password
       );
 
-      // FIGURE OUT PERSONA_ID and where it comes from
-      const data = await authService.signUp({
-        full_name: fullName,
-        username: username,
-        password: password,
-        persona_id: 1,
-        firebase_id: user.user.uid,
+      console.log(user);
+
+      // very ugly code
+      const response = await fetch("http://localhost:8080/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: "password",
+          email: user.user.email,
+          persona_id: 1,
+          firebase_id: user.user.uid,
+        }),
       });
-      return true;
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("test", data);
+
+      // this should probably be in the login function
+      const profileResponse = await fetch(
+        `http://localhost:8080/api/profiles/${data.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: user.user.email.split("@")[0],
+          }),
+        }
+      );
+
+      const profileData = await profileResponse.json();
+      console.log("test", profileData);
     } catch (error) {
-      return error;
+      console.log("Error:", error.message);
     }
   }
 
   const login = async (username: string, password: string) => {
     try {
       const user = await signInWithEmailAndPassword(auth, username, password);
-      authService.signIn(username, password, user.user.uid);
-      return true;
+
+      const response = await fetch(
+        `http://localhost:8080/api/users/firebase/${user.user.uid}`
+      );
+
+      response.json().then((data) => {
+        console.log(data);
+      });
+
+      const data = await response.json();
+      console.log("test", data);
     } catch (error) {
       return error;
     }
@@ -96,7 +135,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, createAccount, login, logout }}>
+    <AuthContext.Provider value={{user, createAccount, login, logout}}>
       {children}
     </AuthContext.Provider>
   );

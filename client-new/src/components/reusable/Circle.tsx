@@ -7,12 +7,11 @@ import {
 
 type CircleProps = {
   color: string;
-  border?: boolean
+  border?: boolean;
 };
 
 export default function Circle(props: CircleProps) {
-
-  const borderWidth = props.border ? 1 : 0
+  const borderWidth = props.border ? 1 : 0;
 
   return (
     <>

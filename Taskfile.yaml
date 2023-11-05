@@ -7,8 +7,8 @@ tasks:
 
   run:
     cmds:
-      - cd scripts && ./run.sh 
-    
+      - cd scripts && ./run.sh
+
   kill:
     cmds:
       - kill $(lsof -i :8080 | grep "main" | awk '{print $2}')
@@ -19,20 +19,20 @@ tasks:
 
   format:
     cmds:
-      - cd server && go fmt ./... && cd ../client && yarn format
-  
+      - cd server && go fmt ./...
+
   insert:
     cmds:
       - cd scripts && ./insert-db.sh
-  
+
   drop:
     cmds:
       - cd scripts && ./reset-db.sh
-  
+
   reset:
     cmds:
       - cd scripts && ./reset-db.sh && ./insert-db.sh
-  
+
   connect:
     cmds:
       - psql -U postgres -W -p 5432 -h localhost -d legacy

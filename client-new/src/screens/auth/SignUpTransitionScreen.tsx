@@ -78,7 +78,7 @@ export default function SignUpTransitionScreen({ route, navigation }) {
           borderRadius={20}
           width={w("35%")}
           onPress={next}
-        > 
+        >
           <Text color={"#000000"} fontWeight={"bold"}>
             Get Started!
           </Text>

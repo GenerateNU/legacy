@@ -52,7 +52,10 @@ export default function HomeScreen() {
 
             <View style={{width: "100%", marginTop: 20}}>
               <View
-                style={{justifyContent: "space-between", flexDirection: "row"}}
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                }}
               >
                 <Text
                   style={{

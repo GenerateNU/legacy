@@ -1,8 +1,8 @@
-import { KeyboardAvoidingView, View } from "native-base";
-import { StyleSheet, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../contexts/AuthContext";
-import { useState } from "react";
+import {KeyboardAvoidingView, View} from "native-base";
+import {StyleSheet, Alert} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {useAuth} from "../../contexts/AuthContext";
+import {useState} from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
 import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
 import SquareButton from "../../components/reusable/SquareButton";
@@ -14,8 +14,8 @@ import {
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
 
-export default function SignUpScreen({ route, navigation }) {
-  const { user, createAccount } = useAuth();
+export default function SignUpScreen({route, navigation}) {
+  const {user, createAccount, login} = useAuth();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -63,41 +63,41 @@ export default function SignUpScreen({ route, navigation }) {
 
   return (
     <SafeAreaView>
-      <KeyboardAvoidingView alignItems="center">
+      <KeyboardAvoidingView alignItems='center'>
         <View
           width={w("80%")}
-          flexDirection="row"
-          justifyContent="space-between"
+          flexDirection='row'
+          justifyContent='space-between'
           justifyItems={"center"}
         >
           <LegacyWordmark />
-          <SquareButton title="LOGIN" onClick={switchToLogin} />
+          <SquareButton title='LOGIN' onClick={switchToLogin} />
         </View>
         <View paddingTop={h("7%")}>
           <LetsGo />
         </View>
         <View alignItems={"center"} paddingTop={h("6.5%")}>
           <ScreenWideInput
-            placeholderText="Example"
-            title="Full Name"
-            iconName="user-o"
+            placeholderText='Example'
+            title='Full Name'
+            iconName='user-o'
             onChangeText={(value) => setFullName(value)}
             value={fullName}
           />
           <View paddingTop={h("3%")}>
             <ScreenWideInput
-              placeholderText="example@email.com"
-              title="Email"
-              iconName="envelope-o"
+              placeholderText='example@email.com'
+              title='Email'
+              iconName='envelope-o'
               onChangeText={(value) => setEmail(value)}
               value={email}
             />
           </View>
           <View paddingTop={h("3%")} paddingBottom={h("4%")}>
             <ScreenWideInput
-              placeholderText="Must be at least 8 characters long"
-              title="Password"
-              iconName="lock"
+              placeholderText='Must be at least 8 characters long'
+              title='Password'
+              iconName='lock'
               password={true}
               onChangeText={(value) => setPassword(value)}
               value={password}
@@ -110,16 +110,16 @@ export default function SignUpScreen({ route, navigation }) {
             justifyContent={"space-between"}
           >
             <ScreenWideButton
-              text="Sign up with SSO"
-              textColor="#8F8F8F"
-              backgroundColor="#FFFFFF"
-              borderColor="#8F8F8F"
+              text='Sign up with SSO'
+              textColor='#8F8F8F'
+              backgroundColor='#FFFFFF'
+              borderColor='#8F8F8F'
             />
             <ScreenWideButton
-              text="Sign up to Legacy"
-              textColor="#FFFFFF"
-              backgroundColor="#8F8F8F"
-              borderColor="#8F8F8F"
+              text='Sign up to Legacy'
+              textColor='#FFFFFF'
+              backgroundColor='#8F8F8F'
+              borderColor='#8F8F8F'
               onClick={signUp}
             />
           </View>

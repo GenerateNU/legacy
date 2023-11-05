@@ -6,19 +6,19 @@ import {
   Button,
   Center,
 } from "native-base";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileTab from "../../components/reusable/ProfileTab";
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
-import {TouchableHighlight, TouchableOpacity} from "react-native";
+import { TouchableHighlight, TouchableOpacity } from "react-native";
 
-export default function ProfileScreen({route, navigation}) {
+export default function ProfileScreen({ route, navigation }) {
   const toMyPersona = () => {
     navigation.navigate("My Persona Screen");
   };
 
   return (
-    <SafeAreaView style={{alignItems: "center", flex: 1}}>
+    <SafeAreaView style={{ alignItems: "center", flex: 1 }}>
       <View width={340} marginTop={50} height={600}>
         <Text
           color={"#252525"}
@@ -44,9 +44,9 @@ export default function ProfileScreen({route, navigation}) {
         </Text>
         <ProfileTab
           title={"Amanda Kerr"}
-          subtitle='Adventuring Optimist'
-          subheading='View My Persona'
-          image='hi'
+          subtitle="Adventuring Optimist"
+          subheading="View My Persona"
+          image="hi"
           border={true}
           handleOnPress={toMyPersona}
         />

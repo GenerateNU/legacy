@@ -1,17 +1,17 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, KeyboardAvoidingView, View } from "native-base";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {Text, KeyboardAvoidingView, View} from "native-base";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
-import { useOnboarding } from "../../contexts/OnboardingContext";
-import { useEffect, useState } from "react";
-import { sendOnboardingResponse, getPersona } from "../../services/authService";
-import { Persona } from "../../types/Persona";
+import {useOnboarding} from "../../contexts/OnboardingContext";
+import {useEffect, useState} from "react";
+import {sendOnboardingResponse, getPersona} from "../../services/authService";
+import {Persona} from "../../types/Persona";
 
-export default function PersonaScreen({ route, navigation }) {
+export default function PersonaScreen({route, navigation}) {
   const {
     page,
     setPage,
@@ -26,7 +26,7 @@ export default function PersonaScreen({ route, navigation }) {
   const next = async () => {
     const nextPage = onboardingFlow[page + 1];
     setPage(page + 1);
-    navigation.push(nextPage.page, { props: nextPage.props });
+    navigation.push(nextPage.page, {props: nextPage.props});
   };
 
   const calculateScore = () => {
@@ -66,8 +66,8 @@ export default function PersonaScreen({ route, navigation }) {
 
   return (
     <SafeAreaView>
-      <KeyboardAvoidingView alignItems="center">
-        <View width={w("80%")} paddingBottom={h("4%")} alignItems="center">
+      <KeyboardAvoidingView alignItems='center'>
+        <View width={w("80%")} paddingBottom={h("4%")} alignItems='center'>
           <LegacyWordmark />
         </View>
 

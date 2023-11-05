@@ -15,7 +15,7 @@ type OnboardingProviderProps = {
 };
 
 const OnboardingContext = createContext<OnboardingContextData>(
-  {} as OnboardingContextData
+  {} as OnboardingContextData,
 );
 
 export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
