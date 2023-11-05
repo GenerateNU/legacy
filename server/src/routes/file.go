@@ -12,7 +12,7 @@ func FileRoutes(g *echo.Group, fileService services.FileServiceInterface) {
 
 	g.GET("/", fileController.GetAllFiles)
 	g.GET("/:uid/user", fileController.GetAllUserFiles)
-	// g.GET("/:fid", fileController.GetFileObject)
+	g.GET("/:fid/tags", fileController.GetFileTag)
 	g.GET("/:fid?days=:days", fileController.GetPresignedURL)
 	g.POST("/:uid", fileController.CreateFile)
 	g.DELETE("/:fid", fileController.DeleteFile)

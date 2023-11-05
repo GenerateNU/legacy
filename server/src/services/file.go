@@ -24,7 +24,7 @@ type FileServiceInterface interface {
 	GetAllFiles() ([]models.File, error)
 	GetAllUserFiles(id string) ([]models.File, error)
 	GetFile(id string) (models.File, error)
-	// GetFileObject(id string) ([]byte, string, error)
+	GetFileTag(id string) ([]models.Tag, error)
 	GetPresignedURL(id string, days string) (string, error)
 	CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error)
 	DeleteFile(id string) error
@@ -78,39 +78,15 @@ func (f *FileService) GetFile(id string) (models.File, error) {
 	return file, nil
 }
 
-// [REMOVED]
-// func (f *FileService) GetFileObject(id string) ([]byte, string, error) {
-// 	file, err := f.GetFile(id)
-// 	if err != nil {
-// 		return nil, "", err
-// 	}
+func (f *FileService) GetFileTag(id string) ([]models.Tag, error) {
+	var tags []models.Tag
 
-// 	sess, err := createAWSSession()
-// 	if err != nil {
-// 		return nil, "", err
-// 	}
+	if err := f.DB.Where("file_id = ?", id).Find(&tags).Error; err != nil {
+		return nil, err
+	}
 
-// 	svc := s3.New(sess)
-// 	key := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
-
-// 	fileResponse, err := svc.GetObject(&s3.GetObjectInput{
-// 		Bucket: aws.String(BUCKET_NAME),
-// 		Key:    aws.String(key),
-// 	})
-
-// 	if err != nil {
-// 		return nil, "", err
-// 	}
-
-// 	defer fileResponse.Body.Close()
-
-// 	fileContent, err := io.ReadAll(fileResponse.Body)
-// 	if err != nil {
-// 		return nil, "", err
-// 	}
-
-// 	return fileContent, file.FileName, nil
-// }
+	return tags, nil
+}
 
 func (f *FileService) GetPresignedURL(id string, days string) (string, error) {
 	file, err := f.GetFile(id)
@@ -125,11 +101,10 @@ func (f *FileService) GetPresignedURL(id string, days string) (string, error) {
 	}
 
 	svc := s3.New(sess)
-	objectKey := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
 
 	req, _ := svc.GetObjectRequest(&s3.GetObjectInput{
 		Bucket: aws.String(BUCKET_NAME),
-		Key:    aws.String(objectKey),
+		Key:    aws.String(file.ObjectKey),
 	})
 
 	daysInt, err := strconv.Atoi(days)
@@ -172,11 +147,11 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 	}
 
 	uploader := s3manager.NewUploader(sess)
-	filename := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
+	file.ObjectKey = fmt.Sprintf("%v-%v", file.UserID, file.FileName)
 
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(BUCKET_NAME),
-		Key:    aws.String(filename),
+		Key:    aws.String(file.ObjectKey),
 		Body:   src,
 	})
 	if err != nil {

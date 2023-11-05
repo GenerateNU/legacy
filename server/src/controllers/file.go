@@ -35,24 +35,15 @@ func (f *FileController) GetAllUserFiles(c echo.Context) error {
 	return c.JSON(http.StatusOK, file)
 }
 
-// [REMOVED]
-// func (f *FileController) GetFileObject(c echo.Context) error {
-// 	fileID := c.Param("fid")
+func (f *FileController) GetFileTag(c echo.Context) error {
+	fileID := c.Param("fid")
+	tag, err := f.fileService.GetFileTag(fileID)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "Failed to fetch tags")
+	}
 
-// 	file, fileName, err := f.fileService.GetFileObject(fileID)
-// 	if err != nil {
-// 		return c.JSON(http.StatusNotFound, "Failed to fetch file")
-// 	}
-
-// 	key := fmt.Sprintf("%v-%v", fileID, fileName)
-
-// 	contentDisposition := fmt.Sprintf("attachment; filename=%s", key)
-
-// 	c.Response().Header().Set("Content-Type", "application/octet-stream")
-// 	c.Response().Header().Set("Content-Disposition", contentDisposition)
-
-// 	return c.Blob(http.StatusOK, "application/octet-stream", file)
-// }
+	return c.JSON(http.StatusOK, tag)
+}
 
 func (f *FileController) GetPresignedURL(c echo.Context) error {
 	fileID := c.Param("fid")
@@ -91,7 +82,7 @@ func (f *FileController) CreateFile(c echo.Context) error {
 
 	file, err = f.fileService.CreateFile(userID, file, fileResponse)
 	if err != nil {
-		return c.JSON(http.StatusNotFound, err)
+		return c.JSON(http.StatusNotFound, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, file)
