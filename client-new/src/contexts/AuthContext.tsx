@@ -80,11 +80,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   const login = async (username: string, password: string) => {
+    console.log("username", username);
+    console.log("password", username);
     try {
       const user = await signInWithEmailAndPassword(auth, username, password);
       authService.signIn(username, password, user.user.uid);
       return true;
     } catch (error) {
+      console.log("Error");
       return error;
     }
   };

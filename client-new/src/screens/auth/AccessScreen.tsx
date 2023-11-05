@@ -6,6 +6,7 @@ import {
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
+import React from "react";
 
 export default function AccessScreen({ route, navigation }) {
   const toSignUp = () => {

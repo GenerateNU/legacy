@@ -13,6 +13,7 @@ import {
 } from "react-native-responsive-screen";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
+import React from "react";
 
 export default function LoginScreen({ route, navigation }) {
   const { user, login, logout } = useAuth();
@@ -20,9 +21,10 @@ export default function LoginScreen({ route, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signIn = () => {
+  const logIn = () => {
     login(email, password);
-    navigation.navigate("");
+    console.log("HIT");
+    navigation.navigate("Access Screen");
 
     //
     // login(email, password).then((response) => {
@@ -95,7 +97,7 @@ export default function LoginScreen({ route, navigation }) {
               textColor="#FFFFFF"
               backgroundColor="#8F8F8F"
               borderColor="#8F8F8F"
-              onClick={signIn}
+              onClick={logIn}
             />
           </View>
           <View paddingTop={h("4%")}>

@@ -13,6 +13,7 @@ import {
 } from "react-native-responsive-screen";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
+import React from "react";
 
 export default function SignUpScreen({ route, navigation }) {
   const { user, createAccount } = useAuth();

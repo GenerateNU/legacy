@@ -12,9 +12,11 @@ const signIn = async (email: string, password: string, uid: string) => {
         `http://localhost:8081/api/users/firebase/${uid}`
     );
 
+    console.log('GOT HERE')
+
     response.json().then((data) => {
-        console.log(data);
-    });
+        console.log('This is the USER returned by Login: ', data);
+    }); 
 
     const data = await response.json();
     console.log("test", data);
