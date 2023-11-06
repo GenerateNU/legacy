@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"server/src/models"
 	"server/src/services"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -31,6 +33,29 @@ func (t *TaskController) GetAllTasks(c echo.Context) error {
 	var tasks []models.Task
 
 	tasks, err := t.taskService.GetAllTasks()
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "Failed to fetch tasks")
+	}
+
+	return c.JSON(http.StatusOK, tasks)
+}
+
+func (t *TaskController) GetAllUserTasks(c echo.Context) error {
+	userID := c.Param("uid")
+	tag := c.QueryParam("tag")
+
+	fmt.Println(tag)
+	if tag != "" {
+		tags := strings.Split(tag, ",")
+		tasks, err := t.taskService.GetAllUserTasksWithTag(userID, tags)
+		if err != nil {
+			return c.JSON(http.StatusNotFound, "Failed to fetch tasks")
+		}
+
+		return c.JSON(http.StatusOK, tasks)
+	}
+
+	tasks, err := t.taskService.GetAllUserTasks(userID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to fetch tasks")
 	}

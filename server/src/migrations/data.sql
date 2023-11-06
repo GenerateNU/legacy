@@ -42,12 +42,12 @@ INSERT INTO tasks (task_name, task_description) VALUES
 INSERT INTO tags (name) VALUES 
 ('Emotional'), -- Red
 ('Financial'), -- Green
-('Value based'), -- Orange
+('Value Based'), -- Orange
 ('Holistic'); -- Yellow
 
 -- Creating test task_tags
 INSERT INTO task_tags (task_id, tag_id) VALUES 
-(1, 1), (2, 1), (3, 1), (4, 1), (5, 2), (6, 2), (7, 2), (8, 2), (9, 2), (10, 2), (11, 2), (12, 2), (13, 2), (14, 1), (15, 1);
+(1, 3), (2, 1), (3, 1), (4, 1), (5, 2), (6, 2), (7, 2), (8, 2), (9, 2), (10, 2), (11, 2), (12, 2), (13, 2), (14, 1), (15, 1);
 
 -- Creating test subtasks
 INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description) VALUES
@@ -101,11 +101,11 @@ INSERT INTO persona_tasks (persona_id, task_id) VALUES
 
 -- Persona 2: Adventurous Optimist
 INSERT INTO persona_tasks (persona_id, task_id) VALUES
-(2, 4), (2, 5), (2, 6), (2, 6), (2, 6), (2, 7), (2, 8), (2, 9), (2, 9), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 15);
+(2, 4), (2, 5), (2, 6), (2, 6), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 15);
 
 -- Persona 3: Adventurous Optimist with Wealth
 INSERT INTO persona_tasks (persona_id, task_id) VALUES
-(3, 10), (3, 11), (3, 12), (3, 13), (3, 11), (3, 14), (3, 15), (3, 16), (3, 17), (3, 18), (3, 19), (3, 20), (3, 21), (3, 22), (3, 23), (3, 24), (3, 25), (3, 26), (3, 27), (3, 28);
+(3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15);
 
 -- Creating test guides
 INSERT INTO guides (guide_name, title, sub_title, author, author_image_url, mins_read, date, full_text) VALUES
