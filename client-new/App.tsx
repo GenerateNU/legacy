@@ -17,6 +17,9 @@ import {
 export default function App() {
   const [fontsLoaded] = useFonts({
     "MADE Dillan": require("./assets/fonts/MADE-Dillan.otf"),
+    "Roca Heavy": require("./assets/fonts/Roca Bold.ttf"),
+    "Roca Light": require("./assets/fonts/Roca Light.ttf"),
+    "Roca Regular": require("./assets/fonts/Roca Regular.ttf"),
     DMSans_400Regular,
     DMSans_400Regular_Italic,
     DMSans_500Medium,
@@ -41,6 +44,17 @@ export default function App() {
           italic: "DMSans_700Bold_Italic",
         },
       },
+      Roca_One: {
+        Light: {
+          normal: "Roca Light",
+        },
+        Regular: {
+          normal: "Roca Regular",
+        },
+        Bold: {
+          normal: "Roca Heavy",
+        },
+      },
     },
     colors: {
       deepEvergreen: "#0C362F",
@@ -49,6 +63,7 @@ export default function App() {
     fonts: {
       madeDillan: "MADE Dillan", // access fontFamily="madeDillan"
       dmSans: "DM_Sans", // access fontFamily={"dmSans"} fontWeight={"Regular"} fontStyle={"normal"}
+      rocaOne: "Roca_One", // access fontFamily={"rocaOne"} fontWeight={"Regular"} fontStyle={"normal"}
     },
   });
 
@@ -57,7 +72,6 @@ export default function App() {
       <SafeAreaProvider>
         <NativeBaseProvider theme={theme}>
           <Router />
-          getUser()
         </NativeBaseProvider>
       </SafeAreaProvider>
     </AuthProvider>

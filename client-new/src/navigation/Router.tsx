@@ -8,7 +8,7 @@ export default function Router() {
 
   return (
     <NavigationContainer>
-      {false ? <AppStack /> : <AuthStack />}
+      {true ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

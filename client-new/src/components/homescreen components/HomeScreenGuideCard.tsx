@@ -16,7 +16,7 @@ const HomeScreenGuideCard: React.FC<HSGCProps> = (props) => {
         backgroundColor: 'white',
         borderRadius: 13,
         borderWidth: 1,
-        borderColor: '#EFEFEF',
+        borderColor: '#0F4D3F',
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 16,
