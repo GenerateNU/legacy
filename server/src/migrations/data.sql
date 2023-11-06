@@ -119,4 +119,4 @@ INSERT INTO files (file_name, object_key, user_id) VALUES
 
 -- Creating test file_tags
 INSERT INTO file_tags (file_id, tag_id) VALUES
-(1, 1), (1, 2), (2, 1), (2, 2);
+(1, 1), (2, 2);

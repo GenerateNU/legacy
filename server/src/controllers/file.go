@@ -35,16 +35,6 @@ func (f *FileController) GetAllUserFiles(c echo.Context) error {
 	return c.JSON(http.StatusOK, file)
 }
 
-func (f *FileController) GetFileTag(c echo.Context) error {
-	fileID := c.Param("fid")
-	tag, err := f.fileService.GetFileTag(fileID)
-	if err != nil {
-		return c.JSON(http.StatusNotFound, "Failed to fetch tags")
-	}
-
-	return c.JSON(http.StatusOK, tag)
-}
-
 func (f *FileController) GetPresignedURL(c echo.Context) error {
 	fileID := c.Param("fid")
 	days := c.QueryParam("days")

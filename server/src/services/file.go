@@ -24,7 +24,6 @@ type FileServiceInterface interface {
 	GetAllFiles() ([]models.File, error)
 	GetAllUserFiles(id string) ([]models.File, error)
 	GetFile(id string) (models.File, error)
-	GetFileTag(id string) ([]models.Tag, error)
 	GetPresignedURL(id string, days string) (string, error)
 	CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error)
 	DeleteFile(id string) error
@@ -76,16 +75,6 @@ func (f *FileService) GetFile(id string) (models.File, error) {
 	}
 
 	return file, nil
-}
-
-func (f *FileService) GetFileTag(id string) ([]models.Tag, error) {
-	var tags []models.Tag
-
-	if err := f.DB.Where("file_id = ?", id).Find(&tags).Error; err != nil {
-		return nil, err
-	}
-
-	return tags, nil
 }
 
 func (f *FileService) GetPresignedURL(id string, days string) (string, error) {
