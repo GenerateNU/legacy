@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Slider } from "native-base";
 import {
   widthPercentageToDP as w,
@@ -11,7 +11,7 @@ type QuestionaireBoxProps = {
   text2: string;
   initialSliderValue: number;
   field: string;
-  handleChange: (name, value) => void
+  handleChange: (name, value) => void;
 };
 
 export default function QuestionaireBox(props: QuestionaireBoxProps) {

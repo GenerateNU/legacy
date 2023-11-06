@@ -13,10 +13,9 @@ func UserRoutes(g *echo.Group, userService services.UserServiceInterface) {
 	g.GET("/", userController.GetAllUsers)
 	g.GET("/:uid", userController.GetUser)
 	g.GET("/username/:username", userController.GetUserFromUsername)
-	g.GET("/firebase/:firebaseid", userController.GetUserFromFirebaseID)
+	g.GET("/firebase/:firebase_id", userController.GetUserFromFirebaseID)
 
 	g.GET("/:uid/persona", userController.GetUserPersona)
-	g.GET("/:uid/tasks", userController.GetUserTasks)
 	g.GET("/:uid/profile", userController.GetUserProfile)
 
 	g.POST("/", userController.CreateUser)

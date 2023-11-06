@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, View } from "native-base";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
@@ -15,20 +15,46 @@ import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
 
 export default function SignUpScreen({ route, navigation }) {
-  const { user, createAccount, login} = useAuth();
+  const { user, createAccount } = useAuth();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const signUp = () => {
-    createAccount(email, password);
-    navigation.setOptions()
+    createAccount(fullName, email, password);
+    navigation.setOptions();
     navigation.navigate("Onboarding Stack");
-  };
-
-  const signIn = () => {
-    login(email, password);
+    // createAccount(fullName, email, password).then((response) => {
+    //   if (response === true) {
+    //     navigation.setOptions();
+    //     navigation.navigate("Onboarding Stack");
+    //   } else {
+    //     const errorMessage = response.code;
+    //     console.log("ERROR: ", errorMessage);
+    //     if (errorMessage === "auth/invalid-email") {
+    //       Alert.alert("Error", "Invalid email, please try again.", [
+    //         { text: "OK", onPress: () => {} },
+    //       ]);
+    //     } else if (errorMessage === "auth/email-already-in-use") {
+    //       Alert.alert(
+    //         "Error",
+    //         "A Legacy account already exists for this email. Please log in.",
+    //         [{ text: "OK", onPress: () => {} }]
+    //       );
+    //     } else if (errorMessage === "auth/weak-password") {
+    //       Alert.alert("Error", "Password must be 8 characters long.", [
+    //         { text: "OK", onPress: () => {} },
+    //       ]);
+    //     } else {
+    //       Alert.alert(
+    //         "Error",
+    //         "There was an error with signing up. Please try again.",
+    //         [{ text: "OK", onPress: () => {} }]
+    //       );
+    //     }
+    //   }
+    // });
   };
 
   const switchToLogin = () => {

@@ -54,7 +54,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "worldviewQ1",
         totalCircles: 6,
         completedCircles: 0,
-        questionNumber: "One",
+        questionNumber: "1",
         question:
           'When it comes to the future, are you the ultimate planner or more of a "let\'s see what happens" kind of person?',
       },
@@ -65,7 +65,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "worldviewQ2",
         totalCircles: 6,
         completedCircles: 1,
-        questionNumber: "Two",
+        questionNumber: "2",
         question:
           'Would you describe yourself as more of a perfectionist or someone who is content with "good enough"?',
       },
@@ -76,7 +76,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "worldviewQ3",
         totalCircles: 6,
         completedCircles: 2,
-        questionNumber: "Three",
+        questionNumber: "3",
         question:
           "Are you a firm believer in self-improvement, no matter your age?",
       },
@@ -87,7 +87,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "worldviewQ4",
         totalCircles: 6,
         completedCircles: 3,
-        questionNumber: "Four",
+        questionNumber: "4",
         question:
           "How open are you to learning and stepping out of your comfort zone?",
       },
@@ -98,7 +98,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "worldviewQ5",
         totalCircles: 6,
         completedCircles: 4,
-        questionNumber: "Five",
+        questionNumber: "5",
         question:
           "Do you tend to focus on what you lack or on what you can provide for your loved ones?",
       },
@@ -109,7 +109,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "worldviewQ6",
         totalCircles: 6,
         completedCircles: 5,
-        questionNumber: "Six",
+        questionNumber: "6",
         question:
           "Do you take the initiative to plan ahead, or do you wait until circumstances force you to react?",
       },
@@ -126,7 +126,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "emotionalPatternQ1",
         totalCircles: 3,
         completedCircles: 0,
-        questionNumber: "One",
+        questionNumber: "1",
         question: "On a typical day, how anxious or calm do you tend to feel?",
       },
     },
@@ -136,7 +136,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "emotionalPatternQ2",
         totalCircles: 3,
         completedCircles: 1,
-        questionNumber: "Two",
+        questionNumber: "2",
         question:
           "Is your glass usually half full, or do you tend to see it as half empty?",
       },
@@ -147,7 +147,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "emotionalPatternQ3",
         totalCircles: 3,
         completedCircles: 2,
-        questionNumber: "Three",
+        questionNumber: "3",
         question:
           "When making decisions, how often do you consider the emotional burden it might place on those close to you?",
       },
@@ -164,7 +164,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "workstyleQ1",
         totalCircles: 4,
         completedCircles: 0,
-        questionNumber: "One",
+        questionNumber: "1",
         question:
           "Are you a laser-focused, 'I get things done' dynamo, or more of a 'why stick to one thing when I can multitask' explorer?",
       },
@@ -175,7 +175,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "workstyleQ2",
         totalCircles: 4,
         completedCircles: 1,
-        questionNumber: "Two",
+        questionNumber: "2",
         question:
           "Are you more internally motivated to accomplish tasks, or do you rely on external notifications and reminders?",
       },
@@ -186,7 +186,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "workstyleQ3",
         totalCircles: 4,
         completedCircles: 2,
-        questionNumber: "Three",
+        questionNumber: "3",
         question:
           "Do you prefer to tackle tasks iteratively over time, or do you prefer to do everything all at once?",
       },
@@ -197,7 +197,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "workstyleQ4",
         totalCircles: 4,
         completedCircles: 3,
-        questionNumber: "Four",
+        questionNumber: "4",
         question:
           "Do you prefer in-depth, detailed information when making important decisions, or do you gravitate towards concise, action-oriented advice?",
       },
@@ -216,7 +216,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "socialInclinationQ1",
         totalCircles: 3,
         completedCircles: 0,
-        questionNumber: "One",
+        questionNumber: "1",
         question:
           "Is talking about death as easy as chatting about the weather, or do you tend to avoid the topic?",
       },
@@ -227,7 +227,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "socialInclinationQ2",
         totalCircles: 3,
         completedCircles: 1,
-        questionNumber: "Two",
+        questionNumber: "2",
         question:
           "Are you the go-to person to help friends and family with tricky decisions, or do you prefer someone else to do the heavy lifting?",
       },
@@ -238,7 +238,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "socialInclinationQ3",
         totalCircles: 3,
         completedCircles: 2,
-        questionNumber: "Three",
+        questionNumber: "3",
         question:
           "Are you more inclined to focus on your issues, or do you often help others with theirs?",
       },
@@ -256,7 +256,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "funnelActivitiesQ1",
         totalCircles: 2,
         completedCircles: 0,
-        questionNumber: "One",
+        questionNumber: "1",
         question:
           "Are you a walking encyclopedia on end-of-life planning, or do you feel like you're navigating uncharted waters?",
       },
@@ -267,7 +267,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         inputName: "funnelActivitiesQ2",
         totalCircles: 2,
         completedCircles: 1,
-        questionNumber: "Two",
+        questionNumber: "2",
         question:
           'Is your end-of-life planning a "when I get around to it" affair, or are you sprinting towards getting it done?',
       },

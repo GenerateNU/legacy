@@ -10,4 +10,5 @@ type File struct {
 	ObjectKey string `gorm:"type:varchar(255);unique" json:"object_key"`
 	UserID    uint   `gorm:"foreignkey:User" json:"user_id"`
 	User      *User  `gorm:"foreignkey:UserID" json:"-"`
+	Tags      []*Tag `gorm:"many2many:file_tags;" json:"tags"`
 }
