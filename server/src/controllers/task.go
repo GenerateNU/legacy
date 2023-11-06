@@ -16,15 +16,6 @@ func NewTaskController(taskService services.TaskServiceInterface) *TaskControlle
 	return &TaskController{taskService: taskService}
 }
 
-func (t *TaskController) GetAllTasks(c echo.Context) error {
-	tasks, err := t.taskService.GetAllTasks()
-	if err != nil {
-		return c.JSON(http.StatusNotFound, "Failed to fetch tasks")
-	}
-
-	return c.JSON(http.StatusOK, tasks)
-}
-
 func (t *TaskController) GetTasks(c echo.Context) error {
 	taskID := c.Param("tid")
 	task, err := t.taskService.GetTask(taskID)
@@ -34,6 +25,17 @@ func (t *TaskController) GetTasks(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, task)
+}
+
+func (t *TaskController) GetAllTasks(c echo.Context) error {
+	var tasks []models.Task
+
+	tasks, err := t.taskService.GetAllTasks()
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "Failed to fetch tasks")
+	}
+
+	return c.JSON(http.StatusOK, tasks)
 }
 
 func (t *TaskController) GetAllSubTasksOfTask(c echo.Context) error {

@@ -17,6 +17,8 @@ func NewFileController(fileService services.FileServiceInterface) *FileControlle
 }
 
 func (f *FileController) GetAllFiles(c echo.Context) error {
+	var file []models.File
+
 	file, err := f.fileService.GetAllFiles()
 	if err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to fetch files")
@@ -27,6 +29,17 @@ func (f *FileController) GetAllFiles(c echo.Context) error {
 
 func (f *FileController) GetAllUserFiles(c echo.Context) error {
 	userID := c.Param("uid")
+	tag := c.QueryParam("tag")
+
+	if tag != "" {
+		file, err := f.fileService.GetAllFilesWithTag(tag)
+		if err != nil {
+			return c.JSON(http.StatusNotFound, "Failed to fetch files")
+		}
+
+		return c.JSON(http.StatusOK, file)
+	}
+
 	file, err := f.fileService.GetAllUserFiles(userID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to fetch files")

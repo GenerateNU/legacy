@@ -22,6 +22,7 @@ var SECRET = "kOQ4kRX6UWbDjlW8MqItnrJgR2UrMRXgD4V2vend"
 
 type FileServiceInterface interface {
 	GetAllFiles() ([]models.File, error)
+	GetAllFilesWithTag(tag string) ([]models.File, error)
 	GetAllUserFiles(id string) ([]models.File, error)
 	GetFile(id string) (models.File, error)
 	GetPresignedURL(id string, days string) (string, error)
@@ -51,6 +52,21 @@ func (f *FileService) GetAllFiles() ([]models.File, error) {
 	var files []models.File
 
 	if err := f.DB.Find(&files).Error; err != nil {
+		return nil, err
+	}
+
+	return files, nil
+}
+
+func (f *FileService) GetAllFilesWithTag(tag string) ([]models.File, error) {
+	var files []models.File
+
+	// join  file_tag table and file table
+	if err := f.DB.Table("files").
+		Joins("JOIN file_tags ON file_tags.file_id = files.id").
+		Joins("JOIN tags ON file_tags.tag_id = tags.id").
+		Where("tags.name = ?", tag).
+		Find(&files).Error; err != nil {
 		return nil, err
 	}
 
