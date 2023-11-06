@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"server/src/models"
 	"server/src/services"
@@ -44,7 +43,6 @@ func (t *TaskController) GetAllUserTasks(c echo.Context) error {
 	userID := c.Param("uid")
 	tag := c.QueryParam("tag")
 
-	fmt.Println(tag)
 	if tag != "" {
 		tags := strings.Split(tag, ",")
 		tasks, err := t.taskService.GetAllUserTasksWithTag(userID, tags)
