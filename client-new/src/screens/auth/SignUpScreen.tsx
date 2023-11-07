@@ -18,12 +18,12 @@ import React from "react";
 export default function SignUpScreen({ route, navigation }) {
   const { user, createAccount } = useAuth();
 
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const signUp = () => {
-    createAccount(fullName, email, password);
+    createAccount(username, email, password);
     navigation.setOptions();
     navigation.navigate("Onboarding Stack");
     // createAccount(fullName, email, password).then((response) => {
@@ -82,8 +82,8 @@ export default function SignUpScreen({ route, navigation }) {
             placeholderText="Example"
             title="Full Name"
             iconName="user-o"
-            onChangeText={(value) => setFullName(value)}
-            value={fullName}
+            onChangeText={(value) => setUsername(value)}
+            value={username}
           />
           <View paddingTop={h("3%")}>
             <ScreenWideInput

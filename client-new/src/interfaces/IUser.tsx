@@ -1,7 +1,7 @@
 export interface IUser {
-  full_name: string;
   username: string;
+  email: string
   password: string;
-  persona_id: number;
+  persona_id?: number;
   firebase_id: string;
 }

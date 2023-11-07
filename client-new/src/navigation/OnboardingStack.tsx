@@ -6,6 +6,7 @@ import PersonaScreen from "../screens/auth/PersonaScreen";
 import LandingScreen from "../screens/auth/LandingScreen";
 import QuizSectionIntroScreen from "../screens/auth/QuizSectionIntroScreen";
 import HomeScreen from "../screens/app/HomeScreen";
+import React from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +17,6 @@ export default function OnboardingStack() {
         initialRouteName="Sign Up Transition Screen"
         screenOptions={{
           headerShown: false,
-          
         }}
       >
         <Stack.Screen

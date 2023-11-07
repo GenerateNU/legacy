@@ -4,6 +4,7 @@ import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
+import React from "react";
 
 type CircleProgressBarProps = {
   totalCircles: number;
@@ -15,11 +16,11 @@ export default function CircleProgressBar(props: CircleProgressBarProps) {
 
   for (let i = 0; i < props.totalCircles; i++) {
     if (i === 0 && props.completedCircles === 0) {
-      circles.push(<Circle color="#FFFFFF" border={true} key={i}/>);
+      circles.push(<Circle color="#FFFFFF" border={true} key={i} />);
     } else if (i < props.completedCircles) {
-      circles.push(<Circle color="#000000" key={i}/>);
+      circles.push(<Circle color="#000000" key={i} />);
     } else if (i === props.completedCircles) {
-      circles.push(<Circle color="#D9D9D9" border={true} key={i}/>);
+      circles.push(<Circle color="#D9D9D9" border={true} key={i} />);
     } else {
       circles.push(<Circle color="#D9D9D9" />);
     }
