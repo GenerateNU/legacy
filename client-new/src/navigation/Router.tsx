@@ -4,7 +4,7 @@ import AuthStack from "./AuthStack";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Router() {
-  const { user, completedOnboarding } = useAuth();
+  const { user } = useAuth();
 
   return (
     <NavigationContainer>

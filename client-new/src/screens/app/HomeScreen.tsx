@@ -10,6 +10,7 @@ import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import { SvgUri } from "react-native-svg";
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import FormComponent from "../../utils/Actions";
 
 
 export default function HomeScreen() {
@@ -35,6 +36,8 @@ export default function HomeScreen() {
   return (
     <>
       <SafeAreaView style={{ alignItems: 'center', flex: 1 }}>
+
+        {/* <FormComponent /> */}
         <View
           style={{
             width: '90%',
