@@ -1,7 +1,7 @@
 import axios from "axios";
-import { IUser } from "../interfaces/IUser";
-import { IOnboardingFlowState } from "../interfaces/IOnboardingFlowState";
-import { Persona } from "../types/Persona";
+import { IUser } from "@/interfaces/IUser";
+import { IOnboardingFlowState } from "@/interfaces/IOnboardingFlowState";
+import { IPersona } from "@/interfaces/IPersona";
 
 // SHOULD AXIOS BE BEING USED AND IF SO, AM I DOING IT PROPERLY
 
@@ -84,7 +84,7 @@ export const getPersona = async (id: number) => {
     .post(`http://localhost:8081/api/personas/${id}`)
     .then((res) => {
       res.data;
-    })) as Persona;
+    })) as IPersona;
 
   return data;
 };

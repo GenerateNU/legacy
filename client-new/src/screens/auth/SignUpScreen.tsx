@@ -1,18 +1,18 @@
 import { KeyboardAvoidingView, View } from "native-base";
 import { StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
-import ScreenWideInput from "../../components/reusable/ScreenWideInput";
-import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
-import SquareButton from "../../components/reusable/SquareButton";
-import CompaniesFooter from "../../components/reusable/CompaniesFooter";
+import ScreenWideInput from "@/components/reusable/ScreenWideInput";
+import ScreenWideButton from "@/components/reusable/HalfScreenWideButton";
+import SquareButton from "@/components/reusable/SquareButton";
+import CompaniesFooter from "@/components/reusable/CompaniesFooter";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import LetsGo from "../../components/reusable/LetsGo";
+import LegacyWordmark from "@/components/reusable/LegacyWordmark";
+import LetsGo from "@/components/reusable/LetsGo";
 import React from "react";
 
 export default function SignUpScreen({ route, navigation }) {

@@ -6,9 +6,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth } from "@/utils/firebase";
 import { getItemAsync, setItemAsync, deleteItemAsync } from "expo-secure-store";
-import { signIn, signUp } from "../services/authService";
+import { signIn, signUp } from "@/services/authService";
 
 type AuthContextData = {
   user: FirebaseUser | null;

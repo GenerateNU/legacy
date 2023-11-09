@@ -1,4 +1,6 @@
 import { Text, View } from "native-base";
+import React from "react";
+
 export default function LegacyWordmark() {
   return (
     <View justifyContent={"center"}>

@@ -1,5 +1,5 @@
 import { View } from "native-base";
-import Circle from "./Circle";
+import Circle from "@/components/reusable/Circle";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,

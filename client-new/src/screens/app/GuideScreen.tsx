@@ -1,13 +1,13 @@
 import { ScrollView, Box, View, Text, Image } from "native-base";
 import { useEffect, useState } from "react";
-import { IGuide } from "../../interfaces/IGuide";
-import { getMonth } from "../../utils/DateUtils";
-import { moderateScale, verticalScale } from "../../utils/FontSizeUtils";
+import { IGuide } from "@/interfaces/IGuide";
+import { getMonth } from "@/utils/DateUtils";
+import { moderateScale, verticalScale } from "@/utils/FontSizeUtils";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { getGuide } from "../../services/GuideService";
+import { getGuide } from "@/services/GuideService";
 import React from "react";
 
 const GuideScreen = (props) => {
