@@ -3,6 +3,7 @@ import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
+import React from "react";
 
 export default function ResponseSlider() {
   const bigCircle = (

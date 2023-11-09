@@ -13,6 +13,7 @@ import {
   DMSans_700Bold,
   DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
+import React from "react";
 
 export default function App() {
   const [fontsLoaded] = useFonts({

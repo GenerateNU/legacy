@@ -1,4 +1,5 @@
 import { Button, Text } from "native-base";
+import React from "react";
 
 type SquareButtonProps = {
   title: string;

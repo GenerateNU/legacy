@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Input, FormControl } from "native-base";
+import { Input, FormControl, Select, TextArea, Checkbox, Radio } from "native-base";
 // import TextField from '@mui/material/TextField';
 // import Select from '@mui/material/Select';
 // import MenuItem from '@mui/material/MenuItem';
@@ -21,91 +21,85 @@ const formData = {
       "type": "text",
       "required": true
     },
-    // {
-    //   "action_type": "input",
-    //   "label": "Date of Birth",
-    //   "placeholder": "Enter your date of birth",
-    //   "name": "date_of_birth",
-    //   "type": "date",
-    //   "required": true,
-    //   "description": "Please enter your date of birth in the format: MM/DD/YYYY"
-    // },
-    // {
-    //   "action_type": "input",
-    //   "label": "Social Security Number",
-    //   "placeholder": "Enter your social security number",
-    //   "name": "ssn",
-    //   "type": "text",
-    //   "required": true,
-    //   "description": "Please provide your 9-digit social security number"
-    // },
-    // {
-    //   "action_type": "input",
-    //   "label": "Current Address",
-    //   "placeholder": "Enter your current address",
-    //   "name": "current_address",
-    //   "type": "text",
-    //   "required": true,
-    //   "description": "Please provide your complete current residential address"
-    // },
-    // {
-    //   "action_type": "input",
-    //   "label": "Phone Number",
-    //   "placeholder": "Enter your phone number",
-    //   "name": "phone_number",
-    //   "type": "tel",
-    //   "required": true,
-    //   "description": "Please provide a valid phone number where you can be reached"
-    // },
-    // {
-    //   "action_type": "input",
-    //   "label": "Email Address",
-    //   "placeholder": "Enter your email address",
-    //   "name": "email",
-    //   "type": "email",
-    //   "required": true,
-    //   "description": "Please provide a valid email address for communication purposes"
-    // },
-    // {
-    //   "action_type": "select",
-    //   "label": "Marital Status",
-    //   "name": "marital_status",
-    //   "options": ["Married", "Single", "Divorced", "Widowed"],
-    //   "required": true,
-    //   "description": "Please select your current marital status from the options provided"
-    // },
-    // {
-    //   "action_type": "textarea",
-    //   "label": "Additional Comments",
-    //   "placeholder": "Enter any additional comments",
-    //   "name": "additional_comments",
-    //   "required": false,
-    //   "description": "Feel free to provide any additional information or comments here"
-    // },
-    // {
-    //   "action_type": "list",
-    //   "label": "Dependent Information",
-    //   "name": "dependent_information",
-    //   "required": false,
-    //   "list_items": ["Dependent 1", "Dependent 2", "Dependent 3"],
-    //   "description": "List the names, birthdates, and relationships of any dependents or children"
-    // },
-    // {
-    //   "action_type": "checkbox",
-    //   "label": "Select Services",
-    //   "name": "services",
-    //   "options": ["Service 1", "Service 2", "Service 3"],
-    //   "required": true,
-    //   "description": "Select the services you require"
-    // },
-    // {
-    //   "action_type": "multiselect",
-    //   "label": "Select Categories",
-    //   "name": "categories",
-    //   "options": ["Category 1", "Category 2", "Category 3"],
-    //   "required": true,
-    //   "description": "Select the categories that apply"
-    // }
+    {
+      "action_type": "input",
+      "label": "Date of Birth",
+      "placeholder": "MM/DD/YYYY",
+      "name": "date_of_birth",
+      "type": "date",
+      "required": true,
+      "description": "Please enter your date of birth in the format: MM/DD/YYYY"
+    },
+    {
+      "action_type": "input",
+      "label": "Social Security Number",
+      "placeholder": "Enter your social security number",
+      "name": "ssn",
+      "type": "text",
+      "required": true,
+      "description": "Please provide your 9-digit social security number"
+    },
+    {
+      "action_type": "input",
+      "label": "Current Address",
+      "placeholder": "Enter your current address",
+      "name": "current_address",
+      "type": "text",
+      "required": true,
+      "description": "Please provide your complete current residential address"
+    },
+    {
+      "action_type": "input",
+      "label": "Phone Number",
+      "placeholder": "Enter your phone number",
+      "name": "phone_number",
+      "type": "tel",
+      "required": true,
+      "description": "Please provide a valid phone number where you can be reached"
+    },
+    {
+      "action_type": "input",
+      "label": "Email Address",
+      "placeholder": "Enter your email address",
+      "name": "email",
+      "type": "email",
+      "required": true,
+      "description": "Please provide a valid email address for communication purposes"
+    },
+    {
+      "action_type": "select",
+      "label": "Marital Status",
+      "name": "marital_status",
+      "options": ["Married", "Single", "Divorced", "Widowed"],
+      "required": true,
+      "placeholder": "Select your marital status",
+      "description": "Please select your current marital status from the options provided"
+    },
+    {
+      "action_type": "textarea",
+      "label": "Additional Comments",
+      "placeholder": "Enter any additional comments",
+      "name": "additional_comments",
+      "required": false,
+      "description": "Feel free to provide any additional information or comments here",
+    },
+    {
+      "action_type": "checkbox",
+      "label": "Select Services",
+      "name": "services",
+      "options": ["Service 1", "Service 2", "Service 3"],
+      "required": true,
+      "description": "Select the services you require"
+    },
+    {
+      "action_type": "radio",
+      "label": "Select Payment Method",
+      "name": "payment_method",
+      "options": ["Credit Card", "Debit Card", "Cash", "Check"],
+      "required": true,
+      "description": "Select your preferred method of payment"
+
+    }
   ]
 };  
 
@@ -134,42 +128,37 @@ const FormComponent = () => {
   };
 
   const handleAddListItem = (e, name) => {
-    
     const newValues = [...(formState[name] || []), ""]; // Initialize as an array
     setFormState((prevState) => ({ ...prevState, [name]: newValues }));
   };
 
   // TODO: Doesnt work correctly
-  const handleMultiSelectChange = (e) => {
-    const { name, value } = e.target;
-    // If the value is not an array, create a new array with the value as the single element
-    const newValue = Array.isArray(value) ? value : [value];
+  const handleRadioChange = (name, value) => {
     setFormState((prevState) => ({
       ...prevState,
-      [name]: newValue,
+      [name]: value,
     }));
   };
   
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (name, value) => {
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
+  };
+  
+  const handleSelectChange = (name, value) => {
+    setFormState((prevState) => ({ ...prevState, [name]: value }));  
+  };
+
+  const handleTextAreaChange = (name, value) => {
     setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSelectChange = (e) => {
-    const { name, value } = e.target;
-    setFormState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleTextAreaChange = (e) => {
-    const { name, value } = e.target;
-    setFormState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleCheckboxChange = (e) => {
-    const { name, value, checked } = e.target;
+  const handleCheckboxChange = (values, name) => {
     setFormState((prevState) => ({
       ...prevState,
-      [name]: { ...prevState[name], [value]: checked },
+      [name]: values.reduce((obj, value) => {
+        obj[value] = true;
+        return obj;
+      }, {}),
     }));
   };
 
@@ -198,6 +187,7 @@ const FormComponent = () => {
         return (
           <>
             <FormControl.Label>{action.label}</FormControl.Label>
+            {/* Conditonally based on type */}
             <Input
               key={index}
               // label={action.label}
@@ -205,19 +195,98 @@ const FormComponent = () => {
               // name={action.name}
               type={action.type}
               // required={action.required}
-              onChange={handleInputChange}
+              onChangeText={(value) => handleInputChange(action.name, value)}
               margin="normal"
               variant="outlined"
             />
+            {/* <FormControl.HelperText>{action.description}</FormControl.HelperText> */}
           </>
         );
-      
+      case 'select':
+          return ( 
+            <>
+              <FormControl.Label>{action.label}</FormControl.Label>
+              <Select
+                minWidth="200"
+                accessibilityLabel={action.placeholder}
+                placeholder={action.placeholder}
+                selectedValue={formState[action.name] || ''}
+                onValueChange={(value) => handleSelectChange(action.name, value)}
+                mt={1}
+              >
+                {action.options.map((option, idx) => (
+                  <Select.Item key={idx} label={option} value={option} />
+                ))}
+              </Select>
+              <FormControl.HelperText>{action.description}</FormControl.HelperText>
+            </>
+          );
+      case 'textarea':
+        return (
+          <>
+            <FormControl.Label>{action.label}</FormControl.Label>
+            <TextArea
+              key={index}
+              area-label={action.label}
+              // label={action.label}
+              placeholder={action.placeholder}
+              // name={action.name}
+              // required={action.required}
+              numberOfLines={4}
+              onChangeText={(value) => handleTextAreaChange(action.name, value)}
+              margin="normal"
+              variant="outlined" 
+              autoCompleteType={undefined}    
+            />
+            <FormControl.HelperText>{action.description}</FormControl.HelperText>
+          </>
+        );
+        case 'checkbox':
+          return (
+            <>
+              <FormControl.Label>{action.label}</FormControl.Label>
+              <Checkbox.Group
+                colorScheme="green"
+                defaultValue={[]}
+                onChange={(values) => handleCheckboxChange(values, action.name)}
+                style={{ flexDirection: 'column' }}
+              >
+                {action.options.map((option, idx) => (
+                  <Checkbox key={idx} value={option} my={1}>
+                    {option}
+                  </Checkbox>
+                ))}
+              </Checkbox.Group>
+              <FormControl.HelperText>{action.description}</FormControl.HelperText>
+            </>
+          );
+        case 'radio':
+          return (
+            <>
+              <FormControl.Label>{action.label}</FormControl.Label>
+              <Radio.Group
+                name={action.name}
+                defaultValue={formState[action.name] || ''}
+                onChange={(value) => handleRadioChange(action.name, value)}
+                style={{ flexDirection: 'column' }}
+              >
+                {action.options.map((option, idx) => (
+                  <Radio key={idx} value={option}>
+                    {option}
+                  </Radio>
+                ))}
+              </Radio.Group>
+              <FormControl.HelperText>{action.description}</FormControl.HelperText>
+            </>
+          );
       default:
         return null;
     }
   };
+  console.log('Form submitted:', { "metadata": { "timestamp": new Date(), } , "form": formState });
 
   return (
+    // <FormControl key={index} fullWidth margin="normal"></FormControl>
     <FormControl isInvalid w="75%" maxW="300px">
       {formData.actions.map((action, index) => renderField(action, index))}
       {/* <Button type="submit" variant="contained" color="primary">
