@@ -57,7 +57,6 @@ export default function App() {
       <SafeAreaProvider>
         <NativeBaseProvider theme={theme}>
           <Router />
-          getUser()
         </NativeBaseProvider>
       </SafeAreaProvider>
     </AuthProvider>
