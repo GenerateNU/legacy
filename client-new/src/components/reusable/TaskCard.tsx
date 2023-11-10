@@ -1,71 +1,26 @@
-import { View, Text } from "react-native";
+import { View, Text, Icon, CheckIcon } from "native-base";
 
 type TaskProps = {
     title: String,
     description: String,
+    completed: Boolean
   };
 
 export default function TaskCard(props) {
     return (
-        <View
-        style={{
-            paddingLeft: 20,
-            paddingRight: 20,
-            paddingTop: 16,
-            paddingBottom: 16,
-            backgroundColor: 'white',
-            borderRadius: 13,
-            borderWidth: 1,
-            borderColor: '#EFEFEF',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            flexDirection: 'row'
-        }}
-        >
-        <View
-            style={{
-            flex: 1,
-            alignSelf: 'stretch',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            marginHorizontal: 12,
-            }}
-        >
-            <Text
-            style={{
-                color: '#252525',
-                fontSize: 15,
-                fontFamily: 'Open Sans',
-                fontWeight: '600',
-                lineHeight: 20,
-                flexWrap: 'wrap',
-            }}
-            >
-            {props.title}
-            </Text>
-            <Text
-            style={{
-                color: '#C1C3C7',
-                fontSize: 12,
-                fontFamily: 'Open Sans',
-                fontWeight: '400',
-                lineHeight: 20,
-                flexWrap: 'wrap',
-            }}
-            >
-            {props.description}
-            </Text>
+        <View flexDirection={'row'} width={'90%'} padding='2'>
+            <View width='10' height='10' borderRadius={'100'} borderWidth={'3'} backgroundColor={'#D3D3D3'} borderColor={'#D3D3D3'} justifyContent={'center'} alignItems={'center'} marginRight={'3'}>
+            <CheckIcon name="" color='#FF692E' />
+            </View>
+            <View flexDirection={'columm'}>
+                <Text fontWeight={'bold'}>
+                    {props.title}
+                </Text>
+                <Text>
+                    {props.description}
+                </Text>
+            </View>
         </View>
-        <View
-            style={{
-            width: 72,
-            height: 74,
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative',
-            }}
-        >
-        </View>
-        </View>
+
     );
 };
