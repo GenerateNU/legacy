@@ -26,8 +26,8 @@ func (g *guideController) GetAllGuides(c echo.Context) error {
 }
 
 func (g *guideController) GetGuide(c echo.Context) error {
-	guideID := c.Param("g_name")
-	guide, err := g.guideService.GetGuide(guideID)
+	guideName := c.Param("g_name")
+	guide, err := g.guideService.GetGuide(guideName)
 
 	if err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to fetch guide")
@@ -72,8 +72,8 @@ func (g *guideController) UpdateGuide(c echo.Context) error {
 }
 
 func (g *guideController) DeleteGuide(c echo.Context) error {
-	guideID := c.Param("g_name")
-	err := g.guideService.DeleteGuide(guideID)
+	guideName := c.Param("g_name")
+	err := g.guideService.DeleteGuide(guideName)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to delete guide")
 	}

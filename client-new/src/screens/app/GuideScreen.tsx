@@ -1,13 +1,30 @@
 import { ScrollView, Box, View, Text, Image } from "native-base";
 import { useEffect, useState } from "react";
-import { IGuide } from "../../interfaces/IGuide";
-import { getMonth } from "../../utils/DateUtils";
-import { moderateScale, verticalScale } from "../../utils/FontSizeUtils";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { IGuide } from "../../interfaces/IGuide";
+import { getMonth } from "../../utils/DateUtils";
+import { moderateScale, verticalScale } from "../../utils/FontSizeUtils";
 import { getGuide } from "../../services/GuideService";
+import Markdown from "@ronradtke/react-native-markdown-display";
+
+const MarkdownWrapper: React.FC<any> = ({ children }) => {
+  return (
+    <View px={wp("14%")} py={hp("5.5%")}>
+      <Text
+        fontFamily={"dmSans"}
+        fontWeight={"Regular"}
+        fontStyle={"normal"}
+        fontSize={moderateScale(12)}
+        color={"muteEggplant"}
+      >
+        <Markdown>{children}</Markdown>
+      </Text>
+    </View>
+  );
+};
 
 const GuideScreen = (props) => {
   // props should include a guideName field.
@@ -17,13 +34,12 @@ const GuideScreen = (props) => {
     const fetchGuide = async (guideName: string) => {
       try {
         const guide = await getGuide(guideName);
-        console.log("initialize guide success: ", guide);
         setState(guide);
+        console.log("initialize guide success: ", guide);
       } catch (err) {
         console.log("failed to initialize guide: ", err);
       }
     };
-
     fetchGuide(props.guideName);
   }, [props.guideName]);
 
@@ -102,17 +118,7 @@ const GuideScreen = (props) => {
             </View>
             <View>
               <Box roundedTop={wp("17%")} bg="#FAF8F2" w={wp("100%")}>
-                <Text
-                  px={wp("14%")}
-                  py={hp("5.5%")}
-                  fontFamily={"dmSans"}
-                  fontWeight={"Regular"}
-                  fontStyle={"normal"}
-                  fontSize={moderateScale(12)}
-                  color={"muteEggplant"}
-                >
-                  {state.full_text}
-                </Text>
+                <MarkdownWrapper>{state.full_text}</MarkdownWrapper>
               </Box>
             </View>
           </View>
