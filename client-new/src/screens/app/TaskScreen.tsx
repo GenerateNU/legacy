@@ -1,16 +1,12 @@
-import {  View, Text, ScrollView, } from "native-base";
+import {  View, Text, ScrollView, Button, } from "native-base";
 import { useAuth } from "../../contexts/AuthContext";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import CircleProgress from "../../components/reusable/CircleProgress";
-import TaskCard from "../../components/reusable/TaskCard";
+import HomeScreenTaskCard from "../../components/homescreen components/HomeScreenTaskCard";
 
 
 export default function TaskScreen() {
   const { user, logout } = useAuth();
-  const taskData = {
-      title: 'Acknowledge Your Aversion to End-Of-Life-Planning',
-      progress: 33
-    };
+  const tagData = ['Emotional', 'Financial', 'Value Based', 'Holistic'];
   const subtaskData = [
     {
         title: 'Research Resources',
@@ -25,33 +21,39 @@ export default function TaskScreen() {
 
   return (
     <>
-      <ScrollView>
-        <View margin={'20px'}>
-            <View style={{flexDirection: 'row', justifyContent: 'flex-end',}}>
+      <ScrollView backgroundColor={'#FFFAF2'}>
+        <View margin={'30px'} marginTop={'60px'}>
+            <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                 <LegacyWordmark/>
             </View>
             <View width={'75%'} marginTop={'20px'}>
-            <Text marginBottom= '10px' color= '#252525' fontSize='18' fontWeight={'bold'}>
-                {taskData.title}
+            <Text marginBottom= '20px' fontSize='24' fontWeight={'200'} fontFamily={"madeDillan"}>
+                All Tasks
               </Text>
+              <View flexDirection={'row'}>
+              {tagData.map((item) => (
+                  <Button 
+                  variant="unstyled" 
+                  marginRight={'5px'} 
+                  marginBottom={'5px'}
+                  paddingLeft={'10px'}
+                  paddingRight={'10px'}
+                  paddingTop={'10px'}
+                  paddingBottom={'10px'}
+                  borderRadius={'100px'}
+                  borderWidth={'1px'}
+                  borderColor={'#0F4F43'}>{item}</Button>
+                ))}
+              </View>
             </View>
-            <View marginTop={'20px'}>
-            <CircleProgress progress={73}></CircleProgress>
-            </View>
-            <View marginTop= '30' flexDirection='column' justifyContent= 'space-between'>
+            <View marginTop= '20px' flexDirection='column' justifyContent= 'space-between'>
                 {subtaskData.map((item, index) => (
-                  <View key={index} marginBottom='2'>
-                    <TaskCard title={item.title} description={item.description} />
+                  <View key={index} marginBottom='10px'>
+                    <HomeScreenTaskCard title={item.title} description={item.description} progress={10} />
                   </View>
                 ))}
               </View>
               <View marginTop={'20px'}>
-            <Text marginBottom= '10px' color= '#252525' fontSize='18' fontWeight={'bold'}>
-                Suggestions for You
-              </Text>
-              <Text marginBottom= '10px' color= '#252525' fontSize='14'>
-                Consider adding these steps into your process
-              </Text>
             </View>
 
         </View>
