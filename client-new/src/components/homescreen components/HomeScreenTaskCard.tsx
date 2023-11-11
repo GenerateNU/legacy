@@ -21,19 +21,19 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
             borderColor={'#0F4D3F'}
             flexDir={'row'}
             alignItems={'center'}
-            marginBottom={16}
-            
-            style={{
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingTop: 16,
-                paddingBottom: 16,
-                borderRadius: 13,
-                borderWidth: 1,
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: 16
-            }}
+            marginBottom={4}
+
+            // style={{
+            //     paddingLeft: 20,
+            //     paddingRight: 20,
+            //     paddingTop: 16,
+            //     paddingBottom: 16,
+            //     borderRadius: 13,
+            //     borderWidth: 1,
+            //     flexDirection: 'row',
+            //     alignItems: 'center',
+            //     marginBottom: 16
+            // }}
         >
             <View style={{ flex: 1, marginLeft: 12 }}>
                 <Text style={{ fontFamily: 'inter', fontSize: 15, fontWeight: '600', marginBottom: 8 }}>{props.title}</Text>

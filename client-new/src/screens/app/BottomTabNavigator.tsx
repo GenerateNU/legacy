@@ -18,6 +18,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        headerShown: false,
         tabBarIcon: ({ focused }) => {
           let iconComponent;
 
@@ -36,14 +37,20 @@ const TabNavigator = () => {
         },
         tabBarStyle: {
           backgroundColor: '#FFF9EE',
+          borderTopWidth: 1,
+          paddingTop: 10,
+          paddingBottom: 10,
+
         },
+        tabBarLabel: ''
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Guides" component={GuideScreen} />
-      <Tab.Screen name="Marketplace" component={MapScreen} />
+      {/* <Tab.Screen name="Marketplace" component={MapScreen} /> */}
       <Tab.Screen name="Tasks" component={TaskScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      {/* <Tab.Screen name="Profile" component={ProfileScreen} /> */}
+
     </Tab.Navigator>
   );
 };

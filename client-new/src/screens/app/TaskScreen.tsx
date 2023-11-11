@@ -1,10 +1,6 @@
-import {  View, Text, CircularProgress, } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {  View, Text, ScrollView, } from "native-base";
 import { useAuth } from "../../contexts/AuthContext";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import HomeScreenTaskCard from "../../components/homescreen components/HomeScreenTaskCard";
-import CircleProgressBar from "../../components/reusable/CircleProgressBar";
-import Circle from "../../components/reusable/Circle";
 import CircleProgress from "../../components/reusable/CircleProgress";
 import TaskCard from "../../components/reusable/TaskCard";
 
@@ -29,35 +25,38 @@ export default function TaskScreen() {
 
   return (
     <>
-      <SafeAreaView style={{ alignItems: 'center', flex: 1 }}>
-        <View style={{width: '90%', flexDirection: 'column', justifyContent: 'space-between'}}>
+      <ScrollView>
+        <View margin={'20px'}>
             <View style={{flexDirection: 'row', justifyContent: 'flex-end',}}>
                 <LegacyWordmark/>
             </View>
-            <View style={{ width: '100%', marginTop: 35, flexDirection: 'column', justifyContent: 'center' }}>
-              <Text style={{ width: '100%', color: '#252525', fontSize: 18, }}>
+            <View width={'75%'} marginTop={'20px'}>
+            <Text marginBottom= '10px' color= '#252525' fontSize='18' fontWeight={'bold'}>
                 {taskData.title}
               </Text>
-              <CircleProgress progress={33}></CircleProgress>
             </View>
-
-            <View style={{ width: '100%', marginTop: 20 }}>
-              <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                <Text style={{ color: '#252525', fontSize: 15, fontFamily: 'Open Sans', fontWeight: '700', lineHeight: 20 }}>
-                  Upcoming Tasks
-                </Text>
-              </View>
-
-              <View style={{ marginTop: 20, flexDirection: 'column', justifyContent: 'space-between' }}>
+            <View marginTop={'20px'}>
+            <CircleProgress progress={73}></CircleProgress>
+            </View>
+            <View marginTop= '30' flexDirection='column' justifyContent= 'space-between'>
                 {subtaskData.map((item, index) => (
-                  <View key={index} style={{ marginBottom: 20 }}>
+                  <View key={index} marginBottom='2'>
                     <TaskCard title={item.title} description={item.description} />
                   </View>
                 ))}
               </View>
+              <View marginTop={'20px'}>
+            <Text marginBottom= '10px' color= '#252525' fontSize='18' fontWeight={'bold'}>
+                Suggestions for You
+              </Text>
+              <Text marginBottom= '10px' color= '#252525' fontSize='14'>
+                Consider adding these steps into your process
+              </Text>
             </View>
+
         </View>
-      </SafeAreaView>
+
+      </ScrollView>
     </>
   );
 }
