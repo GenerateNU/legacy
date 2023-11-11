@@ -12,6 +12,7 @@ func SubTaskRoutes(g *echo.Group, subTaskService services.SubTaskServiceInterfac
 
 	g.GET("/", subtaskController.GetAllSubTasks)
 	g.GET("/:sid", subtaskController.GetSubTasks)
+	g.GET("/:sid/action", subtaskController.GetAction)
 	g.POST("/", subtaskController.CreateSubTask)
 	g.PATCH("/:sid", subtaskController.UpdateSubTask)
 	g.DELETE("/:sid", subtaskController.DeleteSubTask)

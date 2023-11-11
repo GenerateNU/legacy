@@ -3,24 +3,18 @@ module server
 go 1.21
 
 require (
+	github.com/go-playground/validator/v10 v10.15.5
 	github.com/labstack/echo/v4 v4.11.1
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.4
 )
 
-require (
-	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
-	github.com/go-playground/validator/v10 v10.15.5 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
-	github.com/radovskyb/watcher v1.0.7 // indirect
-	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
-)
+require github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 
 require (
 	github.com/aws/aws-sdk-go v1.45.14
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.3.1 // indirect

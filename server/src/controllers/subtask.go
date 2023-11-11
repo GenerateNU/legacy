@@ -36,6 +36,17 @@ func (t *SubTaskController) GetSubTasks(c echo.Context) error {
 	return c.JSON(http.StatusOK, subTask)
 }
 
+func (t *SubTaskController) GetAction(c echo.Context) error {
+	subTaskID := c.Param("sid")
+	subTask, err := t.subTaskService.GetAction(subTaskID)
+
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "Failed to fetch subtask")
+	}
+
+	return c.JSON(http.StatusOK, subTask)
+}
+
 func (t *SubTaskController) CreateSubTask(c echo.Context) error {
 	var subTask models.SubTask
 

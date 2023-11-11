@@ -28,6 +28,7 @@ type FileServiceInterface interface {
 	GetPresignedURL(id string, days string) (string, error)
 	CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error)
 	DeleteFile(id string) error
+	GeneratePDF(uid string, fileJSON string) (models.File, error)
 }
 
 type FileService struct {
@@ -122,12 +123,19 @@ func (f *FileService) GetPresignedURL(id string, days string) (string, error) {
 }
 
 func (f *FileService) CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error) {
+	var testFile models.File
 	file.FileName = data.Filename
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
 		return models.File{}, errors.New("failed to convert id to int")
 	}
 	file.UserID = uint(idInt)
+
+	// check if filename is already taken
+	file.ObjectKey = fmt.Sprintf("%v-%v", file.UserID, file.FileName)
+	if err := f.DB.Where("object_key = ?", file.ObjectKey).Find(&testFile).Error; err == nil {
+		return models.File{}, errors.New("file name already exists")
+	}
 
 	// Check if the file size is greater than 5 MB
 	if data.Size > 5000000 {
@@ -147,7 +155,6 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 	}
 
 	uploader := s3manager.NewUploader(sess)
-	file.ObjectKey = fmt.Sprintf("%v-%v", file.UserID, file.FileName)
 
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(BUCKET_NAME),
@@ -164,6 +171,10 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 	}
 
 	return file, nil
+}
+
+func (f *FileService) GeneratePDF(uid string, fileJSON string) (models.File, error) {
+	return models.File{}, nil
 }
 
 func (f *FileService) DeleteFile(id string) error {

@@ -15,5 +15,6 @@ func FileRoutes(g *echo.Group, fileService services.FileServiceInterface) {
 	g.GET("/:fid/tags", fileController.GetFileTag)
 	g.GET("/:fid?days=:days", fileController.GetPresignedURL)
 	g.POST("/:uid", fileController.CreateFile)
+	g.POST("/makepdf/:uid", fileController.GeneratePDF)
 	g.DELETE("/:fid", fileController.DeleteFile)
 }
