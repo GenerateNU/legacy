@@ -11,7 +11,6 @@ import { SvgUri } from "react-native-svg";
 // import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
-import FormComponent from "@/utils/Actions";
 
 export default function HomeScreen() {
   const { user, logout } = useAuth();
@@ -36,8 +35,6 @@ export default function HomeScreen() {
   return (
     <ScrollView>
       <SafeAreaView style={{ alignItems: 'center', flex: 1 }}>
-
-        <FormComponent />
         <View
           style={{
             width: "90%",

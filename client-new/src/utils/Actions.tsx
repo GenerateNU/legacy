@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Input, FormControl, Select, TextArea, Checkbox, Radio } from "native-base";
+import { IAction, IActionList } from '@/interfaces/IAction';
 // import TextField from '@mui/material/TextField';
 // import Select from '@mui/material/Select';
 // import MenuItem from '@mui/material/MenuItem';
@@ -104,9 +105,13 @@ const formData = {
 };  
 
 
-const FormComponent = () => {
-  const [formState, setFormState] = useState({});
+type FormComponentProps = {
+  actions: IActionList
+}
 
+const FormComponent = (props: FormComponentProps )=> {
+  const [formState, setFormState] = useState({});
+  console.log("????", props)
   const handleListChange = (e, name, index) => {
     e.preventDefault();
 
@@ -288,7 +293,7 @@ const FormComponent = () => {
   return (
     // <FormControl key={index} fullWidth margin="normal"></FormControl>
     <FormControl isInvalid w="75%" maxW="300px">
-      {formData.actions.map((action, index) => renderField(action, index))}
+      {props.actions.actions.map((action, index) => renderField(action, index))}
       {/* <Button type="submit" variant="contained" color="primary">
         Submit
       </Button> */}
