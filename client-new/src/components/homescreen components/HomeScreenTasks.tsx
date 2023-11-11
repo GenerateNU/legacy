@@ -14,7 +14,7 @@ const YourJourneyComponent: React.FC<YourJourneyProps> = ({ tasks }) => {
     return (
         <View width={'100%'} marginTop={5}>
             <View justifyContent={'space-between'} flexDir={'row'}>
-                <Text color={'#252525'} fontSize={24} fontFamily={'Open Sans'} fontWeight={'700'} lineHeight={26.4} >
+                <Text color={'#252525'} fontFamily={"rocaOne"} fontWeight={"Regular"} fontStyle={"normal"} fontSize={24} lineHeight={26.4} >
                     Your Journey
                 </Text>
                 <Text color={'#909090'} fontSize={15} fontFamily={'Open Sans'} fontWeight={'400'} textDecorationLine={'underline'} lineHeight={20}>

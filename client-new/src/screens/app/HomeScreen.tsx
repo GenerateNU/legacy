@@ -8,10 +8,9 @@ import {
 } from "react-native-responsive-screen";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import { SvgUri } from "react-native-svg";
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { NavigationContainer } from '@react-navigation/native';
 import { useEffect, useState } from "react";
 import { getTasks } from "../../services/TaskService";
+import { getUser } from "../../services/UserService";
 import { moderateScale, verticalScale } from "../../utils/FontSizeUtils";
 import HomeScreenTasks from "../../components/homescreen components/HomeScreenTasks";
 import HomeScreenGuides from "../../components/homescreen components/HomeScreenGuides";
@@ -29,6 +28,16 @@ export default function HomeScreen() {
         }
         fetchTasks()
     }, [])
+
+    // const [users, setUsers] = useState([])
+
+    // useEffect(() => {
+    //     const fetchUsers = async () => {
+    //         const response = await getUser("1")
+    //         setTasks(response)
+    //     }
+    //     fetchUsers()
+    // }, [])
 
 
     const guideData = [
@@ -51,7 +60,7 @@ export default function HomeScreen() {
                                 fontWeight={"Regular"}
                                 fontStyle={"normal"}
                                 color={'#252525'}
-                                fontSize={moderateScale(40)}>
+                                fontSize={moderateScale(32)}>
                                     Hello Amanda!
                                 </Text>
                             </View>

@@ -15,7 +15,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
             paddingRight={20}
             paddingTop={16}
             paddingBottom={16}
-            bgColor={'#43A57366'}
+            bgColor={'#FFFFFF'}
             borderRadius={13}
             borderWidth={1}
             borderColor={'#0F4D3F'}
@@ -36,8 +36,8 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
             }}
         >
             <View style={{ flex: 1, marginLeft: 12 }}>
-                <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 8 }}>{props.title}</Text>
-                <Text style={{ fontSize: 12, color: '#2F1D12', marginBottom: 8, }}>{props.description}</Text>
+                <Text style={{ fontFamily: 'inter', fontSize: 15, fontWeight: '600', marginBottom: 8 }}>{props.title}</Text>
+                <Text style={{ fontFamily: 'inter', fontSize: 12, color: '#2F1D12', marginBottom: 8, }}>{props.description}</Text>
             </View>
             <View style={{ width: 72, height: 72, borderRadius: 9999, backgroundColor: '#D9D9D9', justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{ width: 65.13, height: 63.43, position: 'absolute', backgroundColor: '#F7F7F8', borderRadius: 9999 }} />

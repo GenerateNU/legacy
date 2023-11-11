@@ -14,7 +14,7 @@ export default function LegacyWordmark() {
   return (
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <SvgXml xml={LegacyLogo} width="28" height="20" />
-      <Text color={'#0F4F43'} fontWeight='400' fontStyle={'normal'} fontSize='25'>
+      <Text color={'#0F4F43'} fontFamily={"rocaOne"} fontWeight= 'Bold' fontStyle={'normal'} fontSize='25'>
         Legacy
       </Text>
     </View>
