@@ -11,9 +11,9 @@ const SubTaskScreen = (props) => {
     
     const handleFetch = async () => {
         console.log("RESPONSE")
-        await fetch("http://localhost:8080/api/subtasks/1/action").then((res) => {
-            console.log(res.json())
-        }).catch(() => console.log("ERROR"))
+        const response = await fetch("http://localhost:8080/api/subtasks/1/action")
+        const data = await response.json()
+        console.log(data)
     }
 
     handleFetch()
