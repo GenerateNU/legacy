@@ -23,8 +23,8 @@ const HomeScreenGuideCard: React.FC<HSGCProps> = (props) => {
       }}
     >
       <View style={{ flex: 1, marginLeft: 5, marginRight: 5 }}>
-        <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 8, color: '#2F1D12'}}>{props.title}</Text>
-        <Text style={{ fontSize: 12, color: '#2F1D12', marginBottom: 8, width: 100 }} numberOfLines={2}>
+      <Text style={{ fontFamily: 'inter', fontSize: 15, fontWeight: '600', marginBottom: 8 }}>{props.title}</Text>
+        <Text style={{ fontFamily: 'inter', fontSize: 12, color: '#2F1D12', marginBottom: 8, width: 100 }} numberOfLines={2}>
           {props.description}
         </Text>
       </View>
