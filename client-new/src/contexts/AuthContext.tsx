@@ -19,7 +19,7 @@ type AuthContextData = {
   ) => Promise<any>;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => Promise<void>;
-  // completedOnboarding: boolean;
+  completedOnboarding: boolean;
 };
 
 type AuthProviderProps = {
@@ -29,6 +29,7 @@ const AuthContext = React.createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [completedOnboarding, setCompletedOnboarding] = useState()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
@@ -71,13 +72,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         firebase_id: user.user.uid,
       });
 
-      const data = await signUp({
+      const onboarding_complete = await signUp({
         email: email,
         username: username,
         password: password,
         firebase_id: user.user.uid,
       });
       console.log("user signup didnt fail");
+      console.log("onboarding is ", onboarding_complete)
+      setCompletedOnboarding(onboarding_complete)
       return true;
     } catch (error) {
       console.log("User Signup Failed");
@@ -105,7 +108,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, createAccount, login, logout }}>
+    <AuthContext.Provider value={{ user, completedOnboarding, createAccount, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
