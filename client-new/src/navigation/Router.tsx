@@ -4,11 +4,11 @@ import AuthStack from "./AuthStack";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Router() {
-  const { user } = useAuth();
+  const { user, completedOnboarding } = useAuth();
 
   return (
     <NavigationContainer>
-      {true ? <AppStack /> : <AuthStack />}
+      {false ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }
