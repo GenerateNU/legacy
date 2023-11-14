@@ -1,9 +1,9 @@
 version: "3"
 
 tasks:
-  tunnel:
+  dev:
     cmds:
-      - lt --port 8080 --subdomain legacy | open https://legacy.loca.lt
+      - cd scripts && ./tunnel.sh
 
   run:
     cmds:
