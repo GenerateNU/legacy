@@ -7,9 +7,9 @@ import {
   Center,
 } from "native-base";
 import {SafeAreaView} from "react-native-safe-area-context";
-import ProfileTab from "../../components/reusable/ProfileTab";
+import ProfileTab from "../../../components/reusable/ProfileTab";
 import {useNavigation} from "@react-navigation/native";
-import ScreenWideButton from "../../components/reusable/ScreenWideButton";
+import ScreenWideButton from "../../../components/reusable/ScreenWideButton";
 import {
   Pressable,
   ScrollView,
@@ -18,9 +18,9 @@ import {
 } from "react-native";
 import Svg, {Path} from "react-native-svg";
 import {useEffect, useState} from "react";
-import {Persona} from "../../types/Persona";
-import { IPersona } from "../../interfaces/IPersona";
-import { getAllPersonas } from "../../services/profileService";
+import {Persona} from "../../../types/Persona";
+import {IPersona} from "../../../interfaces/IPersona";
+import {getAllPersonas} from "../../../services/profileService";
 
 export default function AllPersonasScreen({route, navigation}) {
   const [personas, setPersonas] = useState<IPersona[]>([]);
@@ -44,13 +44,12 @@ export default function AllPersonasScreen({route, navigation}) {
   };
 
   useEffect(() => {
-    
     /**
      * Fetch the personas for this screen
      */
     async function fetchData() {
       try {
-        const personasData = await getAllPersonas(); 
+        const personasData = await getAllPersonas();
         setPersonas(personasData);
       } catch (error) {
         console.log(error);
@@ -115,7 +114,9 @@ export default function AllPersonasScreen({route, navigation}) {
               subtitle={value.persona_description}
               image='hi'
               border={true}
-              handleOnPress={() => toPersona(value.persona_title, value.persona_description)}
+              handleOnPress={() =>
+                toPersona(value.persona_title, value.persona_description)
+              }
             />
           </View>
         ))}
