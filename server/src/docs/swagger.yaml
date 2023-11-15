@@ -1,0 +1,50 @@
+definitions:
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      firebase_id:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      persona_id:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - firebase_id
+    - password
+    - username
+    type: object
+info:
+  contact:
+    email: oduneye.d@northeastern.edu and dupuguntla@northeastern.edu
+    name: David Oduneye and Akshay Dupuguntla
+  description: Backend Server for Legacy App
+  title: Legacy API
+  version: "1.0"
+paths:
+  /api/users/:
+    get:
+      consumes:
+      - application/json
+      description: returns all users
+      operationId: get-all-users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Gets all users
+      tags:
+      - users
+swagger: "2.0"

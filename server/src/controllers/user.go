@@ -16,6 +16,16 @@ func NewUserController(userService services.UserServiceInterface) *UserControlle
 	return &UserController{userService: userService}
 }
 
+// User godoc
+//
+//	@Summary		Gets all users
+//	@Description	returns all users
+//	@ID				get-all-users
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	models.User
+//	@Router			/api/users/ [get]
 func (u *UserController) GetAllUsers(c echo.Context) error {
 	users, err := u.userService.GetAllUsers()
 	if err != nil {
