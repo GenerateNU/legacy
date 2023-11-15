@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"server/src/models"
 	"server/src/services"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -14,15 +15,6 @@ type TaskController struct {
 
 func NewTaskController(taskService services.TaskServiceInterface) *TaskController {
 	return &TaskController{taskService: taskService}
-}
-
-func (t *TaskController) GetAllTasks(c echo.Context) error {
-	tasks, err := t.taskService.GetAllTasks()
-	if err != nil {
-		return c.JSON(http.StatusNotFound, "Failed to fetch tasks")
-	}
-
-	return c.JSON(http.StatusOK, tasks)
 }
 
 func (t *TaskController) GetTasks(c echo.Context) error {
@@ -36,15 +28,37 @@ func (t *TaskController) GetTasks(c echo.Context) error {
 	return c.JSON(http.StatusOK, task)
 }
 
-func (t *TaskController) GetTaskTag(c echo.Context) error {
-	taskID := c.Param("tid")
-	tags, err := t.taskService.GetTaskTag(taskID)
+func (t *TaskController) GetAllTasks(c echo.Context) error {
+	var tasks []models.Task
 
+	tasks, err := t.taskService.GetAllTasks()
 	if err != nil {
-		return c.JSON(http.StatusNotFound, "Failed to fetch tags")
+		return c.JSON(http.StatusNotFound, "Failed to fetch tasks")
 	}
 
-	return c.JSON(http.StatusOK, tags)
+	return c.JSON(http.StatusOK, tasks)
+}
+
+func (t *TaskController) GetAllUserTasks(c echo.Context) error {
+	userID := c.Param("uid")
+	tag := c.QueryParam("tag")
+
+	if tag != "" {
+		tags := strings.Split(tag, ",")
+		tasks, err := t.taskService.GetAllUserTasksWithTag(userID, tags)
+		if err != nil {
+			return c.JSON(http.StatusNotFound, "Failed to fetch tasks")
+		}
+
+		return c.JSON(http.StatusOK, tasks)
+	}
+
+	tasks, err := t.taskService.GetAllUserTasks(userID)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "Failed to fetch tasks")
+	}
+
+	return c.JSON(http.StatusOK, tasks)
 }
 
 func (t *TaskController) GetAllSubTasksOfTask(c echo.Context) error {

@@ -1,11 +1,12 @@
 import axios from "axios";
-import { IGuide } from "@/interfaces/IGuide";
+import { IGuide } from "../interfaces/IGuide";
+import { ENDPOINT } from "./const";
 
 export const getGuide = (guideName: string): Promise<IGuide> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get<IGuide>(`http://localhost:8080/api/guides/${guideName}`)
+        .get<IGuide>(`${ENDPOINT}/api/guides/${guideName}`)
         .then((res) => {
           resolve(res.data);
         })

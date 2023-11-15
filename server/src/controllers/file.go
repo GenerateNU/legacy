@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"server/src/models"
 	"server/src/services"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -18,6 +19,8 @@ func NewFileController(fileService services.FileServiceInterface) *FileControlle
 }
 
 func (f *FileController) GetAllFiles(c echo.Context) error {
+	var file []models.File
+
 	file, err := f.fileService.GetAllFiles()
 	if err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to fetch files")
@@ -26,8 +29,31 @@ func (f *FileController) GetAllFiles(c echo.Context) error {
 	return c.JSON(http.StatusOK, file)
 }
 
+func (f *FileController) GetFilename(c echo.Context) error {
+	fileID := c.Param("fid")
+	file, err := f.fileService.GetFilename(fileID)
+
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "Failed to fetch file")
+	}
+
+	return c.JSON(http.StatusOK, file)
+}
+
 func (f *FileController) GetAllUserFiles(c echo.Context) error {
 	userID := c.Param("uid")
+	tag := c.QueryParam("tag")
+
+	if tag != "" {
+		tags := strings.Split(tag, ",")
+		files, err := f.fileService.GetAllUserFilesWithTag(userID, tags)
+		if err != nil {
+			return c.JSON(http.StatusNotFound, "Failed to fetch files")
+		}
+
+		return c.JSON(http.StatusOK, files)
+	}
+
 	file, err := f.fileService.GetAllUserFiles(userID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to fetch files")
@@ -36,17 +62,7 @@ func (f *FileController) GetAllUserFiles(c echo.Context) error {
 	return c.JSON(http.StatusOK, file)
 }
 
-func (f *FileController) GetFileTag(c echo.Context) error {
-	fileID := c.Param("fid")
-	tag, err := f.fileService.GetFileTag(fileID)
-	if err != nil {
-		return c.JSON(http.StatusNotFound, "Failed to fetch tags")
-	}
-
-	return c.JSON(http.StatusOK, tag)
-}
-
-func (f *FileController) GetPresignedURL(c echo.Context) error {
+func (f *FileController) GetFileURL(c echo.Context) error {
 	fileID := c.Param("fid")
 	days := c.QueryParam("days")
 
@@ -54,7 +70,7 @@ func (f *FileController) GetPresignedURL(c echo.Context) error {
 		days = "1"
 	}
 
-	url, err := f.fileService.GetPresignedURL(fileID, days)
+	url, err := f.fileService.GetFileURL(fileID, days)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to get presigned url")
 	}

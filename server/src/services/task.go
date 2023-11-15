@@ -9,7 +9,8 @@ import (
 type TaskServiceInterface interface {
 	GetAllTasks() ([]models.Task, error)
 	GetTask(id string) (models.Task, error)
-	GetTaskTag(id string) ([]models.Tag, error)
+	GetAllUserTasks(id string) ([]models.Task, error)
+	GetAllUserTasksWithTag(id string, tag []string) ([]models.Task, error)
 	GetAllSubTasksOfTask(id string) ([]models.SubTask, error)
 	CreateTask(task models.Task) (models.Task, error)
 	UpdateTask(id string, task models.Task) (models.Task, error)
@@ -40,14 +41,41 @@ func (t *TaskService) GetTask(id string) (models.Task, error) {
 	return task, nil
 }
 
-func (t *TaskService) GetTaskTag(id string) ([]models.Tag, error) {
-	var tags []models.Tag
+func (t *TaskService) GetAllUserTasks(id string) ([]models.Task, error) {
+	var tasks []models.Task
+	var userService UserServiceInterface = &UserService{DB: t.DB}
 
-	if err := t.DB.Where("task_id = ?", id).Find(&tags).Error; err != nil {
-		return []models.Tag{}, err
+	persona, err := userService.GetUserPersona(id)
+	if err != nil {
+		return []models.Task{}, err
 	}
 
-	return tags, nil
+	if err := t.DB.Model(&persona).Association("Tasks").Find(&tasks); err != nil {
+		return []models.Task{}, err
+	}
+
+	return tasks, nil
+}
+
+func (t *TaskService) GetAllUserTasksWithTag(userID string, tags []string) ([]models.Task, error) {
+	var userService UserServiceInterface = &UserService{DB: t.DB}
+	var tasks []models.Task
+
+	persona, err := userService.GetUserPersona(userID)
+	if err != nil {
+		return []models.Task{}, err
+	}
+
+	if err := t.DB.Table("tasks").
+		Joins("JOIN persona_tasks ON persona_tasks.task_id = tasks.id").
+		Joins("JOIN personas ON persona_tasks.persona_id = personas.id").
+		Joins("JOIN task_tags ON task_tags.task_id = tasks.id").
+		Joins("JOIN tags ON task_tags.tag_id = tags.id").
+		Where("tags.name IN (?) AND personas.id = ?", tags, persona.ID).
+		Find(&tasks).Error; err != nil {
+		return nil, err
+	}
+	return tasks, nil
 }
 
 func (t *TaskService) GetAllSubTasksOfTask(id string) ([]models.SubTask, error) {

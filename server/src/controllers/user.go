@@ -69,17 +69,6 @@ func (u *UserController) GetUserPersona(c echo.Context) error {
 	return c.JSON(http.StatusOK, persona)
 }
 
-func (u *UserController) GetUserTasks(c echo.Context) error {
-	userID := c.Param("uid")
-	tasks, err := u.userService.GetUserTasks(userID)
-
-	if err != nil {
-		return c.JSON(http.StatusNotFound, "Failed to fetch user tasks")
-	}
-
-	return c.JSON(http.StatusOK, tasks)
-}
-
 func (u *UserController) GetUserProfile(c echo.Context) error {
 	userID := c.Param("uid")
 	profile, err := u.userService.GetUserProfile(userID)

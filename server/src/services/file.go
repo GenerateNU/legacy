@@ -22,10 +22,11 @@ var SECRET = "kOQ4kRX6UWbDjlW8MqItnrJgR2UrMRXgD4V2vend"
 
 type FileServiceInterface interface {
 	GetAllFiles() ([]models.File, error)
-	GetAllUserFiles(id string) ([]models.File, error)
 	GetFile(id string) (models.File, error)
-	GetFileTag(id string) ([]models.Tag, error)
-	GetPresignedURL(id string, days string) (string, error)
+	GetFilename(id string) (string, error)
+	GetAllUserFiles(id string) ([]models.File, error)
+	GetAllUserFilesWithTag(id string, tag []string) ([]models.File, error)
+	GetFileURL(id string, days string) (string, error)
 	CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error)
 	DeleteFile(id string) error
 	GeneratePDF(uid string, fileJSON string) (models.File, error)
@@ -49,10 +50,34 @@ func createAWSSession() (*session.Session, error) {
 	return sess, nil
 }
 
+func (f *FileService) GetFilename(id string) (string, error) {
+
+	file, err := f.GetFile(id)
+	if err != nil {
+		return "", err
+	}
+
+	return file.FileName, nil
+}
+
 func (f *FileService) GetAllFiles() ([]models.File, error) {
 	var files []models.File
 
 	if err := f.DB.Find(&files).Error; err != nil {
+		return nil, err
+	}
+
+	return files, nil
+}
+
+func (f *FileService) GetAllUserFilesWithTag(id string, tag []string) ([]models.File, error) {
+	var files []models.File
+
+	if err := f.DB.Table("files").
+		Joins("JOIN file_tags ON file_tags.file_id = files.id").
+		Joins("JOIN tags ON file_tags.tag_id = tags.id").
+		Where("tags.name IN (?) AND files.user_id = ?", tag, id).
+		Find(&files).Error; err != nil {
 		return nil, err
 	}
 
@@ -79,17 +104,7 @@ func (f *FileService) GetFile(id string) (models.File, error) {
 	return file, nil
 }
 
-func (f *FileService) GetFileTag(id string) ([]models.Tag, error) {
-	var tags []models.Tag
-
-	if err := f.DB.Where("file_id = ?", id).Find(&tags).Error; err != nil {
-		return nil, err
-	}
-
-	return tags, nil
-}
-
-func (f *FileService) GetPresignedURL(id string, days string) (string, error) {
+func (f *FileService) GetFileURL(id string, days string) (string, error) {
 	file, err := f.GetFile(id)
 	if err != nil {
 		return "", err
