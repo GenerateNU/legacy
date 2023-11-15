@@ -9,6 +9,7 @@ import { getMonth } from "../../utils/DateUtils";
 import { moderateScale, verticalScale } from "../../utils/FontSizeUtils";
 import { getGuide } from "../../services/GuideService";
 import Markdown from "@ronradtke/react-native-markdown-display";
+import React from "react";
 
 const MarkdownWrapper: React.FC<any> = ({ children }) => {
   return (

@@ -109,9 +109,9 @@ type FormComponentProps = {
   actions: IActionList
 }
 
-const FormComponent = (props: FormComponentProps )=> {
+const FormComponent = (props: FormComponentProps) => {
   const [formState, setFormState] = useState({});
-  console.log("????", props)
+  //console.log("????", props)
   const handleListChange = (e, name, index) => {
     e.preventDefault();
 
@@ -290,9 +290,11 @@ const FormComponent = (props: FormComponentProps )=> {
   };
   console.log('Form submitted:', { "metadata": { "timestamp": new Date(), } , "form": formState });
 
+
   return (
     // <FormControl key={index} fullWidth margin="normal"></FormControl>
     <FormControl isInvalid w="75%" maxW="300px">
+      
       {props.actions.actions.map((action, index) => renderField(action, index))}
       {/* <Button type="submit" variant="contained" color="primary">
         Submit

@@ -11,7 +11,7 @@ export default function Router() {
 
   return (
     <NavigationContainer>
-      <SubTaskScreen />
+      <SubTaskScreen task_id = {1}/>
     </NavigationContainer>
   );
 }

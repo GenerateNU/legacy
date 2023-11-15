@@ -1,14 +1,13 @@
 import axios from "axios";
 import { IAction, IActionList } from "@/interfaces/IAction";
+import { ENDPOINT } from "./const";
 
-export const getAction = (subTaskId: string): Promise<IActionList> => {
-    console.log("getAction", subTaskId);
+export const getAction = (task_id: number): Promise<IActionList> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get<IActionList>(`http://localhost:8080/api/subtasks/${subTaskId}/action`)
+        .get<IActionList>(`${ENDPOINT}/api/subtasks/${task_id}/action`)
         .then((res) => {
-            console.log(res);
           resolve(res.data);
         })
         .catch((error) => {
