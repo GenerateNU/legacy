@@ -72,11 +72,24 @@ export default function ProfileScreen({route, navigation}) {
         />
       </View>
       {shareModal && (
-        <OurModal
-          title='SHARE / RATE APP'
-          showModal={shareModal}
-          setShowModal={setShareModal}
-        />
+        <OurModal showModal={shareModal} setShowModal={setShareModal}>
+          <View
+            backgroundColor={"#D9D9D9"}
+            height={272}
+            width={241}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Text
+              textAlign={"center"}
+              fontFamily={"Open Sans"}
+              fontSize={15}
+              fontWeight={"700"}
+            >
+              {"SHARE / RATE APP"}
+            </Text>
+          </View>
+        </OurModal>
       )}
     </SafeAreaView>
   );
