@@ -1,4 +1,4 @@
-import { Text, Button } from "native-base";
+import {Text, Button} from "native-base";
 import React from "react";
 import {
   widthPercentageToDP as w,
@@ -10,6 +10,7 @@ type ScreenWideButtonProps = {
   textColor: string;
   backgroundColor: string;
   borderColor: string;
+  width?: number;
   onClick?: (input) => any;
 };
 
@@ -18,7 +19,7 @@ export default function ScreenWideButton(props: ScreenWideButtonProps) {
     <>
       <Button
         backgroundColor={props.backgroundColor}
-        width={w("80%")}
+        width={props.width ? props.width : w("80%")}
         height={h("5%")}
         borderRadius={w("80%") / 2}
         onPress={props.onClick}
