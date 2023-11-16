@@ -34,7 +34,14 @@ export default function ProfileStack() {
         name='Password and Security Screen'
         component={PasswordAndSecurityScreeen}
       />
-      <Stack.Screen name='Notifications Screen' component={NotificationsScreen}/>
+      <Stack.Screen
+        name='Personal Access Screen'
+        component={NotificationsScreen}
+      />
+      <Stack.Screen
+        name='Notifications Screen'
+        component={NotificationsScreen}
+      />
     </Stack.Navigator>
   );
 }

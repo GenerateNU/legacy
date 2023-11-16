@@ -66,6 +66,7 @@ export default function ProfileScreen({route, navigation}) {
           title={"Password and Security"}
           handleOnPress={() => toPasswordAndSecurity()}
         />
+        <ProfileTab title={"Personal Access"} />
         <ProfileTab
           title={"Share and Rate Legacy"}
           handleOnPress={() => setShareModal(true)}
