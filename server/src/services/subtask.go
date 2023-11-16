@@ -9,7 +9,7 @@ import (
 type SubTaskServiceInterface interface {
 	GetAllSubTasks() ([]models.SubTask, error)
 	GetSubTask(id string) (models.SubTask, error)
-	GetAction(id string) (string, error)
+	GetActions(id string) (string, error)
 	CreateSubTask(subTask models.SubTask) (models.SubTask, error)
 	UpdateSubTask(id string, subTask models.SubTask) (models.SubTask, error)
 	DeleteSubTask(id string) error
@@ -39,17 +39,17 @@ func (s *SubTaskService) GetSubTask(id string) (models.SubTask, error) {
 	return task, nil
 }
 
-func (s *SubTaskService) GetAction(id string) (string, error) {
+func (s *SubTaskService) GetActions(id string) (string, error) {
 	var task models.SubTask
-	var action string
+	var actions string
 
 	if err := s.DB.First(&task, id).Error; err != nil {
 		return "", err
 	}
 
-	action = task.Action
+	actions = task.Actions
 
-	return action, nil
+	return actions, nil
 }
 
 func (s *SubTaskService) CreateSubTask(subTask models.SubTask) (models.SubTask, error) {

@@ -1,18 +1,14 @@
-import axios from "axios";
-import { IAction, IActionList } from "@/interfaces/IAction";
-import { ENDPOINT } from "./const";
+import axios from 'axios';
+import { IAction, IActionList } from '@/interfaces/IAction';
+import { ENDPOINT } from './const';
 
-export const getAction = (subtask_id: number): Promise<IActionList> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      axios
-        .get<IActionList>(`${ENDPOINT}/api/subtasks/${subtask_id}/action`)
-        .then((res) => {
-          resolve(res.data);
-        })
-        .catch((error) => {
-          reject(error.response.data);
-        });
-    });
-  });
+export const getActions = async (subtask_id: number) => {
+  try {
+    const res = await axios.get(
+      `https://legacy.loca.lt/api/subtasks/${subtask_id}/actions`
+    );
+    return JSON.parse(res.data);
+  } catch (error) {
+    throw new Error(error);
+  }
 };
