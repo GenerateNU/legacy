@@ -30,21 +30,21 @@ const SubTaskScreen = (props) => {
 */
 
  const SubTaskScreen = (props) => {
-    // props should include a task_id field
+    // props should include a id field
     const [state, setState] = useState<IActionList>();
 
     useEffect(() => {
-        const fetchAction = async (task_id: number) => {
+        const fetchAction = async (subtask_id: number) => {
             try {
-                const action = await getAction(task_id);
+                const action = await getAction(subtask_id);
                 console.log("here is the action: ", action)
                 setState(action);
             } catch (err) {
                 console.log("failed to setState", err);
             };
         };
-        fetchAction(props.task_id);
-    }, [props.task_id]);
+        fetchAction(props.id);
+    }, [props.id]);
 
     useEffect(() => {
         // log the updated state here
