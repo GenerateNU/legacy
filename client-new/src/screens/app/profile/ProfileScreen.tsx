@@ -14,6 +14,7 @@ import {TouchableHighlight, TouchableOpacity} from "react-native";
 import {useState} from "react";
 import Modal from "../../../components/reusable/Modal";
 import OurModal from "../../../components/reusable/Modal";
+import LegacyWordmarkWithBackArrow from "../../../components/reusable/LegacyWordmarkWithBackArrow";
 
 export default function ProfileScreen({route, navigation}) {
   const [shareModal, setShareModal] = useState<boolean>(false);
@@ -28,19 +29,11 @@ export default function ProfileScreen({route, navigation}) {
   return (
     <SafeAreaView style={{alignItems: "center", flex: 1}}>
       <View width={340} marginTop={50} height={600}>
-        <Text
-          color={"#252525"}
-          fontFamily={"Open Sans"}
-          fontSize={20}
-          fontWeight={"700"}
-          lineHeight={20}
-        >
-          Legacy Wordmark
-        </Text>
+        <LegacyWordmarkWithBackArrow handleOnPress={() => {}} />
         <Text
           style={{
             color: "#252525",
-            fontFamily: "Open Sans",
+            fontFamily: "RocaOne-Rg",
             fontSize: 15,
             fontWeight: "700",
             lineHeight: 20,
