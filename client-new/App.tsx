@@ -14,25 +14,15 @@ import {
   DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
 
-<<<<<<< HEAD
-import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
-=======
 import {Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
 
->>>>>>> 8666dfa80d68e7331891be901b12bfa773236d62
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     "MADE Dillan": require("./assets/fonts/MADE-Dillan.otf"),
-<<<<<<< HEAD
-    // "Roca Heavy": require("./assets/fonts/Roca-Bold.ttf"),
-    // "Roca Light": require("./assets/fonts/Roca-Light.ttf"),
-    // "Roca Regular": require("./assets/fonts/Roca-Regular.ttf"),
-=======
     "Roca Heavy": require("./assets/fonts/Roca-Bold.ttf"),
     "Roca Light": require("./assets/fonts/Roca-Light.ttf"),
     "Roca Regular": require("./assets/fonts/Roca-Regular.ttf"),
->>>>>>> 8666dfa80d68e7331891be901b12bfa773236d62
     DMSans_400Regular,
     DMSans_400Regular_Italic,
     DMSans_500Medium,
@@ -40,11 +30,7 @@ export default function App() {
     DMSans_700Bold,
     DMSans_700Bold_Italic,
     Inter_400Regular,
-<<<<<<< HEAD
-    Inter_600SemiBold,
-=======
     Inter_600SemiBold
->>>>>>> 8666dfa80d68e7331891be901b12bfa773236d62
   });
 
   const theme = extendTheme({
