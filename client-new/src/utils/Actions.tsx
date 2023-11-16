@@ -8,115 +8,9 @@ import {
   Radio
 } from 'native-base';
 import { IAction, IActionList } from '@/interfaces/IAction';
-// import TextField from '@mui/material/TextField';
-// import Select from '@mui/material/Select';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import InputLabel from '@mui/material/InputLabel';
-// import FormHelperText from '@mui/material/FormHelperText';
-// import Button from '@mui/material/Button';
-// import { TextareaAutosize } from '@mui/material';
-// import { Input } from '@mui/material/';
-// import jsPDF from 'jspdf';
-
-const formData = {
-  actions: [
-    {
-      action_type: 'input',
-      label: 'Full Legal Name',
-      placeholder: 'Enter your full legal name',
-      name: 'full_name',
-      type: 'text',
-      required: true
-    },
-    {
-      action_type: 'input',
-      label: 'Date of Birth',
-      placeholder: 'MM/DD/YYYY',
-      name: 'date_of_birth',
-      type: 'date',
-      required: true,
-      description: 'Please enter your date of birth in the format: MM/DD/YYYY'
-    },
-    {
-      action_type: 'input',
-      label: 'Social Security Number',
-      placeholder: 'Enter your social security number',
-      name: 'ssn',
-      type: 'text',
-      required: true,
-      description: 'Please provide your 9-digit social security number'
-    },
-    {
-      action_type: 'input',
-      label: 'Current Address',
-      placeholder: 'Enter your current address',
-      name: 'current_address',
-      type: 'text',
-      required: true,
-      description: 'Please provide your complete current residential address'
-    },
-    {
-      action_type: 'input',
-      label: 'Phone Number',
-      placeholder: 'Enter your phone number',
-      name: 'phone_number',
-      type: 'tel',
-      required: true,
-      description:
-        'Please provide a valid phone number where you can be reached'
-    },
-    {
-      action_type: 'input',
-      label: 'Email Address',
-      placeholder: 'Enter your email address',
-      name: 'email',
-      type: 'email',
-      required: true,
-      description:
-        'Please provide a valid email address for communication purposes'
-    },
-    {
-      action_type: 'select',
-      label: 'Marital Status',
-      name: 'marital_status',
-      options: ['Married', 'Single', 'Divorced', 'Widowed'],
-      required: true,
-      placeholder: 'Select your marital status',
-      description:
-        'Please select your current marital status from the options provided'
-    },
-    {
-      action_type: 'textarea',
-      label: 'Additional Comments',
-      placeholder: 'Enter any additional comments',
-      name: 'additional_comments',
-      required: false,
-      description:
-        'Feel free to provide any additional information or comments here'
-    },
-    {
-      action_type: 'checkbox',
-      label: 'Select Services',
-      name: 'services',
-      options: ['Service 1', 'Service 2', 'Service 3'],
-      required: true,
-      description: 'Select the services you require'
-    },
-    {
-      action_type: 'radio',
-      label: 'Select Payment Method',
-      name: 'payment_method',
-      options: ['Credit Card', 'Debit Card', 'Cash', 'Check'],
-      required: true,
-      description: 'Select your preferred method of payment'
-    }
-  ]
-};
 
 const FormComponent = ({ actions }: IActionList) => {
   const [formState, setFormState] = useState({});
-  console.log('DAVID', actions, typeof actions);
   const handleListChange = (e, name, index) => {
     e.preventDefault();
 
@@ -309,44 +203,10 @@ const FormComponent = ({ actions }: IActionList) => {
   });
 
   return (
-    // <FormControl key={index} fullWidth margin="normal"></FormControl>
     <FormControl isInvalid w="75%" maxW="300px">
       {actions.map((action, index) => renderField(action, index))}
-      {/* <Button type="submit" variant="contained" color="primary">
-        Submit
-      </Button> */}
     </FormControl>
   );
 };
 
 export default FormComponent;
-
-{
-  /* <FormControl isInvalid w="75%" maxW="300px">
-        <FormControl.Label>Password</FormControl.Label>
-        <Input placeholder="Enter password" />
-        <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-          Try different from previous passwords.
-        </FormControl.ErrorMessage>
-      </FormControl> */
-}
-
-{
-  /* const Example = () => {
-  return <Box alignItems="center">
-      <Box w="100%" maxWidth="300px">
-        <FormControl isRequired>
-          <Stack mx="4">
-            <FormControl.Label>Password</FormControl.Label>
-            <Input type="password" defaultValue="12345" placeholder="password" />
-            <FormControl.HelperText>
-              Must be atleast 6 characters.
-            </FormControl.HelperText>
-            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-              Atleast 6 characters are required.
-            </FormControl.ErrorMessage>
-          </Stack>
-        </FormControl>
-      </Box>
-    </Box>; */
-}

@@ -7,88 +7,24 @@ import { ENDPOINT } from '@/services/const';
 import { useQuery } from 'react-query';
 import { Text } from 'native-base';
 
-/*
-const SubTaskScreen = (props) => {
-    const sid = "1"
-    const [state, setState] = useState<IActionList>(null);
-    
-    const handleFetch = async () => {
-        console.log("RESPONSE")
-        const response = await fetch(`${ENDPOINT}/api/subtasks/1/action`)
-        const data = await response.json()
-        try {setState(data) 
-        } catch (err) {
-            console.log("set state failed", err)
-        }
-
-        console.log(data)
-        console.log(state)
-    }
-
-    handleFetch()
-
-    console.log("action response", state)
-
-*/
-
 const SubTaskScreen = ({ subtask_id }) => {
   const [state, setState] = useState<IActionList>(null);
   // props should include a id field
 
-  // const { isLoading, error, data } = useQuery(
-  //   ['fetchActions', subtask_id],
-  //   () => getActions(subtask_id)
-  // );
+  const { isLoading, error, data } = useQuery(
+    ['fetchActions', subtask_id],
+    () => getActions(subtask_id)
+  );
 
-  const fetchActions = async () => {
-    const response = await fetch(
-      `https://legacy.loca.lt/api/subtasks/${subtask_id}/actions`
-    );
-    const data = await response.json();
-    return data;
-  };
+  console.log('action fetched: ', data); // {"actions": [{"action_type": "input", "label": "Full Legal Name", "name": "full_name", "placeholder": "Enter your full legal name", "required": true, "type": "text"}, {"action_type": "input", "description": "Please enter your date of birth in the format: MM/DD/YYYY", "label": "Date of Birth", "name": "date_of_birth", "placeholder": "MM/DD/YYYY", "required": true, "type": "date"}, {"action_type": "input", "description": "Please provide your 9-digit social security number", "label": "Social Security Number", "name": "ssn", "placeholder": "Enter your social security number", "required": true, "type": "text"}, {"action_type": "input", "description": "Please provide your complete current residential address", "label": "Current Address", "name": "current_address", "placeholder": "Enter your current address", "required": true, "type": "text"}, {"action_type": "input", "description": "Please provide a valid phone number where you can be reached", "label": "Phone Number", "name": "phone_number", "placeholder": "Enter your phone number", "required": true, "type": "tel"}, {"action_type": "input", "description": "Please provide a valid email address for communication purposes", "label": "Email Address", "name": "email", "placeholder": "Enter your email address", "required": true, "type": "email"}, {"action_type": "select", "description": "Please select your current marital status from the options provided", "label": "Marital Status", "name": "marital_status", "options": [Array], "placeholder": "Select your marital status", "required": true}, {"action_type": "textarea", "description": "Feel free to provide any additional information or comments here", "label": "Additional Comments", "name": "additional_comments", "placeholder": "Enter any additional comments", "required": false}, {"action_type": "checkbox", "description": "Select the services you require", "label": "Select Services", "name": "services", "options": [Array], "required": true}, {"action_type": "radio", "description": "Select your preferred method of payment", "label": "Select Payment Method", "name": "payment_method", "options": [Array], "required": true}]}
 
-  const res = fetchActions();
-  console.log('wtf', res['actions']);
+  if (isLoading) {
+    return <Text> ...loading </Text>;
+  }
 
-  // useEffect(() => {
-  //   // log the updated state here
-  //   console.log('here is the current state: ', state);
-  // }, [state]);
-
-  /*
-return(
-    <FormComponent actions={state}/>
-);
-};
-
-export default SubTaskScreen
-*/
-
-  /*
-const SubTaskScreen = () => {
-    const [state, setState] = useState<IActionList>(null);
-
-    useEffect(() => {
-        const handleFetch = async () => {
-            try {
-                const response = await fetch(`${ENDPOINT}/api/subtasks/1/action`);
-                const data = await response.json();
-                setState(data);
-                console.log("action response", data);
-            } catch (err) {
-                console.log("fetch failed", err);
-            }
-        };
-
-        handleFetch();
-    }, []); // Empty dependency array to run the effect only once after the initial render
-
-    useEffect(() => {
-        console.log("The state is ", state);
-    }, [state]); // Log the state whenever it changes
-
-    */
+  if (error) {
+    return <Text> error </Text>;
+  }
 
   if (data === null) {
     // Data is still being fetched, you can render a loading indicator or return null
