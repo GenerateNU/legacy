@@ -5,8 +5,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
 import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
-import SquareButton from "../../components/reusable/SquareButton";
-import CompaniesFooter from "../../components/reusable/CompaniesFooter";
+import SquareButton from "../../components/reusable/SmallRoundedButton";
+import CompaniesFooter from "../../components/reusable/Footer";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,

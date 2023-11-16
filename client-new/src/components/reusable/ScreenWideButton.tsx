@@ -25,7 +25,7 @@ export default function ScreenWideButton(props: ScreenWideButtonProps) {
         borderColor={props.borderColor}
         borderWidth={1}
       >
-        <Text color={props.textColor} fontWeight={"semibold"}>{props.text}</Text>
+        <Text color={props.textColor} fontWeight={"400"}>{props.text}</Text>
       </Button>
     </>
   );

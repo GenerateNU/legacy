@@ -22,7 +22,7 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
 
   const inputLeftIcon = props.iconName ? (
     <View paddingLeft={w("4%")} paddingRight={w("1%")}>
-      <Icon name={props.iconName} size={20} color={"black"} />
+      <Icon name={props.iconName} size={20} color={"#CDCBCB"} />
     </View>
   ) : null;
 
@@ -45,14 +45,16 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
   return (
     <>
       <View>
-        <FormControl>{props.title}</FormControl>
+        <FormControl>
+          <FormControl.Label color={"white"}>{props.title}</FormControl.Label>
+          </FormControl>
         <Input
           type={showPassword || !props.password ? "text" : "password"}
           width={w("80%")}
           height={h("5%")}
           paddingX={"auto"}
           value={props.value}
-          backgroundColor={"#FFFFFF"}
+          backgroundColor={"#CDCBCB"}
           onChangeText={(value) => props.onChangeText(value)}
           placeholder={props.placeholderText}
           InputLeftElement={inputLeftIcon}
