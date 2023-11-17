@@ -9,7 +9,7 @@ import (
 
 type GuideServiceInterface interface {
 	GetAllGuides() ([]models.Guide, error)
-	GetGuide(id string) (models.Guide, error)
+	GetGuide(name string) (models.Guide, error)
 
 	CreateGuide(guide models.Guide) (models.Guide, error)
 	UpdateGuide(id string, guide models.Guide) (models.Guide, error)
@@ -30,10 +30,10 @@ func (g *GuideService) GetAllGuides() ([]models.Guide, error) {
 	return guide, nil
 }
 
-func (g *GuideService) GetGuide(id string) (models.Guide, error) {
+func (g *GuideService) GetGuide(name string) (models.Guide, error) {
 	var guide models.Guide
 
-	if err := g.DB.First(&guide, id).Error; err != nil {
+	if err := g.DB.Where("guide_name = ?", name).First(&guide).Error; err != nil {
 		return models.Guide{}, err
 	}
 
@@ -64,10 +64,10 @@ func (g *GuideService) UpdateGuide(id string, guide models.Guide) (models.Guide,
 	return existingGuide, nil
 }
 
-func (g *GuideService) DeleteGuide(id string) error {
+func (g *GuideService) DeleteGuide(name string) error {
 	var guide models.Guide
 
-	if err := g.DB.First(&guide, id).Error; err != nil {
+	if err := g.DB.Where("guide_name = ?", name).First(&guide).Error; err != nil {
 		return err
 	}
 

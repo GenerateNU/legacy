@@ -1,28 +1,29 @@
 import { KeyboardAvoidingView, View } from "native-base";
 import { StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
-import ScreenWideInput from "../../components/reusable/ScreenWideInput";
-import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
-import SquareButton from "../../components/reusable/SquareButton";
-import CompaniesFooter from "../../components/reusable/CompaniesFooter";
+import ScreenWideInput from "@/components/reusable/ScreenWideInput";
+import ScreenWideButton from "@/components/reusable/HalfScreenWideButton";
+import SquareButton from "@/components/reusable/SquareButton";
+import CompaniesFooter from "@/components/reusable/CompaniesFooter";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import LetsGo from "../../components/reusable/LetsGo";
+import LegacyWordmark from "@/components/reusable/LegacyWordmark";
+import LetsGo from "@/components/reusable/LetsGo";
+import React from "react";
 
 export default function SignUpScreen({ route, navigation }) {
   const { user, createAccount } = useAuth();
 
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const signUp = () => {
-    createAccount(fullName, email, password);
+    createAccount(username, email, password);
     navigation.setOptions();
     navigation.navigate("Onboarding Stack");
     // createAccount(fullName, email, password).then((response) => {
@@ -81,8 +82,8 @@ export default function SignUpScreen({ route, navigation }) {
             placeholderText="Example"
             title="Full Name"
             iconName="user-o"
-            onChangeText={(value) => setFullName(value)}
-            value={fullName}
+            onChangeText={(value) => setUsername(value)}
+            value={username}
           />
           <View paddingTop={h("3%")}>
             <ScreenWideInput
