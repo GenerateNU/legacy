@@ -5,6 +5,7 @@ import {
   Divider,
   Button,
   Center,
+  useAccessibleColors,
 } from "native-base";
 import {SafeAreaView} from "react-native-safe-area-context";
 import ProfileTab from "../components/reusable/ProfileTab";
@@ -15,6 +16,7 @@ import MyPersonaScreen from "../screens/app/profile/MyPersonaScreen";
 import PersonaScreen from "../screens/app/profile/PersonaScreen";
 import PasswordAndSecurityScreeen from "../screens/app/profile/PasswordAndSecurityScreen";
 import NotificationsScreen from "../screens/app/profile/NotificationsScreen";
+import {useEffect} from "react";
 
 const Stack = createNativeStackNavigator();
 

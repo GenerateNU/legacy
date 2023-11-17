@@ -1,51 +1,58 @@
-import {View, Text} from "native-base";
+import {View, Text, Input, Pressable, Icon} from "native-base";
 import Circle from "./Circle";
 import {color} from "native-base/lib/typescript/theme/styled-system";
 import Svg, {Path} from "react-native-svg";
 import {StyleProp, ViewStyle} from "react-native";
 import {ScrollView, TouchableHighlight, TouchableOpacity} from "react-native";
+import React, {useState, useEffect} from "react";
 
 export type PasswordInputProps = {
   title: string;
-  border?: boolean;
-  handleOnPress?: () => void;
+  password: string;
+  handleOnChange: (newPassword: string) => void;
 };
 
 export default function PasswordInput(props: PasswordInputProps) {
+  const [show, setShow] = useState(false);
   return (
-    <TouchableOpacity onPress={props.handleOnPress}>
+    <View
+      style={[
+        {
+          flexDirection: "row",
+          alignItems: "center",
+          minHeight: 76,
+        },
+      ]}
+    >
       <View
-        style={[
-          {
-            flexDirection: "row",
-            alignItems: "center",
-            minHeight: 76,
-          },
-          containerWithOutBoarder,
-        ]}
+        style={{
+          // marginLeft: 16,
+          // marginTop: 16,
+          marginBottom: 16,
+          width: "100%",
+        }}
       >
-        <View
+        <Text
           style={{
-            marginLeft: 16,
-            marginTop: 16,
-            marginBottom: 16,
-            width: "auto",
+            color: "#2F1D12",
+            fontFamily: "Inter",
+            fontSize: 12,
+            fontWeight: "400",
+            lineHeight: 20,
+            marginBottom: 10,
           }}
         >
-          <Text
-            style={{
-              color: "#252525",
-              fontFamily: "Open Sans",
-              fontSize: 15,
-              fontWeight: "600",
-              lineHeight: 20,
-            }}
-          >
-            {props.title}
-          </Text>
-        </View>
+          {props.title}
+        </Text>
+        <Input
+          value={props.password}
+          w='100%'
+          h={12}
+          type='password'
+          onChangeText={props.handleOnChange}
+        />
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -58,7 +65,6 @@ const containerWithBoarder: StyleProp<ViewStyle> = {
 
 const containerWithOutBoarder: StyleProp<ViewStyle> = {
   borderBottomColor: "#D9D9D9",
-  // borderBottomColor: "#EFEFEF",
   borderBottomWidth: 1,
   borderStyle: "solid",
 };
