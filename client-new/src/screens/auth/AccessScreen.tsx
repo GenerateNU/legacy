@@ -1,11 +1,12 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import QuestionaireBox from "../../components/reusable/QuestionaireBox";
+import QuestionaireBox from "@/components/reusable/QuestionaireBox";
 import { KeyboardAvoidingView, View, Text } from "native-base";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import ScreenWideButton from "../../components/reusable/ScreenWideButton";
+import ScreenWideButton from "@/components/reusable/ScreenWideButton";
+import React from "react";
 
 export default function AccessScreen({ route, navigation }) {
   const toSignUp = () => {

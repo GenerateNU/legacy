@@ -1,9 +1,9 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Router from "./src/navigation/Router";
-import { NativeBaseProvider, extendTheme } from "native-base";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { AuthProvider } from "./src/contexts/AuthContext";
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import Router from './src/navigation/Router';
+import { NativeBaseProvider, extendTheme } from 'native-base';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AuthProvider } from './src/contexts/AuthContext';
 import {
   useFonts,
   DMSans_400Regular,
@@ -11,23 +11,37 @@ import {
   DMSans_500Medium,
   DMSans_500Medium_Italic,
   DMSans_700Bold,
-  DMSans_700Bold_Italic,
-} from "@expo-google-fonts/dm-sans";
+  DMSans_700Bold_Italic
+} from '@expo-google-fonts/dm-sans';
+import React from 'react';
+
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient(/*{
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+}*/);
 
 import {Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
 
 
 export default function App() {
   const [fontsLoaded] = useFonts({
+
     "MADE Dillan": require("./assets/fonts/MADE-Dillan.otf"),
     "Roca Heavy": require("./assets/fonts/Roca-Bold.ttf"),
     "Roca Light": require("./assets/fonts/Roca-Light.ttf"),
     "Roca Regular": require("./assets/fonts/Roca-Regular.ttf"),
+
     DMSans_400Regular,
     DMSans_400Regular_Italic,
     DMSans_500Medium,
     DMSans_500Medium_Italic,
     DMSans_700Bold,
+
     DMSans_700Bold_Italic,
     Inter_400Regular,
     Inter_600SemiBold
@@ -37,12 +51,12 @@ export default function App() {
     fontConfig: {
       DM_Sans: {
         Regular: {
-          normal: "DMSans_400Regular",
-          italic: "DMSans_400Regular_Italic",
+          normal: 'DMSans_400Regular',
+          italic: 'DMSans_400Regular_Italic'
         },
         Medium: {
-          normal: "DMSans_500Medium",
-          italic: "DMSans_500Medium_Italic",
+          normal: 'DMSans_500Medium',
+          italic: 'DMSans_500Medium_Italic'
         },
         Bold: {
           normal: "DMSans_700Bold",
@@ -70,8 +84,8 @@ export default function App() {
       },
     },
     colors: {
-      deepEvergreen: "#0C362F",
-      muteEggplant: "#251B22",
+      deepEvergreen: '#0C362F',
+      muteEggplant: '#251B22'
     },
     fonts: {
       madeDillan: "MADE Dillan", // access fontFamily="madeDillan"
@@ -82,21 +96,23 @@ export default function App() {
   });
 
   return (
-    <AuthProvider>
-      <SafeAreaProvider>
-        <NativeBaseProvider theme={theme}>
-          <Router />
-        </NativeBaseProvider>
-      </SafeAreaProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <SafeAreaProvider>
+          <NativeBaseProvider theme={theme}>
+            <Router />
+          </NativeBaseProvider>
+        </SafeAreaProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });

@@ -6,9 +6,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth } from "@/utils/firebase";
 import { getItemAsync, setItemAsync, deleteItemAsync } from "expo-secure-store";
-import { authService } from "../services/authService";
+import { signIn, signUp } from "@/services/authService";
 
 type AuthContextData = {
   user: FirebaseUser | null;
@@ -54,37 +54,46 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   async function createAccount(
-    fullName: string,
     username: string,
+    email: string,
     password: string
   ) {
     try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        username,
-        password
-      );
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+
+      console.log("user firebase", user);
 
       // FIGURE OUT PERSONA_ID and where it comes from
-      const data = await authService.signUp({
-        full_name: fullName,
+      console.log("user info", {
         username: username,
+        email: email,
         password: password,
-        persona_id: 1,
         firebase_id: user.user.uid,
       });
+
+      const data = await signUp({
+        email: email,
+        username: username,
+        password: password,
+        firebase_id: user.user.uid,
+      });
+      console.log("user signup didnt fail");
       return true;
     } catch (error) {
+      console.log("User Signup Failed");
       return error;
     }
   }
 
   const login = async (username: string, password: string) => {
+    console.log("username", username);
+    console.log("password", username);
     try {
       const user = await signInWithEmailAndPassword(auth, username, password);
-      authService.signIn(username, password, user.user.uid);
+      signIn(username, password, user.user.uid);
       return true;
     } catch (error) {
+      console.log("Error");
       return error;
     }
   };

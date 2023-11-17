@@ -1,18 +1,19 @@
 import { KeyboardAvoidingView, View } from "native-base";
 import { Alert, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
-import ScreenWideInput from "../../components/reusable/ScreenWideInput";
-import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
-import SquareButton from "../../components/reusable/SquareButton";
-import CompaniesFooter from "../../components/reusable/CompaniesFooter";
+import ScreenWideInput from "@/components/reusable/ScreenWideInput";
+import ScreenWideButton from "@/components/reusable/HalfScreenWideButton";
+import SquareButton from "@/components/reusable/SquareButton";
+import CompaniesFooter from "@/components/reusable/CompaniesFooter";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import LetsGo from "../../components/reusable/LetsGo";
+import LegacyWordmark from "@/components/reusable/LegacyWordmark";
+import LetsGo from "@/components/reusable/LetsGo";
+import React from "react";
 
 export default function LoginScreen({ route, navigation }) {
   const { user, login, logout } = useAuth();
@@ -20,10 +21,12 @@ export default function LoginScreen({ route, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signIn = () => {
+  const logIn = () => {
     login(email, password);
-    navigation.navigate("");
+    console.log("HIT");
+    navigation.navigate("Access Screen");
 
+    //
     // login(email, password).then((response) => {
     //   if (response === true) {
     //     // ONCE WE FIGURE OUT HOW TO GO TO HOME SCREEN, PUT HERE
@@ -94,7 +97,7 @@ export default function LoginScreen({ route, navigation }) {
               textColor="#FFFFFF"
               backgroundColor="#8F8F8F"
               borderColor="#8F8F8F"
-              onClick={signIn}
+              onClick={logIn}
             />
           </View>
           <View paddingTop={h("4%")}>

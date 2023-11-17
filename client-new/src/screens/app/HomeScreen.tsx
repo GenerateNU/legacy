@@ -1,12 +1,12 @@
 import { KeyboardAvoidingView, View, Text, ScrollView } from "native-base";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import {
     widthPercentageToDP as w,
     heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import LegacyWordmark from "../../components/reusable/LegacyWordmark";
+import LegacyWordmark from "@/components/reusable/LegacyWordmark";
 import { SvgUri } from "react-native-svg";
 import { useEffect, useState } from "react";
 import { getTasks } from "../../services/TaskService";
