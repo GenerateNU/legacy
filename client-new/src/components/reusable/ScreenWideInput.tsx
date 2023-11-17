@@ -45,21 +45,23 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
   return (
     <>
       <View>
-        <FormControl>
-          <FormControl.Label color={"white"}>{props.title}</FormControl.Label>
-          </FormControl>
+        <FormControl>{props.title}</FormControl>
         <Input
           type={showPassword || !props.password ? "text" : "password"}
           width={w("80%")}
           height={h("5%")}
           paddingX={"auto"}
           value={props.value}
-          backgroundColor={"#CDCBCB"}
+          outlineColor={"#CDCBCB"}
+          backgroundColor={"#F5F1E8"}
           onChangeText={(value) => props.onChangeText(value)}
           placeholder={props.placeholderText}
           InputLeftElement={inputLeftIcon}
           InputRightElement={inputRightElement}
-          rounded="full"
+          fontFamily={"inter"}
+          fontWeight={"Regular"}
+          fontStyle={"normal"}
+          rounded={"full"}
         />
       </View>
     </>

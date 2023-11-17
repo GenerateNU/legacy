@@ -6,13 +6,13 @@ import { useState } from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
 import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
 import SquareButton from "../../components/reusable/SmallRoundedButton";
-import CompaniesFooter from "../../components/reusable/Footer";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
+import Footer from "../../components/reusable/Footer";
 
 export default function SignUpScreen({ route, navigation }) {
   const { user, createAccount } = useAuth();
@@ -62,16 +62,18 @@ export default function SignUpScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView>
-      <KeyboardAvoidingView alignItems="center">
+    <>
+      <View bg={"creamyCanvas"} alignItems="center" h={h("100%")} w={w("100%")}>
         <View
+          alignItems="center"
           width={w("80%")}
           flexDirection="row"
           justifyContent="space-between"
           justifyItems={"center"}
+          paddingTop={h("8%")}
         >
           <LegacyWordmark />
-          <SquareButton title="LOGIN" onClick={switchToLogin} />
+          <SquareButton title="Login" onClick={switchToLogin} />
         </View>
         <View paddingTop={h("7%")}>
           <LetsGo />
@@ -111,55 +113,24 @@ export default function SignUpScreen({ route, navigation }) {
           >
             <ScreenWideButton
               text="Sign up with SSO"
-              textColor="#8F8F8F"
-              backgroundColor="#FFFFFF"
-              borderColor="#8F8F8F"
+              textColor={"#000000"}
+              backgroundColor={"transparent"}
+              borderColor={"lightGreen"}
             />
             <ScreenWideButton
               text="Sign up to Legacy"
-              textColor="#FFFFFF"
-              backgroundColor="#8F8F8F"
-              borderColor="#8F8F8F"
+              textColor={"#FFFFFF"}
+              backgroundColor={"lightGreen"}
+              borderColor={"lightGreen"}
               onClick={signUp}
             />
           </View>
-          <View paddingTop={h("4%")}>
-            <CompaniesFooter />
+          <View paddingTop={h("20%")}>
+            <Footer />
           </View>
         </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-    // <SafeAreaView>
-    //   <KeyboardAvoidingView>
-    //     <View alignItems={"center"}>
-    //       <SquareButton
-    //         title = "LOGIN"
-    //       />
-    //      <ScreenWideInput
-    //         placeholderText="Example"
-    //         title="Full Name"
-    //         onChangeText={(value) => setFullName(value)}
-    //         value={fullName}
-    //       />
-    //       <ScreenWideInput
-    //         placeholderText="example@email.com"
-    //         title="Email"
-    //         iconName="envelope-o"
-    //         onChangeText={(value) => setEmail(value)}
-    //         value={email}
-    //       />
-    //       <ScreenWideInput
-    //         placeholderText="Must be at least 8 characters long"
-    //         title="Password"
-    //         iconName="lock"
-    //         password={true}
-    //         onChangeText={(value) => setPassword(value)}
-    //         value={password}
-    //       />
-    //       <ScreenWideButton text="Login to Legacy" textColor="#FFFFFF" backgroundColor="#8F8F8F"/>
-    //     </View>
-    //   </KeyboardAvoidingView>
-    // </SafeAreaView>
+      </View>
+    </>
   );
 }
 

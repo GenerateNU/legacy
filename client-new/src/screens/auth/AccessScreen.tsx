@@ -6,7 +6,7 @@ import {
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
 import { SvgXml } from "react-native-svg";
 
-export default function AccessScreen({ route, navigation }) {
+export default function AccessScreen({ navigation }) {
   const toSignUp = () => {
     navigation.navigate("Sign Up Screen");
   };
@@ -193,22 +193,24 @@ export default function AccessScreen({ route, navigation }) {
 
   return (
     <View bg={"creamyCanvas"} h={h("100%")} w={w("100%")} alignItems="center">
-      <View height={h("17%")}></View>
+      <View height={h("15%")}></View>
       <View width={w("80%")} paddingBottom={h("3%")} alignItems="center">
         <View alignItems="center">
           <Text
             color={"darkGreen"}
-            fontFamily="Roca One"
+            fontFamily={"rocaOne"}
+            fontWeight={"Regular"} 
+            fontStyle={"normal"}
             fontSize={"40"}
-            fontWeight={"400"}
           >
             More Life.
           </Text>
           <Text
             color={"darkGreen"}
-            fontFamily="Roca One"
+            fontFamily={"rocaOne"}
+            fontWeight={"Regular"} 
+            fontStyle={"normal"}
             fontSize={"40"}
-            fontWeight={"400"}
           >
             Less Stress.
           </Text>
@@ -216,9 +218,9 @@ export default function AccessScreen({ route, navigation }) {
         <Text
           textAlign={"center"}
           fontSize={12}
-          fontWeight={400}
+          fontFamily={"inter"} fontWeight={"Regular"} fontStyle={"normal"}
           paddingTop={h("2%")}
-          paddingBottom={h("3%")}
+          paddingBottom={h("4.5%")}
           color={"darkGreen"}
         >
           ???
@@ -226,7 +228,7 @@ export default function AccessScreen({ route, navigation }) {
 
         <SvgXml xml={TreeLogo} />
 
-        <View paddingTop={h("2%")}>
+        <View paddingTop={h("6.1%")}>
           <ScreenWideButton
             text={"Sign Up"}
             textColor={"#FFFFFF"}

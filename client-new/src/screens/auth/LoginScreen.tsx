@@ -13,7 +13,7 @@ import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
 
 export default function LoginScreen({ route, navigation }) {
-  const { user, login, logout } = useAuth();
+  const { user, login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,20 +82,20 @@ export default function LoginScreen({ route, navigation }) {
           justifyContent={"space-between"}
         >
           <HalfScreenWideButton
-            text="Login with SSO"
-            textColor="#8F8F8F"
-            backgroundColor="#FFFFFF"
-            borderColor="#8F8F8F"
+            text={"Login with SSO"}
+            textColor={"#000000"}
+            backgroundColor={"transparent"}
+            borderColor={"lightGreen"}
           />
           <HalfScreenWideButton
-            text="Login to Legacy"
-            textColor="#FFFFFF"
-            backgroundColor="#8F8F8F"
-            borderColor="#8F8F8F"
+            text={"Login to Legacy"}
+            textColor={"#FFFFFF"}
+            backgroundColor={"lightGreen"}
+            borderColor={"lightGreen"}
             onClick={signIn}
           />
         </View>
-        <View paddingTop={h("4%")}>
+        <View paddingTop={h("31%")} >
           <Footer />
         </View>
       </View>

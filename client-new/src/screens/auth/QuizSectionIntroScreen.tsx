@@ -8,11 +8,13 @@ import {
 } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useOnboarding } from "../../contexts/OnboardingContext";
+import ScreenWideButton from "../../components/reusable/ScreenWideButton";
 
 export default function QuizSectionIntroScreen({ route, navigation }) {
   const {
     page,
     setPage,
+
     onboardingState,
     setOnboardingState,
     onboardingFlow,
@@ -26,65 +28,62 @@ export default function QuizSectionIntroScreen({ route, navigation }) {
   };
   const { props } = route.params;
   return (
-    <SafeAreaView>
-      <KeyboardAvoidingView alignItems="center">
-        <LegacyWordmark />
-        <View paddingTop={h("4.5%")} paddingBottom={h("2%")}>
-          <CircleProgressBar
-            totalCircles={props.totalCircles}
-            completedCircles={0}
-          />
-        </View>
-        <Divider marginTop={h("2%")} width={w("100%")} color={"#D9D9D9"} />
+    <View bg={"creamyCanvas"} alignItems="center" h={h("100%")} w={w("100%")}>
+      <View paddingTop={h("7%")}></View>
 
-        <View
-          width={w("45%")}
-          flexDirection={"row"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          paddingTop={h("4%")}
-          paddingBottom={h("3.5%")}
+      <LegacyWordmark />
+
+      <View paddingTop={h("4.5%")} paddingBottom={h("2%")}>
+        <CircleProgressBar
+          totalCircles={props.totalCircles}
+          completedCircles={0}
+        />
+      </View>
+      <Divider marginTop={h("2%")} width={w("100%")} color={"#D9D9D9"} />
+
+      <View
+        width={w("50%")}
+        flexDirection={"row"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        paddingTop={h("4%")}
+        paddingBottom={h("3.5%")}
+      >
+        <Text
+          paddingRight={w("3%")}
+          fontSize={20}
+          fontFamily={"rocaOne"}
+          fontWeight={"Regular"}
+          fontStyle={"normal"}
         >
-          <Text paddingRight={w("3%")} fontSize={20} fontWeight={"semibold"}>
-            Quiz Section Title
-          </Text>
-          <Icon name="flower-tulip-outline" size={30}></Icon>
-        </View>
+          {props.title}
+        </Text>
+        <Icon name="flower-tulip-outline" size={30}></Icon>
+      </View>
 
-        <View width={w("80%")}>
-          <Text
-            fontSize={18}
-            color={"#7D7D7D"}
-            fontWeight={600}
-            paddingBottom={h("1%")}
-            textAlign="center"
-          >
-            Section description here, section purpose and outline here
-          </Text>
-          <Text
-            fontSize={14}
-            color={"#4A4A4A"}
-            fontWeight={300}
-            paddingTop={h("3%")}
-            paddingBottom={h("4%")}
-            textAlign="center"
-          >
-            Lorem ipsum dolor sit amet consectetur. Rhoncus viverra adipiscing
-            cursus amet viverra adipiscing cursus amet
-          </Text>
-        </View>
-
-        <Button
-          backgroundColor={"#D9D9D9"}
-          borderRadius={20}
-          width={w("35%")}
-          onPress={next}
+      <View width={w("80%")}>
+        <Text
+          fontSize={18}
+          color={"#767676"}
+          fontFamily={"inter"}
+          fontWeight={"Regular"}
+          fontStyle={"normal"}
+          paddingBottom={h("1%")}
+          textAlign="center"
         >
-          <Text color={"#000000"} fontWeight={"bold"}>
-            Get Started!
-          </Text>
-        </Button>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+          Insert section description here
+        </Text>
+      </View>
+
+      <View paddingTop={h("38%")}>
+        <ScreenWideButton
+          text={"Get Started"}
+          textColor="#FFFFFF"
+          backgroundColor="lightGreen"
+          borderColor="lightGreen"
+          onClick={next}
+        />
+      </View>
+    </View>
   );
 }
