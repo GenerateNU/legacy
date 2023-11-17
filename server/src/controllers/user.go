@@ -48,7 +48,7 @@ func (u *UserController) GetUserFromUsername(c echo.Context) error {
 }
 
 func (u *UserController) GetUserFromFirebaseID(c echo.Context) error {
-	firebaseID := c.Param("firebase_id")
+	firebaseID := c.Param("firebaseid")
 	user, err := u.userService.GetUserFromFirebaseID(firebaseID)
 
 	if err != nil {

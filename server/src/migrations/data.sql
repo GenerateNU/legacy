@@ -49,6 +49,114 @@ INSERT INTO tags (name) VALUES
 INSERT INTO task_tags (task_id, tag_id) VALUES 
 (1, 3), (2, 1), (3, 1), (4, 1), (5, 2), (6, 2), (7, 2), (8, 2), (9, 2), (10, 2), (11, 2), (12, 2), (13, 2), (14, 1), (15, 1);
 
+-- Creating test subtask w/ actions
+INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VALUES
+(1, 'Personal Information', 'Fill out our form so we can generate documents for your Legacy.',
+'{
+    "actions": [
+        {
+            "action_type": "input",
+            "label": "Full Legal Name",
+            "placeholder": "Enter your full legal name",
+            "name": "full_name",
+            "type": "text",
+            "required": true
+        },
+        {
+            "action_type": "input",
+            "label": "Date of Birth",
+            "placeholder": "MM/DD/YYYY",
+            "name": "date_of_birth",
+            "type": "date",
+            "required": true,
+            "description": "Please enter your date of birth in the format: MM/DD/YYYY"
+        },
+        {
+            "action_type": "input",
+            "label": "Social Security Number",
+            "placeholder": "Enter your social security number",
+            "name": "ssn",
+            "type": "text",
+            "required": true,
+            "description": "Please provide your 9-digit social security number"
+        },
+        {
+            "action_type": "input",
+            "label": "Current Address",
+            "placeholder": "Enter your current address",
+            "name": "current_address",
+            "type": "text",
+            "required": true,
+            "description": "Please provide your complete current residential address"
+        },
+        {
+            "action_type": "input",
+            "label": "Phone Number",
+            "placeholder": "Enter your phone number",
+            "name": "phone_number",
+            "type": "tel",
+            "required": true,
+            "description": "Please provide a valid phone number where you can be reached"
+        },
+        {
+            "action_type": "input",
+            "label": "Email Address",
+            "placeholder": "Enter your email address",
+            "name": "email",
+            "type": "email",
+            "required": true,
+            "description": "Please provide a valid email address for communication purposes"
+        },
+        {
+            "action_type": "select",
+            "label": "Marital Status",
+            "name": "marital_status",
+            "options": [
+                "Married",
+                "Single",
+                "Divorced",
+                "Widowed"
+            ],
+            "required": true,
+            "placeholder": "Select your marital status",
+            "description": "Please select your current marital status from the options provided"
+        },
+        {
+            "action_type": "textarea",
+            "label": "Additional Comments",
+            "placeholder": "Enter any additional comments",
+            "name": "additional_comments",
+            "required": false,
+            "description": "Feel free to provide any additional information or comments here"
+        },
+        {
+            "action_type": "checkbox",
+            "label": "Select Services",
+            "name": "services",
+            "options": [
+                "Service 1",
+                "Service 2",
+                "Service 3"
+            ],
+            "required": true,
+            "description": "Select the services you require"
+        },
+        {
+            "action_type": "radio",
+            "label": "Select Payment Method",
+            "name": "payment_method",
+            "options": [
+                "Credit Card",
+                "Debit Card",
+                "Cash",
+                "Check"
+            ],
+            "required": true,
+            "description": "Select your preferred method of payment"
+        }
+    ]
+}');
+
 -- Creating test subtasks
 INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description) VALUES
 (1, 'Research Fear', 'Research books, articles, or podcasts on overcoming fear of death.'),

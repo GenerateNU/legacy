@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"io"
 	"net/http"
 	"server/src/models"
 	"server/src/services"
@@ -75,6 +76,28 @@ func (f *FileController) GetFileURL(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, url)
+}
+
+func (f *FileController) GeneratePDF(c echo.Context) error {
+	var file models.File
+
+	// get user id
+	uid := c.Param("uid")
+
+	// Read the request body
+	body, err := io.ReadAll(c.Request().Body)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Error reading request body")
+	}
+	// Convert the byte slice to a string
+	rawJSON := string(body)
+
+	file, err = f.fileService.GeneratePDF(uid, rawJSON)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, file)
 }
 
 func (f *FileController) CreateFile(c echo.Context) error {

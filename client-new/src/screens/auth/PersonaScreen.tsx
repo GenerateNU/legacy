@@ -5,11 +5,12 @@ import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import ScreenWideButton from "../../components/reusable/ScreenWideButton";
-import { useOnboarding } from "../../contexts/OnboardingContext";
+import ScreenWideButton from "@/components/reusable/ScreenWideButton";
+import { useOnboarding } from "@/contexts/OnboardingContext";
 import { useEffect, useState } from "react";
-import { sendOnboardingResponse, getPersona } from "../../services/authService";
-import { Persona } from "../../types/Persona";
+import { sendOnboardingResponse, getPersona } from "@/services/authService";
+import { IPersona } from "@/interfaces/IPersona";
+import React from "react";
 
 export default function PersonaScreen({ route, navigation }) {
   const {
@@ -21,7 +22,7 @@ export default function PersonaScreen({ route, navigation }) {
     handleChange,
   } = useOnboarding();
 
-  const [persona, setPersona] = useState<Persona>(null);
+  const [persona, setPersona] = useState<IPersona>(null);
 
   const next = async () => {
     const nextPage = onboardingFlow[page + 1];

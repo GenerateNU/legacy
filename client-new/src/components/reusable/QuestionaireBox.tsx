@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import ResponseSlider from "./ResponseSlider";
+import ResponseSlider from "@/components/reusable/ResponseSlider";
 
 type QuestionaireBoxProps = {
   text1: string;
