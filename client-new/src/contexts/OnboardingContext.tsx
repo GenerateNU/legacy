@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { IOnboardingFlowState } from "../interfaces/IOnboardingFlowState";
+import React from "react";
 
 type OnboardingContextData = {
   page: number;

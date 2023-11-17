@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView, View } from "native-base";
 import { StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../contexts/AuthContext";
+import { useUser } from "../../contexts/UserContext";
 import { useState } from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
 import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
@@ -15,8 +15,9 @@ import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
 import React from "react";
 
+// TODO: signup is still not fully reistant
 export default function SignUpScreen({ route, navigation }) {
-  const { user, createAccount } = useAuth();
+  const { user, createAccount } = useUser();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");

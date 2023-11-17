@@ -64,9 +64,9 @@ func (p *ProfileController) UpdateProfile(c echo.Context) error {
 }
 
 func (p *ProfileController) InsertOnboardingResponse(c echo.Context) error {
-	var profile models.Profile
 	var onboardingResponse types.OnboardingResponse
 	profileID := c.Param("pid")
+	userID := c.Param("uid")
 
 	if err := c.Bind(&onboardingResponse); err != nil {
 		return c.JSON(http.StatusBadRequest, "Failed to process the request")
@@ -77,7 +77,7 @@ func (p *ProfileController) InsertOnboardingResponse(c echo.Context) error {
 	// 3. Calculate Score to determine persona
 	// 4. Insert persona into user
 	// 5. Return user
-	profile, err := p.profileService.InsertOnboardingResponse(profileID, onboardingResponse, profile)
+	profile, err := p.profileService.InsertOnboardingResponse(userID, profileID, onboardingResponse)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to insert onboarding response")
 	}

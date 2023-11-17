@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView, View } from "native-base";
 import { Alert, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../contexts/AuthContext";
+import { useUser } from "../../contexts/UserContext";
 import { useState } from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
 import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
@@ -16,7 +16,7 @@ import LetsGo from "../../components/reusable/LetsGo";
 import React from "react";
 
 export default function LoginScreen({ route, navigation }) {
-  const { user, login, logout } = useAuth();
+  const { user, login, logout } = useUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

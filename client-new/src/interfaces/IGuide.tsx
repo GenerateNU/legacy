@@ -1,4 +1,6 @@
-export interface IGuide {
+import { IModel } from "./IModel";
+
+export interface IGuide extends IModel {
   guide_name: string;
   title: string;
   sub_title: string;

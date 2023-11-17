@@ -4,13 +4,17 @@ import SignUpScreen from "../screens/auth/SignUpScreen";
 import AccessScreen from "../screens/auth/AccessScreen";
 import OnboardingStack from "./OnboardingStack";
 import React from "react";
+import { useUser } from "../contexts/UserContext";
 
 const Stack = createNativeStackNavigator();
 
-export default function AuthStack() {
+export default function AuπthStack() {
+  const { user } = useUser();
+  const screenToDisplay = user ? "Onboarding Stack" : "Access Screen";
+
   return (
     <Stack.Navigator
-      initialRouteName="Access Screen"
+      initialRouteName={screenToDisplay}
       screenOptions={{
         headerShown: false,
       }}

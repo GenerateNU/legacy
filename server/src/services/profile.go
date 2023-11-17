@@ -2,8 +2,10 @@ package services
 
 import (
 	"encoding/json"
+	"fmt"
 	"server/src/models"
 	"server/src/types"
+	"server/src/utils"
 
 	"gorm.io/gorm"
 )
@@ -12,7 +14,7 @@ type ProfileServiceInterface interface {
 	GetProfile(id string) (models.Profile, error)
 	CreateProfile(profile models.Profile) (models.Profile, error)
 	UpdateProfile(id string, profile models.Profile) (models.Profile, error)
-	InsertOnboardingResponse(id string, onboardingResponse types.OnboardingResponse, profile models.Profile) (models.Profile, error)
+	InsertOnboardingResponse(userID string, profileID string, onboardingResponse types.OnboardingResponse) (models.Profile, error)
 	DeleteProfile(id string) error
 }
 
@@ -52,9 +54,18 @@ func (p *ProfileService) UpdateProfile(id string, profile models.Profile) (model
 	return existingProfile, nil
 }
 
-func (p *ProfileService) InsertOnboardingResponse(id string, onboardingResponse types.OnboardingResponse, profile models.Profile) (models.Profile, error) {
+func (p *ProfileService) InsertOnboardingResponse(userID string, profileID string, onboardingResponse types.OnboardingResponse) (models.Profile, error) {
+	var profile models.Profile
+	var userServiceInterface UserServiceInterface = &UserService{DB: p.DB}
+
 	// Check if the user profile exists
-	profile, err := p.GetProfile(id)
+	profile, err := p.GetProfile(profileID)
+	if err != nil {
+		return models.Profile{}, err
+	}
+
+	// check if user exists
+	user, err := userServiceInterface.GetUser(userID)
 	if err != nil {
 		return models.Profile{}, err
 	}
@@ -73,9 +84,18 @@ func (p *ProfileService) InsertOnboardingResponse(id string, onboardingResponse 
 	// Update the OnboardingResponse field of the user profile
 	profile.OnboardingResponse = string(response)
 	profile.CompletedOnboardingResponse = true
+	personaID, err := utils.CalculateScore(onboardingResponse)
+
+	fmt.Println("PERSONAID", personaID)
+	user.PersonaID = &personaID
 
 	// Update the user profile with the new onboarding response
-	profile, err = p.UpdateProfile(id, profile)
+	profile, err = p.UpdateProfile(profileID, profile)
+	if err != nil {
+		return models.Profile{}, err
+	}
+
+	user, err = userServiceInterface.UpdateUser(userID, user)
 	if err != nil {
 		return models.Profile{}, err
 	}

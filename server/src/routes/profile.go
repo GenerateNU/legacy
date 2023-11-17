@@ -2,6 +2,7 @@ package routes
 
 import (
 	"server/src/controllers"
+
 	"server/src/services"
 
 	"github.com/labstack/echo/v4"
@@ -13,6 +14,6 @@ func ProfileRoutes(g *echo.Group, profileService services.ProfileServiceInterfac
 	g.GET("/:pid", profileController.GetProfile)
 	g.POST("/", profileController.CreateProfile)
 	g.PATCH("/:pid", profileController.UpdateProfile)
-	g.PATCH("/response/:uid", profileController.InsertOnboardingResponse)
+	g.PATCH("/response/:pid/:uid", profileController.InsertOnboardingResponse)
 	g.DELETE("/:pid", profileController.DeleteProfile)
 }

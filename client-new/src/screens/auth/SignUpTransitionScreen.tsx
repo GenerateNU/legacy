@@ -8,9 +8,11 @@ import {
 } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useOnboarding } from "../../contexts/OnboardingContext";
+import { useUser } from "../../contexts/UserContext";
+import React from "react";
 
 export default function SignUpTransitionScreen({ route, navigation }) {
-  console.log(route);
+  const { user } = useUser();
   const {
     page,
     setPage,
@@ -44,7 +46,7 @@ export default function SignUpTransitionScreen({ route, navigation }) {
           paddingBottom={h("5%")}
         >
           <Text fontSize={20} fontWeight={"semibold"} paddingRight={w("2%")}>
-            Welcome Max!
+            Welcome {user.username}
           </Text>
           <Icon name="flower-tulip-outline" size={30}></Icon>
         </View>
@@ -78,7 +80,7 @@ export default function SignUpTransitionScreen({ route, navigation }) {
           borderRadius={20}
           width={w("35%")}
           onPress={next}
-        > 
+        >
           <Text color={"#000000"} fontWeight={"bold"}>
             Get Started!
           </Text>

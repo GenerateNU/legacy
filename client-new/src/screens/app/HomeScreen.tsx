@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView, View, Text } from "native-base";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../contexts/AuthContext";
+import { useUser } from "../../contexts/UserContext";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
@@ -13,7 +13,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 
 export default function HomeScreen() {
-  const { user, logout } = useAuth();
+  const { user, logout } = useUser();
   const testData = [
     {
       title: "Acknowledge Your Aversion to End-Of-Life-Planning",
@@ -47,7 +47,7 @@ export default function HomeScreen() {
           <View>
             <View style={{ width: "100%", marginTop: 20 }}>
               <Text style={{ width: "100%", color: "#252525", fontSize: 18 }}>
-                Hello Amanda!
+                Hello {user.username}!
               </Text>
             </View>
 

@@ -8,10 +8,18 @@ import {
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
 import { useOnboarding } from "../../contexts/OnboardingContext";
 import { useEffect, useState } from "react";
-import { sendOnboardingResponse, getPersona } from "../../services/authService";
+import {
+  sendOnboardingResponse,
+  getPersonaFromOnboardingResponse,
+} from "../../services/AuthService";
 import { Persona } from "../../types/Persona";
+import { useUser } from "../../contexts/UserContext";
+import { useProfile } from "../../contexts/ProfileContext";
+import { insertOnboardingResponse } from "../../services/ProfileService";
+import { getPersona } from "../../services/PersonaService";
+import React from "react";
 
-export default function PersonaScreen({ route, navigation }) {
+export const PersonaScreen = ({ route, navigation }) => {
   const {
     page,
     setPage,
@@ -21,6 +29,9 @@ export default function PersonaScreen({ route, navigation }) {
     handleChange,
   } = useOnboarding();
 
+  const { user } = useUser();
+  const { profile } = useProfile();
+
   const [persona, setPersona] = useState<Persona>(null);
 
   const next = async () => {
@@ -29,38 +40,18 @@ export default function PersonaScreen({ route, navigation }) {
     navigation.push(nextPage.page, { props: nextPage.props });
   };
 
-  const calculateScore = () => {
-    let sum = 0;
-    for (const response in onboardingState) {
-      sum += onboardingState[response];
-    }
-    if (sum < 18) return "Procrastinating Rookie";
-    else if (sum < 36) return "Easygoing Explorer";
-    else if (sum < 54) return "Multitasking Dynamo";
-    else if (sum < 72) return "Tranquil Trailblazer";
-    else if (sum < 91) return "Adventurous Optimist";
-  };
-
-  const getDescription = () => {
-    const persona = calculateScore();
-    if (persona === "Procrastinating Rookie")
-      return "Enjoys a challenge, scarcity mindset, the ultimate planner, a perfectionist, selfish, always on the edge, half-empty glass thinker, externally motivated, all-at-once worker, quick-start guide enthusiast, uncomfortable discussing death, less nurturing, inexperienced with EOLP, racing against time, tight finances, dipping toes in the water.";
-    else if (persona === "Easygoing Explorer")
-      return 'Thrives on adventure, abundance advocate, let\'s-see-what-happens future, content with "good enough," empathetic, beach-level tranquility, sunny disposition, internally motivated, explores tasks over time, full novel enthusiast, comfortable discussing death, nurturing, fairly familiar with EOLP, no rush, tight finances, ready to start.';
-    else if (persona === "Multitasking Dynamo")
-      return "Loves a challenge, abundance believer, the ultimate planner, prefers perfection, selfish, edgy, half-empty glass view, externally motivated, all-at-once worker, quick-start guide fan, uncomfortable discussing death, less nurturing, somewhat familiar with EOLP, procrastinator, comfortable finances, at the starting line.";
-    else if (persona === "Tranquil Trailblazer")
-      return 'Adventuresome, abundance thinker, let\'s-see-what-happens future, content with "good enough," empathetic, always at the beach, glass-half-full mentality, internally motivated, an explorer of tasks, quick-start guide lover, comfortable discussing death, nurturing, knowledgeable about EOLP, no rush, comfortable finances, ready to start.';
-    else if (persona === "Adventurous Optimist")
-      return "Always up for new experiences, believes in abundance, a laid-back planner, a chill perfectionist, empathetic, beach-level calmness, a sunny outlook, internally motivated, explores tasks over time, loves the full novel, comfortable discussing death, nurturing, well-versed in EOLP, has time to plan, financially stable, ready to start.";
-  };
-
   useEffect(() => {
-    const fetchPersona = async () => {
-      await sendOnboardingResponse(1, onboardingState);
-      const persona = await getPersona(1);
+    console.log("AHHHHHH");
+    const updateOnboarding = async () => {
+      await insertOnboardingResponse(onboardingState, profile.id, user.id);
     };
 
+    const fetchPersona = async () => {
+      const persona = await getPersona(user.id);
+      setPersona(persona);
+    };
+
+    updateOnboarding();
     fetchPersona();
   }, []);
 
@@ -115,7 +106,7 @@ export default function PersonaScreen({ route, navigation }) {
             textAlign={"center"}
             width={w("70%")}
           >
-            {getDescription()}
+            {persona.persona_description}
           </Text>
         </View>
 
@@ -131,4 +122,4 @@ export default function PersonaScreen({ route, navigation }) {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-}
+};

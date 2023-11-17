@@ -1,9 +1,7 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { IUser } from "../interfaces/IUser";
 import { IOnboardingFlowState } from "../interfaces/IOnboardingFlowState";
 import { Persona } from "../types/Persona";
-
-// SHOULD AXIOS BE BEING USED AND IF SO, AM I DOING IT PROPERLY
 
 export const signIn = async (email: string, password: string, uid: string) => {
   // CHECK ROUTE HERE
@@ -16,7 +14,7 @@ export const signIn = async (email: string, password: string, uid: string) => {
   });
 
   const profileResponse = await fetch(
-    `http://localhost:8080/api/profiles/user/${data.id}`
+    `http://localhost:8080/api/profiles/user/${uid}`
   );
 
   profileResponse.json().then((data) => {
@@ -26,6 +24,7 @@ export const signIn = async (email: string, password: string, uid: string) => {
 
 export const signUp = async (userInput: IUser) => {
   try {
+    // maybe it's own service
     const response = await fetch("http://localhost:8080/api/users/", {
       method: "POST",
       headers: {
@@ -44,10 +43,11 @@ export const signUp = async (userInput: IUser) => {
       throw new Error("Network response was not ok");
     }
 
-    const data = await response.json();
-    console.log("user id is ", data.id);
+    const user: IUser = await response.json();
+    // TODO: validation https://zod.dev/
+    console.log("user id is ", user.id);
 
-    // this should probably be in the login function
+    // maybe it's own service
     const profileResponse = await fetch(`http://localhost:8080/api/profiles/`, {
       method: "POST",
       headers: {
@@ -59,13 +59,13 @@ export const signUp = async (userInput: IUser) => {
         //TODO: figure out if we want fields to be required. This is dummy data for testing purposes
         date_of_birth: new Date(2000, 10, 7),
         phone_number: "123456789",
-        user_id: data.id
+        user_id: user.id,
       }),
     });
 
-    const profileData = await profileResponse.json();
-    console.log("test", profileData);
-    return profileData.completed_onboarding_response
+    const profile = await profileResponse.json();
+    console.log("test", profile);
+    return user;
   } catch (error) {
     console.log("Error:", error.message);
   }
@@ -75,22 +75,32 @@ export const sendOnboardingResponse = async (
   id: number,
   onboardingState: IOnboardingFlowState
 ) => {
-  const data = await axios.post(
-    `http://localhost:8081/api/profiles/response/${id}`,
+  console.log("Reached onboarding endpoint");
+  const data = await axios.patch(
+    `http://localhost:8080/api/profiles/response/${id}`,
     {
       onboardingResponse: onboardingState,
     }
   );
 
+  console.log("The result is: ", data);
+
   return data.status;
 };
 
-export const getPersona = async (id: number) => {
-  const data = (await axios
-    .post(`http://localhost:8081/api/personas/${id}`)
-    .then((res) => {
-      res.data;
-    })) as Persona;
+export const getPersonaFromOnboardingResponse = async (
+  userID: number,
+  onboardingState: IOnboardingFlowState
+): Promise<Persona> => {
+  const response: AxiosResponse<Persona> = await axios.get(
+    `http://localhost:8080/api/personas/calculate`,
+    {
+      params: {
+        userID: userID,
+        onboardingResponse: onboardingState,
+      },
+    }
+  );
 
-  return data;
+  return response.data;
 };

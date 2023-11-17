@@ -1,8 +1,10 @@
 -- Creating test personas
 INSERT INTO personas (persona_title, persona_description) VALUES 
-('Procrastinating Rookie', 'Compassionate and reassuring'),
-('Adventurous Optimist', 'Informed and death positive'),
-('Adventurous Optimist with Wealth', 'Expert driven and death positive');
+('Procrastinating Rookie', 'Enjoys a challenge, scarcity mindset, the ultimate planner, a perfectionist, selfish, always on the edge, half-empty glass thinker, externally motivated, all-at-once worker, quick-start guide enthusiast, uncomfortable discussing death, less nurturing, inexperienced with EOLP, racing against time, tight finances, dipping toes in the water.'),
+('Easygoing Explorer', 'Thrives on adventure, abundance advocate, let''s-see-what-happens future, content with ''good enough,'' empathetic, beach-level tranquility, sunny disposition, internally motivated, explores tasks over time, full novel enthusiast, comfortable discussing death, nurturing, fairly familiar with EOLP, no rush, tight finances, ready to start.'),
+('Multitasking Dynamo', 'Loves a challenge, abundance believer, the ultimate planner, prefers perfection, selfish, edgy, half-empty glass view, externally motivated, all-at-once worker, quick-start guide fan, uncomfortable discussing death, less nurturing, somewhat familiar with EOLP, procrastinator, comfortable finances, at the starting line.'),
+('Tranquil Trailblzer', 'Adventuresome, abundance thinker, let''s-see-what-happens future, content with ''good enough,'' empathetic, always at the beach, glass-half-full mentality, internally motivated, an explorer of tasks, quick-start guide lover, comfortable discussing death, nurturing, knowledgeable about EOLP, no rush, comfortable finances, ready to start.'),
+('Adventurous Optimist', 'Always up for new experiences, believes in abundance, a laid-back planner, a chill perfectionist, empathetic, beach-level calmness, a sunny outlook, internally motivated, explores tasks over time, loves the full novel, comfortable discussing death, nurturing, well-versed in EOLP, has time to plan, financially stable, ready to start.');
 
 -- Creating test users
 INSERT INTO users (username, password, firebase_id, email, persona_id) VALUES 

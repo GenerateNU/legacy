@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Router from "./src/navigation/Router";
 import { NativeBaseProvider, extendTheme } from "native-base";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { AuthProvider } from "./src/contexts/AuthContext";
+import { UserProvider } from "./src/contexts/UserContext";
 import {
   useFonts,
   DMSans_400Regular,
@@ -13,7 +13,8 @@ import {
   DMSans_700Bold,
   DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { ProfileProvider } from "./src/contexts/ProfileContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -54,13 +55,15 @@ export default function App() {
   });
 
   return (
-    <AuthProvider>
-      <SafeAreaProvider>
-        <NativeBaseProvider theme={theme}>
-          <Router />
-        </NativeBaseProvider>
-      </SafeAreaProvider>
-    </AuthProvider>
+    <UserProvider>
+      <ProfileProvider>
+        <SafeAreaProvider>
+          <NativeBaseProvider theme={theme}>
+            <Router />
+          </NativeBaseProvider>
+        </SafeAreaProvider>
+      </ProfileProvider>
+    </UserProvider>
   );
 }
 
@@ -72,3 +75,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+// Explaining useEffect
+// const Home = () => {
+//   const [name, setName] = useState("");
+
+//   useEffect(() => {
+//     console.log(name);
+//   }, [name]);
+
+//   return <input onChange={(e) => setName(e.target.value)} />;
+// };

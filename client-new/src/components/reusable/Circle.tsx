@@ -1,5 +1,6 @@
 import { View, Text } from "native-base";
 import { border } from "native-base/lib/typescript/theme/styled-system";
+import React from "react";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,

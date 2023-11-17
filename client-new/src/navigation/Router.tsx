@@ -1,14 +1,14 @@
 import { NavigationContainer } from "@react-navigation/native";
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
-import { useAuth } from "../contexts/AuthContext";
+import { useUser } from "../contexts/UserContext";
 import React from "react";
 export default function Router() {
-  const { user } = useAuth();
+  const { completedOnboarding } = useUser();
 
   return (
     <NavigationContainer>
-      {false ? <AppStack /> : <AuthStack />}
+      {completedOnboarding ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }
