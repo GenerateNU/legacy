@@ -5,8 +5,7 @@ import SignUpTransitionScreen from "../screens/auth/SignUpTransitionScreen";
 import PersonaScreen from "../screens/auth/PersonaScreen";
 import LandingScreen from "../screens/auth/LandingScreen";
 import QuizSectionIntroScreen from "../screens/auth/QuizSectionIntroScreen";
-import HomeScreen from "@/screens/app/HomeScreen";
-import React from "react";
+import HomeScreen from "../screens/app/BottomTabNavigator";
 
 const Stack = createNativeStackNavigator();
 
