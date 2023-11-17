@@ -153,129 +153,129 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
           "When making decisions, how often do you consider the emotional burden it might place on those close to you?",
       },
     },
-    {
-      page: "Quiz Section Intro Screen",
-      props: {
-        totalCircles: 4,
-        title: "Workstyle",
-      },
-    },
-    {
-      page: "Questionaire Screen",
-      props: {
-        inputName: "workstyleQ1",
-        totalCircles: 4,
-        completedCircles: 0,
-        questionNumber: "1",
-        question:
-          "Are you a laser-focused, 'I get things done' dynamo, or more of a 'why stick to one thing when I can multitask' explorer?",
-      },
-    },
-    {
-      page: "Questionaire Screen",
-      props: {
-        inputName: "workstyleQ2",
-        totalCircles: 4,
-        completedCircles: 1,
-        questionNumber: "2",
-        question:
-          "Are you more internally motivated to accomplish tasks, or do you rely on external notifications and reminders?",
-      },
-    },
-    {
-      page: "Questionaire Screen",
-      props: {
-        inputName: "workstyleQ3",
-        totalCircles: 4,
-        completedCircles: 2,
-        questionNumber: "3",
-        question:
-          "Do you prefer to tackle tasks iteratively over time, or do you prefer to do everything all at once?",
-      },
-    },
-    {
-      page: "Questionaire Screen",
-      props: {
-        inputName: "workstyleQ4",
-        totalCircles: 4,
-        completedCircles: 3,
-        questionNumber: "4",
-        question:
-          "Do you prefer in-depth, detailed information when making important decisions, or do you gravitate towards concise, action-oriented advice?",
-      },
-    },
+    // {
+    //   page: "Quiz Section Intro Screen",
+    //   props: {
+    //     totalCircles: 4,
+    //     title: "Workstyle",
+    //   },
+    // },
+    // {
+    //   page: "Questionaire Screen",
+    //   props: {
+    //     inputName: "workstyleQ1",
+    //     totalCircles: 4,
+    //     completedCircles: 0,
+    //     questionNumber: "1",
+    //     question:
+    //       "Are you a laser-focused, 'I get things done' dynamo, or more of a 'why stick to one thing when I can multitask' explorer?",
+    //   },
+    // },
+    // {
+    //   page: "Questionaire Screen",
+    //   props: {
+    //     inputName: "workstyleQ2",
+    //     totalCircles: 4,
+    //     completedCircles: 1,
+    //     questionNumber: "2",
+    //     question:
+    //       "Are you more internally motivated to accomplish tasks, or do you rely on external notifications and reminders?",
+    //   },
+    // },
+    // {
+    //   page: "Questionaire Screen",
+    //   props: {
+    //     inputName: "workstyleQ3",
+    //     totalCircles: 4,
+    //     completedCircles: 2,
+    //     questionNumber: "3",
+    //     question:
+    //       "Do you prefer to tackle tasks iteratively over time, or do you prefer to do everything all at once?",
+    //   },
+    // },
+    // {
+    //   page: "Questionaire Screen",
+    //   props: {
+    //     inputName: "workstyleQ4",
+    //     totalCircles: 4,
+    //     completedCircles: 3,
+    //     questionNumber: "4",
+    //     question:
+    //       "Do you prefer in-depth, detailed information when making important decisions, or do you gravitate towards concise, action-oriented advice?",
+    //   },
+    // },
 
-    {
-      page: "Quiz Section Intro Screen",
-      props: {
-        totalCircles: 3,
-        title: "Social Inclinations",
-      },
-    },
+    // {
+    //   page: "Quiz Section Intro Screen",
+    //   props: {
+    //     totalCircles: 3,
+    //     title: "Social Inclinations",
+    //   },
+    // },
 
-    {
-      page: "Questionaire Screen",
-      props: {
-        inputName: "socialInclinationQ1",
-        totalCircles: 3,
-        completedCircles: 0,
-        questionNumber: "1",
-        question:
-          "Is talking about death as easy as chatting about the weather, or do you tend to avoid the topic?",
-      },
-    },
-    {
-      page: "Questionaire Screen",
-      props: {
-        inputName: "socialInclinationQ2",
-        totalCircles: 3,
-        completedCircles: 1,
-        questionNumber: "2",
-        question:
-          "Are you the go-to person to help friends and family with tricky decisions, or do you prefer someone else to do the heavy lifting?",
-      },
-    },
-    {
-      page: "Questionaire Screen",
-      props: {
-        inputName: "socialInclinationQ3",
-        totalCircles: 3,
-        completedCircles: 2,
-        questionNumber: "3",
-        question:
-          "Are you more inclined to focus on your issues, or do you often help others with theirs?",
-      },
-    },
+    // {
+    //   page: "Questionaire Screen",
+    //   props: {
+    //     inputName: "socialInclinationQ1",
+    //     totalCircles: 3,
+    //     completedCircles: 0,
+    //     questionNumber: "1",
+    //     question:
+    //       "Is talking about death as easy as chatting about the weather, or do you tend to avoid the topic?",
+    //   },
+    // },
+    // {
+    //   page: "Questionaire Screen",
+    //   props: {
+    //     inputName: "socialInclinationQ2",
+    //     totalCircles: 3,
+    //     completedCircles: 1,
+    //     questionNumber: "2",
+    //     question:
+    //       "Are you the go-to person to help friends and family with tricky decisions, or do you prefer someone else to do the heavy lifting?",
+    //   },
+    // },
+    // {
+    //   page: "Questionaire Screen",
+    //   props: {
+    //     inputName: "socialInclinationQ3",
+    //     totalCircles: 3,
+    //     completedCircles: 2,
+    //     questionNumber: "3",
+    //     question:
+    //       "Are you more inclined to focus on your issues, or do you often help others with theirs?",
+    //   },
+    // },
 
-    {
-      page: "Quiz Section Intro Screen",
-      props: {
-        totalCircles: 2,
-        title: "Funnel Activities",
-      },
-    },
-    {
-      page: "Questionaire Screen",
-      props: {
-        inputName: "funnelActivitiesQ1",
-        totalCircles: 2,
-        completedCircles: 0,
-        questionNumber: "1",
-        question:
-          "Are you a walking encyclopedia on end-of-life planning, or do you feel like you're navigating uncharted waters?",
-      },
-    },
-    {
-      page: "Questionaire Screen",
-      props: {
-        inputName: "funnelActivitiesQ2",
-        totalCircles: 2,
-        completedCircles: 1,
-        questionNumber: "2",
-        question:
-          'Is your end-of-life planning a "when I get around to it" affair, or are you sprinting towards getting it done?',
-      },
-    },
+    // {
+    //   page: "Quiz Section Intro Screen",
+    //   props: {
+    //     totalCircles: 2,
+    //     title: "Funnel Activities",
+    //   },
+    // },
+    // {
+    //   page: "Questionaire Screen",
+    //   props: {
+    //     inputName: "funnelActivitiesQ1",
+    //     totalCircles: 2,
+    //     completedCircles: 0,
+    //     questionNumber: "1",
+    //     question:
+    //       "Are you a walking encyclopedia on end-of-life planning, or do you feel like you're navigating uncharted waters?",
+    //   },
+    // },
+    // {
+    //   page: "Questionaire Screen",
+    //   props: {
+    //     inputName: "funnelActivitiesQ2",
+    //     totalCircles: 2,
+    //     completedCircles: 1,
+    //     questionNumber: "2",
+    //     question:
+    //       'Is your end-of-life planning a "when I get around to it" affair, or are you sprinting towards getting it done?',
+    //   },
+    // },
     {
       page: "Persona Screen",
       props: {},
