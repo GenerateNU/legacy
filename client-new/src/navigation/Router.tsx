@@ -11,8 +11,7 @@ export default function Router() {
 
   return (
     <NavigationContainer>
-      {/* <GuideScreen guideName="Test Guide" /> */}
-      <SubTaskScreen subtask_id={1} />
+      {false ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }
