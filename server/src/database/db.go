@@ -5,8 +5,10 @@ import (
 	"server/src/models"
 	"server/src/routes"
 	"server/src/services"
+	"server/src/utils"
 
 	"github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -32,6 +34,11 @@ func connectDatabase(host, user, password, dbname, port string) (*gorm.DB, error
 }
 
 func AddRoutes(db *gorm.DB, e *echo.Echo) {
+	// Utility routes
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.GET("/health", func(c echo.Context) error { return utils.HealthCheck(c, db) })
+
+	// Service routes
 	userService := services.UserService{DB: db}
 	profileService := services.ProfileService{DB: db}
 	personaService := services.PersonaService{DB: db}
