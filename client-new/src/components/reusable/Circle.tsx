@@ -20,9 +20,10 @@ export default function Circle(props: CircleProps) {
         width={h("1.6%")}
         backgroundColor={props.color}
         borderRadius={w("80%") / 2}
-        borderColor={"#000000"}
+        borderColor={"darkGreen"}
         borderWidth={borderWidth}
-      ></View>
+      >
+      </View>
     </>
   );
 }

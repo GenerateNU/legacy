@@ -4,7 +4,13 @@ import React from "react";
 export default function LetsGo() {
   return (
     <>
-      <Text fontWeight={"bold"} fontSize={"6xl"}>
+      <Text
+        fontSize={"55px"}
+        color={"darkGreen"}
+        fontFamily={"rocaOne"}
+        fontWeight={"Regular"}
+        fontStyle={"normal"}
+      >
         Let's go!
       </Text>
     </>

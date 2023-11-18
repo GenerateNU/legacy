@@ -13,7 +13,14 @@ import { useOnboarding } from "@/contexts/OnboardingContext";
 import React from "react";
 
 export default function QuestionaireScreen({ route, navigation }) {
-  const {page, setPage, onboardingState, setOnboardingState, onboardingFlow, handleChange} = useOnboarding();
+  const {
+    page,
+    setPage,
+    onboardingState,
+    setOnboardingState,
+    onboardingFlow,
+    handleChange,
+  } = useOnboarding();
   const { props } = route.params;
 
   const back = async () => {
@@ -29,8 +36,10 @@ export default function QuestionaireScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView>
-      <KeyboardAvoidingView alignItems="center">
+    <>
+      <View bg={"creamyCanvas"} alignItems="center" h={h("100%")} w={w("100%")}>
+        <View paddingTop={h("7%")}></View>
+
         <View
           width={w("80%")}
           flexDirection="row"
@@ -45,7 +54,10 @@ export default function QuestionaireScreen({ route, navigation }) {
         </View>
 
         <View paddingBottom={h("1%")}>
-          <CircleProgressBar totalCircles={props.totalCircles} completedCircles={props.completedCircles} />
+          <CircleProgressBar
+            totalCircles={props.totalCircles}
+            completedCircles={props.completedCircles}
+          />
         </View>
         <Divider
           marginTop={h("2%")}
@@ -55,9 +67,7 @@ export default function QuestionaireScreen({ route, navigation }) {
         />
         <QuestionaireBox
           text1={"Question " + props.questionNumber}
-          text2={
-            props.question
-          }
+          text2={props.question}
           initialSliderValue={onboardingState[props.inputName]}
           field={props.inputName}
           handleChange={handleChange}
@@ -66,24 +76,23 @@ export default function QuestionaireScreen({ route, navigation }) {
         <View paddingTop={h("4%")}>
           <ScreenWideButton
             text={"Next"}
-            textColor={"#FFFFFF"}
-            backgroundColor={"#8F8F8F"}
-            borderColor={"#8F8F8F"}
+            textColor="#FFFFFF"
+            backgroundColor="lightGreen"
+            borderColor="lightGreen"
             onClick={next}
           />
         </View>
 
         <View paddingTop={h("2%")}>
-        <ScreenWideButton
-          text={"Back"}
-          textColor={"#000000"}
-          backgroundColor={"#FFFFFF"}
-          borderColor={"#D9D9D9"}
-          onClick={back}
-        />
+          <ScreenWideButton
+            text={"Back"}
+            textColor="#FFFFFF"
+            backgroundColor="lightGreen"
+            borderColor="lightGreen"
+            onClick={back}
+          />
         </View>
-
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      </View>
+    </>
   );
 }
