@@ -1,14 +1,15 @@
 import { KeyboardAvoidingView, View, Text, Divider, Button } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CircleProgressBar from "../../components/reusable/CircleProgressBar";
-import LegacyWordmark from "../../components/reusable/LegacyWordmark";
+import CircleProgressBar from "@/components/reusable/CircleProgressBar";
+import LegacyWordmark from "@/components/reusable/LegacyWordmark";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useOnboarding } from "../../contexts/OnboardingContext";
-import ScreenWideButton from "../../components/reusable/ScreenWideButton";
+import ScreenWideButton from "@/components/reusable/ScreenWideButton";
+import { useOnboarding } from "@/contexts/OnboardingContext";
+import React from "react";
 
 export default function QuizSectionIntroScreen({ route, navigation }) {
   const {

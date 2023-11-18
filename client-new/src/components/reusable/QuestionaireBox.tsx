@@ -12,9 +12,10 @@ type QuestionaireBoxProps = {
   text2: string;
   initialSliderValue: number;
   field: string;
-  handleChange: (name, value) => void;
+  handleChange: (name, value) => void; // TODO: add types
 };
 
+// TODO: export image to separate file + use arrow function
 export default function QuestionaireBox(props: QuestionaireBoxProps) {
   const screenImage = `<svg width="220" height="146" viewBox="0 0 220 146" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <rect x="0.5" y="0.5" width="219" height="145" fill="url(#pattern0)"/>

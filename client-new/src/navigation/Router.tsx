@@ -1,10 +1,13 @@
-import { NavigationContainer } from "@react-navigation/native";
-import AppStack from "./AppStack";
-import AuthStack from "./AuthStack";
-import { useAuth } from "../contexts/AuthContext";
+import { NavigationContainer } from '@react-navigation/native';
+import AppStack from '@/navigation/AppStack';
+import AuthStack from '@/navigation/AuthStack';
+import { useAuth } from '@/contexts/AuthContext';
+import React from 'react';
+import SubTaskScreen from '@/screens/app/SubTaskScreen';
+import GuideScreen from '@/screens/app/GuideScreen';
 
 export default function Router() {
-  const { user, completedOnboarding } = useAuth();
+  const { user } = useAuth();
 
   return (
     <NavigationContainer>

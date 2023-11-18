@@ -1,0 +1,300 @@
+definitions:
+  docmodels.UserDTO:
+    properties:
+      email:
+        type: string
+      firebase_id:
+        type: string
+      password:
+        type: string
+      persona_id:
+        type: integer
+      username:
+        type: string
+    required:
+    - email
+    - firebase_id
+    - password
+    - username
+    type: object
+  models.File:
+    properties:
+      created_at:
+        type: string
+      file_name:
+        type: string
+      id:
+        type: integer
+      object_key:
+        type: string
+      tags:
+        items:
+          $ref: '#/definitions/models.Tag'
+        type: array
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.Persona:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      persona_description:
+        type: string
+      persona_title:
+        type: string
+      tasks:
+        items:
+          $ref: '#/definitions/models.Task'
+        type: array
+      updated_at:
+        type: string
+    required:
+    - persona_description
+    - persona_title
+    type: object
+  models.Profile:
+    properties:
+      completed_onboarding_response:
+        type: boolean
+      created_at:
+        type: string
+      date_of_birth:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      onboarding_response:
+        type: string
+      phone_number:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - date_of_birth
+    - name
+    - phone_number
+    - user_id
+    type: object
+  models.Tag:
+    properties:
+      created_at:
+        type: string
+      files:
+        items:
+          $ref: '#/definitions/models.File'
+        type: array
+      id:
+        type: integer
+      name:
+        type: string
+      tasks:
+        items:
+          $ref: '#/definitions/models.Task'
+        type: array
+      updated_at:
+        type: string
+    required:
+    - name
+    type: object
+  models.Task:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      personas:
+        items:
+          $ref: '#/definitions/models.Persona'
+        type: array
+      tags:
+        items:
+          $ref: '#/definitions/models.Tag'
+        type: array
+      task_description:
+        type: string
+      task_name:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - task_description
+    - task_name
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      firebase_id:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      persona_id:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - firebase_id
+    - password
+    - username
+    type: object
+info:
+  contact:
+    email: oduneye.d@northeastern.edu and dupuguntla@northeastern.edu
+    name: David Oduneye and Akshay Dupuguntla
+  description: Backend Server for Legacy App
+  title: Legacy API
+  version: "1.0"
+paths:
+  /api/users/:
+    get:
+      description: Returns all users
+      operationId: get-all-users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Gets all users
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: Creates a user
+      operationId: post-user
+      parameters:
+      - description: User
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/docmodels.UserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Creates a user
+      tags:
+      - user
+  /api/users/{uid}:
+    get:
+      description: Returns a user from id
+      operationId: get-user-from-id
+      parameters:
+      - description: User ID
+        in: path
+        name: uid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Gets a user from id
+      tags:
+      - user
+  /api/users/{uid}/persona:
+    get:
+      description: Returns a persona from user id
+      operationId: get-user-persona
+      parameters:
+      - description: UserID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Persona'
+      summary: Gets a user persona from user id
+      tags:
+      - user
+  /api/users/{uid}/profile:
+    get:
+      description: Returns a profile from user id
+      operationId: get-user-profile
+      parameters:
+      - description: UserID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Profile'
+      summary: Gets a user profile from user id
+      tags:
+      - user
+  /api/users/firebase/{firebaseid}:
+    get:
+      description: Returns a user from firebase id
+      operationId: get-user-from-firebase-id
+      parameters:
+      - description: FirebaseID
+        in: path
+        name: firebaseid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Gets a user from firebase id
+      tags:
+      - user
+  /api/users/username/{username}:
+    get:
+      description: Returns a user from username
+      operationId: get-user-from-username
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Gets a user from username
+      tags:
+      - user
+swagger: "2.0"

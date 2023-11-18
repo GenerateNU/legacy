@@ -1,4 +1,5 @@
 import { View } from "native-base";
+import React from "react";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
@@ -10,7 +11,6 @@ type CircleProps = {
 };
 
 export default function Circle(props: CircleProps) {
-
   const borderWidth = props.border ? 1 : 0
 
   return (

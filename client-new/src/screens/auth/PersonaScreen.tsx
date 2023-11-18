@@ -5,13 +5,15 @@ import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import ScreenWideButton from "../../components/reusable/ScreenWideButton";
-import { useOnboarding } from "../../contexts/OnboardingContext";
+import ScreenWideButton from "@/components/reusable/ScreenWideButton";
+import { useOnboarding } from "@/contexts/OnboardingContext";
 import { useEffect, useState } from "react";
-import { sendOnboardingResponse, getPersona } from "../../services/authService";
 import CircleProgressBar from "../../components/reusable/CircleProgressBar";
 import { SvgXml } from "react-native-svg";
 // import { Persona } from "../../types/Persona";
+import { sendOnboardingResponse, getPersona } from "@/services/authService";
+import { IPersona } from "@/interfaces/IPersona";
+import React from "react";
 
 export default function PersonaScreen({ route, navigation }) {
   const {
@@ -23,7 +25,7 @@ export default function PersonaScreen({ route, navigation }) {
     handleChange,
   } = useOnboarding();
 
-  // const [persona, setPersona] = useState<Persona>(null);
+  const [persona, setPersona] = useState<IPersona>(null);
 
   const next = async () => {
     const nextPage = onboardingFlow[page + 1];
@@ -66,6 +68,7 @@ export default function PersonaScreen({ route, navigation }) {
   //   fetchPersona();
   // }, []);
 
+  // TODO: export this to own file
   const svgImage = `<svg width="156" height="189" viewBox="0 0 156 189" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <rect width="156" height="189" fill="url(#pattern0)"/>
   <defs>

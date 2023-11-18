@@ -1,16 +1,20 @@
 import { View } from "native-base";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
-import ScreenWideInput from "../../components/reusable/ScreenWideInput";
-import HalfScreenWideButton from "../../components/reusable/HalfScreenWideButton";
-import SmallRoundedButton from "../../components/reusable/SmallRoundedButton";
-import Footer from "../../components/reusable/Footer";
+import ScreenWideInput from "@/components/reusable/ScreenWideInput";
+import ScreenWideButton from "@/components/reusable/ScreenWideButton";
+import HalfScreenWideButton from "@/components/reusable/HalfScreenWideButton";
+import SmallRoundedButton from "@/components/reusable/SmallRoundedButton";
+import Footer from "@/components/reusable/Footer";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
-import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import LetsGo from "../../components/reusable/LetsGo";
+import LegacyWordmark from "@/components/reusable/LegacyWordmark";
+import LetsGo from "@/components/reusable/LetsGo";
+import React from "react";
+import CompaniesFooter from "@/components/reusable/CompaniesFooter";
+import { signIn } from "@/services/authService";
 
 export default function LoginScreen({ route, navigation }) {
   const { user, login } = useAuth();
@@ -18,10 +22,12 @@ export default function LoginScreen({ route, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signIn = () => {
+  const logIn = () => {
     login(email, password);
-    navigation.navigate("");
+    console.log("HIT");
+    navigation.navigate("Access Screen");
 
+    //
     // login(email, password).then((response) => {
     //   if (response === true) {
     //     // ONCE WE FIGURE OUT HOW TO GO TO HOME SCREEN, PUT HERE
@@ -94,11 +100,44 @@ export default function LoginScreen({ route, navigation }) {
             borderColor={"lightGreen"}
             onClick={signIn}
           />
-        </View>
+          <View paddingTop={h("3%")} paddingBottom={h("4%")}>
+            <ScreenWideInput
+              placeholderText="Must be at least 8 characters long"
+              title="Password"
+              iconName="lock"
+              password={true}
+              onChangeText={(value) => setPassword(value)}
+              value={password}
+            />
+          </View>
+          <View
+            width={w("80%")}
+            alignItems={"center"}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+          >
+            <ScreenWideButton
+              text="Login with SSO"
+              textColor="#8F8F8F"
+              backgroundColor="#FFFFFF"
+              borderColor="#8F8F8F"
+            />
+            <ScreenWideButton
+              text="Login to Legacy"
+              textColor="#FFFFFF"
+              backgroundColor="#8F8F8F"
+              borderColor="#8F8F8F"
+              onClick={logIn}
+            />
+          </View>
+          <View paddingTop={h("4%")}>
+            <CompaniesFooter />
+          </View>
+        </View >
         <View paddingTop={h("31%")} >
           <Footer />
         </View>
-      </View>
-    </View>
+      </View >
+    </View >
   );
 }

@@ -1,9 +1,10 @@
 import { View } from "native-base";
-import Circle from "./Circle";
+import Circle from "@/components/reusable/Circle";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
+import React from "react";
 
 type CircleProgressBarProps = {
   totalCircles: number;
