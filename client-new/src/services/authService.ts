@@ -6,7 +6,7 @@ import { ENDPOINT } from './const';
 
 // SHOULD AXIOS BE BEING USED AND IF SO, AM I DOING IT PROPERLY
 
-export const signIn = async (email: string, password: string, uid: string) => {
+export const signIn = async (uid: string) => {
   // CHECK ROUTE HERE
   const response = await fetch(`${ENDPOINT}/api/users/firebase/${uid}`);
 
