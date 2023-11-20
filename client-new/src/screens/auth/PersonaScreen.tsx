@@ -101,6 +101,7 @@ export default function PersonaScreen({ route, navigation }) {
           borderRadius={10}
           borderColor={"darkGreen"}
           borderWidth={1}
+          marginTop={h("2%")}
           paddingTop={h("3%")}
           paddingBottom={h("3%")}
           width={w("80%")}
