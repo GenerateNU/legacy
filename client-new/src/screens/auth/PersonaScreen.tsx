@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import CircleProgressBar from "../../components/reusable/CircleProgressBar";
 import { SvgXml } from "react-native-svg";
 // import { Persona } from "../../types/Persona";
-import { sendOnboardingResponse, getPersona } from "@/services/authService";
 import { IPersona } from "@/interfaces/IPersona";
 import React from "react";
 
