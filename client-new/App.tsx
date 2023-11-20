@@ -85,14 +85,15 @@ export default function App() {
     },
     colors: {
       deepEvergreen: '#0C362F',
-      muteEggplant: '#251B22'
+      muteEggplant: '#251B22',
+      brown: '#2F1D12'
     },
     fonts: {
       madeDillan: "MADE Dillan", // access fontFamily="madeDillan"
       dmSans: "DM_Sans", // access fontFamily={"dmSans"} fontWeight={"Regular"} fontStyle={"normal"}
       rocaOne: "Roca_One", // access fontFamily={"rocaOne"} fontWeight={"Regular"} fontStyle={"normal"}
       inter: "Inter", // access fontFamily={"inter"} fontWeight={"Regular"} fontStyle={"normal"}
-    },
+    }
   });
 
   return (

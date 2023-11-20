@@ -3,7 +3,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import HomeScreenTaskCard from "../../components/homescreen components/HomeScreenTaskCard";
 
-
 export default function TaskScreen() {
   const { user, logout } = useAuth();
   const tagData = ['Emotional', 'Financial', 'Value Based', 'Holistic'];
