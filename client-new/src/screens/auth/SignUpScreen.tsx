@@ -1,12 +1,9 @@
 import { KeyboardAvoidingView, View } from "native-base";
 import { StyleSheet, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import ScreenWideInput from "@/components/reusable/ScreenWideInput";
 import ScreenWideButton from "@/components/reusable/HalfScreenWideButton";
-import SquareButton from "@/components/reusable/SquareButton";
-import CompaniesFooter from "@/components/reusable/CompaniesFooter";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h,
@@ -15,6 +12,7 @@ import LegacyWordmark from "@/components/reusable/LegacyWordmark";
 import LetsGo from "@/components/reusable/LetsGo";
 import React from "react";
 import Footer from "@/components/reusable/Footer";
+import SmallRoundedButton from "@/components/reusable/SmallRoundedButton";
 
 export default function SignUpScreen({ route, navigation }) {
   const { user, createAccount } = useAuth();
@@ -75,7 +73,7 @@ export default function SignUpScreen({ route, navigation }) {
           paddingTop={h("8%")}
         >
           <LegacyWordmark />
-          <SquareButton title="Login" onClick={switchToLogin} />
+          <SmallRoundedButton title="Login" onClick={switchToLogin} />
         </View>
         <View paddingTop={h("7%")}>
           <LetsGo />
