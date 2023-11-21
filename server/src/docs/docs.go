@@ -188,7 +188,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "type": "string"
                         }
                     }
                 ],
@@ -302,7 +302,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/docmodels.GuideDTO"
                         }
                     }
                 ],
@@ -418,7 +418,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/docmodels.GuideDTO"
                         }
                     }
                 ],
@@ -487,7 +487,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Persona"
+                            "$ref": "#/definitions/docmodels.PersonaDTO"
                         }
                     }
                 ],
@@ -596,6 +596,15 @@ const docTemplate = `{
                         "name": "pid",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Persona",
+                        "name": "persona",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/docmodels.PersonaDTO"
+                        }
                     }
                 ],
                 "responses": {
@@ -702,7 +711,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Profile"
+                            "$ref": "#/definitions/docmodels.ProfileDTO"
                         }
                     }
                 ],
@@ -743,6 +752,15 @@ const docTemplate = `{
                         "name": "pid",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "OnboardingResponse",
+                        "name": "onboardingResponse",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
@@ -850,6 +868,15 @@ const docTemplate = `{
                         "name": "pid",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Profile",
+                        "name": "profile",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/docmodels.ProfileDTO"
+                        }
                     }
                 ],
                 "responses": {
@@ -917,7 +944,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/docmodels.SubTaskDTO"
                         }
                     }
                 ],
@@ -1026,6 +1053,15 @@ const docTemplate = `{
                         "name": "sid",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "SubTask",
+                        "name": "subtask",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/docmodels.SubTaskDTO"
+                        }
                     }
                 ],
                 "responses": {
@@ -1132,7 +1168,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/docmodels.TaskDTO"
                         }
                     }
                 ],
@@ -1248,7 +1284,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/docmodels.TaskDTO"
                         }
                     }
                 ],
@@ -1756,14 +1792,129 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "docmodels.GuideDTO": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "author_image_url": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "full_text": {
+                    "type": "string"
+                },
+                "guide_name": {
+                    "type": "string"
+                },
+                "mins_read": {
+                    "type": "integer"
+                },
+                "sub_title": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "docmodels.PersonaDTO": {
+            "type": "object",
+            "properties": {
+                "persona_description": {
+                    "type": "string"
+                },
+                "persona_title": {
+                    "type": "string"
+                },
+                "tasks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "docmodels.ProfileDTO": {
+            "type": "object",
+            "properties": {
+                "completed_onboarding_response": {
+                    "type": "boolean"
+                },
+                "date_of_birth": {
+                    "type": "string"
+                },
+                "onboarding_response": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/docmodels.UserDTO"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "docmodels.SubTaskDTO": {
+            "type": "object",
+            "properties": {
+                "actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "actions_state": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "subtask_description": {
+                    "type": "string"
+                },
+                "subtask_name": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "docmodels.TaskDTO": {
+            "type": "object",
+            "properties": {
+                "personas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "task_description": {
+                    "type": "string"
+                },
+                "task_name": {
+                    "type": "string"
+                }
+            }
+        },
         "docmodels.UserDTO": {
             "type": "object",
-            "required": [
-                "email",
-                "firebase_id",
-                "password",
-                "username"
-            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -1786,13 +1937,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "file_name": {
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "object_key": {
                     "type": "string"
@@ -1804,7 +1957,8 @@ const docTemplate = `{
                     }
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "user_id": {
                     "type": "integer"
@@ -1829,7 +1983,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "date": {
                     "type": "string"
@@ -1841,7 +1996,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "mins_read": {
                     "type": "integer"
@@ -1853,7 +2009,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 }
             }
         },
@@ -1865,10 +2022,12 @@ const docTemplate = `{
             ],
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "persona_description": {
                     "type": "string"
@@ -1883,7 +2042,8 @@ const docTemplate = `{
                     }
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 }
             }
         },
@@ -1900,13 +2060,15 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "date_of_birth": {
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "name": {
                     "type": "string"
@@ -1918,7 +2080,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "user_id": {
                     "type": "integer"
@@ -1940,10 +2103,12 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "sub_task_description": {
                     "type": "string"
@@ -1955,7 +2120,8 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 }
             }
         },
@@ -1966,7 +2132,8 @@ const docTemplate = `{
             ],
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "files": {
                     "type": "array",
@@ -1975,7 +2142,8 @@ const docTemplate = `{
                     }
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "name": {
                     "type": "string"
@@ -1987,7 +2155,8 @@ const docTemplate = `{
                     }
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 }
             }
         },
@@ -1999,10 +2168,12 @@ const docTemplate = `{
             ],
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "personas": {
                     "type": "array",
@@ -2023,7 +2194,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 }
             }
         },
@@ -2037,7 +2209,8 @@ const docTemplate = `{
             ],
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "email": {
                     "type": "string"
@@ -2046,7 +2219,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "password": {
                     "type": "string"
@@ -2055,7 +2229,8 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-09-20T16:34:50Z"
                 },
                 "username": {
                     "type": "string"
@@ -2068,8 +2243,8 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "",
-	BasePath:         "",
+	Host:             "localhost:8080",
+	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Legacy API",
 	Description:      "Backend Server for Legacy App",

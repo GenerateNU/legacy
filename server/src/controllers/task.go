@@ -19,15 +19,15 @@ func NewTaskController(taskService services.TaskServiceInterface) *TaskControlle
 
 // GetTask godoc
 //
-//			@Summary		Gets a task from task id
-//			@Description	Returns a task from task id
-//			@ID				get-task
-//			@Tags			task
-//			@Produce		json
-//		    @Param          tid	  path  string	true	"TaskID"
-//			@Success		200	  {object}	  models.Task
+//		@Summary		Gets a task from task id
+//		@Description	Returns a task from task id
+//		@ID				get-task
+//		@Tags			task
+//		@Produce		json
+//		@Param          tid	  path  string	true	"TaskID"
+//		@Success		200	  {object}	  models.Task
 //	 	@Failure        404   {string}    string "Failed to fetch task"
-//			@Router			/api/tasks/{tid}  [get]
+//		@Router			/api/tasks/{tid}  [get]
 func (t *TaskController) GetTask(c echo.Context) error {
 	taskID := c.Param("tid")
 
@@ -41,14 +41,14 @@ func (t *TaskController) GetTask(c echo.Context) error {
 
 // GetAllTasks godoc
 //
-//			@Summary		Gets all tasks
-//			@Description	Returns all tasks
-//			@ID				get-all-tasks
-//			@Tags			task
-//			@Produce		json
-//			@Success		200	  {object}	  []models.Task
-//	     @Failure        404   {string}    string "Failed to fetch tasks"
-//			@Router			/api/tasks/  [get]
+//		@Summary		Gets all tasks
+//		@Description	Returns all tasks
+//		@ID				get-all-tasks
+//		@Tags			task
+//		@Produce		json
+//		@Success		200	  {object}	  []models.Task
+//	    @Failure        404   {string}    string "Failed to fetch tasks"
+//		@Router			/api/tasks/  [get]
 func (t *TaskController) GetAllTasks(c echo.Context) error {
 	var tasks []models.Task
 
@@ -62,16 +62,16 @@ func (t *TaskController) GetAllTasks(c echo.Context) error {
 
 // GetAllUserTasks godoc
 //
-//			@Summary		Gets all tasks of a user
-//			@Description	Returns all tasks of a user
-//			@ID				get-all-user-tasks
-//			@Tags			task
-//			@Produce		json
-//		    @Param          uid	  path  string	true	"UserID"
-//	     @Param          tag	  query  string	false	"Tag"
-//			@Success		200	  {object}	  []models.Task
-//	     @Failure        404   {string}    string "Failed to fetch tasks"
-//			@Router			/api/tasks/{uid}/user  [get]
+//		@Summary		Gets all tasks of a user
+//		@Description	Returns all tasks of a user
+//		@ID				get-all-user-tasks
+//		@Tags			task
+//		@Produce		json
+//		@Param          uid	  path  string	true	"UserID"
+//	    @Param          tag	  query  string	false	"Tag"
+//		@Success		200	  {object}	  []models.Task
+//	    @Failure        404   {string}    string "Failed to fetch tasks"
+//		@Router			/api/tasks/{uid}/user  [get]
 func (t *TaskController) GetAllUserTasks(c echo.Context) error {
 	userID := c.Param("uid")
 	tag := c.QueryParam("tag")
@@ -96,15 +96,15 @@ func (t *TaskController) GetAllUserTasks(c echo.Context) error {
 
 // GetAllSubTasksOfTask godoc
 //
-//			@Summary		Gets all subtasks of a task
-//			@Description	Returns all subtasks of a task
-//			@ID				get-all-subtasks-of-task
-//			@Tags			task
-//			@Produce		json
-//		    @Param          tid	  path  string	true	"TaskID"
-//			@Success		200	  {object}	  []models.Task
-//	     @Failure        404   {string}    string "Failed to fetch subtasks"
-//			@Router			/api/tasks/{tid}/subtasks  [get]
+//		@Summary		Gets all subtasks of a task
+//		@Description	Returns all subtasks of a task
+//		@ID				get-all-subtasks-of-task
+//		@Tags			task
+//		@Produce		json
+//		@Param          tid	  path  string	true	"TaskID"
+//		@Success		200	  {object}	  []models.Task
+//	    @Failure        404   {string}    string "Failed to fetch subtasks"
+//		@Router			/api/tasks/{tid}/subtasks  [get]
 func (t *TaskController) GetAllSubTasksOfTask(c echo.Context) error {
 	taskID := c.Param("tid")
 	subtasks, err := t.taskService.GetAllSubTasksOfTask(taskID)
@@ -118,18 +118,18 @@ func (t *TaskController) GetAllSubTasksOfTask(c echo.Context) error {
 
 // CreateTask godoc
 //
-//			@Summary		Creates a task
-//			@Description	Creates a task
-//			@ID				create-task
-//			@Tags			task
-//			@Accept			json
-//			@Produce		json
-//			@Param          task	  body  object	true	"Task"
-//			@Success		200	  {object}	  models.Task
-//		  	@Failure        400   {string}    string "Failed to process the request"
-//	     @Failure        400   {string}    string "Failed to validate the data"
-//			@Failure        400   {string}    string "Failed to create task"
-//			@Router			/api/tasks/  [post]
+//		@Summary		Creates a task
+//		@Description	Creates a task
+//		@ID				create-task
+//		@Tags			task
+//		@Accept			json
+//		@Produce		json
+//		@Param          task	  body  docmodels.TaskDTO	true	"Task"
+//		@Success		200	  {object}	  models.Task
+//		@Failure        400   {string}    string "Failed to process the request"
+//	    @Failure        400   {string}    string "Failed to validate the data"
+//		@Failure        400   {string}    string "Failed to create task"
+//		@Router			/api/tasks/  [post]
 func (t *TaskController) CreateTask(c echo.Context) error {
 	var task models.Task
 
@@ -158,13 +158,11 @@ func (t *TaskController) CreateTask(c echo.Context) error {
 //		@Accept			json
 //		@Produce		json
 //	    @Param          tid	  path  string	true	"TaskID"
-//		@Param          task	  body  object	true	"Task"
+//		@Param         	task	  body  docmodels.TaskDTO	true	"Task"
 //		@Success		200	  {object}	  models.Task
-//
-// /	  	@Failure        400   {string}    string "Failed to process the request"
-//
-//	@Failure        400   {string}    string "Failed to update task"
-//	@Router			/api/tasks/{tid}  [patch]
+//	  	@Failure        400   {string}    string "Failed to process the request"
+//		@Failure        400   {string}    string "Failed to update task"
+//		@Router			/api/tasks/{tid}  [patch]
 func (t *TaskController) UpdateTask(c echo.Context) error {
 	var task models.Task
 	taskID := c.Param("tid")
@@ -183,15 +181,15 @@ func (t *TaskController) UpdateTask(c echo.Context) error {
 
 // DeleteTask godoc
 //
-//			@Summary		Deletes a task
-//			@Description	Deletes a task
-//			@ID				delete-task
-//			@Tags			task
-//			@Produce		json
-//		    @Param          tid	  path  string	true	"TaskID"
-//			@Success		200	  {string}	  string "Task successfully deleted"
-//	     @Failure        404   {string}    string "Failed to delete task"
-//			@Router			/api/tasks/{tid}  [delete]
+//	@Summary		Deletes a task
+//	@Description	Deletes a task
+//	@ID				delete-task
+//	@Tags			task
+//	@Produce		json
+//	@Param          tid	  path  string	true	"TaskID"
+//	@Success		200	  {string}	  string "Task successfully deleted"
+//	@Failure        404   {string}    string "Failed to delete task"
+//	@Router			/api/tasks/{tid}  [delete]
 func (t *TaskController) DeleteTask(c echo.Context) error {
 	taskID := c.Param("tid")
 	err := t.taskService.DeleteTask(taskID)

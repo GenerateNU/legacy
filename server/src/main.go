@@ -23,6 +23,8 @@ import (
 
 // @contact.name	David Oduneye and Akshay Dupuguntla
 // @contact.email	oduneye.d@northeastern.edu and dupuguntla@northeastern.edu
+// @host localhost:8080
+// @BasePath /api
 func main() {
 	e := echo.New()
 

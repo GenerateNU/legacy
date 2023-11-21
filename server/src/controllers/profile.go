@@ -19,14 +19,14 @@ func NewProfileController(profileService services.ProfileServiceInterface) *Prof
 
 // GetAllProfiles godoc
 //
-//			@Summary		Gets all profiles
-//			@Description	Returns all profiles
-//			@ID				get-all-profiles
-//			@Tags			profile
-//			@Produce		json
-//			@Success		200	  {object}	  []models.Profile
-//	     @Failure        404   {string}    string "Failed to fetch profiles"
-//			@Router			/api/profiles/  [get]
+//		@Summary		Gets all profiles
+//		@Description	Returns all profiles
+//		@ID				get-all-profiles
+//		@Tags			profile
+//		@Produce		json
+//		@Success		200	  {object}	  []models.Profile
+//	    @Failure        404   {string}    string "Failed to fetch profiles"
+//		@Router			/api/profiles/  [get]
 func (p *ProfileController) GetAllProfiles(c echo.Context) error {
 	profiles, err := p.profileService.GetAllProfiles()
 	if err != nil {
@@ -38,15 +38,15 @@ func (p *ProfileController) GetAllProfiles(c echo.Context) error {
 
 // GetProfile godoc
 //
-//			@Summary		Gets a profile from profile id
-//			@Description	Returns a profile from profile id
-//			@ID				get-profile
-//			@Tags			profile
-//			@Produce		json
-//		    @Param          pid	  path  string	true	"ProfileID"
-//			@Success		200	  {object}	  models.Profile
+//		@Summary		Gets a profile from profile id
+//		@Description	Returns a profile from profile id
+//		@ID				get-profile
+//		@Tags			profile
+//		@Produce		json
+//		@Param          pid	  path  string	true	"ProfileID"
+//		@Success		200	  {object}	  models.Profile
 //	 	@Failure        404   {string}    string "Failed to fetch profile"
-//			@Router			/api/profiles/{pid}  [get]
+//		@Router			/api/profiles/{pid}  [get]
 func (p *ProfileController) GetProfile(c echo.Context) error {
 	profileID := c.Param("pid")
 	profile, err := p.profileService.GetProfile(profileID)
@@ -60,18 +60,18 @@ func (p *ProfileController) GetProfile(c echo.Context) error {
 
 // CreateProfile godoc
 //
-//			@Summary		Creates a profile
-//			@Description	Creates a profile
-//			@ID				create-profile
-//			@Tags			profile
-//			@Accept			json
-//			@Produce		json
-//			@Param			profile body models.Profile true "Profile"
-//			@Success		200	  {object}	  models.Profile
-//		  	@Failure        400   {string}    string "Failed to process the request"
-//	     @Failure        400   {string}    string "Failed to validate the data"
-//			@Failure        400   {string}    string "Failed to create profile"
-//			@Router			/api/profiles/  [post]
+//		@Summary		Creates a profile
+//		@Description	Creates a profile
+//		@ID				create-profile
+//		@Tags			profile
+//		@Accept			json
+//		@Produce		json
+//		@Param			profile body docmodels.ProfileDTO true "Profile"
+//		@Success		200	  {object}	  models.Profile
+//		@Failure        400   {string}    string "Failed to process the request"
+//	    @Failure        400   {string}    string "Failed to validate the data"
+//		@Failure        400   {string}    string "Failed to create profile"
+//		@Router			/api/profiles/  [post]
 func (p *ProfileController) CreateProfile(c echo.Context) error {
 	var profile models.Profile
 
@@ -100,6 +100,7 @@ func (p *ProfileController) CreateProfile(c echo.Context) error {
 //		@Accept			json
 //		@Produce		json
 //	    @Param          pid	  path  string	true	"ProfileID"
+//		@Param			profile body docmodels.ProfileDTO true "Profile"
 //		@Success		200	  {object}	  models.Profile
 //	  	@Failure        400   {string}    string "Failed to process the request"
 //		@Failure        400   {string}    string "Failed to update profile"
@@ -129,6 +130,7 @@ func (p *ProfileController) UpdateProfile(c echo.Context) error {
 //		@Accept			json
 //		@Produce		json
 //	    @Param          pid	  path  string	true	"ProfileID"
+//		@Param			onboardingResponse body object true "OnboardingResponse"
 //		@Success		200	  {object}	  models.Profile
 //	  	@Failure        400   {string}    string "Failed to process the request"
 //		@Failure        400   {string}    string "Failed to insert onboarding response"

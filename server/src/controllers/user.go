@@ -18,14 +18,14 @@ func NewUserController(userService services.UserServiceInterface) *UserControlle
 
 // GetAllUsers godoc
 //
-//			@Summary		Gets all users
-//			@Description	Returns all users
-//			@ID				get-all-users
-//			@Tags			user
-//			@Produce		json
-//			@Success		200	  {object}	  []models.User
-//	     @Failure        404   {string}    string "Failed to fetch users"
-//			@Router			/api/users/  [get]
+//		@Summary		Gets all users
+//		@Description	Returns all users
+//		@ID				get-all-users
+//		@Tags			user
+//		@Produce		json
+//		@Success		200	  {object}	  []models.User
+//	    @Failure        404   {string}    string "Failed to fetch users"
+//		@Router			/api/users/  [get]
 func (u *UserController) GetAllUsers(c echo.Context) error {
 	users, err := u.userService.GetAllUsers()
 	if err != nil {
@@ -37,15 +37,15 @@ func (u *UserController) GetAllUsers(c echo.Context) error {
 
 // GetUser godoc
 //
-//			@Summary		Gets a user from user id
-//			@Description	Returns a user from user id
-//			@ID				get-user
-//			@Tags			user
-//			@Produce		json
-//		    @Param          uid	  path  string	true	"UserID"
-//			@Success		200	  {object}	  models.User
+//		@Summary		Gets a user from user id
+//		@Description	Returns a user from user id
+//		@ID				get-user
+//		@Tags			user
+//		@Produce		json
+//		@Param          uid	  path  string	true	"UserID"
+//		@Success		200	  {object}	  models.User
 //	 	@Failure        404   {string}    string "Failed to fetch user"
-//			@Router			/api/users/{uid}  [get]
+//		@Router			/api/users/{uid}  [get]
 func (u *UserController) GetUser(c echo.Context) error {
 	userID := c.Param("uid")
 	user, err := u.userService.GetUser(userID)
@@ -212,7 +212,7 @@ func (u *UserController) InitializeUserProgress(c echo.Context) error {
 //	 	@Accept         json
 //		@Produce		json
 //	    @Param          uid	  path  string	true	"UserID"
-//		@Param			account	body		docmodels.UserDTO	 true	"User"
+//		@Param			account	body	  docmodels.UserDTO	 true	"User"
 //		@Success		200	  {object}	  models.User
 //		@Failure        400   {string}    string "Failed to process the request"
 //		@Failure        400   {string}    string "Failed to update user"

@@ -1,4 +1,84 @@
+basePath: /api
 definitions:
+  docmodels.GuideDTO:
+    properties:
+      author:
+        type: string
+      author_image_url:
+        type: string
+      date:
+        type: string
+      full_text:
+        type: string
+      guide_name:
+        type: string
+      mins_read:
+        type: integer
+      sub_title:
+        type: string
+      title:
+        type: string
+    type: object
+  docmodels.PersonaDTO:
+    properties:
+      persona_description:
+        type: string
+      persona_title:
+        type: string
+      tasks:
+        items:
+          type: string
+        type: array
+    type: object
+  docmodels.ProfileDTO:
+    properties:
+      completed_onboarding_response:
+        type: boolean
+      date_of_birth:
+        type: string
+      onboarding_response:
+        type: string
+      phone_number:
+        type: string
+      user:
+        $ref: '#/definitions/docmodels.UserDTO'
+      user_id:
+        type: integer
+      username:
+        type: string
+    type: object
+  docmodels.SubTaskDTO:
+    properties:
+      actions:
+        items:
+          type: string
+        type: array
+      actions_state:
+        items:
+          type: string
+        type: array
+      subtask_description:
+        type: string
+      subtask_name:
+        type: string
+      task_id:
+        type: string
+    type: object
+  docmodels.TaskDTO:
+    properties:
+      personas:
+        items:
+          type: string
+        type: array
+      tags:
+        items:
+          type: string
+        type: array
+      task_description:
+        type: string
+      task_name:
+        type: string
+    type: object
   docmodels.UserDTO:
     properties:
       email:
@@ -11,19 +91,16 @@ definitions:
         type: integer
       username:
         type: string
-    required:
-    - email
-    - firebase_id
-    - password
-    - username
     type: object
   models.File:
     properties:
       created_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       file_name:
         type: string
       id:
+        example: 1
         type: integer
       object_key:
         type: string
@@ -32,6 +109,7 @@ definitions:
           $ref: '#/definitions/models.Tag'
         type: array
       updated_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       user_id:
         type: integer
@@ -43,6 +121,7 @@ definitions:
       author_image_url:
         type: string
       created_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       date:
         type: string
@@ -51,6 +130,7 @@ definitions:
       guide_name:
         type: string
       id:
+        example: 1
         type: integer
       mins_read:
         type: integer
@@ -59,6 +139,7 @@ definitions:
       title:
         type: string
       updated_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
     required:
     - author
@@ -71,8 +152,10 @@ definitions:
   models.Persona:
     properties:
       created_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       id:
+        example: 1
         type: integer
       persona_description:
         type: string
@@ -83,6 +166,7 @@ definitions:
           $ref: '#/definitions/models.Task'
         type: array
       updated_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
     required:
     - persona_description
@@ -93,10 +177,12 @@ definitions:
       completed_onboarding_response:
         type: boolean
       created_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       date_of_birth:
         type: string
       id:
+        example: 1
         type: integer
       name:
         type: string
@@ -105,6 +191,7 @@ definitions:
       phone_number:
         type: string
       updated_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       user_id:
         type: integer
@@ -121,8 +208,10 @@ definitions:
       actions_state:
         type: string
       created_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       id:
+        example: 1
         type: integer
       sub_task_description:
         type: string
@@ -131,6 +220,7 @@ definitions:
       task_id:
         type: integer
       updated_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
     required:
     - sub_task_description
@@ -140,12 +230,14 @@ definitions:
   models.Tag:
     properties:
       created_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       files:
         items:
           $ref: '#/definitions/models.File'
         type: array
       id:
+        example: 1
         type: integer
       name:
         type: string
@@ -154,6 +246,7 @@ definitions:
           $ref: '#/definitions/models.Task'
         type: array
       updated_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
     required:
     - name
@@ -161,8 +254,10 @@ definitions:
   models.Task:
     properties:
       created_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       id:
+        example: 1
         type: integer
       personas:
         items:
@@ -177,6 +272,7 @@ definitions:
       task_name:
         type: string
       updated_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
     required:
     - task_description
@@ -185,18 +281,21 @@ definitions:
   models.User:
     properties:
       created_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       email:
         type: string
       firebase_id:
         type: string
       id:
+        example: 1
         type: integer
       password:
         type: string
       persona_id:
         type: integer
       updated_at:
+        example: "2023-09-20T16:34:50Z"
         type: string
       username:
         type: string
@@ -206,6 +305,7 @@ definitions:
     - password
     - username
     type: object
+host: localhost:8080
 info:
   contact:
     email: oduneye.d@northeastern.edu and dupuguntla@northeastern.edu
@@ -328,7 +428,7 @@ paths:
         name: file
         required: true
         schema:
-          type: object
+          type: string
       produces:
       - application/json
       responses:
@@ -428,7 +528,7 @@ paths:
         name: guide
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/docmodels.GuideDTO'
       produces:
       - application/json
       responses:
@@ -506,7 +606,7 @@ paths:
         name: guide
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/docmodels.GuideDTO'
       produces:
       - application/json
       responses:
@@ -552,7 +652,7 @@ paths:
         name: persona
         required: true
         schema:
-          $ref: '#/definitions/models.Persona'
+          $ref: '#/definitions/docmodels.PersonaDTO'
       produces:
       - application/json
       responses:
@@ -625,6 +725,12 @@ paths:
         name: pid
         required: true
         type: string
+      - description: Persona
+        in: body
+        name: persona
+        required: true
+        schema:
+          $ref: '#/definitions/docmodels.PersonaDTO'
       produces:
       - application/json
       responses:
@@ -696,7 +802,7 @@ paths:
         name: profile
         required: true
         schema:
-          $ref: '#/definitions/models.Profile'
+          $ref: '#/definitions/docmodels.ProfileDTO'
       produces:
       - application/json
       responses:
@@ -769,6 +875,12 @@ paths:
         name: pid
         required: true
         type: string
+      - description: Profile
+        in: body
+        name: profile
+        required: true
+        schema:
+          $ref: '#/definitions/docmodels.ProfileDTO'
       produces:
       - application/json
       responses:
@@ -795,6 +907,12 @@ paths:
         name: pid
         required: true
         type: string
+      - description: OnboardingResponse
+        in: body
+        name: onboardingResponse
+        required: true
+        schema:
+          type: object
       produces:
       - application/json
       responses:
@@ -840,7 +958,7 @@ paths:
         name: subtask
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/docmodels.SubTaskDTO'
       produces:
       - application/json
       responses:
@@ -913,6 +1031,12 @@ paths:
         name: sid
         required: true
         type: string
+      - description: SubTask
+        in: body
+        name: subtask
+        required: true
+        schema:
+          $ref: '#/definitions/docmodels.SubTaskDTO'
       produces:
       - application/json
       responses:
@@ -984,7 +1108,7 @@ paths:
         name: task
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/docmodels.TaskDTO'
       produces:
       - application/json
       responses:
@@ -1062,7 +1186,7 @@ paths:
         name: task
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/docmodels.TaskDTO'
       produces:
       - application/json
       responses:

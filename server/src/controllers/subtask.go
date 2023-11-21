@@ -18,14 +18,14 @@ func NewSubTaskController(subTaskService services.SubTaskServiceInterface) *SubT
 
 // GetSubTasks godoc
 //
-//			@Summary		Gets all subtasks
-//			@Description	Returns all subtasks
-//			@ID				get-all-subtasks
-//			@Tags			subtask
-//			@Produce		json
-//			@Success		200	  {object}	  []models.SubTask
-//	     @Failure        404   {string}    string "Failed to fetch subtasks"
-//			@Router			/api/subtasks/  [get]
+//		@Summary		Gets all subtasks
+//		@Description	Returns all subtasks
+//		@ID				get-all-subtasks
+//		@Tags			subtask
+//		@Produce		json
+//		@Success		200	  {object}	  []models.SubTask
+//	    @Failure        404   {string}    string "Failed to fetch subtasks"
+//		@Router			/api/subtasks/  [get]
 func (t *SubTaskController) GetAllSubTasks(c echo.Context) error {
 	subtasks, err := t.subTaskService.GetAllSubTasks()
 	if err != nil {
@@ -37,15 +37,15 @@ func (t *SubTaskController) GetAllSubTasks(c echo.Context) error {
 
 // GetSubTask godoc
 //
-//			@Summary		Gets a subtask from subtask id
-//			@Description	Returns a subtask from subtask id
-//			@ID				get-subtask
-//			@Tags			subtask
-//			@Produce		json
-//		    @Param          sid	  path  string	true	"SubTaskID"
-//			@Success		200	  {object}	  models.SubTask
+//		@Summary		Gets a subtask from subtask id
+//		@Description	Returns a subtask from subtask id
+//		@ID				get-subtask
+//		@Tags			subtask
+//		@Produce		json
+//	    @Param          sid	  path  string	true	"SubTaskID"
+//		@Success		200	  {object}	  models.SubTask
 //	 	@Failure        404   {string}    string "Failed to fetch subtask"
-//			@Router			/api/subtasks/{sid}  [get]
+//		@Router			/api/subtasks/{sid}  [get]
 func (t *SubTaskController) GetSubTask(c echo.Context) error {
 	subTaskID := c.Param("sid")
 	subTask, err := t.subTaskService.GetSubTask(subTaskID)
@@ -59,15 +59,15 @@ func (t *SubTaskController) GetSubTask(c echo.Context) error {
 
 // GetActions godoc
 //
-//			@Summary		Gets all actions from subtask id
-//			@Description	Returns all actions from subtask id
-//			@ID				get-actions
-//			@Tags			subtask
-//			@Produce		json
-//		    @Param          sid	  path  string	true	"SubTaskID"
-//			@Success		200	  {object}	  []models.SubTask
+//		@Summary		Gets all actions from subtask id
+//		@Description	Returns all actions from subtask id
+//		@ID				get-actions
+//		@Tags			subtask
+//		@Produce		json
+//		@Param          sid	  path  string	true	"SubTaskID"
+//		@Success		200	  {object}	  []models.SubTask
 //	 	@Failure        404   {string}    string "Failed to fetch subtask"
-//			@Router			/api/subtasks/{sid}/actions  [get]
+//		@Router			/api/subtasks/{sid}/actions  [get]
 func (t *SubTaskController) GetActions(c echo.Context) error {
 	subTaskID := c.Param("sid")
 	subTask, err := t.subTaskService.GetActions(subTaskID)
@@ -81,18 +81,18 @@ func (t *SubTaskController) GetActions(c echo.Context) error {
 
 // CreateSubTask godoc
 //
-//			@Summary		Creates a subtask
-//			@Description	Creates a subtask
-//			@ID				create-subtask
-//			@Tags			subtask
-//			@Accept			json
-//			@Produce		json
-//			@Param          subtask	  body  object	true	"SubTask"
-//			@Success		200	  {object}	  models.SubTask
-//		  	@Failure        400   {string}    string "Failed to process the request"
-//	     @Failure        400   {string}    string "Failed to validate the data"
-//			@Failure        400   {string}    string "Failed to create subtask"
-//			@Router			/api/subtasks/  [post]
+//		@Summary		Creates a subtask
+//		@Description	Creates a subtask
+//		@ID				create-subtask
+//		@Tags			subtask
+//		@Accept			json
+//		@Produce		json
+//		@Param          subtask	  body  docmodels.SubTaskDTO	true	"SubTask"
+//		@Success		200	  {object}	  models.SubTask
+//	  	@Failure        400   {string}    string "Failed to process the request"
+//	    @Failure        400   {string}    string "Failed to validate the data"
+//		@Failure        400   {string}    string "Failed to create subtask"
+//		@Router			/api/subtasks/  [post]
 func (t *SubTaskController) CreateSubTask(c echo.Context) error {
 	var subTask models.SubTask
 
@@ -121,6 +121,7 @@ func (t *SubTaskController) CreateSubTask(c echo.Context) error {
 //		@Accept			json
 //		@Produce		json
 //	    @Param          sid	  path  string	true	"SubTaskID"
+//		@Param			subtask	body	docmodels.SubTaskDTO true	"SubTask"
 //		@Success		200	  {object}	  models.SubTask
 //	  	@Failure        400   {string}    string "Failed to process the request"
 //		@Failure        400   {string}    string "Failed to update subtask"

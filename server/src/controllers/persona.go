@@ -18,14 +18,14 @@ func NewPersonaController(personaService services.PersonaServiceInterface) *Pers
 
 // GetAllPersonas godoc
 //
-//			@Summary		Gets all personas
-//			@Description	Returns all personas
-//			@ID				get-all-personas
-//			@Tags			persona
-//			@Produce		json
-//			@Success		200	  {object}	  []models.Persona
-//	     @Failure        404   {string}    string "Failed to fetch personas"
-//			@Router			/api/personas/  [get]
+//		@Summary		Gets all personas
+//		@Description	Returns all personas
+//		@ID				get-all-personas
+//		@Tags			persona
+//		@Produce		json
+//		@Success		200	  {object}	  []models.Persona
+//	    @Failure        404   {string}    string "Failed to fetch personas"
+//		@Router			/api/personas/  [get]
 func (p *PersonaController) GetAllPersonas(c echo.Context) error {
 	personas, err := p.personaService.GetAllPersonas()
 	if err != nil {
@@ -37,15 +37,15 @@ func (p *PersonaController) GetAllPersonas(c echo.Context) error {
 
 // GetPersona godoc
 //
-//			@Summary		Gets a persona from persona id
-//			@Description	Returns a persona from persona id
-//			@ID				get-persona
-//			@Tags			persona
-//			@Produce		json
-//		    @Param          pid	  path  string	true	"PersonaID"
-//			@Success		200	  {object}	  models.Persona
+//		@Summary		Gets a persona from persona id
+//		@Description	Returns a persona from persona id
+//		@ID				get-persona
+//		@Tags			persona
+//		@Produce		json
+//		@Param          pid	  path  string	true	"PersonaID"
+//		@Success		200	  {object}	  models.Persona
 //	 	@Failure        404   {string}    string "Failed to fetch persona"
-//			@Router			/api/personas/{pid}  [get]
+//		@Router			/api/personas/{pid}  [get]
 func (p *PersonaController) GetPersona(c echo.Context) error {
 	personaID := c.Param("pid")
 	persona, err := p.personaService.GetPersona(personaID)
@@ -59,15 +59,15 @@ func (p *PersonaController) GetPersona(c echo.Context) error {
 
 // GetPersonaTasks godoc
 //
-//			@Summary		Gets all tasks for a persona
-//			@Description	Returns all tasks for a persona
-//			@ID				get-persona-tasks
-//			@Tags			persona
-//			@Produce		json
-//		    @Param          pid	  path  string	true	"PersonaID"
-//			@Success		200	  {object}	  []models.Task
+//		@Summary		Gets all tasks for a persona
+//		@Description	Returns all tasks for a persona
+//		@ID				get-persona-tasks
+//		@Tags			persona
+//		@Produce		json
+//		@Param          pid	  path  string	true	"PersonaID"
+//		@Success		200	  {object}	  []models.Task
 //	 	@Failure        404   {string}    string "Failed to fetch persona tasks"
-//			@Router			/api/personas/{pid}/tasks  [get]
+//		@Router			/api/personas/{pid}/tasks  [get]
 func (p *PersonaController) GetPersonaTasks(c echo.Context) error {
 	personaID := c.Param("pid")
 	tasks, err := p.personaService.GetPersonaTasks(personaID)
@@ -81,18 +81,18 @@ func (p *PersonaController) GetPersonaTasks(c echo.Context) error {
 
 // CreatePersona godoc
 //
-//			@Summary		Creates a persona
-//			@Description	Creates a persona
-//			@ID				create-persona
-//			@Tags			persona
-//			@Accept			json
-//			@Produce		json
-//			@Param			persona body models.Persona true "Persona"
-//		  	@Success		200	  {object}	  models.Persona
-//	     @Failure        400   {string}    string "Failed to process the request"
-//	     @Failure        400   {string}    string "Failed to validate the data"
-//			@Failure        400   {string}    string "Failed to create persona"
-//			@Router			/api/personas/  [post]
+//		@Summary		Creates a persona
+//		@Description	Creates a persona
+//		@ID				create-persona
+//		@Tags			persona
+//		@Accept			json
+//		@Produce		json
+//		@Param			persona body docmodels.PersonaDTO true "Persona"
+//		@Success		200	  {object}	  models.Persona
+//	    @Failure        400   {string}    string "Failed to process the request"
+//	    @Failure        400   {string}    string "Failed to validate the data"
+//		@Failure        400   {string}    string "Failed to create persona"
+//		@Router			/api/personas/  [post]
 func (p *PersonaController) CreatePersona(c echo.Context) error {
 	var persona models.Persona
 
@@ -114,17 +114,18 @@ func (p *PersonaController) CreatePersona(c echo.Context) error {
 
 // UpdatePersona godoc
 //
-//			@Summary		Updates a persona
-//			@Description	Updates a persona
-//			@ID				update-persona
-//			@Tags			persona
-//			@Accept			json
-//			@Produce		json
-//		    @Param          pid	  path  string	true	"PersonaID"
-//			@Success		200	  {object}	  models.Persona
-//	     @Failure        400   {string}    string "Failed to process the request"
-//			@Failure        400   {string}    string "Failed to update persona"
-//			@Router			/api/personas/{pid}  [patch]
+//		@Summary		Updates a persona
+//		@Description	Updates a persona
+//		@ID				update-persona
+//		@Tags			persona
+//		@Accept			json
+//		@Produce		json
+//		@Param          pid	  path  string	true	"PersonaID"
+//		@Param			persona body docmodels.PersonaDTO true "Persona"
+//		@Success		200	  {object}	  models.Persona
+//	    @Failure        400   {string}    string "Failed to process the request"
+//		@Failure        400   {string}    string "Failed to update persona"
+//		@Router			/api/personas/{pid}  [patch]
 func (p *PersonaController) UpdatePersona(c echo.Context) error {
 	var persona models.Persona
 	personaID := c.Param("pid")
