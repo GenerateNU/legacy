@@ -13,8 +13,8 @@ func FileRoutes(g *echo.Group, fileService services.FileServiceInterface) {
 	g.GET("/", fileController.GetAllFiles)
 	g.GET("/:fid/filename", fileController.GetFilename)
 	g.GET("/:uid/user", fileController.GetAllUserFiles)
-	g.GET("/:fid?days=:days", fileController.GetFileURL) // to GetFileURL
+	g.GET("/:fid", fileController.GetFileURL) // to GetFileURL
 	g.POST("/:uid", fileController.CreateFile)
-	g.POST("/makepdf/:uid", fileController.GeneratePDF)
+	g.POST("/makepdf/:uid", fileController.GeneratePDF) // update makepdf to generate
 	g.DELETE("/:fid", fileController.DeleteFile)
 }

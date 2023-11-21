@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/labstack/echo/v4"
-	"github.com/swaggo/echo-swagger"
 	"log"
 	"net/http"
 	"os"
@@ -13,6 +11,8 @@ import (
 	"sync"
 	"syscall"
 	"time"
+
+	"github.com/labstack/echo/v4"
 
 	_ "server/src/docs"
 )
@@ -23,11 +23,10 @@ import (
 
 // @contact.name	David Oduneye and Akshay Dupuguntla
 // @contact.email	oduneye.d@northeastern.edu and dupuguntla@northeastern.edu
-
+// @host localhost:8080
+// @BasePath /api
 func main() {
 	e := echo.New()
-
-	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	db, err := database.InitDB()
 	if err != nil {
