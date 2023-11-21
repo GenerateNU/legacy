@@ -78,11 +78,12 @@ export default function App() {
       },
     },
     colors: {
-      deepEvergreen: "#0C362F",
+      deepEvergreen: "#0F4F43",
       lightGreen: "#43A574",
       darkGreen: "#0F4F43",
       muteEggplant: "#251B22",
       creamyCanvas: "#FFF9EE",
+      barkBrown: "#2F1D12"
     },
     fonts: {
       madeDillan: "MADE Dillan", // access fontFamily="madeDillan"
