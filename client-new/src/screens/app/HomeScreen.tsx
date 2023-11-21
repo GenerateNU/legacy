@@ -14,6 +14,7 @@ import { getUser } from "../../services/UserService";
 import { moderateScale, verticalScale } from "../../utils/FontSizeUtils";
 import HomeScreenTasks from "../../components/homescreen components/HomeScreenTasks";
 import HomeScreenGuides from "../../components/homescreen components/HomeScreenGuides";
+import React from "react";
 
 
 export default function HomeScreen() {
