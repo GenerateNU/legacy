@@ -1,3 +1,9 @@
+## 0.6.0 (2023-11-21)
+
+### Feat
+
+- completed swagger documentation
+
 ## 0.5.0 (2023-11-17)
 
 ### Feat
