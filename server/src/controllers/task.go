@@ -167,8 +167,8 @@ func (t *TaskController) UpdateTask(c echo.Context) error {
 	var task models.Task
 	taskID := c.Param("tid")
 
-	if err := services.ValidateData(c, task); err != nil {
-		return c.JSON(http.StatusBadRequest, "Failed to validate the data")
+	if err := c.Bind(&task); err != nil {
+		return c.JSON(http.StatusBadRequest, "Failed to process the request")
 	}
 
 	task, err := t.taskService.UpdateTask(taskID, task)

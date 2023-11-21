@@ -193,7 +193,7 @@ func (f *FileController) CreateFile(c echo.Context) error {
 
 	file, err = f.fileService.CreateFile(userID, file, fileResponse)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, "Failed to create file")
+		return c.JSON(http.StatusBadRequest, "Failed to create file: "+err.Error())
 	}
 
 	return c.JSON(http.StatusOK, file)
