@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { IOnboardingFlowState } from "../interfaces/IOnboardingFlowState";
+import { IOnboardingFlowState } from "@/interfaces/IOnboardingFlowState";
 import React from "react";
 
 type OnboardingContextData = {
@@ -119,6 +119,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
       page: "Quiz Section Intro Screen",
       props: {
         totalCircles: 3,
+        title: "Emotional Patterns",
       },
     },
     {
@@ -157,6 +158,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
       page: "Quiz Section Intro Screen",
       props: {
         totalCircles: 4,
+        title: "Workstyle",
       },
     },
     {
@@ -208,6 +210,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
       page: "Quiz Section Intro Screen",
       props: {
         totalCircles: 3,
+        title: "Social Inclinations",
       },
     },
 
@@ -244,10 +247,12 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
           "Are you more inclined to focus on your issues, or do you often help others with theirs?",
       },
     },
+
     {
       page: "Quiz Section Intro Screen",
       props: {
         totalCircles: 2,
+        title: "Funnel Activities",
       },
     },
     {

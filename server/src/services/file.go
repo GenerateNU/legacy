@@ -22,12 +22,14 @@ var SECRET = "kOQ4kRX6UWbDjlW8MqItnrJgR2UrMRXgD4V2vend"
 
 type FileServiceInterface interface {
 	GetAllFiles() ([]models.File, error)
-	GetAllUserFiles(id string) ([]models.File, error)
 	GetFile(id string) (models.File, error)
-	GetFileTag(id string) ([]models.Tag, error)
-	GetPresignedURL(id string, days string) (string, error)
+	GetFilename(id string) (string, error)
+	GetAllUserFiles(id string) ([]models.File, error)
+	GetAllUserFilesWithTag(id string, tag []string) ([]models.File, error)
+	GetFileURL(id string, days string) (string, error)
 	CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error)
 	DeleteFile(id string) error
+	GeneratePDF(uid string, fileJSON string) (models.File, error)
 }
 
 type FileService struct {
@@ -48,10 +50,34 @@ func createAWSSession() (*session.Session, error) {
 	return sess, nil
 }
 
+func (f *FileService) GetFilename(id string) (string, error) {
+
+	file, err := f.GetFile(id)
+	if err != nil {
+		return "", err
+	}
+
+	return file.FileName, nil
+}
+
 func (f *FileService) GetAllFiles() ([]models.File, error) {
 	var files []models.File
 
 	if err := f.DB.Find(&files).Error; err != nil {
+		return nil, err
+	}
+
+	return files, nil
+}
+
+func (f *FileService) GetAllUserFilesWithTag(id string, tag []string) ([]models.File, error) {
+	var files []models.File
+
+	if err := f.DB.Table("files").
+		Joins("JOIN file_tags ON file_tags.file_id = files.id").
+		Joins("JOIN tags ON file_tags.tag_id = tags.id").
+		Where("tags.name IN (?) AND files.user_id = ?", tag, id).
+		Find(&files).Error; err != nil {
 		return nil, err
 	}
 
@@ -78,17 +104,7 @@ func (f *FileService) GetFile(id string) (models.File, error) {
 	return file, nil
 }
 
-func (f *FileService) GetFileTag(id string) ([]models.Tag, error) {
-	var tags []models.Tag
-
-	if err := f.DB.Where("file_id = ?", id).Find(&tags).Error; err != nil {
-		return nil, err
-	}
-
-	return tags, nil
-}
-
-func (f *FileService) GetPresignedURL(id string, days string) (string, error) {
+func (f *FileService) GetFileURL(id string, days string) (string, error) {
 	file, err := f.GetFile(id)
 	if err != nil {
 		return "", err
@@ -122,12 +138,22 @@ func (f *FileService) GetPresignedURL(id string, days string) (string, error) {
 }
 
 func (f *FileService) CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error) {
+	var testFile models.File
 	file.FileName = data.Filename
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
 		return models.File{}, errors.New("failed to convert id to int")
 	}
+
 	file.UserID = uint(idInt)
+
+	// check if filename is already taken
+	objectKey := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
+	if err := f.DB.Where("object_key = ?", objectKey).Find(&testFile).Error; err != nil {
+		return models.File{}, errors.New("file name already exists")
+	}
+
+	file.ObjectKey = objectKey
 
 	// Check if the file size is greater than 5 MB
 	if data.Size > 5000000 {
@@ -147,7 +173,6 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 	}
 
 	uploader := s3manager.NewUploader(sess)
-	file.ObjectKey = fmt.Sprintf("%v-%v", file.UserID, file.FileName)
 
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(BUCKET_NAME),
@@ -164,6 +189,10 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 	}
 
 	return file, nil
+}
+
+func (f *FileService) GeneratePDF(uid string, fileJSON string) (models.File, error) {
+	return models.File{}, nil
 }
 
 func (f *FileService) DeleteFile(id string) error {

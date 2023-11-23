@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { IUser } from "../interfaces/IUser";
 import { IOnboardingFlowState } from "../interfaces/IOnboardingFlowState";
-import { Persona } from "../types/Persona";
 
 export const signIn = async (email: string, password: string, uid: string) => {
   // CHECK ROUTE HERE
@@ -10,7 +9,7 @@ export const signIn = async (email: string, password: string, uid: string) => {
   );
 
   response.json().then((data) => {
-    console.log("This is the USER returned by Login: ", data);
+    console.log('This is the USER returned by Login: ', data);
   });
 
   const profileResponse = await fetch(
@@ -28,19 +27,20 @@ export const signUp = async (userInput: IUser) => {
     const response = await fetch("http://localhost:8080/api/users/", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         username: userInput.username,
         password: userInput.password,
-        email: userInput.email,
-        firebase_id: userInput.firebase_id,
-      }),
+        email: userInput.username,
+        persona_id: userInput.persona_id,
+        firebase_id: userInput.firebase_id
+      })
     });
 
     if (!response.ok) {
-      console.log("api response", response);
-      throw new Error("Network response was not ok");
+      console.log('api response', response);
+      throw new Error('Network response was not ok');
     }
 
     const user: IUser = await response.json();
@@ -67,7 +67,7 @@ export const signUp = async (userInput: IUser) => {
     console.log("test", profile);
     return user;
   } catch (error) {
-    console.log("Error:", error.message);
+    console.log('Error:', error.message);
   }
 };
 

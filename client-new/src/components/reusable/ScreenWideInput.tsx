@@ -22,7 +22,7 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
 
   const inputLeftIcon = props.iconName ? (
     <View paddingLeft={w("4%")} paddingRight={w("1%")}>
-      <Icon name={props.iconName} size={20} color={"black"} />
+      <Icon name={props.iconName} size={20} color={"#CDCBCB"} />
     </View>
   ) : null;
 
@@ -52,12 +52,16 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
           height={h("5%")}
           paddingX={"auto"}
           value={props.value}
-          backgroundColor={"#FFFFFF"}
+          outlineColor={"#CDCBCB"}
+          backgroundColor={"#F5F1E8"}
           onChangeText={(value) => props.onChangeText(value)}
           placeholder={props.placeholderText}
           InputLeftElement={inputLeftIcon}
           InputRightElement={inputRightElement}
-          rounded="full"
+          fontFamily={"inter"}
+          fontWeight={"Regular"}
+          fontStyle={"normal"}
+          rounded={"full"}
         />
       </View>
     </>

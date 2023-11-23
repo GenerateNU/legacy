@@ -44,12 +44,120 @@ INSERT INTO tasks (task_name, task_description) VALUES
 INSERT INTO tags (name) VALUES 
 ('Emotional'), -- Red
 ('Financial'), -- Green
-('Value based'), -- Orange
+('Value Based'), -- Orange
 ('Holistic'); -- Yellow
 
 -- Creating test task_tags
 INSERT INTO task_tags (task_id, tag_id) VALUES 
-(1, 1), (2, 1), (3, 1), (4, 1), (5, 2), (6, 2), (7, 2), (8, 2), (9, 2), (10, 2), (11, 2), (12, 2), (13, 2), (14, 1), (15, 1);
+(1, 3), (2, 1), (3, 1), (4, 1), (5, 2), (6, 2), (7, 2), (8, 2), (9, 2), (10, 2), (11, 2), (12, 2), (13, 2), (14, 1), (15, 1);
+
+-- Creating test subtask w/ actions
+INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VALUES
+(1, 'Personal Information', 'Fill out our form so we can generate documents for your Legacy.',
+'{
+    "actions": [
+        {
+            "action_type": "input",
+            "label": "Full Legal Name",
+            "placeholder": "Enter your full legal name",
+            "name": "full_name",
+            "type": "text",
+            "required": true
+        },
+        {
+            "action_type": "input",
+            "label": "Date of Birth",
+            "placeholder": "MM/DD/YYYY",
+            "name": "date_of_birth",
+            "type": "date",
+            "required": true,
+            "description": "Please enter your date of birth in the format: MM/DD/YYYY"
+        },
+        {
+            "action_type": "input",
+            "label": "Social Security Number",
+            "placeholder": "Enter your social security number",
+            "name": "ssn",
+            "type": "text",
+            "required": true,
+            "description": "Please provide your 9-digit social security number"
+        },
+        {
+            "action_type": "input",
+            "label": "Current Address",
+            "placeholder": "Enter your current address",
+            "name": "current_address",
+            "type": "text",
+            "required": true,
+            "description": "Please provide your complete current residential address"
+        },
+        {
+            "action_type": "input",
+            "label": "Phone Number",
+            "placeholder": "Enter your phone number",
+            "name": "phone_number",
+            "type": "tel",
+            "required": true,
+            "description": "Please provide a valid phone number where you can be reached"
+        },
+        {
+            "action_type": "input",
+            "label": "Email Address",
+            "placeholder": "Enter your email address",
+            "name": "email",
+            "type": "email",
+            "required": true,
+            "description": "Please provide a valid email address for communication purposes"
+        },
+        {
+            "action_type": "select",
+            "label": "Marital Status",
+            "name": "marital_status",
+            "options": [
+                "Married",
+                "Single",
+                "Divorced",
+                "Widowed"
+            ],
+            "required": true,
+            "placeholder": "Select your marital status",
+            "description": "Please select your current marital status from the options provided"
+        },
+        {
+            "action_type": "textarea",
+            "label": "Additional Comments",
+            "placeholder": "Enter any additional comments",
+            "name": "additional_comments",
+            "required": false,
+            "description": "Feel free to provide any additional information or comments here"
+        },
+        {
+            "action_type": "checkbox",
+            "label": "Select Services",
+            "name": "services",
+            "options": [
+                "Service 1",
+                "Service 2",
+                "Service 3"
+            ],
+            "required": true,
+            "description": "Select the services you require"
+        },
+        {
+            "action_type": "radio",
+            "label": "Select Payment Method",
+            "name": "payment_method",
+            "options": [
+                "Credit Card",
+                "Debit Card",
+                "Cash",
+                "Check"
+            ],
+            "required": true,
+            "description": "Select your preferred method of payment"
+        }
+    ]
+}');
 
 -- Creating test subtasks
 INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description) VALUES
@@ -103,22 +211,45 @@ INSERT INTO persona_tasks (persona_id, task_id) VALUES
 
 -- Persona 2: Adventurous Optimist
 INSERT INTO persona_tasks (persona_id, task_id) VALUES
-(2, 4), (2, 5), (2, 6), (2, 6), (2, 6), (2, 7), (2, 8), (2, 9), (2, 9), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 15);
+(2, 4), (2, 5), (2, 6), (2, 6), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 15);
 
 -- Persona 3: Adventurous Optimist with Wealth
 INSERT INTO persona_tasks (persona_id, task_id) VALUES
-(3, 10), (3, 11), (3, 12), (3, 13), (3, 11), (3, 14), (3, 15), (3, 16), (3, 17), (3, 18), (3, 19), (3, 20), (3, 21), (3, 22), (3, 23), (3, 24), (3, 25), (3, 26), (3, 27), (3, 28);
+(3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15);
 
 -- Creating test guides
 INSERT INTO guides (guide_name, title, sub_title, author, author_image_url, mins_read, date, full_text) VALUES
-('Test Guide', 'Preserving Your Legacy:', 'Practical Steps for Funeral Affordability', 'Barack Obama', 'https://images1.penguinrandomhouse.com/author/22627', 5, '2023-10-17T23:05:10.4895-04:00', 'In the grand symphony of life, there are few certainties. Among them, one stands out starkly: our time here is finite. Yet, it''s the inevitability of our final encore that many of us prefer not to dwell on. This is entirely human, but it''s a fact that can''t be brushed aside indefinitely. End-of-life planning, while often seen as daunting, can be transformed into an empowering process—a legacy of care and love for our loved ones. The Price of Peace of Mind The mention of end-of-life planning often brings to mind wills, trusts, and the distribution of assets. While these are crucial aspects, there''s another vital component that deserves your attention: funeral planning. The cost of funeral services can be staggering, leaving families not just grieving but also grappling with unexpected financial burdens. In today''s world, the average cost of a funeral can easily reach several thousand dollars, making it one of life''s most substantial expenses. This reality prompts a critical question: How can we ensure a dignified farewell without burdening our loved ones? The Legacy Solution At Legacy, we understand the importance of preserving your legacy while also being mindful of the costs involved. Our mission is to empower you to take control of your end-of-life planning with joyous urgency. We believe that by confronting these realities and making thoughtful decisions today, you can grant your loved ones the gift of peace of mind tomorrow. Step 1: Explore Your Options The first step to achieving affordable funeral arrangements is to explore your options. Funeral costs can vary significantly based on factors such as location, type of service, and personal preferences. By researching local funeral homes and considering cremation or green burial alternatives, you can discover cost-effective choices without compromising on respect and reverence. Step 2: Pre-Planning with Legacy One of the most practical ways to ease the financial burden of your final arrangements is through pre-planning. Legacy offers an intuitive platform that enables you to pre-plan your funeral with ease. By making decisions in advance and securing funds for your funeral, you ensure that your wishes are honored while alleviating the financial stress on your loved ones. Step 3: Share Your Plan Transparency is key. Once you''ve made your end-of-life plans, communicate them with your family and loved ones. Sharing your wishes not only fosters understanding but also avoids any unexpected surprises when the time comes. It ensures that your choices are respected and followed, offering a sense of closure to your loved ones. Step 4: Seek Professional Guidance Navigating the intricacies of end-of-life planning can be overwhelming. That''s where our team at Legacy shines. We connect you with trusted professionals who can provide expert guidance on legal and financial matters. Our extensive network of attorneys, doulas, and funeral planning experts ensures that you have the support you need. Step 5: Embrace Peace of Mind With your end-of-life plans in place, you can embrace the present with newfound peace of mind. Legacy''s platform streamlines the process, making it accessible, affordable, and personal. By preserving your legacy today, you create a lasting memory of love, thoughtfulness, and consideration for those who matter most. In Conclusion Preserving your legacy is a journey of love and responsibility. It''s about ensuring that your final chapter is both a celebration of life and a testament to your care for those who will remember you. Legacy is your partner in this journey, offering expertise, affordability, and a deep commitment to making the end-of-life planning process as smooth as possible. As you reflect on your life''s journey, consider the importance of end-of-life planning. Embrace the joyful urgency of today, and gift your loved ones the solace of knowing your final wishes are honored.');
+('Test Guide', 'Preserving Your Legacy:', 'Practical Steps for Funeral Affordability', 'Barack Obama', 'https://images1.penguinrandomhouse.com/author/22627', 5, '2023-10-17T23:05:10.4895-04:00',
+'In the grand symphony of life, there are few certainties. Among them, one stands out starkly: our time here is finite. Yet, it''s the inevitability of our final encore that many of us prefer not to dwell on. This is entirely human, but it''s a fact that can''t be brushed aside indefinitely. End-of-life planning, while often seen as daunting, can be transformed into an empowering process—a legacy of care and love for our loved ones.  
+  
+**The Price of Peace of Mind**
+The mention of end-of-life planning often brings to mind wills, trusts, and the distribution of assets. While these are crucial aspects, there''s another vital component that deserves your attention: funeral planning. The cost of funeral services can be staggering, leaving families not just grieving but also grappling with unexpected financial burdens.  
+In today''s world, the average cost of a funeral can easily reach several thousand dollars, making it one of life''s most substantial expenses. This reality prompts a critical question: How can we ensure a dignified farewell without burdening our loved ones?  
+  
+The Legacy Solution  
+At Legacy, we understand the importance of preserving your legacy while also being mindful of the costs involved. Our mission is to empower you to take control of your end-of-life planning with joyous urgency. We believe that by confronting these realities and making thoughtful decisions today, you can grant your loved ones the gift of peace of mind tomorrow.  
+  
+Step 1: Explore Your Options  
+The first step to achieving affordable funeral arrangements is to explore your options. Funeral costs can vary significantly based on factors such as location, type of service, and personal preferences. By researching local funeral homes and considering cremation or green burial alternatives, you can discover cost-effective choices without compromising on respect and reverence.  
+  
+Step 2: Pre-Planning with Legacy  
+One of the most practical ways to ease the financial burden of your final arrangements is through pre-planning. Legacy offers an intuitive platform that enables you to pre-plan your funeral with ease. By making decisions in advance and securing funds for your funeral, you ensure that your wishes are honored while alleviating the financial stress on your loved ones.  
+  
+Step 3: Share Your Plan  
+Transparency is key. Once you''ve made your end-of-life plans, communicate them with your family and loved ones. Sharing your wishes not only fosters understanding but also avoids any unexpected surprises when the time comes. It ensures that your choices are respected and followed, offering a sense of closure to your loved ones.  
+  
+Step 4: Seek Professional Guidance  
+Navigating the intricacies of end-of-life planning can be overwhelming. That''s where our team at Legacy shines. We connect you with trusted professionals who can provide expert guidance on legal and financial matters. Our extensive network of attorneys, doulas, and funeral planning experts ensures that you have the support you need.  
+  
+Step 5: Embrace Peace of Mind  
+With your end-of-life plans in place, you can embrace the present with newfound peace of mind. Legacy''s platform streamlines the process, making it accessible, affordable, and personal. By preserving your legacy today, you create a lasting memory of love, thoughtfulness, and consideration for those who matter most.  
+  
+In Conclusion  
+Preserving your legacy is a journey of love and responsibility. It''s about ensuring that your final chapter is both a celebration of life and a testament to your care for those who will remember you. Legacy is your partner in this journey, offering expertise, affordability, and a deep commitment to making the end-of-life planning process as smooth as possible.  
+As you reflect on your life''s journey, consider the importance of end-of-life planning. Embrace the joyful urgency of today, and gift your loved ones the solace of knowing your final wishes are honored.');
 
 -- Creating test files
-INSERT INTO files (file_name, object_key, user_id) VALUES
-('David_Oduneye.pdf', '1-David_Oduneye.pdf', 1),
-('Recommendation Letter.pdf', '1-Recommendation Letter.pdf', 1),
-('Recommendation Letter.pdf', '2-Recommendation Letter.pdf', 2);
 
 -- Creating test file_tags
 INSERT INTO file_tags (file_id, tag_id) VALUES
-(1, 1), (1, 2), (2, 1), (2, 2);
+(1, 1), (2, 2);

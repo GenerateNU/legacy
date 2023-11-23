@@ -1,5 +1,4 @@
-import { View, Text } from "native-base";
-import { border } from "native-base/lib/typescript/theme/styled-system";
+import { View } from "native-base";
 import React from "react";
 import {
   widthPercentageToDP as w,
@@ -12,7 +11,6 @@ type CircleProps = {
 };
 
 export default function Circle(props: CircleProps) {
-
   const borderWidth = props.border ? 1 : 0
 
   return (
@@ -22,9 +20,10 @@ export default function Circle(props: CircleProps) {
         width={h("1.6%")}
         backgroundColor={props.color}
         borderRadius={w("80%") / 2}
-        borderColor={"#000000"}
+        borderColor={"darkGreen"}
         borderWidth={borderWidth}
-      ></View>
+      >
+      </View>
     </>
   );
 }

@@ -1,6 +1,10 @@
 version: "3"
 
 tasks:
+  dev:
+    cmds:
+      - cd scripts && ./tunnel.sh
+
   run:
     cmds:
       - cd scripts && ./run.sh 

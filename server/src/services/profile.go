@@ -10,6 +10,7 @@ import (
 )
 
 type ProfileServiceInterface interface {
+	GetAllProfiles() ([]models.Profile, error)
 	GetProfile(id string) (models.Profile, error)
 	CreateProfile(profile models.Profile) (models.Profile, error)
 	UpdateProfile(id string, profile models.Profile) (models.Profile, error)
@@ -19,6 +20,16 @@ type ProfileServiceInterface interface {
 
 type ProfileService struct {
 	DB *gorm.DB
+}
+
+func (p *ProfileService) GetAllProfiles() ([]models.Profile, error) {
+	var profiles []models.Profile
+
+	if err := p.DB.Find(&profiles).Error; err != nil {
+		return []models.Profile{}, err
+	}
+
+	return profiles, nil
 }
 
 func (p *ProfileService) GetProfile(id string) (models.Profile, error) {

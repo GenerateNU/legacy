@@ -11,6 +11,7 @@ import (
 func ProfileRoutes(g *echo.Group, profileService services.ProfileServiceInterface) {
 	profileController := controllers.NewProfileController(profileService)
 
+	g.GET("/", profileController.GetAllProfiles)
 	g.GET("/:pid", profileController.GetProfile)
 	g.POST("/", profileController.CreateProfile)
 	g.PATCH("/:pid", profileController.UpdateProfile)

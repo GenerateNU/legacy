@@ -1,8 +1,8 @@
-import { NavigationContainer } from "@react-navigation/native";
-import AppStack from "./AppStack";
-import AuthStack from "./AuthStack";
-import { useUser } from "../contexts/UserContext";
-import React from "react";
+import { NavigationContainer } from '@react-navigation/native';
+import AppStack from '@/navigation/AppStack';
+import AuthStack from '@/navigation/AuthStack';
+import React from 'react';
+import { useUser } from '@/contexts/UserContext';
 
 export default function Router() {
   const { completedOnboarding } = useUser();

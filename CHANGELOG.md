@@ -1,8 +1,14 @@
-## 0.4.0 (2023-11-23)
+## 0.4.0 (2023-11-06)
 
 ### Feat
 
 - **client**: fixed, refactored and improevd frontend services and contexts
+- **files-+-tasks**: filterable based on users and tags
+
+### Fix
+
+- **file.go**: print statement
+- **user.go**: updated firebase param
 
 ## 0.3.0 (2023-11-01)
 
