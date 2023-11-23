@@ -1,3 +1,23 @@
+## 0.4.0 (2023-11-23)
+
+### Feat
+
+- **client**: fixed, refactored and improevd frontend services and contexts
+
+## 0.3.0 (2023-11-01)
+
+### Feat
+
+- **server**: implemented services, controller, route, etc. to improve code quality
+- **HomeScreen**: added new HomeScreen component/screen
+- **HomeScreen**: implemented a simple HomeScreen for allhands
+- **Slider**: Make Slider update state
+
+### Fix
+
+- **persona.go**: linting error
+- **Router.tsx**: added route for GuidesPage
+
 ## 0.2.0 (2023-10-19)
 
 ### BREAKING CHANGE
