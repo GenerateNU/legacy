@@ -2,7 +2,7 @@ import { KeyboardAvoidingView, View } from "native-base";
 import { StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "../../contexts/UserContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScreenWideInput from "../../components/reusable/ScreenWideInput";
 import ScreenWideButton from "../../components/reusable/HalfScreenWideButton";
 import SquareButton from "../../components/reusable/SquareButton";
@@ -14,10 +14,12 @@ import {
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import LetsGo from "../../components/reusable/LetsGo";
 import React from "react";
+import { useProfile } from "../../contexts/ProfileContext";
 
 // TODO: signup is still not fully reistant
 export default function SignUpScreen({ route, navigation }) {
   const { user, createAccount } = useUser();
+  const { setProfile } = useProfile();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -25,6 +27,7 @@ export default function SignUpScreen({ route, navigation }) {
 
   const signUp = () => {
     createAccount(username, email, password);
+
     navigation.setOptions();
     navigation.navigate("Onboarding Stack");
     // createAccount(fullName, email, password).then((response) => {

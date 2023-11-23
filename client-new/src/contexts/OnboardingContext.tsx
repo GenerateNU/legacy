@@ -244,7 +244,6 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
           "Are you more inclined to focus on your issues, or do you often help others with theirs?",
       },
     },
-
     {
       page: "Quiz Section Intro Screen",
       props: {

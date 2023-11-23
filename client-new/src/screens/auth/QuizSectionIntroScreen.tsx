@@ -8,6 +8,7 @@ import {
 } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useOnboarding } from "../../contexts/OnboardingContext";
+import React from "react";
 
 export default function QuizSectionIntroScreen({ route, navigation }) {
   const {

@@ -10,6 +10,7 @@ import {
 } from "react-native-responsive-screen";
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
 import { useOnboarding } from "../../contexts/OnboardingContext";
+import React from "react";
 
 export default function QuestionaireScreen({ route, navigation }) {
   const {page, setPage, onboardingState, setOnboardingState, onboardingFlow, handleChange} = useOnboarding();

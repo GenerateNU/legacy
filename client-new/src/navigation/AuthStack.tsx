@@ -8,7 +8,7 @@ import { useUser } from "../contexts/UserContext";
 
 const Stack = createNativeStackNavigator();
 
-export default function AuπthStack() {
+export default function AuthStack() {
   const { user } = useUser();
   const screenToDisplay = user ? "Onboarding Stack" : "Access Screen";
 

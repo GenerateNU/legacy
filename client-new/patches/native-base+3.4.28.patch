@@ -14,7 +14,7 @@
 #              <OverlayProvider isSSR>
 #                <ToastProvider>
 #                  <InitializeToastRef />
-# -                <SSRProvider>{children}</SSRProvider>
+# -                <>{children}</SSRProvider>
 # +                {children}
 #                </ToastProvider>
 #              </OverlayProvider>

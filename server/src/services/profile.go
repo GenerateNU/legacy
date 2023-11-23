@@ -2,7 +2,6 @@ package services
 
 import (
 	"encoding/json"
-	"fmt"
 	"server/src/models"
 	"server/src/types"
 	"server/src/utils"
@@ -58,38 +57,36 @@ func (p *ProfileService) InsertOnboardingResponse(userID string, profileID strin
 	var profile models.Profile
 	var userServiceInterface UserServiceInterface = &UserService{DB: p.DB}
 
-	// Check if the user profile exists
+	// Get user profile
 	profile, err := p.GetProfile(profileID)
 	if err != nil {
 		return models.Profile{}, err
 	}
 
-	// check if user exists
+	// Get user
 	user, err := userServiceInterface.GetUser(userID)
 	if err != nil {
 		return models.Profile{}, err
 	}
 
-	// Check if the user profile already has an onboarding response
-	if profile.OnboardingResponse != "{}" {
-		return models.Profile{}, err
-	}
-
-	// Marshal the onboarding response into JSON
+	// Marshal the onboarding response
 	response, err := json.Marshal(onboardingResponse)
 	if err != nil {
 		return models.Profile{}, err
 	}
 
-	// Update the OnboardingResponse field of the user profile
+	// Update the profile with the new onboarding response
 	profile.OnboardingResponse = string(response)
 	profile.CompletedOnboardingResponse = true
-	personaID, err := utils.CalculateScore(onboardingResponse)
 
-	fmt.Println("PERSONAID", personaID)
+	// Calculate persona score
+	personaID, err := utils.CalculateScore(onboardingResponse)
+	if err != nil {
+		return models.Profile{}, err
+	}
 	user.PersonaID = &personaID
 
-	// Update the user profile with the new onboarding response
+	// Update the user profile and user
 	profile, err = p.UpdateProfile(profileID, profile)
 	if err != nil {
 		return models.Profile{}, err

@@ -8,18 +8,14 @@ import {
 import ScreenWideButton from "../../components/reusable/ScreenWideButton";
 import { useOnboarding } from "../../contexts/OnboardingContext";
 import { useEffect, useState } from "react";
-import {
-  sendOnboardingResponse,
-  getPersonaFromOnboardingResponse,
-} from "../../services/AuthService";
-import { Persona } from "../../types/Persona";
 import { useUser } from "../../contexts/UserContext";
 import { useProfile } from "../../contexts/ProfileContext";
-import { insertOnboardingResponse } from "../../services/ProfileService";
 import { getPersona } from "../../services/PersonaService";
 import React from "react";
+import { convertNumericToString } from "../../utils/ObjectConversionUtils";
+import { IPersona } from "../../interfaces/IPersona";
 
-export const PersonaScreen = ({ route, navigation }) => {
+const PersonaScreen = ({ route, navigation }) => {
   const {
     page,
     setPage,
@@ -30,30 +26,29 @@ export const PersonaScreen = ({ route, navigation }) => {
   } = useOnboarding();
 
   const { user } = useUser();
-  const { profile } = useProfile();
+  const { fetchProfile, completeOnboarding } = useProfile();
+  const [persona, setPersona] = useState<IPersona>(null);
 
-  const [persona, setPersona] = useState<Persona>(null);
+  const requestOnboarding = convertNumericToString(onboardingState);
+
+  useEffect(() => {
+    const completedOnboarding = async () => {
+      await fetchProfile(user.id);
+      await completeOnboarding(requestOnboarding);
+      const persona = await getPersona(user.id);
+      setPersona(persona);
+    };
+
+    completedOnboarding();
+  }, [user]);
+
+
 
   const next = async () => {
     const nextPage = onboardingFlow[page + 1];
     setPage(page + 1);
     navigation.push(nextPage.page, { props: nextPage.props });
   };
-
-  useEffect(() => {
-    console.log("AHHHHHH");
-    const updateOnboarding = async () => {
-      await insertOnboardingResponse(onboardingState, profile.id, user.id);
-    };
-
-    const fetchPersona = async () => {
-      const persona = await getPersona(user.id);
-      setPersona(persona);
-    };
-
-    updateOnboarding();
-    fetchPersona();
-  }, []);
 
   return (
     <SafeAreaView>
@@ -88,7 +83,7 @@ export const PersonaScreen = ({ route, navigation }) => {
               textAlign={"center"}
               paddingBottom={h("4%")}
             >
-              {persona.persona_title}
+              {persona?.persona_title ?? "Persona Name"}
             </Text>
           </View>
 
@@ -106,7 +101,7 @@ export const PersonaScreen = ({ route, navigation }) => {
             textAlign={"center"}
             width={w("70%")}
           >
-            {persona.persona_description}
+            {persona?.persona_description ?? "Persona Description"}
           </Text>
         </View>
 
@@ -123,3 +118,5 @@ export const PersonaScreen = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
+
+export default PersonaScreen;

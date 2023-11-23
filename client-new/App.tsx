@@ -15,6 +15,9 @@ import {
 } from "@expo-google-fonts/dm-sans";
 import React, { useEffect, useState } from "react";
 import { ProfileProvider } from "./src/contexts/ProfileContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -55,15 +58,17 @@ export default function App() {
   });
 
   return (
-    <UserProvider>
-      <ProfileProvider>
-        <SafeAreaProvider>
-          <NativeBaseProvider theme={theme}>
-            <Router />
-          </NativeBaseProvider>
-        </SafeAreaProvider>
-      </ProfileProvider>
-    </UserProvider>
+    <QueryClientProvider client={queryClient}>
+      <UserProvider>
+        <ProfileProvider>
+          <SafeAreaProvider>
+            <NativeBaseProvider theme={theme}>
+              <Router />
+            </NativeBaseProvider>
+          </SafeAreaProvider>
+        </ProfileProvider>
+      </UserProvider>
+    </QueryClientProvider>
   );
 }
 
