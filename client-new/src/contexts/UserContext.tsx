@@ -5,7 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth } from "@/utils/firebase";
 
 import { IUser } from "../interfaces/IUser";
 import { createUserAndProfile, fetchUserAndProfile } from "../services/UserService";
