@@ -1,18 +1,19 @@
-import { View } from 'native-base';
-import { useUser } from '@/contexts/UserContext';
-import { useState } from 'react';
-import ScreenWideInput from '@/components/reusable/ScreenWideInput';
-import ScreenWideButton from '@/components/reusable/ScreenWideButton';
-import HalfScreenWideButton from '@/components/reusable/HalfScreenWideButton';
-import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
 import Footer from '@/components/reusable/Footer';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
+import HalfScreenWideButton from '@/components/reusable/HalfScreenWideButton';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import LetsGo from '@/components/reusable/LetsGo';
+import ScreenWideButton from '@/components/reusable/ScreenWideButton';
+import ScreenWideInput from '@/components/reusable/ScreenWideInput';
+import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
+import { useUser } from '@/contexts/UserContext';
+import { View } from 'native-base';
+
+import { useState } from 'react';
 import React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
 
 export default function LoginScreen({ route, navigation }) {
   const { user, login, logout } = useUser();

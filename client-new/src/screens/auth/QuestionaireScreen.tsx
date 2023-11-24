@@ -1,16 +1,17 @@
-import { SafeAreaView } from 'react-native-safe-area-context';
-import QuestionaireBox from '@/components/reusable/QuestionaireBox';
-import { Button, Divider, KeyboardAvoidingView, View } from 'native-base';
 import CircleProgressBar from '@/components/reusable/CircleProgressBar';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
+import QuestionaireBox from '@/components/reusable/QuestionaireBox';
 import ScreenWideButton from '@/components/reusable/ScreenWideButton';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { Button, Divider, KeyboardAvoidingView, View } from 'native-base';
+
 import React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function QuestionaireScreen({ route, navigation }) {
   const {

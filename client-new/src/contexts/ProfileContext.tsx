@@ -1,23 +1,27 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { createContext, useContext } from "react";
-import { IProfile } from "../interfaces/IProfile";
-import { getItemAsync, setItemAsync } from "expo-secure-store";
+import { getItemAsync, setItemAsync } from 'expo-secure-store';
+
+import React, { useCallback, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
+
+import { IOnboardingFlowState } from '../interfaces/IOnboardingFlowState';
+import { IProfile } from '../interfaces/IProfile';
 import {
   getProfile,
   insertOnboardingResponse,
-  updateProfile,
-} from "../services/ProfileService";
-import { useUser } from "./UserContext";
-import { IOnboardingFlowState } from "../interfaces/IOnboardingFlowState";
-import { getItem, setItem } from "../utils/SecureStoreUtils";
+  updateProfile
+} from '../services/ProfileService';
+import { getItem, setItem } from '../utils/SecureStoreUtils';
+import { useUser } from './UserContext';
 
 type ProfileContextData = {
   profile: IProfile | null;
   setProfile: React.Dispatch<React.SetStateAction<IProfile | null>>;
   fetchProfile: (userID: number) => Promise<void>;
-  completeOnboarding: (onboardingFlowState: IOnboardingFlowState) => Promise<void>;
+  completeOnboarding: (
+    onboardingFlowState: IOnboardingFlowState
+  ) => Promise<void>;
   updateField: (
-    field: "name" | "dateOfBirth" | "phoneNumber",
+    field: 'name' | 'dateOfBirth' | 'phoneNumber',
     value: string | Date | number
   ) => void;
 };
@@ -29,7 +33,7 @@ type ProfileProviderProps = {
 const ProfileContext = createContext<ProfileContextData | undefined>(undefined);
 
 export const ProfileProvider: React.FC<ProfileProviderProps> = ({
-  children,
+  children
 }) => {
   const [profile, setProfile] = useState<IProfile | null>(null);
   const { user } = useUser();
@@ -37,20 +41,20 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   const fetchProfile = useCallback(async (userID: number): Promise<void> => {
     try {
       const fetchedProfile = await getProfile(userID.toString());
+      console.log('fetchedProfile', fetchedProfile);
       if (fetchedProfile) {
         setProfile(fetchedProfile);
-        await setItem("profile", fetchedProfile);
+        await setItemAsync('profile', JSON.stringify(fetchedProfile));
       }
     } catch (error) {
-      console.error("Error fetching profile:", error);
+      console.error('Error fetching profile:', error);
       // Handle error - show message or perform recovery action
     }
   }, []);
 
-
   const updateField = useCallback(
     async (
-      field: "name" | "dateOfBirth" | "phoneNumber",
+      field: 'name' | 'dateOfBirth' | 'phoneNumber',
       value: string | Date | number
     ): Promise<void> => {
       if (!profile) return;
@@ -60,7 +64,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
 
       try {
         await updateProfile(updatedProfile, profile.id);
-        await setItem("profile", updatedProfile);
+        await setItemAsync('profile', JSON.stringify(updatedProfile));
       } catch (error) {
         console.error(`Error updating ${field} in profile:`, error);
         // Handle error - show message or perform recovery action
@@ -73,15 +77,24 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
     async (onboardingFlowState: IOnboardingFlowState): Promise<void> => {
       if (!profile) return;
 
-      const updatedProfile = { ...profile, onboardingFlowState };
+      const updatedProfile: IProfile = {
+        ...profile,
+        onboarding_response: onboardingFlowState
+      };
+
+      console.log("UPDATED PROFILE", updatedProfile)
       setProfile(updatedProfile);
 
       try {
-        await insertOnboardingResponse(updatedProfile.onboardingFlowState, user.id, profile.id);
-        await setItem("profile", updatedProfile);
+        await insertOnboardingResponse(
+          updatedProfile.onboarding_response,
+          user.id,
+          profile.id
+        );
+        await setItemAsync('profile', JSON.stringify(updatedProfile));
       } catch (error) {
         console.error(`Error updating onboardingFlowState in profile:`, error);
-      // Handle error - show message or perform recovery action
+        // Handle error - show message or perform recovery action
       }
     },
     [profile]
@@ -89,10 +102,18 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
 
   const loadStorageData = useCallback(async (): Promise<void> => {
     try {
-      const loadedProfile = await getItem<IProfile>("profile");
+      // const loadedProfile = await getItem<IProfile>("profile");
+      const profileSerialized = await getItemAsync('profile');
+
+      if (!profileSerialized) {
+        return;
+      }
+
+      const loadedProfile: IProfile = JSON.parse(profileSerialized);
+
       setProfile(loadedProfile);
     } catch (error) {
-      console.error("Error loading profile from storage:", error);
+      console.error('Error loading profile from storage:', error);
       // Handle error - show message or perform recovery action
     }
   }, []);
@@ -109,7 +130,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
     setProfile,
     completeOnboarding,
     fetchProfile,
-    updateField,
+    updateField
   };
 
   return (
@@ -123,7 +144,7 @@ export const useProfile = (): ProfileContextData => {
   const context = useContext(ProfileContext);
 
   if (!context) {
-    throw new Error("useProfile must be used within a ProfileProvider");
+    throw new Error('useProfile must be used within a ProfileProvider');
   }
 
   return context;

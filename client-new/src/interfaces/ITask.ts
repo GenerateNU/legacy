@@ -1,6 +1,6 @@
 import { IModel } from './IModel';
 
 export interface ITask extends IModel {
-    task_description: string;
-    task_title: string;
+  task_description: string;
+  task_title: string;
 }

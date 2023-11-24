@@ -1,16 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import { IUser } from '@/interfaces/IUser';
+import {
+  createUserAndProfile,
+  fetchUserAndProfile
+} from '@/services/UserService';
+import { auth } from '@/utils/firebase';
+import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
 import {
   User as FirebaseUser,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import { auth } from "@/utils/firebase";
+  signOut
+} from 'firebase/auth';
 
-import { IUser } from "../interfaces/IUser";
-import { createUserAndProfile, fetchUserAndProfile } from "../services/UserService";
-import { useProfile } from "./ProfileContext";
-import { deleteItem, getItem, setItem } from "../utils/SecureStoreUtils";
+import React, { useContext, useEffect, useState } from 'react';
+
+import { deleteItem, getItem, setItem } from '../utils/SecureStoreUtils';
 
 type UserContextData = {
   user: IUser | null;
@@ -39,7 +43,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setFirebaseUser(user);
-      setItem("firebaseUser", user);
+      setItemAsync('firebaseUser', JSON.stringify(user));
     });
 
     loadStorageData();
@@ -49,19 +53,36 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const loadStorageData = async (): Promise<void> => {
     try {
-      const loadedFirebaseUser = await getItem<FirebaseUser>("firebaseUser");
-      const loadedUser = await getItem<IUser>("user");
-      const loadedOnboardingStatus = await getItem<boolean>("onboardingStatus");
+      // const loadedFirebaseUser = await getItem<FirebaseUser>("firebaseUser");
+      // const loadedUser = await getItem<IUser>("user");
+      // const loadedOnboardingStatus = await getItem<boolean>("onboardingStatus");
 
-      if (!loadedFirebaseUser || !loadedUser || loadedOnboardingStatus === null) {
+      const firebaseUserSeralized = await getItemAsync('firebaseUser');
+      const userSeralized = await getItemAsync('user');
+      const onboardingStatusSeralized = await getItemAsync('onboardingStatus');
+
+      if (
+        !firebaseUserSeralized ||
+        !userSeralized ||
+        onboardingStatusSeralized === null
+      ) {
         return;
       }
 
-      setFirebaseUser(loadedFirebaseUser);
+      const loadedFirebaseUser: FirebaseUser = JSON.parse(
+        firebaseUserSeralized
+      );
+      const loadedUser: IUser = JSON.parse(userSeralized);
+      const loadedOnboardingStatus: boolean = JSON.parse(
+        onboardingStatusSeralized
+      );
+
+      console.log('LOADED USER', loadedUser);
       setUser(loadedUser);
+      setFirebaseUser(loadedFirebaseUser);
       setCompletedOnboarding(loadedOnboardingStatus);
     } catch (error) {
-      console.error("Error loading data from storage:", error);
+      console.error('Error loading data from storage:', error);
     }
   };
 
@@ -81,18 +102,23 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         username: fullName,
         email: email,
         password: password,
-        firebase_id: firebaseUserCredential.user.uid,
+        firebase_id: firebaseUserCredential.user.uid
       });
 
+      console.log('newUser', newUser.data);
+
       setUser(newUser.data);
-      setItem("onboardingStatus", completedOnboarding);
-      setItem("user", newUser.data);
+      setItemAsync('onboardingStatus', JSON.stringify(completedOnboarding));
+      setItemAsync('user', JSON.stringify(newUser.data));
     } catch (error) {
-      console.error("Error creating account:", error);
+      console.error('Error creating account:', error);
     }
   };
 
-  const login = async (email: string, password: string): Promise<boolean | Error> => {
+  const login = async (
+    email: string,
+    password: string
+  ): Promise<boolean | Error> => {
     try {
       const firebaseUserCredential = await signInWithEmailAndPassword(
         auth,
@@ -100,11 +126,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         password
       );
 
-      const { user, profile } = await fetchUserAndProfile(firebaseUserCredential.user.uid);
+      const { user, profile } = await fetchUserAndProfile(
+        firebaseUserCredential.user.uid
+      );
 
       return user.data;
     } catch (error) {
-      console.error("Error logging in:", error);
+      console.error('Error logging in:', error);
       return error;
     }
   };
@@ -114,9 +142,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setCompletedOnboarding(false);
     setUser(null);
     await signOut(auth);
-    await deleteItem("firebaseUser");
-    await deleteItem("onboardingStatus");
-    await deleteItem("user");
+    await deleteItemAsync('firebaseUser');
+    await deleteItemAsync('onboardingStatus');
+    await deleteItemAsync('user');
   };
 
   const contextValue: UserContextData = {
@@ -125,13 +153,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     createAccount,
     login,
     logout,
-    completedOnboarding,
+    completedOnboarding
   };
 
   return (
-    <UserContext.Provider value={contextValue}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );
 };
 
@@ -139,7 +165,7 @@ export const useUser = (): UserContextData => {
   const context = useContext(UserContext);
 
   if (!context) {
-    throw new Error("useUser must be used within a UserProvider");
+    throw new Error('useUser must be used within a UserProvider');
   }
 
   return context;

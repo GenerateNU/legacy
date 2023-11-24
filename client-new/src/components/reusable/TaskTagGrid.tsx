@@ -1,13 +1,15 @@
 import { View } from 'native-base';
+
 import React, { useState } from 'react';
-import TaskTag from './TaskTag';
 import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
 } from 'react-native-responsive-screen';
 
+import TaskTag from './TaskTag';
+
 type TaskTagGridProps = {
-    pressed: string;
+  pressed: string;
 };
 
 export default function TaskTagGrid(props: TaskTagGridProps) {

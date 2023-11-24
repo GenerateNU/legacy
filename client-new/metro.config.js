@@ -13,5 +13,6 @@ module.exports = {
       '@/navigation': path.resolve(__dirname, 'src/navigation')
     }
   },
+  
   watchFolders: [path.resolve(__dirname, 'src')]
 };

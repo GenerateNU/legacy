@@ -1,16 +1,17 @@
-import { KeyboardAvoidingView, Text, View } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAvoidingView, Text, View } from 'native-base';
+
+import React from 'react';
 import {
-  widthPercentageToDP as w,
   heightPercentageToDP as h,
-} from "react-native-responsive-screen";
-import React from "react";
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LandingScreen({ route, navigation }) {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView>
-        <View height={h("80%")} justifyContent="center" alignItems="center">
+        <View height={h('80%')} justifyContent="center" alignItems="center">
           <Text fontSize={50} fontWeight={600}>
             Landing Page
           </Text>

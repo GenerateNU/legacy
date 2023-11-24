@@ -1,11 +1,12 @@
-import { IModel } from "./IModel";
-import { IOnboardingFlowState } from "./IOnboardingFlowState";
+import { IOnboardingFlowState } from '@/interfaces/IOnboardingFlowState';
+
+import { IModel } from './IModel';
 
 export interface IProfile extends IModel {
   name: string;
-  dateOfBirth: Date;
-  phoneNumber: number;
-  onboardingResponse: IOnboardingFlowState;
-  completedOnboardingResponse: boolean;
-  userID: number;
+  date_of_birth: Date;
+  phone_number: number;
+  onboarding_response: IOnboardingFlowState;
+  completed_onboarding_response: boolean;
+  user_id: number;
 }

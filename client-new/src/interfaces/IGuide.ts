@@ -1,4 +1,4 @@
-import { IModel } from "./IModel";
+import { IModel } from './IModel';
 
 export interface IGuide extends IModel {
   guide_name: string;

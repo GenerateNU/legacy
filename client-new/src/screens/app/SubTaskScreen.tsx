@@ -1,11 +1,12 @@
-import FormComponent from '@/utils/Actions';
-import { getActions } from '@/services/SubTaskService';
 import { IAction, IActionList } from '@/interfaces/IAction';
+import { getActions } from '@/services/SubTaskService';
+import { ENDPOINT } from '@/services/const';
+import FormComponent from '@/utils/Actions';
+import { Text } from 'native-base';
+
 import { useEffect, useState } from 'react';
 import React from 'react';
-import { ENDPOINT } from '@/services/const';
 import { useQuery } from 'react-query';
-import { Text } from 'native-base';
 
 const SubTaskScreen = ({ subtask_id }) => {
   const [state, setState] = useState<IActionList>(null);

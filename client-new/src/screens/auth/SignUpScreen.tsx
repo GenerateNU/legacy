@@ -1,35 +1,35 @@
-import { KeyboardAvoidingView, View } from "native-base";
-import { StyleSheet, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useUser } from "@/contexts/UserContext";
-import { useProfile } from "@/contexts/ProfileContext";
-import { useState } from "react";
-import ScreenWideInput from "@/components/reusable/ScreenWideInput";
-import ScreenWideButton from "@/components/reusable/HalfScreenWideButton";
+import Footer from '@/components/reusable/Footer';
+import ScreenWideButton from '@/components/reusable/HalfScreenWideButton';
+import LegacyWordmark from '@/components/reusable/LegacyWordmark';
+import LetsGo from '@/components/reusable/LetsGo';
+import ScreenWideInput from '@/components/reusable/ScreenWideInput';
+import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
+import { useProfile } from '@/contexts/ProfileContext';
+import { useUser } from '@/contexts/UserContext';
+import { KeyboardAvoidingView, View } from 'native-base';
+
+import { useState } from 'react';
+import React from 'react';
+import { Alert, StyleSheet } from 'react-native';
 import {
-  widthPercentageToDP as w,
   heightPercentageToDP as h,
-} from "react-native-responsive-screen";
-import LegacyWordmark from "@/components/reusable/LegacyWordmark";
-import LetsGo from "@/components/reusable/LetsGo";
-import React from "react";
-import Footer from "@/components/reusable/Footer";
-import SmallRoundedButton from "@/components/reusable/SmallRoundedButton";
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // TODO: signup is still not fully reistant
 export default function SignUpScreen({ route, navigation }) {
-  const { user, createAccount } = useUser();
-  const { setProfile } = useProfile();
+  const { createAccount } = useUser();
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const signUp = () => {
     createAccount(username, email, password);
 
     navigation.setOptions();
-    navigation.navigate("Onboarding Stack");
+    navigation.navigate('Onboarding Stack');
     // createAccount(fullName, email, password).then((response) => {
     //   if (response === true) {
     //     navigation.setOptions();
@@ -63,27 +63,27 @@ export default function SignUpScreen({ route, navigation }) {
   };
 
   const switchToLogin = () => {
-    navigation.navigate("Login Screen");
+    navigation.navigate('Login Screen');
   };
 
   return (
     <>
-      <View bg={"creamyCanvas"} alignItems="center" h={h("100%")} w={w("100%")}>
+      <View bg={'creamyCanvas'} alignItems="center" h={h('100%')} w={w('100%')}>
         <View
           alignItems="center"
-          width={w("80%")}
+          width={w('80%')}
           flexDirection="row"
           justifyContent="space-between"
-          justifyItems={"center"}
-          paddingTop={h("8%")}
+          justifyItems={'center'}
+          paddingTop={h('8%')}
         >
           <LegacyWordmark />
           <SmallRoundedButton title="Login" onClick={switchToLogin} />
         </View>
-        <View paddingTop={h("7%")}>
+        <View paddingTop={h('7%')}>
           <LetsGo />
         </View>
-        <View alignItems={"center"} paddingTop={h("6.5%")}>
+        <View alignItems={'center'} paddingTop={h('6.5%')}>
           <ScreenWideInput
             placeholderText="Example"
             title="Full Name"
@@ -91,7 +91,7 @@ export default function SignUpScreen({ route, navigation }) {
             onChangeText={(value) => setUsername(value)}
             value={username}
           />
-          <View paddingTop={h("3%")}>
+          <View paddingTop={h('3%')}>
             <ScreenWideInput
               placeholderText="example@email.com"
               title="Email"
@@ -100,7 +100,7 @@ export default function SignUpScreen({ route, navigation }) {
               value={email}
             />
           </View>
-          <View paddingTop={h("3%")} paddingBottom={h("4%")}>
+          <View paddingTop={h('3%')} paddingBottom={h('4%')}>
             <ScreenWideInput
               placeholderText="Must be at least 8 characters long"
               title="Password"
@@ -111,26 +111,26 @@ export default function SignUpScreen({ route, navigation }) {
             />
           </View>
           <View
-            width={w("80%")}
-            alignItems={"center"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
+            width={w('80%')}
+            alignItems={'center'}
+            flexDirection={'row'}
+            justifyContent={'space-between'}
           >
             <ScreenWideButton
               text="Sign up with SSO"
-              textColor={"#000000"}
-              backgroundColor={"transparent"}
-              borderColor={"lightGreen"}
+              textColor={'#000000'}
+              backgroundColor={'transparent'}
+              borderColor={'lightGreen'}
             />
             <ScreenWideButton
               text="Sign up to Legacy"
-              textColor={"#FFFFFF"}
-              backgroundColor={"lightGreen"}
-              borderColor={"lightGreen"}
+              textColor={'#FFFFFF'}
+              backgroundColor={'lightGreen'}
+              borderColor={'lightGreen'}
               onClick={signUp}
             />
           </View>
-          <View paddingTop={h("20%")}>
+          <View paddingTop={h('20%')}>
             <Footer />
           </View>
         </View>
@@ -142,46 +142,46 @@ export default function SignUpScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   inputContainer: {
-    width: "80%",
+    width: '80%'
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 5
   },
   buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
+    width: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40
   },
   button: {
-    backgroundColor: "#0782F9",
-    width: "100%",
+    backgroundColor: '#0782F9',
+    width: '100%',
     padding: 15,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center'
   },
   buttonOutline: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     marginTop: 5,
-    borderColor: "#0782F9",
-    borderWidth: 2,
+    borderColor: '#0782F9',
+    borderWidth: 2
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 16,
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16
   },
   buttonOutlineText: {
-    color: "#0782F9",
-    fontWeight: "700",
-    fontSize: 16,
-  },
+    color: '#0782F9',
+    fontWeight: '700',
+    fontSize: 16
+  }
 });

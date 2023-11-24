@@ -1,10 +1,11 @@
-import { View } from "native-base";
-import Circle from "@/components/reusable/Circle";
+import Circle from '@/components/reusable/Circle';
+import { View } from 'native-base';
+
+import React from 'react';
 import {
-  widthPercentageToDP as w,
   heightPercentageToDP as h,
-} from "react-native-responsive-screen";
-import React from "react";
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
 
 type CircleProgressBarProps = {
   totalCircles: number;
@@ -28,10 +29,10 @@ export default function CircleProgressBar(props: CircleProgressBarProps) {
 
   return (
     <View
-      width={w("80%") * (props.totalCircles / 6)}
-      flexDirection={"row"}
-      justifyContent={"space-between"}
-      alignItems={"center"}
+      width={w('80%') * (props.totalCircles / 6)}
+      flexDirection={'row'}
+      justifyContent={'space-between'}
+      alignItems={'center'}
     >
       {circles}
     </View>

@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from "react";
-import { IOnboardingFlowState } from "@/interfaces/IOnboardingFlowState";
-import React from "react";
+import { IOnboardingFlowState } from '@/interfaces/IOnboardingFlowState';
+
+import { createContext, useContext, useState } from 'react';
+import React from 'react';
 
 type OnboardingContextData = {
   page: number;
@@ -20,278 +21,278 @@ const OnboardingContext = createContext<OnboardingContextData>(
 );
 
 export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
-  children,
+  children
 }) => {
   const [page, setPage] = useState(0);
   const [onboardingState, setOnboardingState] = useState<IOnboardingFlowState>({
-    worldviewQ1: 3,
-    worldviewQ2: 3,
-    worldviewQ3: 3,
-    worldviewQ4: 3,
-    worldviewQ5: 3,
-    worldviewQ6: 3,
-    emotionalPatternQ1: 3,
-    emotionalPatternQ2: 3,
-    emotionalPatternQ3: 3,
-    workstyleQ1: 3,
-    workstyleQ2: 3,
-    workstyleQ3: 3,
-    workstyleQ4: 3,
-    socialInclinationQ1: 3,
-    socialInclinationQ2: 3,
-    socialInclinationQ3: 3,
-    funnelActivitiesQ1: 3,
-    funnelActivitiesQ2: 3,
+    worldviewQ1: 1,
+    worldviewQ2: 1,
+    worldviewQ3: 1,
+    worldviewQ4: 1,
+    worldviewQ5: 1,
+    worldviewQ6: 1,
+    emotionalPatternQ1: 1,
+    emotionalPatternQ2: 1,
+    emotionalPatternQ3: 1,
+    workstyleQ1: 1,
+    workstyleQ2: 1,
+    workstyleQ3: 1,
+    workstyleQ4: 1,
+    socialInclinationQ1: 1,
+    socialInclinationQ2: 1,
+    socialInclinationQ3: 1,
+    funnelActivitiesQ1: 1,
+    funnelActivitiesQ2: 1
   });
 
   const onboardingFlow = [
     {
-      page: "Sign Up Transition Screen",
-      props: {},
+      page: 'Sign Up Transition Screen',
+      props: {}
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ1",
+        inputName: 'worldviewQ1',
         totalCircles: 6,
         completedCircles: 0,
-        questionNumber: "1",
+        questionNumber: '1',
         question:
-          'When it comes to the future, are you the ultimate planner or more of a "let\'s see what happens" kind of person?',
-      },
+          'When it comes to the future, are you the ultimate planner or more of a "let\'s see what happens" kind of person?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ2",
+        inputName: 'worldviewQ2',
         totalCircles: 6,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          'Would you describe yourself as more of a perfectionist or someone who is content with "good enough"?',
-      },
+          'Would you describe yourself as more of a perfectionist or someone who is content with "good enough"?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ3",
+        inputName: 'worldviewQ3',
         totalCircles: 6,
         completedCircles: 2,
-        questionNumber: "3",
+        questionNumber: '3',
         question:
-          "Are you a firm believer in self-improvement, no matter your age?",
-      },
+          'Are you a firm believer in self-improvement, no matter your age?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ4",
+        inputName: 'worldviewQ4',
         totalCircles: 6,
         completedCircles: 3,
-        questionNumber: "4",
+        questionNumber: '4',
         question:
-          "How open are you to learning and stepping out of your comfort zone?",
-      },
+          'How open are you to learning and stepping out of your comfort zone?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ5",
+        inputName: 'worldviewQ5',
         totalCircles: 6,
         completedCircles: 4,
-        questionNumber: "5",
+        questionNumber: '5',
         question:
-          "Do you tend to focus on what you lack or on what you can provide for your loved ones?",
-      },
+          'Do you tend to focus on what you lack or on what you can provide for your loved ones?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ6",
+        inputName: 'worldviewQ6',
         totalCircles: 6,
         completedCircles: 5,
-        questionNumber: "6",
+        questionNumber: '6',
         question:
-          "Do you take the initiative to plan ahead, or do you wait until circumstances force you to react?",
-      },
+          'Do you take the initiative to plan ahead, or do you wait until circumstances force you to react?'
+      }
     },
     {
-      page: "Quiz Section Intro Screen",
+      page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 3,
-        title: "Emotional Patterns",
-      },
+        title: 'Emotional Patterns'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "emotionalPatternQ1",
+        inputName: 'emotionalPatternQ1',
         totalCircles: 3,
         completedCircles: 0,
-        questionNumber: "1",
-        question: "On a typical day, how anxious or calm do you tend to feel?",
-      },
+        questionNumber: '1',
+        question: 'On a typical day, how anxious or calm do you tend to feel?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "emotionalPatternQ2",
+        inputName: 'emotionalPatternQ2',
         totalCircles: 3,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          "Is your glass usually half full, or do you tend to see it as half empty?",
-      },
+          'Is your glass usually half full, or do you tend to see it as half empty?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "emotionalPatternQ3",
+        inputName: 'emotionalPatternQ3',
         totalCircles: 3,
         completedCircles: 2,
-        questionNumber: "3",
+        questionNumber: '3',
         question:
-          "When making decisions, how often do you consider the emotional burden it might place on those close to you?",
-      },
+          'When making decisions, how often do you consider the emotional burden it might place on those close to you?'
+      }
     },
     {
-      page: "Quiz Section Intro Screen",
+      page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 4,
-        title: "Workstyle",
-      },
+        title: 'Workstyle'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "workstyleQ1",
+        inputName: 'workstyleQ1',
         totalCircles: 4,
         completedCircles: 0,
-        questionNumber: "1",
+        questionNumber: '1',
         question:
-          "Are you a laser-focused, 'I get things done' dynamo, or more of a 'why stick to one thing when I can multitask' explorer?",
-      },
+          "Are you a laser-focused, 'I get things done' dynamo, or more of a 'why stick to one thing when I can multitask' explorer?"
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "workstyleQ2",
+        inputName: 'workstyleQ2',
         totalCircles: 4,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          "Are you more internally motivated to accomplish tasks, or do you rely on external notifications and reminders?",
-      },
+          'Are you more internally motivated to accomplish tasks, or do you rely on external notifications and reminders?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "workstyleQ3",
+        inputName: 'workstyleQ3',
         totalCircles: 4,
         completedCircles: 2,
-        questionNumber: "3",
+        questionNumber: '3',
         question:
-          "Do you prefer to tackle tasks iteratively over time, or do you prefer to do everything all at once?",
-      },
+          'Do you prefer to tackle tasks iteratively over time, or do you prefer to do everything all at once?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "workstyleQ4",
+        inputName: 'workstyleQ4',
         totalCircles: 4,
         completedCircles: 3,
-        questionNumber: "4",
+        questionNumber: '4',
         question:
-          "Do you prefer in-depth, detailed information when making important decisions, or do you gravitate towards concise, action-oriented advice?",
-      },
+          'Do you prefer in-depth, detailed information when making important decisions, or do you gravitate towards concise, action-oriented advice?'
+      }
     },
 
     {
-      page: "Quiz Section Intro Screen",
+      page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 3,
-        title: "Social Inclinations",
-      },
+        title: 'Social Inclinations'
+      }
     },
 
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "socialInclinationQ1",
+        inputName: 'socialInclinationQ1',
         totalCircles: 3,
         completedCircles: 0,
-        questionNumber: "1",
+        questionNumber: '1',
         question:
-          "Is talking about death as easy as chatting about the weather, or do you tend to avoid the topic?",
-      },
+          'Is talking about death as easy as chatting about the weather, or do you tend to avoid the topic?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "socialInclinationQ2",
+        inputName: 'socialInclinationQ2',
         totalCircles: 3,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          "Are you the go-to person to help friends and family with tricky decisions, or do you prefer someone else to do the heavy lifting?",
-      },
+          'Are you the go-to person to help friends and family with tricky decisions, or do you prefer someone else to do the heavy lifting?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "socialInclinationQ3",
+        inputName: 'socialInclinationQ3',
         totalCircles: 3,
         completedCircles: 2,
-        questionNumber: "3",
+        questionNumber: '3',
         question:
-          "Are you more inclined to focus on your issues, or do you often help others with theirs?",
-      },
+          'Are you more inclined to focus on your issues, or do you often help others with theirs?'
+      }
     },
 
     {
-      page: "Quiz Section Intro Screen",
+      page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 2,
-        title: "Funnel Activities",
-      },
+        title: 'Funnel Activities'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "funnelActivitiesQ1",
+        inputName: 'funnelActivitiesQ1',
         totalCircles: 2,
         completedCircles: 0,
-        questionNumber: "1",
+        questionNumber: '1',
         question:
-          "Are you a walking encyclopedia on end-of-life planning, or do you feel like you're navigating uncharted waters?",
-      },
+          "Are you a walking encyclopedia on end-of-life planning, or do you feel like you're navigating uncharted waters?"
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "funnelActivitiesQ2",
+        inputName: 'funnelActivitiesQ2',
         totalCircles: 2,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          'Is your end-of-life planning a "when I get around to it" affair, or are you sprinting towards getting it done?',
-      },
+          'Is your end-of-life planning a "when I get around to it" affair, or are you sprinting towards getting it done?'
+      }
     },
     {
-      page: "Persona Screen",
-      props: {},
+      page: 'Persona Screen',
+      props: {}
     },
     {
-      page: "Landing Screen",
-      props: {},
-    },
+      page: 'Landing Screen',
+      props: {}
+    }
   ];
 
   const handleChange = (name: string, value: any) => {
     console.log(value);
     setOnboardingState((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value
     }));
   };
 
@@ -303,7 +304,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         onboardingState,
         setOnboardingState,
         onboardingFlow,
-        handleChange,
+        handleChange
       }}
     >
       {children}
@@ -315,7 +316,7 @@ export const useOnboarding = (): OnboardingContextData => {
   const context = useContext(OnboardingContext);
 
   if (!context) {
-    throw new Error("useOnboarding must be used within an AuthProvider");
+    throw new Error('useOnboarding must be used within an AuthProvider');
   }
 
   return context;

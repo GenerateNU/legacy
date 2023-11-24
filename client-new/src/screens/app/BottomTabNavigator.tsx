@@ -1,17 +1,18 @@
-import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './HomeScreen';
+
+import React from 'react';
+
+import GuidesIcon from '../../components/icons/GuidesIcon';
+import HomeIcon from '../../components/icons/HomeIcon';
+import MarketplaceIcon from '../../components/icons/MarketplaceIcon';
+import ProfileIcon from '../../components/icons/ProfileIcon';
+import TaskIcon from '../../components/icons/TaskIcon';
+import FileCollectionScreen from './FileCollectionScreen';
 import GuideScreen from './GuideScreen';
-import TaskScreen from './TaskScreen';
+import HomeScreen from './HomeScreen';
 import MapScreen from './MarketplaceScreen';
 import ProfileScreen from './ProfileScreen';
-
-import HomeIcon from '../../components/icons/HomeIcon';
-import GuidesIcon from '../../components/icons/GuidesIcon';
-import MarketplaceIcon from '../../components/icons/MarketplaceIcon';
-import TaskIcon from '../../components/icons/TaskIcon';
-import ProfileIcon from '../../components/icons/ProfileIcon';
-import FileCollectionScreen from './FileCollectionScreen';
+import TaskScreen from './TaskScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,8 +41,7 @@ const TabNavigator = () => {
           backgroundColor: '#FFF9EE',
           borderTopWidth: 1,
           paddingTop: 10,
-          paddingBottom: 10,
-
+          paddingBottom: 10
         },
         tabBarLabel: ''
       })}
@@ -51,7 +51,6 @@ const TabNavigator = () => {
       <Tab.Screen name="Marketplace" component={MapScreen} />
       <Tab.Screen name="Files" component={FileCollectionScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
-
     </Tab.Navigator>
   );
 };

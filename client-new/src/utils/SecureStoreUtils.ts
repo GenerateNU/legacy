@@ -1,4 +1,4 @@
-import { setItemAsync, getItemAsync, deleteItemAsync } from 'expo-secure-store';
+import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
 
 const CHUNK_SIZE = 1000;
 
@@ -12,10 +12,10 @@ const CHUNK_SIZE = 1000;
  * const data = { name: 'John Doe', age: 30 };
  * await setItem('user', data);
  **/
-export const setItem = async <T> (key: string, data: T): Promise<void> => {
+export const setItem = async <T>(key: string, data: T): Promise<void> => {
   const serializedData = JSON.stringify(data);
   const chunks = [];
-  
+
   // Chunk the serialized data
   for (let i = 0; i < serializedData.length; i += CHUNK_SIZE) {
     chunks.push(serializedData.slice(i, i + CHUNK_SIZE));
@@ -25,7 +25,7 @@ export const setItem = async <T> (key: string, data: T): Promise<void> => {
   for (let j = 0; j < chunks.length; j++) {
     await setItemAsync(`${key}_${j}`, chunks[j]);
   }
-}
+};
 
 /**
  * Function to retrieve data from SecureStore
@@ -35,7 +35,7 @@ export const setItem = async <T> (key: string, data: T): Promise<void> => {
  * const data = await getItem('user');
  * console.log(data); // { name: 'John Doe', age: 30 }
  */
-export const getItem = async <T> (key: string): Promise<T | null> => {
+export const getItem = async <T>(key: string): Promise<T | null> => {
   let index = 0;
   let chunks = [];
   let chunk;
@@ -56,7 +56,7 @@ export const getItem = async <T> (key: string): Promise<T | null> => {
   // Reconstruct the serialized data from chunks
   const serializedData = chunks.join('');
   return JSON.parse(serializedData) as T;
-}
+};
 
 export const deleteItem = async (key: string): Promise<void> => {
   let index = 0;
@@ -70,4 +70,4 @@ export const deleteItem = async (key: string): Promise<void> => {
       index++;
     }
   } while (chunk);
-}
+};

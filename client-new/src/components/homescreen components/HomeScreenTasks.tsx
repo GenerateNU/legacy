@@ -1,12 +1,10 @@
-import { View, Text } from "native-base";
-import HomeScreenTaskCard from "./HomeScreenTaskCard";
+import { Text, View } from 'native-base';
+import React from 'react';
+import HomeScreenTaskCard from './HomeScreenTaskCard';
+import { ITask } from '@/interfaces/ITask';
 
 type YourJourneyProps = {
-  tasks: {
-    task_name: string;
-    task_description: string;
-    progress: number;
-  }[];
+  tasks: ITask[];
 };
 
 const YourJourneyComponent: React.FC<YourJourneyProps> = ({ tasks }) => {
@@ -18,9 +16,9 @@ const YourJourneyComponent: React.FC<YourJourneyProps> = ({ tasks }) => {
       <View justifyContent={'space-between'} flexDir={'row'}>
         <Text
           color={'#252525'}
-          fontFamily={"rocaOne"}
-          fontWeight={"Regular"}
-          fontStyle={"normal"}
+          fontFamily={'rocaOne'}
+          fontWeight={'Regular'}
+          fontStyle={'normal'}
           fontSize={24}
           lineHeight={26.4}
         >
@@ -42,9 +40,9 @@ const YourJourneyComponent: React.FC<YourJourneyProps> = ({ tasks }) => {
         {displayedTasks.map((item, index) => (
           <View key={index} mb={0}>
             <HomeScreenTaskCard
-              title={item.task_name}
+              title={item.task_title}
               description={item.task_description}
-              progress={item.progress}
+              progress={10}
             />
           </View>
         ))}

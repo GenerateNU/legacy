@@ -1,6 +1,7 @@
-import axios from "axios";
-import { IUser } from "../interfaces/IUser";
-import { IPersona } from "../interfaces/IPersona";
+import axios from 'axios';
+
+import { IPersona } from '../interfaces/IPersona';
+import { IUser } from '../interfaces/IUser';
 
 export const getPersona = async (user_id: number) => {
   const response = await axios.get(

@@ -1,15 +1,17 @@
-import { ScrollView, Box, View, Text, Image } from 'native-base';
+import Markdown from '@ronradtke/react-native-markdown-display';
+import { Box, Image, ScrollView, Text, View } from 'native-base';
+
 import { useEffect, useState } from 'react';
+import React from 'react';
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
+
 import { IGuide } from '../../interfaces/IGuide';
+import { getGuide } from '../../services/GuideService';
 import { getMonth } from '../../utils/DateUtils';
 import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
-import { getGuide } from '../../services/GuideService';
-import Markdown from '@ronradtke/react-native-markdown-display';
-import React from 'react';
 
 const MarkdownWrapper: React.FC<any> = ({ children }) => {
   return (

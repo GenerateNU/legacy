@@ -1,22 +1,19 @@
-import { KeyboardAvoidingView, View, Text, Divider, Button } from 'native-base';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import CircleProgressBar from '@/components/reusable/CircleProgressBar';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ScreenWideButton from '@/components/reusable/ScreenWideButton';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { Button, Divider, KeyboardAvoidingView, Text, View } from 'native-base';
+
 import React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function QuizSectionIntroScreen({ route, navigation }) {
-  const {
-    page,
-    setPage,
-    onboardingFlow,
-  } = useOnboarding();
+  const { page, setPage, onboardingFlow } = useOnboarding();
 
   const next = async () => {
     const nextPage = onboardingFlow[page + 1];

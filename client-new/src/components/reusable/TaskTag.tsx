@@ -1,10 +1,11 @@
-import { View, Text, Pressable } from 'native-base';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
-import React from 'react';
 import { moderateScale } from '@/utils/FontSizeUtils';
+import { Pressable, Text, View } from 'native-base';
+
+import React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
 
 type TaskTagProps = {
   taskText: string;

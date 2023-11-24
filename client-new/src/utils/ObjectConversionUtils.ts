@@ -1,4 +1,3 @@
-
 export const convertNumericToString = <T>(inputObject: T): T => {
   const newObj = { ...inputObject };
 

@@ -1,11 +1,13 @@
 import { IFile } from '@/interfaces/IFile';
-import { View, Text, ThreeDotsIcon } from 'native-base';
+import { Text, ThreeDotsIcon, View } from 'native-base';
+
 import React from 'react';
-import FileIcon from '../icons/FileIcon';
 import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
 } from 'react-native-responsive-screen';
+
+import FileIcon from '../icons/FileIcon';
 
 type FileRowProps = {
   file: IFile;

@@ -1,33 +1,27 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, View, Divider } from "native-base";
-import LegacyWordmark from "@/components/reusable/LegacyWordmark";
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h,
-} from "react-native-responsive-screen";
-import ScreenWideButton from "@/components/reusable/ScreenWideButton";
-import { useOnboarding } from "@/contexts/OnboardingContext";
-import { useEffect, useState } from "react";
-import { useUser } from "@/contexts/UserContext";
-import { useProfile } from "@/contexts/ProfileContext";
-import { getPersona } from "@/services/PersonaService";
-import React from "react";
-import { convertNumericToString } from "../../utils/ObjectConversionUtils";
-import { IPersona } from "@/interfaces/IPersona";
-import CircleProgressBar from "@/components/reusable/CircleProgressBar";
-import { SvgXml } from "react-native-svg";
+import CircleProgressBar from '@/components/reusable/CircleProgressBar';
+import LegacyWordmark from '@/components/reusable/LegacyWordmark';
+import ScreenWideButton from '@/components/reusable/ScreenWideButton';
+import { useOnboarding } from '@/contexts/OnboardingContext';
+import { useProfile } from '@/contexts/ProfileContext';
+import { useUser } from '@/contexts/UserContext';
+import { IPersona } from '@/interfaces/IPersona';
+import { getPersona } from '@/services/PersonaService';
+import { convertNumericToString } from '@/utils/ObjectConversionUtils';
+import { Divider, Text, View } from 'native-base';
 
+import { useEffect, useState } from 'react';
+import React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SvgXml } from 'react-native-svg';
 
 const PersonaScreen = ({ route, navigation }) => {
-  const {
-    page,
-    setPage,
-    onboardingState,
-    onboardingFlow,
-  } = useOnboarding();
+  const { page, setPage, onboardingState, onboardingFlow } = useOnboarding();
 
   const { user } = useUser();
-  const { fetchProfile, completeOnboarding } = useProfile();
+  const { profile, fetchProfile, completeOnboarding } = useProfile();
   const [persona, setPersona] = useState<IPersona>(null);
 
   const requestOnboarding = convertNumericToString(onboardingState);
@@ -35,7 +29,9 @@ const PersonaScreen = ({ route, navigation }) => {
   useEffect(() => {
     const completedOnboarding = async () => {
       await fetchProfile(user.id);
+      console.log('Fetch profile', profile);
       await completeOnboarding(requestOnboarding);
+      console.log('Completed onboarding', profile)
       const persona = await getPersona(user.id);
       setPersona(persona);
     };
@@ -43,16 +39,12 @@ const PersonaScreen = ({ route, navigation }) => {
     completedOnboarding();
   }, [user]);
 
-
-
   const next = async () => {
-    const nextPage = onboardingFlow[page + 1];
-    setPage(page + 1);
-    navigation.push(nextPage.page, { props: nextPage.props });
+    // go to app
+    navigation.navigate('Home Screen');
   };
 
-  const svgImage =
-    `<svg width="156" height="189" viewBox="0 0 156 189" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  const svgImage = `<svg width="156" height="189" viewBox="0 0 156 189" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <rect width="156" height="189" fill="url(#pattern0)"/>
       <defs>
       <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -65,79 +57,79 @@ const PersonaScreen = ({ route, navigation }) => {
 
   return (
     <>
-      <View bg={"creamyCanvas"} alignItems="center" h={h("100%")} w={w("100%")}>
-        <View paddingTop={h("7%")}></View>
+      <View bg={'creamyCanvas'} alignItems="center" h={h('100%')} w={w('100%')}>
+        <View paddingTop={h('7%')}></View>
         <LegacyWordmark />
 
-        <View paddingTop={h("4.5%")} paddingBottom={h("2%")}>
+        <View paddingTop={h('4.5%')} paddingBottom={h('2%')}>
           <CircleProgressBar totalCircles={6} completedCircles={6} />
         </View>
         <Divider
-          marginTop={h("2%")}
-          marginBottom={h("2%")}
-          width={w("100%")}
-          color={"#D9D9D9"}
+          marginTop={h('2%')}
+          marginBottom={h('2%')}
+          width={w('100%')}
+          color={'#D9D9D9'}
         />
 
         <View
-          backgroundColor={"#FFFFFF"}
+          backgroundColor={'#FFFFFF'}
           borderRadius={10}
-          borderColor={"darkGreen"}
+          borderColor={'darkGreen'}
           borderWidth={1}
-          marginTop={h("2%")}
-          paddingTop={h("3%")}
-          paddingBottom={h("3%")}
-          width={w("80%")}
-          height={h("60%")}
-          alignItems={"center"}
+          marginTop={h('2%')}
+          paddingTop={h('3%')}
+          paddingBottom={h('3%')}
+          width={w('80%')}
+          height={h('60%')}
+          alignItems={'center'}
         >
-          <View alignItems={"center"} width={w("70%")}>
+          <View alignItems={'center'} width={w('70%')}>
             <Text
-              color={"darkGreen"}
+              color={'darkGreen'}
               fontSize={14}
-              fontFamily={"inter"}
-              fontWeight={"Regular"}
-              fontStyle={"normal"}
-              paddingBottom={h("1.5%")}
+              fontFamily={'inter'}
+              fontWeight={'Regular'}
+              fontStyle={'normal'}
+              paddingBottom={h('1.5%')}
             >
               You've been assigned:
             </Text>
 
             <Text
-              color={"darkGreen"}
+              color={'darkGreen'}
               fontSize={20}
-              fontFamily={"rocaOne"}
-              fontWeight={"Bold"}
-              fontStyle={"normal"}
-              textAlign={"center"}
+              fontFamily={'rocaOne'}
+              fontWeight={'Bold'}
+              fontStyle={'normal'}
+              textAlign={'center'}
             >
-              {persona?.persona_title ?? "Persona Name"}
-            </Text >
-          </View >
+              {persona?.persona_title ?? 'Persona Name'}
+            </Text>
+          </View>
 
-          <SvgXml xml={svgImage} width={w("30%")} height={h("30%")} />
+          <SvgXml xml={svgImage} width={w('30%')} height={h('30%')} />
 
           <Text
             fontWeight={300}
             fontSize={14}
-            textAlign={"center"}
-            width={w("70%")}
-            color={"darkGreen"}
+            textAlign={'center'}
+            width={w('70%')}
+            color={'darkGreen'}
           >
-            {persona?.persona_description ?? "Persona Description"}
+            {persona?.persona_description ?? 'Persona Description'}
           </Text>
-        </View >
+        </View>
 
-        <View paddingTop={h("4%")}>
+        <View paddingTop={h('4%')}>
           <ScreenWideButton
-            text={"Get Started"}
+            text={'Get Started'}
             textColor="#FFFFFF"
             backgroundColor="lightGreen"
             borderColor="lightGreen"
             onClick={next}
           />
         </View>
-      </View >
+      </View>
     </>
   );
 };

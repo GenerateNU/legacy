@@ -1,11 +1,13 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { OnboardingProvider } from "../contexts/OnboardingContext";
-import QuestionaireScreen from "../screens/auth/QuestionaireScreen";
-import SignUpTransitionScreen from "../screens/auth/SignUpTransitionScreen";
-import PersonaScreen from "../screens/auth/PersonaScreen";
-import LandingScreen from "../screens/auth/LandingScreen";
-import QuizSectionIntroScreen from "../screens/auth/QuizSectionIntroScreen";
-import HomeScreen from "../screens/app/BottomTabNavigator";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import React from 'react';
+
+import { OnboardingProvider } from '../contexts/OnboardingContext';
+import HomeScreen from '../screens/app/BottomTabNavigator';
+import PersonaScreen from '../screens/auth/PersonaScreen';
+import QuestionaireScreen from '../screens/auth/QuestionaireScreen';
+import QuizSectionIntroScreen from '../screens/auth/QuizSectionIntroScreen';
+import SignUpTransitionScreen from '../screens/auth/SignUpTransitionScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,9 +15,9 @@ export default function OnboardingStack() {
   return (
     <OnboardingProvider>
       <Stack.Navigator
-        initialRouteName="Sign Up Transition Screen"
+        initialRouteName="Persona Screen"
         screenOptions={{
-          headerShown: false,
+          headerShown: false
         }}
       >
         <Stack.Screen
@@ -31,7 +33,7 @@ export default function OnboardingStack() {
           component={QuizSectionIntroScreen}
         />
         <Stack.Screen name="Persona Screen" component={PersonaScreen} />
-        <Stack.Screen name="Landing Screen" component={LandingScreen} />
+        <Stack.Screen name="Home Screen" component={HomeScreen} />
       </Stack.Navigator>
     </OnboardingProvider>
   );

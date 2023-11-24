@@ -1,9 +1,10 @@
-import { Text, Button } from "native-base";
-import React from "react";
+import { Button, Text } from 'native-base';
+
+import React from 'react';
 import {
-  widthPercentageToDP as w,
   heightPercentageToDP as h,
-} from "react-native-responsive-screen";
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
 
 type ScreenWideButtonProps = {
   text: string;
@@ -18,9 +19,9 @@ export default function HalfScreenWideButton(props: ScreenWideButtonProps) {
     <>
       <Button
         backgroundColor={props.backgroundColor}
-        width={w("37.5%")}
-        height={h("5%")}
-        borderRadius={w("80%") / 2}
+        width={w('37.5%')}
+        height={h('5%')}
+        borderRadius={w('80%') / 2}
         onPress={props.onClick}
         borderColor={props.borderColor}
         borderWidth={1}

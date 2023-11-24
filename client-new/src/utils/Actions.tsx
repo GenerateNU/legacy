@@ -1,13 +1,14 @@
-import React, { useState, useCallback } from 'react';
-import {
-  Input,
-  FormControl,
-  Select,
-  TextArea,
-  Checkbox,
-  Radio
-} from 'native-base';
 import { IAction, IActionList } from '@/interfaces/IAction';
+import {
+  Checkbox,
+  FormControl,
+  Input,
+  Radio,
+  Select,
+  TextArea
+} from 'native-base';
+
+import React, { useCallback, useState } from 'react';
 
 const FormComponent = ({ actions }: IActionList) => {
   const [formState, setFormState] = useState({});

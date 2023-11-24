@@ -1,6 +1,7 @@
-import React from "react";
-import { Text, View } from "native-base";
-import { SvgXml } from "react-native-svg";
+import { Text, View } from 'native-base';
+
+import React from 'react';
+import { SvgXml } from 'react-native-svg';
 
 const LegacyLogo = `
   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="20" viewBox="0 0 20 20" fill="none">
@@ -12,9 +13,15 @@ const LegacyLogo = `
 
 export default function LegacyWordmark() {
   return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <SvgXml xml={LegacyLogo} width="28" height="20" />
-      <Text color={'#0F4F43'} fontFamily={"rocaOne"} fontWeight= 'Bold' fontStyle={'normal'} fontSize='25'>
+      <Text
+        color={'#0F4F43'}
+        fontFamily={'rocaOne'}
+        fontWeight="Bold"
+        fontStyle={'normal'}
+        fontSize="25"
+      >
         Legacy
       </Text>
     </View>

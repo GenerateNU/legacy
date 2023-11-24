@@ -1,18 +1,19 @@
-import LegacyWordmark from '@/components/reusable/LegacyWordmark';
-import { View, Text, ScrollView, ThreeDotsIcon } from 'native-base';
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
-import ScreenBody from '@/components/reusable/ScreenBody';
 import FileList from '@/components/filecollection/FileList';
+import LegacyWordmark from '@/components/reusable/LegacyWordmark';
+import ScreenBody from '@/components/reusable/ScreenBody';
 import TaskTagGrid from '@/components/reusable/TaskTagGrid';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
+import { ScrollView, Text, ThreeDotsIcon, View } from 'native-base';
+
+import React, { useState } from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function FileCollectionScreen() {
-    const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState(null);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}>
       <ScreenBody>
@@ -30,7 +31,7 @@ export default function FileCollectionScreen() {
         >
           All Files
         </Text>
-        <TaskTagGrid pressed={filter}/>
+        <TaskTagGrid pressed={filter} />
         <FileList
           files={[
             { fileName: 'test', userId: 1, tags: [] },
@@ -39,7 +40,7 @@ export default function FileCollectionScreen() {
             { fileName: 'test', userId: 1, tags: [] },
             { fileName: 'test', userId: 1, tags: [] },
             { fileName: 'test', userId: 1, tags: [] },
-            { fileName: 'test', userId: 1, tags: [] },
+            { fileName: 'test', userId: 1, tags: [] }
           ]}
         />
       </ScreenBody>

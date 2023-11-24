@@ -1,5 +1,6 @@
-import axios from 'axios';
 import { IAction, IActionList } from '@/interfaces/IAction';
+import axios from 'axios';
+
 import { ENDPOINT } from './const';
 
 export const getActions = async (subtask_id: number) => {

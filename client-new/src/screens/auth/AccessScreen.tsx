@@ -1,20 +1,21 @@
-import { View, Text } from "native-base";
+import ScreenWideButton from '@/components/reusable/ScreenWideButton';
+import { Text, View } from 'native-base';
+
+import React from 'react';
 import {
-  widthPercentageToDP as w,
   heightPercentageToDP as h,
-} from "react-native-responsive-screen";
-import { SvgXml } from "react-native-svg";
-import ScreenWideButton from "@/components/reusable/ScreenWideButton";
-import React from "react";
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SvgXml } from 'react-native-svg';
 
 // TODO: arrow function
 export default function AccessScreen({ navigation }) {
   const toSignUp = () => {
-    navigation.navigate("Sign Up Screen");
+    navigation.navigate('Sign Up Screen');
   };
 
   const toLogin = () => {
-    navigation.navigate("Login Screen");
+    navigation.navigate('Login Screen');
   };
 
   // TODO: export this to a separate file
@@ -195,58 +196,60 @@ export default function AccessScreen({ navigation }) {
   `;
 
   return (
-    <View bg={"creamyCanvas"} h={h("100%")} w={w("100%")} alignItems="center">
-      <View height={h("15%")}></View>
-      <View width={w("80%")} paddingBottom={h("3%")} alignItems="center">
+    <View bg={'creamyCanvas'} h={h('100%')} w={w('100%')} alignItems="center">
+      <View height={h('10%')}></View>
+      <View width={w('80%')} paddingBottom={h('3%')} alignItems="center">
         <View alignItems="center">
           <Text
-            color={"darkGreen"}
-            fontFamily={"rocaOne"}
-            fontWeight={"Regular"}
-            fontStyle={"normal"}
-            fontSize={"40"}
+            color={'darkGreen'}
+            fontFamily={'rocaOne'}
+            fontWeight={'Regular'}
+            fontStyle={'normal'}
+            fontSize={'40'}
           >
             More Life.
           </Text>
           <Text
-            color={"darkGreen"}
-            fontFamily={"rocaOne"}
-            fontWeight={"Regular"}
-            fontStyle={"normal"}
-            fontSize={"40"}
+            color={'darkGreen'}
+            fontFamily={'rocaOne'}
+            fontWeight={'Regular'}
+            fontStyle={'normal'}
+            fontSize={'40'}
           >
             Less Stress.
           </Text>
         </View>
         <Text
-          textAlign={"center"}
+          textAlign={'center'}
           fontSize={12}
-          fontFamily={"inter"} fontWeight={"Regular"} fontStyle={"normal"}
-          paddingTop={h("2%")}
-          paddingBottom={h("4.5%")}
-          color={"darkGreen"}
+          fontFamily={'inter'}
+          fontWeight={'Regular'}
+          fontStyle={'normal'}
+          paddingTop={h('2%')}
+          paddingBottom={h('4.5%')}
+          color={'darkGreen'}
         >
-          ???
+          How will you build your legacy?
         </Text>
 
         <SvgXml xml={TreeLogo} />
 
-        <View paddingTop={h("6.1%")}>
+        <View paddingTop={h('6.1%')}>
           <ScreenWideButton
-            text={"Sign Up"}
-            textColor={"#FFFFFF"}
-            backgroundColor={"lightGreen"}
-            borderColor={"#8F8F8F"}
+            text={'Sign Up'}
+            textColor={'#FFFFFF'}
+            backgroundColor={'lightGreen'}
+            borderColor={'#8F8F8F'}
             onClick={toSignUp}
           />
         </View>
 
-        <View paddingTop={h("2%")}>
+        <View paddingTop={h('2%')}>
           <ScreenWideButton
-            text={"Login"}
-            textColor={"#000000"}
-            backgroundColor={"creamyCanvas"}
-            borderColor={"lightGreen"}
+            text={'Login'}
+            textColor={'#000000'}
+            backgroundColor={'creamyCanvas'}
+            borderColor={'lightGreen'}
             onClick={toLogin}
           />
         </View>
