@@ -14,8 +14,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function SignUpTransitionScreen({ route, navigation }) {
-  const { user } = useUser();
   const { page, setPage, onboardingFlow } = useOnboarding();
+  const { user } = useUser();
 
   const next = async () => {
     const nextPage = onboardingFlow[page + 1];
@@ -47,7 +47,7 @@ export default function SignUpTransitionScreen({ route, navigation }) {
           paddingBottom={'5%'}
         >
           <Text fontSize={20} fontWeight={'semibold'} paddingRight={'2%'}>
-            Welcome {user.username}
+            Welcome {user?.username ?? 'Invalid User'}
           </Text>
           <Icon name="flower-tulip-outline" size={30} color={'darkGreen'} />
         </View>

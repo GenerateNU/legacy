@@ -15,7 +15,7 @@ export default function OnboardingStack() {
   return (
     <OnboardingProvider>
       <Stack.Navigator
-        initialRouteName="Persona Screen"
+        initialRouteName="Sign Up Transition Screen"
         screenOptions={{
           headerShown: false
         }}

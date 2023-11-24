@@ -3,18 +3,18 @@ import axios from 'axios';
 import { IOnboardingFlowState } from '../interfaces/IOnboardingFlowState';
 import { IProfile } from '../interfaces/IProfile';
 
-const API_BASE_URL = 'http://localhost:8080/api/profiles';
+const API_BASE_URL = 'http://localhost:8080/api';
 
-export const getProfile = async (user_id: string): Promise<IProfile> => {
-  const response = await axios.get(`${API_BASE_URL}/${user_id}`);
-  return response.data;
+export const getProfile = async (user_id: string) => {
+  const response = await axios.get(`${API_BASE_URL}/users/${user_id}/profile`);
+  return response.data as IProfile;
 };
 
 export const updateProfile = async (
   profile: IProfile,
   profile_id: number
 ): Promise<void> => {
-  await axios.patch(`${API_BASE_URL}/${profile_id}`, {
+  await axios.patch(`${API_BASE_URL}/profiles/${profile_id}`, {
     name: profile.name,
     date_of_birth: profile.date_of_birth,
     phone_number: profile.phone_number,
@@ -29,8 +29,11 @@ export const insertOnboardingResponse = async (
   profile_id: number,
   user_id: number
 ): Promise<IProfile> => {
+  console.log('onboardingResponse', onboardingResponse);
+  console.log('profile_id', profile_id)
+  console.log('user_id', user_id)
   const response = await axios.patch(
-    `${API_BASE_URL}/response/${profile_id}/${user_id}`,
+    `${API_BASE_URL}/profiles/response/${profile_id}/${user_id}`,
     onboardingResponse
   );
   return response.data;

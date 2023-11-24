@@ -139,7 +139,7 @@ func (p *ProfileController) UpdateProfile(c echo.Context) error {
 //		@Router			/api/profiles/response/{pid}  [patch]
 func (p *ProfileController) InsertOnboardingResponse(c echo.Context) error {
 	var onboardingResponse types.OnboardingResponse
-	var requestBody types.RequestBody
+	// var requestBody types.RequestBody
 	profileID := c.Param("pid")
 	userID := c.Param("uid")
 
@@ -149,13 +149,13 @@ func (p *ProfileController) InsertOnboardingResponse(c echo.Context) error {
 	}
 	defer c.Request().Body.Close()
 
-	if err := json.Unmarshal(body, &requestBody); err != nil {
-		return c.JSON(http.StatusBadRequest, "Failed to process the request body")
-	}
+	// if err := json.Unmarshal(body, &requestBody); err != nil {
+	// 	return c.JSON(http.StatusBadRequest, "Failed to process the request body")
+	// }
 
 	// Unmarshal the nested JSON string inside "body" into onboardingResponse
-	if err := json.Unmarshal([]byte(requestBody.Body), &onboardingResponse); err != nil {
-		return c.JSON(http.StatusBadRequest, "Failed to process the onboarding response")
+	if err := json.Unmarshal([]byte(body), &onboardingResponse); err != nil {
+		return c.JSON(http.StatusBadRequest, "Failed to unmarhsal the request body")
 	}
 
 	profile, err := p.profileService.InsertOnboardingResponse(userID, profileID, onboardingResponse)

@@ -1,6 +1,6 @@
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import { useUser } from '@/contexts/UserContext';
-import { KeyboardAvoidingView, ScrollView, Text, View } from 'native-base';
+import { Button, KeyboardAvoidingView, ScrollView, Text, View } from 'native-base';
 
 import { useEffect, useState } from 'react';
 import React from 'react';
@@ -17,15 +17,19 @@ import HomeScreenTasks from '../../components/homescreen components/HomeScreenTa
 import { fetchAllUserTasks } from '../../services/TaskService';
 import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
 import { ITask } from '@/interfaces/ITask';
+import { useProfile } from '@/contexts/ProfileContext';
 
 export default function HomeScreen() {
   const { user, logout } = useUser();
+  const { setCompletedOnboarding } = useProfile();
 
   const [tasks, setTasks] = useState<ITask[]>([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
+      console.log("FEtching tasks", user.id.toString());
       const response = await fetchAllUserTasks(user.id.toString());
+      console.log("Response", response)
       setTasks(response);
 
     };
@@ -62,6 +66,10 @@ export default function HomeScreen() {
       <SafeAreaView
         style={{ alignItems: 'center', flex: 1, backgroundColor: '#FFF9EE' }}
       >
+        <Button onPress={() => {
+          logout();
+          setCompletedOnboarding(false);
+        }}>Logout</Button>
         <ScrollView
           bgColor={'#FFF9EE'}
           contentContainerStyle={{ alignItems: 'center' }}

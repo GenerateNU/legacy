@@ -188,7 +188,7 @@ func (u *UserController) CreateUser(c echo.Context) error {
 //	    @Param          uid	  path  string	true	"UserID"
 //		@Success		200	  {object}	  map[string]interface{}
 //		@Failure        404   {string}    string "Failed to initialize user progress"
-//		@Router			/api/users/{uid}/progress  [get]
+//		@Router			/api/users/{uid}/progress  [post]
 func (u *UserController) InitializeUserProgress(c echo.Context) error {
 	userID := c.Param("uid")
 

@@ -26,10 +26,16 @@ export default function SignUpScreen({ route, navigation }) {
   const [password, setPassword] = useState('');
 
   const signUp = () => {
-    createAccount(username, email, password);
+    console.log('username: ', username)
+    console.log('email: ', email)
+    const signup = async () => {
+      await createAccount(username, email, password);
+      navigation.setOptions();
+      navigation.navigate('Onboarding Stack');
+    }
 
-    navigation.setOptions();
-    navigation.navigate('Onboarding Stack');
+    signup();
+
     // createAccount(fullName, email, password).then((response) => {
     //   if (response === true) {
     //     navigation.setOptions();

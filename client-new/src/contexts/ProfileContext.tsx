@@ -1,4 +1,4 @@
-import { getItemAsync, setItemAsync } from 'expo-secure-store';
+import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { createContext, useContext } from 'react';
@@ -16,6 +16,8 @@ import { useUser } from './UserContext';
 type ProfileContextData = {
   profile: IProfile | null;
   setProfile: React.Dispatch<React.SetStateAction<IProfile | null>>;
+  completedOnboarding: boolean;
+  setCompletedOnboarding: React.Dispatch<React.SetStateAction<boolean>>;
   fetchProfile: (userID: number) => Promise<void>;
   completeOnboarding: (
     onboardingFlowState: IOnboardingFlowState
@@ -36,6 +38,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   children
 }) => {
   const [profile, setProfile] = useState<IProfile | null>(null);
+  const [completedOnboarding, setCompletedOnboarding] = useState<boolean>(profile?.completed_onboarding_response || false);
   const { user } = useUser();
 
   const fetchProfile = useCallback(async (userID: number): Promise<void> => {
@@ -44,7 +47,10 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
       console.log('fetchedProfile', fetchedProfile);
       if (fetchedProfile) {
         setProfile(fetchedProfile);
+        setCompletedOnboarding(fetchedProfile?.completed_onboarding_response)
         await setItemAsync('profile', JSON.stringify(fetchedProfile));
+        console.log(fetchedProfile?.completed_onboarding_response || false)
+        await setItemAsync('completedOnboarding', JSON.stringify(fetchedProfile?.completed_onboarding_response || false))
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -83,15 +89,18 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
       };
 
       console.log("UPDATED PROFILE", updatedProfile)
-      setProfile(updatedProfile);
+      // setProfile(updatedProfile);
 
       try {
-        await insertOnboardingResponse(
+        const profileResponse = await insertOnboardingResponse(
           updatedProfile.onboarding_response,
+          profile.id,
           user.id,
-          profile.id
         );
-        await setItemAsync('profile', JSON.stringify(updatedProfile));
+        await setItemAsync('profile', JSON.stringify(profileResponse));
+        setProfile(profileResponse);
+        setCompletedOnboarding(true)
+        console.log("PROFILE RESPONSE", profileResponse)
       } catch (error) {
         console.error(`Error updating onboardingFlowState in profile:`, error);
         // Handle error - show message or perform recovery action
@@ -104,6 +113,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
     try {
       // const loadedProfile = await getItem<IProfile>("profile");
       const profileSerialized = await getItemAsync('profile');
+
 
       if (!profileSerialized) {
         return;
@@ -119,15 +129,20 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   }, []);
 
   useEffect(() => {
+    deleteItemAsync("profile")
+    deleteItemAsync("user")
+
     if (user) {
       fetchProfile(user.id);
-      loadStorageData();
+      // loadStorageData();
     }
   }, [user, fetchProfile, loadStorageData]);
 
   const contextValue: ProfileContextData = {
     profile,
     setProfile,
+    completedOnboarding,
+    setCompletedOnboarding,
     completeOnboarding,
     fetchProfile,
     updateField

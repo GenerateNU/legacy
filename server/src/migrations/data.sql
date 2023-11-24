@@ -211,11 +211,19 @@ INSERT INTO persona_tasks (persona_id, task_id) VALUES
 
 -- Persona 2: Adventurous Optimist
 INSERT INTO persona_tasks (persona_id, task_id) VALUES
-(2, 4), (2, 5), (2, 6), (2, 6), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 15);
+(2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 15);
 
 -- Persona 3: Adventurous Optimist with Wealth
 INSERT INTO persona_tasks (persona_id, task_id) VALUES
 (3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15);
+
+-- Persona 4: Multitasking Dynamo
+INSERT INTO persona_tasks (persona_id, task_id) VALUES
+(4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (4, 9), (4, 10), (4, 11), (4, 12), (4, 13), (4, 14), (4, 15);
+
+-- Persona 5: Tranquil Trailblazer
+INSERT INTO persona_tasks (persona_id, task_id) VALUES
+(5, 4), (5, 5), (5, 6), (5, 7), (5, 8), (5, 9), (5, 10), (5, 11), (5, 12), (5, 13), (5, 14), (5, 15);
 
 -- Creating test guides
 INSERT INTO guides (guide_name, title, sub_title, author, author_image_url, mins_read, date, full_text) VALUES

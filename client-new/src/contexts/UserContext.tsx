@@ -1,6 +1,7 @@
 import { IUser } from '@/interfaces/IUser';
 import {
   createUserAndProfile,
+  fetchUser,
   fetchUserAndProfile
 } from '@/services/UserService';
 import { auth } from '@/utils/firebase';
@@ -15,6 +16,7 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 
 import { deleteItem, getItem, setItem } from '../utils/SecureStoreUtils';
+import { useProfile } from './ProfileContext';
 
 type UserContextData = {
   user: IUser | null;
@@ -24,7 +26,7 @@ type UserContextData = {
     email: string,
     password: string
   ) => Promise<void>;
-  login: (email: string, password: string) => Promise<boolean | Error>;
+  login: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>;
   completedOnboarding: boolean;
 };
@@ -46,6 +48,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setItemAsync('firebaseUser', JSON.stringify(user));
     });
 
+    const getUser = async () => {
+     const user = await fetchUser(firebaseUser?.uid)
+      setUser(user.data)
+    }
+
+    if (firebaseUser) {
+      getUser()
+    }
     loadStorageData();
 
     return () => unsubscribe();
@@ -118,7 +128,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const login = async (
     email: string,
     password: string
-  ): Promise<boolean | Error> => {
+  ): Promise<void> => {
     try {
       const firebaseUserCredential = await signInWithEmailAndPassword(
         auth,
@@ -126,14 +136,16 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         password
       );
 
+      console.log('firebaseUserCredential', firebaseUserCredential);
+      
       const { user, profile } = await fetchUserAndProfile(
         firebaseUserCredential.user.uid
       );
 
-      return user.data;
+      setUser(user.data);
+      setCompletedOnboarding(profile.data.completed_onboarding_response);
     } catch (error) {
       console.error('Error logging in:', error);
-      return error;
     }
   };
 

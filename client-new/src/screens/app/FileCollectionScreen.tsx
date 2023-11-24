@@ -34,13 +34,13 @@ export default function FileCollectionScreen() {
         <TaskTagGrid pressed={filter} />
         <FileList
           files={[
-            { fileName: 'test', userId: 1, tags: [] },
-            { fileName: 'test', userId: 1, tags: [] },
-            { fileName: 'test', userId: 1, tags: [] },
-            { fileName: 'test', userId: 1, tags: [] },
-            { fileName: 'test', userId: 1, tags: [] },
-            { fileName: 'test', userId: 1, tags: [] },
-            { fileName: 'test', userId: 1, tags: [] }
+            { file_name: 'test', user_id: 1, tags: [] },
+            { file_name: 'test', user_id: 1, tags: [] },
+            { file_name: 'test', user_id: 1, tags: [] },
+            { file_name: 'test', user_id: 1, tags: [] },
+            { file_name: 'test', user_id: 1, tags: [] },
+            { file_name: 'test', user_id: 1, tags: [] },
+            { file_name: 'test', user_id: 1, tags: [] }
           ]}
         />
       </ScreenBody>

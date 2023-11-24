@@ -6,13 +6,24 @@ import { IUser } from '../interfaces/IUser';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
-export const fetchUserAndProfile = async (firebaseID: string) => {
-  const user = await axios.get(`${API_BASE_URL}/users/firebase/${firebaseID}`);
+export const fetchUser = async (firebaseID: string): Promise<AxiosResponse<IUser>> => {
+  const response = await axios.get(`${API_BASE_URL}/users/firebase/${firebaseID}`);
+  return response;
+}
 
-  const profile = await axios.get(
-    `${API_BASE_URL}/profiles/user/${user.data.id}`
-  );
+export const fetchProfile = async (userID: number): Promise<AxiosResponse<IProfile>> => {
+  const response = await axios.get(`${API_BASE_URL}/users/${userID}/profile`);
+  return response;
+}
 
+export const fetchUserAndProfile = async (firebaseID: string): Promise<{
+  user: AxiosResponse<IUser>;
+  profile: AxiosResponse<IProfile>;
+}> => {
+  const user = await fetchUser(firebaseID);
+  console.log("USER", user.data);
+  const profile = await fetchProfile(user.data.id);
+  console.log("PROFILE", profile.data);
   return { user, profile };
 };
 
@@ -39,3 +50,7 @@ export const createUserAndProfile = async (user: IUser) => {
 
   return { newUser };
 };
+
+export const initalizeAllProgress = async (userID: number) => {
+  await axios.post(`${API_BASE_URL}/users/${userID}/progress`).then((res) => console.log(res.data))
+}

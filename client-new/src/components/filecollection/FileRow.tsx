@@ -29,7 +29,7 @@ export default function FileRow(props: FileRowProps) {
         paddingBottom={h('1.5%')}
         marginTop={h('1%')}
       >
-        <Text>{props.file.fileName}</Text>
+        <Text>{props.file.file_name}</Text>
         <Text>1 item ∙ 200 KB</Text>
       </View>
       <View

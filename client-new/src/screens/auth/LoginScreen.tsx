@@ -16,16 +16,19 @@ import {
 } from 'react-native-responsive-screen';
 
 export default function LoginScreen({ route, navigation }) {
-  const { user, login, logout } = useUser();
+  const { user, login } = useUser();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const signIn = () => {
-    login(email, password);
-    console.log('HIT');
-    navigation.navigate('Access Screen');
+    const handleLogin = async () => {
+      await login(email, password);
+      console.log('HIT');
+      navigation.navigate('Onboarding Stack');
+    }
 
+    handleLogin();
     //
     // login(email, password).then((response) => {
     //   if (response === true) {

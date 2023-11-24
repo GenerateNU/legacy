@@ -6,6 +6,7 @@ import { useProfile } from '@/contexts/ProfileContext';
 import { useUser } from '@/contexts/UserContext';
 import { IPersona } from '@/interfaces/IPersona';
 import { getPersona } from '@/services/PersonaService';
+import { initalizeAllProgress } from '@/services/UserService';
 import { convertNumericToString } from '@/utils/ObjectConversionUtils';
 import { Divider, Text, View } from 'native-base';
 
@@ -28,16 +29,19 @@ const PersonaScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     const completedOnboarding = async () => {
+      console.log('PERSONA SCREEN User', user)
       await fetchProfile(user.id);
-      console.log('Fetch profile', profile);
+      console.log('PERSONA SCREEN Fetch profile', profile);
       await completeOnboarding(requestOnboarding);
-      console.log('Completed onboarding', profile)
+      console.log('PERSONA SCREEN Completed onboarding', profile)
       const persona = await getPersona(user.id);
       setPersona(persona);
+
+      await initalizeAllProgress(user.id);
     };
 
     completedOnboarding();
-  }, [user]);
+  }, [user, onboardingState]);
 
   const next = async () => {
     // go to app
