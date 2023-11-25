@@ -49,7 +49,6 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
         setProfile(fetchedProfile);
         setCompletedOnboarding(fetchedProfile?.completed_onboarding_response)
         await setItemAsync('profile', JSON.stringify(fetchedProfile));
-        console.log(fetchedProfile?.completed_onboarding_response || false)
         await setItemAsync('completedOnboarding', JSON.stringify(fetchedProfile?.completed_onboarding_response || false))
       }
     } catch (error) {
@@ -113,15 +112,18 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
     try {
       // const loadedProfile = await getItem<IProfile>("profile");
       const profileSerialized = await getItemAsync('profile');
+      const completedOnboardingSerialized = await getItemAsync('completedOnboarding');
 
-
-      if (!profileSerialized) {
+      if (!profileSerialized || !completedOnboardingSerialized) {
         return;
       }
 
       const loadedProfile: IProfile = JSON.parse(profileSerialized);
+      const loadedCompletedOnboarding: boolean = JSON.parse(completedOnboardingSerialized);
 
+      console.log("LOADEd completed onboarding", loadedCompletedOnboarding)
       setProfile(loadedProfile);
+      setCompletedOnboarding(loadedCompletedOnboarding);
     } catch (error) {
       console.error('Error loading profile from storage:', error);
       // Handle error - show message or perform recovery action
@@ -129,12 +131,9 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   }, []);
 
   useEffect(() => {
-    deleteItemAsync("profile")
-    deleteItemAsync("user")
-
     if (user) {
       fetchProfile(user.id);
-      // loadStorageData();
+      loadStorageData();
     }
   }, [user, fetchProfile, loadStorageData]);
 

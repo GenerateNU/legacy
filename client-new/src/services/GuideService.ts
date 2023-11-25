@@ -1,19 +1,18 @@
 import axios from 'axios';
 
-import { IGuide } from '../interfaces/IGuide';
-import { ENDPOINT } from './const';
+import { IGuide } from '@/interfaces/IGuide';
+import { sleep } from '@/utils/MockDelayUtil';
 
-export const getGuide = (guideName: string): Promise<IGuide> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      axios
-        .get<IGuide>(`${ENDPOINT}/api/guides/${guideName}`)
-        .then((res) => {
-          resolve(res.data);
-        })
-        .catch((error) => {
-          reject(error.response.data);
-        });
-    });
-  });
-};
+const API_BASE_URL = 'http://localhost:8080/api';
+
+export const fetchAllGuides = async () => {
+  await sleep(1000) 
+  const response = await axios.get(`${API_BASE_URL}/guides/`);
+  return response.data as IGuide[];
+}
+
+export const fetchGuideByName = async (name: string) => {
+  await sleep(10000)
+  const response = await axios.get(`${API_BASE_URL}/guides/${name}`);
+  return response.data as IGuide;
+}

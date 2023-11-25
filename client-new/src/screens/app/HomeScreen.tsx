@@ -4,7 +4,7 @@ import { Button, KeyboardAvoidingView, ScrollView, Text, View } from 'native-bas
 
 import { useEffect, useState } from 'react';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
@@ -18,63 +18,37 @@ import { fetchAllUserTasks } from '../../services/TaskService';
 import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
 import { ITask } from '@/interfaces/ITask';
 import { useProfile } from '@/contexts/ProfileContext';
+import { useTask } from '@/contexts/TaskContext';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAllGuides } from '@/services/GuideService';
 
 export default function HomeScreen() {
   const { user, logout } = useUser();
   const { setCompletedOnboarding } = useProfile();
 
-  const [tasks, setTasks] = useState<ITask[]>([]);
+  const { tasks } = useTask();
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      console.log("FEtching tasks", user.id.toString());
-      const response = await fetchAllUserTasks(user.id.toString());
-      console.log("Response", response)
-      setTasks(response);
-
-    };
-    fetchTasks();
-  }, []);
-
-  // const [users, setUsers] = useState([])
-
-  // useEffect(() => {
-  //     const fetchUsers = async () => {
-  //         const response = await getUser("1")
-  //         setTasks(response)
-  //     }
-  //     fetchUsers()
-  // }, [])
-
-  const guideData = [
-    {
-      title: 'Guide 1',
-      description: 'Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.'
-    },
-    {
-      title: 'Guide 2',
-      description: 'Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.'
-    },
-    {
-      title: 'Guide 3',
-      description: 'Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.'
-    }
-  ];
+  const { isPending, data: guides, error } = useQuery({
+    queryKey: ['guides'],
+    queryFn: fetchAllGuides
+  });
 
   return (
     <>
       <SafeAreaView
-        style={{ alignItems: 'center', flex: 1, backgroundColor: '#FFF9EE' }}
+        style={{ flex: 1, backgroundColor: '#FFF9EE' }}
       >
-        <Button onPress={() => {
-          logout();
-          setCompletedOnboarding(false);
-        }}>Logout</Button>
-        <ScrollView
+        <ScrollView 
           bgColor={'#FFF9EE'}
           contentContainerStyle={{ alignItems: 'center' }}
           showsVerticalScrollIndicator={false}
+          marginLeft={w('5%')}
+          marginRight={w('5%')}
         >
+          <Button onPress={() => {
+            logout();
+            setCompletedOnboarding(false);
+          }}>Logout</Button>
           <View w={'90%'} flexDir={'column'} justifyContent={'space-between'}>
             <LegacyWordmark />
             <View>
@@ -90,8 +64,11 @@ export default function HomeScreen() {
                   Hello {user?.username}!
                 </Text>
               </View>
-
-              <HomeScreenTasks tasks={tasks} />
+              {tasks && (
+                <View w={'100%'}>
+                  <HomeScreenTasks tasks={tasks} />
+                </View>
+              )}
             </View>
 
             <View w={'100%'} mt={5}>
@@ -116,7 +93,9 @@ export default function HomeScreen() {
                   See all
                 </Text>
               </View>
-              <HomeScreenGuides guides={guideData} />
+              {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
+              {error && <Text>Error: {error.message}</Text>}
+              {guides && <HomeScreenGuides guides={guides} />}
             </View>
           </View>
         </ScrollView>

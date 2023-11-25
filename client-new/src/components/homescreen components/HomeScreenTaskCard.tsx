@@ -1,4 +1,6 @@
 import { Text, View } from 'native-base';
+import React from 'react';
+import { Pressable } from 'react-native';
 
 type HSTCProps = {
   title: String;
@@ -8,11 +10,12 @@ type HSTCProps = {
 
 const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
   return (
+    <Pressable onPress={() => console.log('pressed')}>
     <View
-      paddingLeft={20}
-      paddingRight={20}
-      paddingTop={16}
-      paddingBottom={16}
+        paddingLeft={6}
+        paddingRight={6}
+        paddingTop={2}
+        paddingBottom={2}
       bgColor={'#FFFFFF'}
       borderRadius={13}
       borderWidth={1}
@@ -79,6 +82,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
         </Text>
       </View>
     </View>
+    </Pressable>
   );
 };
 

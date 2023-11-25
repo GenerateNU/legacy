@@ -6,9 +6,9 @@ import ScreenWideInput from '@/components/reusable/ScreenWideInput';
 import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
 import { useProfile } from '@/contexts/ProfileContext';
 import { useUser } from '@/contexts/UserContext';
-import { KeyboardAvoidingView, View } from 'native-base';
+import { FormControl, Icon, Input, KeyboardAvoidingView, View } from 'native-base';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import {
@@ -16,57 +16,61 @@ import {
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { z } from 'zod';
+import { Button } from 'react-native'
+import DatePicker from 'react-native-date-picker'
+import { getMonth } from '@/utils/DateUtils';
 
 // TODO: signup is still not fully reistant
 export default function SignUpScreen({ route, navigation }) {
   const { createAccount } = useUser();
 
+  const emailSchema = z.string().email('Invalid email format');
+  const passwordSchema = z.string().min(8, 'Password must be at least 8 characters long');
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [date, setDate] = useState<Date>(new Date())
 
   const signUp = () => {
     console.log('username: ', username)
     console.log('email: ', email)
     const signup = async () => {
-      await createAccount(username, email, password);
+      // validation
+      if (username === '' || email === '' || password === '' || date === null) {
+        Alert.alert('Error', 'Please fill in all required fields');
+        return;
+      }
+
+      try {
+        emailSchema.parse(email);
+        passwordSchema.parse(password);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          Alert.alert('Error', error.issues[0].message);
+          return;
+        }
+      }
+
+      if (await createAccount(username, email, password)) {
+        Alert.alert('Error', 'Something went wrong. Please try again.');
+        setUsername('');
+        setEmail('');
+        setPassword('');
+
+        return;
+      }
       navigation.setOptions();
       navigation.navigate('Onboarding Stack');
     }
 
     signup();
-
-    // createAccount(fullName, email, password).then((response) => {
-    //   if (response === true) {
-    //     navigation.setOptions();
-    //     navigation.navigate("Onboarding Stack");
-    //   } else {
-    //     const errorMessage = response.code;
-    //     console.log("ERROR: ", errorMessage);
-    //     if (errorMessage === "auth/invalid-email") {
-    //       Alert.alert("Error", "Invalid email, please try again.", [
-    //         { text: "OK", onPress: () => {} },
-    //       ]);
-    //     } else if (errorMessage === "auth/email-already-in-use") {
-    //       Alert.alert(
-    //         "Error",
-    //         "A Legacy account already exists for this email. Please log in.",
-    //         [{ text: "OK", onPress: () => {} }]
-    //       );
-    //     } else if (errorMessage === "auth/weak-password") {
-    //       Alert.alert("Error", "Password must be 8 characters long.", [
-    //         { text: "OK", onPress: () => {} },
-    //       ]);
-    //     } else {
-    //       Alert.alert(
-    //         "Error",
-    //         "There was an error with signing up. Please try again.",
-    //         [{ text: "OK", onPress: () => {} }]
-    //       );
-    //     }
-    //   }
-    // });
   };
+
+  useEffect(() => {
+    console.log('date: ', date)
+  }, [date])
 
   const switchToLogin = () => {
     navigation.navigate('Login Screen');
@@ -106,7 +110,7 @@ export default function SignUpScreen({ route, navigation }) {
               value={email}
             />
           </View>
-          <View paddingTop={h('3%')} paddingBottom={h('4%')}>
+          <View paddingTop={h('3%')}>
             <ScreenWideInput
               placeholderText="Must be at least 8 characters long"
               title="Password"
@@ -115,6 +119,18 @@ export default function SignUpScreen({ route, navigation }) {
               onChangeText={(value) => setPassword(value)}
               value={password}
             />
+          </View>
+          <View paddingTop={h('3%')} paddingBottom={h('3%')}>
+            <ScreenWideInput
+              title="Date of Birth"
+              onChangeText={(value) => setDate(value)}
+              placeholderText="Select your date of birth"
+              iconName="calendar"
+              disabled={false}
+              password={false}
+              isDatePicker={true}
+            />
+
           </View>
           <View
             width={w('80%')}
@@ -127,6 +143,7 @@ export default function SignUpScreen({ route, navigation }) {
               textColor={'#000000'}
               backgroundColor={'transparent'}
               borderColor={'lightGreen'}
+              onClick={() => Alert.alert('Not implemented yet')}
             />
             <ScreenWideButton
               text="Sign up to Legacy"

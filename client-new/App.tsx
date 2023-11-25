@@ -18,6 +18,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ProfileProvider } from '@/contexts/ProfileContext';
+import { TaskProvider } from '@/contexts/TaskContext';
 
 const queryClient = new QueryClient();
 
@@ -95,11 +96,13 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         <ProfileProvider>
-          <SafeAreaProvider>
-            <NativeBaseProvider theme={theme}>
-              <Router />
-            </NativeBaseProvider>
-          </SafeAreaProvider>
+          <TaskProvider>
+            <SafeAreaProvider>
+              <NativeBaseProvider theme={theme}>
+                <Router />
+              </NativeBaseProvider>
+            </SafeAreaProvider>
+          </TaskProvider>
         </ProfileProvider>
       </UserProvider>
     </QueryClientProvider>

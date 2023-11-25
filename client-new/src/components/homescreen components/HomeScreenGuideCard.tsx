@@ -1,18 +1,16 @@
+import { IGuide } from '@/interfaces/IGuide';
 import { Text, View } from 'native-base';
+import React from 'react';
 
 type HSGCProps = {
-  title: string;
-  description: string;
+  guide: IGuide;
 };
-
 const HomeScreenGuideCard: React.FC<HSGCProps> = (props) => {
   return (
     <View
       style={{
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 16,
-        paddingBottom: 16,
+        paddingHorizontal: 20,
+        paddingVertical: 16,
         backgroundColor: '#FFB017',
         borderRadius: 13,
         borderWidth: 1,
@@ -22,28 +20,26 @@ const HomeScreenGuideCard: React.FC<HSGCProps> = (props) => {
         marginBottom: 16
       }}
     >
-      <View style={{ flex: 1, marginLeft: 5, marginRight: 5 }}>
+      <View style={{ flex: 1, marginHorizontal: 5 }}>
         <Text
           style={{
             fontFamily: 'inter',
             fontSize: 15,
             fontWeight: '600',
-            marginBottom: 8
+            marginBottom: 4
           }}
         >
-          {props.title}
+          {props.guide.title}
         </Text>
         <Text
           style={{
             fontFamily: 'inter',
             fontSize: 12,
             color: '#2F1D12',
-            marginBottom: 8,
-            width: 100
+            width: '80%'
           }}
-          numberOfLines={2}
         >
-          {props.description}
+          {props.guide.sub_title}
         </Text>
       </View>
     </View>

@@ -10,40 +10,51 @@ import { View } from 'native-base';
 
 import { useState } from 'react';
 import React from 'react';
+import { Alert } from 'react-native';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
+import { z } from 'zod';
 
 export default function LoginScreen({ route, navigation }) {
-  const { user, login } = useUser();
+  const { login } = useUser();
+
+  const emailSchema = z.string().email('Invalid email format');
+  const passwordSchema = z.string().min(8, 'Password must be at least 8 characters long');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const signIn = () => {
     const handleLogin = async () => {
-      await login(email, password);
+      if (email === '' || password === '') {
+        Alert.alert('Error', 'Please fill in all required fields');
+        return;
+      }
+
+      try {
+        emailSchema.parse(email);
+        passwordSchema.parse(password);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          Alert.alert('Error', error.issues[0].message);
+          return;
+        }
+      }
+
+      if (await login(email, password)) {
+        Alert.alert('Error', 'Something went wrong. Please try again.');
+        setEmail('');
+        setPassword('');
+        return;
+      }
+
       console.log('HIT');
       navigation.navigate('Onboarding Stack');
     }
 
     handleLogin();
-    //
-    // login(email, password).then((response) => {
-    //   if (response === true) {
-    //     // ONCE WE FIGURE OUT HOW TO GO TO HOME SCREEN, PUT HERE
-    //     navigation.navigate("");
-    //   } else {
-    //     const err = JSON.parse(JSON.stringify(response)).code;
-    //     console.log("ERROR: ", err)
-    //     Alert.alert(
-    //       "Error",
-    //       "There was an error with authentication. Please try again.",
-    //       [{ text: "OK", onPress: () => {} }]
-    //     );
-    //   }
-    // });
   };
 
   const switchToSignUp = () => {

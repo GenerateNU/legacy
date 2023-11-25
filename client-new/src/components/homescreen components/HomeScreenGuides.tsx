@@ -4,12 +4,10 @@ import React from 'react';
 
 // Import NativeBase components
 import HomeScreenGuideCard from './HomeScreenGuideCard';
+import { IGuide } from '@/interfaces/IGuide';
 
 type GuidesProps = {
-  guides: {
-    title: string;
-    description: string;
-  }[];
+  guides: IGuide[];
 };
 
 const GuidesComponent: React.FC<GuidesProps> = ({ guides }) => {
@@ -18,8 +16,7 @@ const GuidesComponent: React.FC<GuidesProps> = ({ guides }) => {
       {guides.map((item, index) => (
         <View key={index} marginRight={5}>
           <HomeScreenGuideCard
-            title={item.title}
-            description={item.description}
+            guide={item}
           />
         </View>
       ))}

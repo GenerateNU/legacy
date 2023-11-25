@@ -34,7 +34,7 @@ const PersonaScreen = ({ route, navigation }) => {
       console.log('PERSONA SCREEN Fetch profile', profile);
       await completeOnboarding(requestOnboarding);
       console.log('PERSONA SCREEN Completed onboarding', profile)
-      const persona = await getPersona(user.id);
+      const persona = await fetchUserPersona(user.id);
       setPersona(persona);
 
       await initalizeAllProgress(user.id);
