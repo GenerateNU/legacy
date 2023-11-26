@@ -1,16 +1,15 @@
+import { ITask } from '@/interfaces/ITask';
 import { Text, View } from 'native-base';
 import React from 'react';
 import { Pressable } from 'react-native';
 
-type HSTCProps = {
-  title: String;
-  description: String;
-  progress: number;
+type HSTCProps = {  
+  task: ITask;
 };
 
-const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
+const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task }) => {
   return (
-    <Pressable onPress={() => console.log('pressed')}>
+    <Pressable onPress={() => console.log(`pressed ${task.id}`)}>
     <View
         paddingLeft={6}
         paddingRight={6}
@@ -45,7 +44,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
             marginBottom: 8
           }}
         >
-          {props.title}
+            {task.task_title}
         </Text>
         <Text
           style={{
@@ -55,7 +54,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
             marginBottom: 8
           }}
         >
-          {props.description}
+            {task.task_description}
         </Text>
       </View>
       <View
@@ -78,7 +77,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = (props) => {
           }}
         />
         <Text style={{ fontSize: 8, fontWeight: '600', color: '#2F1D12' }}>
-          {props.progress}%
+            %
         </Text>
       </View>
     </View>

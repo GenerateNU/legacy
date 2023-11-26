@@ -1,8 +1,8 @@
-import { IOnboardingFlowState } from '@/interfaces/IOnboardingFlowState';
 import axios, { AxiosResponse } from 'axios';
+import { z } from 'zod';
 
-import { IProfile } from '../interfaces/IProfile';
-import { IUser } from '../interfaces/IUser';
+import { IProfile } from '@/interfaces/IProfile';
+import { IUser } from '@/interfaces/IUser';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 

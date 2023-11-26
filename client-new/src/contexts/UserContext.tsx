@@ -143,7 +143,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setUser(null);
     await signOut(auth);
     await deleteItemAsync('firebaseUser');
-    await deleteItemAsync('onboardingStatus');
+    await deleteItemAsync('completedOnboarding');
     await deleteItemAsync('user');
   };
 

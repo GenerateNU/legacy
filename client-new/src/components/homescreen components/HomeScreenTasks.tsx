@@ -11,6 +11,8 @@ const YourJourneyComponent: React.FC<YourJourneyProps> = ({ tasks }) => {
   // Get the first three tasks
   const displayedTasks = tasks.slice(0, 3);
 
+  console.log('displayedTasks', displayedTasks)
+
   return (
     <View width={'100%'} marginTop={5}>
       <View justifyContent={'space-between'} flexDir={'row'}>
@@ -39,11 +41,7 @@ const YourJourneyComponent: React.FC<YourJourneyProps> = ({ tasks }) => {
       <View mt={5} flexDir={'column'} justifyContent={'space-between'}>
         {displayedTasks.map((item, index) => (
           <View key={index} mb={0}>
-            <HomeScreenTaskCard
-              title={item.task_title}
-              description={item.task_description}
-              progress={10}
-            />
+            <HomeScreenTaskCard task={item} />
           </View>
         ))}
       </View>

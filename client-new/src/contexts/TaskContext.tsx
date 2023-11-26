@@ -92,6 +92,9 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({
             fetchTasks(user.id);
             init();
         }
+
+        console.log('tasks', tasks);
+        console.log('persona', persona);
     }, [user]);
 
     const contextValue: TaskContextData = {

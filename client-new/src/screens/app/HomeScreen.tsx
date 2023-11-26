@@ -33,6 +33,8 @@ export default function HomeScreen() {
     queryFn: fetchAllGuides
   });
 
+  console.log("tasks", tasks)
+
   return (
     <>
       <SafeAreaView

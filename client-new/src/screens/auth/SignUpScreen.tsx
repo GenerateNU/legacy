@@ -21,6 +21,13 @@ import { Button } from 'react-native'
 import DatePicker from 'react-native-date-picker'
 import { getMonth } from '@/utils/DateUtils';
 
+type SignupData = {
+  username: string;
+  email: string;
+  password: string;
+  date: Date;
+};
+
 // TODO: signup is still not fully reistant
 export default function SignUpScreen({ route, navigation }) {
   const { createAccount } = useUser();
@@ -28,37 +35,43 @@ export default function SignUpScreen({ route, navigation }) {
   const emailSchema = z.string().email('Invalid email format');
   const passwordSchema = z.string().min(8, 'Password must be at least 8 characters long');
 
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [date, setDate] = useState<Date>(new Date())
+  const [signupData, setSignupData] = useState<SignupData>({
+    username: '',
+    email: '',
+    password: '',
+    date: new Date()
+  });
 
   const signUp = () => {
-    console.log('username: ', username)
-    console.log('email: ', email)
     const signup = async () => {
+      const { username, email, password, date } = signupData;
+
+      console.log('username: ', username)
+      console.log('email: ', email)
       // validation
-      if (username === '' || email === '' || password === '' || date === null) {
+      if (!username || !email || !password || !date) {
         Alert.alert('Error', 'Please fill in all required fields');
         return;
       }
 
       try {
-        emailSchema.parse(email);
-        passwordSchema.parse(password);
+        emailSchema.parse(signupData.email);
+        passwordSchema.parse(signupData.password);
       } catch (error) {
         if (error instanceof z.ZodError) {
           Alert.alert('Error', error.issues[0].message);
           return;
         }
-      }
+      } 
 
       if (await createAccount(username, email, password)) {
         Alert.alert('Error', 'Something went wrong. Please try again.');
-        setUsername('');
-        setEmail('');
-        setPassword('');
-
+        setSignupData({
+          username: '',
+          email: '',
+          password: '',
+          date: new Date()
+        });
         return;
       }
       navigation.setOptions();
@@ -69,8 +82,11 @@ export default function SignUpScreen({ route, navigation }) {
   };
 
   useEffect(() => {
-    console.log('date: ', date)
-  }, [date])
+    console.log('username: ', signupData.username)
+    console.log('email: ', signupData.email)
+    console.log('password: ', signupData.password)
+    console.log('date: ', signupData.date)
+  }, [signupData]);
 
   const switchToLogin = () => {
     navigation.navigate('Login Screen');
@@ -98,16 +114,16 @@ export default function SignUpScreen({ route, navigation }) {
             placeholderText="Example"
             title="Full Name"
             iconName="user-o"
-            onChangeText={(value) => setUsername(value)}
-            value={username}
+            onChangeText={(value) => setSignupData({ ...signupData, username: value })}
+            value={signupData.username}
           />
           <View paddingTop={h('3%')}>
             <ScreenWideInput
               placeholderText="example@email.com"
               title="Email"
               iconName="envelope-o"
-              onChangeText={(value) => setEmail(value)}
-              value={email}
+              onChangeText={(value) => setSignupData({ ...signupData, email: value })}
+              value={signupData.email}
             />
           </View>
           <View paddingTop={h('3%')}>
@@ -116,14 +132,14 @@ export default function SignUpScreen({ route, navigation }) {
               title="Password"
               iconName="lock"
               password={true}
-              onChangeText={(value) => setPassword(value)}
-              value={password}
+              onChangeText={(value) => setSignupData({ ...signupData, password: value })}
+              value={signupData.password}
             />
           </View>
           <View paddingTop={h('3%')} paddingBottom={h('3%')}>
             <ScreenWideInput
               title="Date of Birth"
-              onChangeText={(value) => setDate(value)}
+              onChangeText={(value) => setSignupData({ ...signupData, date: value })}
               placeholderText="Select your date of birth"
               iconName="calendar"
               disabled={false}
