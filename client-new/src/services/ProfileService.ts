@@ -2,8 +2,7 @@ import axios from 'axios';
 
 import { IOnboardingFlowState } from '../interfaces/IOnboardingFlowState';
 import { IProfile } from '../interfaces/IProfile';
-
-const API_BASE_URL = 'http://localhost:8080/api';
+import { API_BASE_URL } from '@/services/const';
 
 export const getProfile = async (user_id: string) => {
   const response = await axios.get(`${API_BASE_URL}/users/${user_id}/profile`);

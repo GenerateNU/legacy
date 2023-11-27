@@ -1,19 +1,9 @@
 import { IFile } from '@/interfaces/IFile';
 import axios from 'axios';
+import { API_BASE_URL } from '@/services/const';
 
-import { ENDPOINT } from './const';
-
-export const getUserFilesList = (userId: number): Promise<IFile[]> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      axios
-        .get<IFile[]>(`${ENDPOINT}/api/files/${userId}/user`)
-        .then((res) => {
-          resolve(res.data);
-        })
-        .catch((error) => {
-          reject(error.response.data);
-        });
-    });
-  });
+export const getUserFilesList = async (userId: number): Promise<IFile[]> => {
+  const response = await axios.get(`${API_BASE_URL}/files/${userId}/user`);
+  return response.data;
+  // return response.status === 200 ? response.data : [];
 };

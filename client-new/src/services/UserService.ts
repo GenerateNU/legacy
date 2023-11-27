@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { IProfile } from '@/interfaces/IProfile';
 import { IUser } from '@/interfaces/IUser';
 
-const API_BASE_URL = 'http://localhost:8080/api';
+import { API_BASE_URL } from '@/services/const';
 
 export const fetchUser = async (firebaseID: string): Promise<AxiosResponse<IUser>> => {
   const response = await axios.get(`${API_BASE_URL}/users/firebase/${firebaseID}`);
