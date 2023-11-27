@@ -2,10 +2,14 @@ import FileList from '@/components/filecollection/FileList';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import ScreenBody from '@/components/reusable/ScreenBody';
 import TaskTagGrid from '@/components/reusable/TaskTagGrid';
+import { useUser } from '@/contexts/UserContext';
+import { fetchUserFilesList } from '@/services/FileService';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
+import { useQuery } from '@tanstack/react-query';
 import { ScrollView, Text, ThreeDotsIcon, View } from 'native-base';
 
 import React, { useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
@@ -13,7 +17,39 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function FileCollectionScreen() {
+
+  const {user} = useUser()
   const [filter, setFilter] = useState(null);
+
+  const { isPending, data: files, error } = useQuery({
+    queryKey: ['userId', user.id, 'filter', filter],
+    queryFn: () => fetchUserFilesList(user.id, filter)
+  });
+
+  if (isPending) {
+    return (
+      < View
+        flex={1}
+        justifyContent={'center'}
+        alignItems={'center'}
+        bg={'#FFF9EE'}
+      >
+        <ActivityIndicator size="large" />
+      </View>
+
+    );
+  }
+
+  if (error) {
+    return (
+      <View>
+        <Text>Error!</Text>
+        <Text>{error.message}</Text>
+      </View>
+    );
+  }
+
+   
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}>
       <ScreenBody>
@@ -31,17 +67,9 @@ export default function FileCollectionScreen() {
         >
           All Files
         </Text>
-        <TaskTagGrid pressed={filter} />
+        <TaskTagGrid pressed={filter} pressfunc={setFilter}/>
         <FileList
-          files={[
-            { file_name: 'test', user_id: 1, tags: [] },
-            { file_name: 'test', user_id: 1, tags: [] },
-            { file_name: 'test', user_id: 1, tags: [] },
-            { file_name: 'test', user_id: 1, tags: [] },
-            { file_name: 'test', user_id: 1, tags: [] },
-            { file_name: 'test', user_id: 1, tags: [] },
-            { file_name: 'test', user_id: 1, tags: [] }
-          ]}
+          files={files}
         />
       </ScreenBody>
     </SafeAreaView>

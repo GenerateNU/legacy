@@ -10,16 +10,19 @@ import TaskTag from './TaskTag';
 
 type TaskTagGridProps = {
   pressed: string;
+  pressfunc?: (tag: string) => void
 };
 
 export default function TaskTagGrid(props: TaskTagGridProps) {
   const [pressed, setPressed] = useState(props.pressed);
 
-  const pressTag = (tagNum: string) => {
-    if (pressed === tagNum) {
+  const pressTag = (tag: string) => {
+    if (pressed === tag) {
       setPressed(null);
+      props.pressfunc && props.pressfunc(null) 
     } else {
-      setPressed(tagNum);
+      setPressed(tag);
+      props.pressfunc && props.pressfunc(tag)
     }
   };
   return (
