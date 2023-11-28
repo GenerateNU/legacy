@@ -8,9 +8,14 @@ import {
   Checkbox,
   Radio,
   Button,
-  View
+  View,
+  HStack
 } from 'native-base';
 import { IAction, IActionList } from '@/interfaces/IAction';
+import { useAuth } from '@/contexts/AuthContext';
+import { createFile } from '@/services/CreateFileService';
+import { PDFPage, PDFDocument, PDFLib } from "react-native-pdf-lib"
+import RNFS from 'react-native-fs';
 
 const FormComponent = ({ actions }: IActionList) => {
   const [formState, setFormState] = useState({});
@@ -68,27 +73,49 @@ const FormComponent = ({ actions }: IActionList) => {
       }, {})
     }));
   };
-/*
-  const generatePDF = () => {
+  
+  const generatePDF = async () => {
+    const doc = await PDFPage.create().setMediaBox(200, 200)
 
-    const doc = new jsPDF();
-    doc.text(20, 20, 'Form Data:');
+    doc.drawText('Form Data:', {x: 20, y: 20, color: "#000000"});
+
     let verticalPosition = 30;
     for (const [key, value] of Object.entries(formState)) {
-      doc.text(20, verticalPosition, `${key}: ${value}`);
+      doc.drawText(`${key}: ${value}`, {x: 20, y: verticalPosition, color: "#000000"});
       verticalPosition += 10;
     }
-    doc.save('form_data.pdf');
-  };
-*/
 
-  const handleSubmit = (e) => {
+    const docsDir = await PDFLib.getDocumentsDirectory();
+    const pdfPath = `${docsDir}/temp.pdf`;
+    
+    PDFDocument.create(pdfPath)
+    .addPages(doc)
+    .write()
+
+    const fileContent = await RNFS.readFile(pdfPath, 'base64');
+
+    // Convert the file content to bytes
+    const pdfBytes = Buffer.from(fileContent, 'base64');
+
+    const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+    return pdfBlob;
+  };
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const file_data = await generatePDF();
+
+    const user = await useAuth();
+    const uid = user.user.uid
+
+    await createFile(uid, file_data)
+
     console.log('Form submitted:', {
       metadata: { timestamp: new Date() },
       form: formState
     });
-    //generatePDF();
   };
 
   const renderField = (action, index) => {
@@ -214,14 +241,16 @@ const FormComponent = ({ actions }: IActionList) => {
         return null;
     }
   };
-  console.log('Form submitted:', {
-    metadata: { timestamp: new Date() },
-    form: formState
-  });
 
   return (
     <FormControl isInvalid w="75%" width={"100%"}>
       {actions.map((action, index) => renderField(action, index))}
+      <HStack flexDirection="row" justifyContent="center" flex={1} marginTop={"10px"}>
+        <Button textDecorationColor={"#FFFFFF"} backgroundColor={"#43A573"} 
+                borderColor={"#43A573"} onPress={handleSubmit} flex={0.90}>
+          Submit
+        </Button>
+      </HStack>
     </FormControl>
   );
 };

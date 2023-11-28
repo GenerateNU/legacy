@@ -1,5 +1,5 @@
 import FormComponent from '@/utils/Actions';
-import { getActions } from '@/services/SubTaskService';
+import { getActions } from '@/services/ActionsService';
 import { IAction, IActionList } from '@/interfaces/IAction';
 import { useEffect, useState } from 'react';
 import React from 'react';

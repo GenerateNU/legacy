@@ -29,7 +29,6 @@ type FileServiceInterface interface {
 	GetFileURL(id string, days string) (string, error)
 	CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error)
 	DeleteFile(id string) error
-	GeneratePDF(uid string, fileJSON string) (models.File, error)
 }
 
 type FileService struct {
