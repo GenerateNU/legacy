@@ -22,9 +22,11 @@ export default function FileCollectionScreen() {
   const [filter, setFilter] = useState(null);
 
   const { isPending, data: files, error } = useQuery({
-    queryKey: ['userId', user.id, 'filter', filter],
-    queryFn: () => fetchUserFilesList(user.id, filter)
+    queryKey: ['userFiles', user.id, filter],
+    queryFn: () => fetchUserFilesList(user.id, filter),
+    staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
+  console.log('Query Key:', ['userFiles', user.id, filter]);
 
   if (isPending) {
     return (
@@ -42,7 +44,12 @@ export default function FileCollectionScreen() {
 
   if (error) {
     return (
-      <View>
+      < View
+        flex={1}
+        justifyContent={'center'}
+        alignItems={'center'}
+        bg={'#FFF9EE'}
+      >
         <Text>Error!</Text>
         <Text>{error.message}</Text>
       </View>

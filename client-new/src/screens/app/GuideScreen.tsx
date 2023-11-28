@@ -58,7 +58,12 @@ const GuideScreen: React.FC<GuideScreenProps> = ({ guideName }) => {
 
   if (error) {
     return (
-      <View>
+      < View
+        flex={1}
+        justifyContent={'center'}
+        alignItems={'center'}
+        bg={'#FFF9EE'}
+      >
         <Text>Error!</Text>
       </View>
     );

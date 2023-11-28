@@ -8,12 +8,19 @@ import {
 } from 'react-native-responsive-screen';
 
 import FileIcon from '../icons/FileIcon';
+import { ConvertFileSize } from '@/utils/FileUtils';
+import { RelativeTime } from '../../utils/FileUtils';
 
 type FileRowProps = {
   file: IFile;
 };
 
-export default function FileRow(props: FileRowProps) {
+const FileRow: React.FC<FileRowProps> = ({ file }) => {
+  const size = ConvertFileSize(file.file_size);
+  const { 0: fileName, 1: fileEnding } = file.file_name.split('.');
+  const truncatedName = fileName.length > 40 ? fileName.substring(0, 40) + '...' + fileEnding : fileName + '.' + fileEnding;
+  const date = RelativeTime(new Date(file.created_at));
+
   return (
     <View flexDirection={'row'}>
       <View justifyContent={'center'} paddingBottom={h('1.5%')}>
@@ -29,8 +36,9 @@ export default function FileRow(props: FileRowProps) {
         paddingBottom={h('1.5%')}
         marginTop={h('1%')}
       >
-        <Text>{props.file.file_name}</Text>
-        <Text>1 item ∙ 200 KB</Text>
+        <Text style={{ width: w('60%') }}>{truncatedName}</Text>
+        <Text>1 item ∙ {size}</Text>
+        {/* <Text>Created {date.toString()}</Text> */}
       </View>
       <View
         paddingRight={0}
@@ -42,3 +50,5 @@ export default function FileRow(props: FileRowProps) {
     </View>
   );
 }
+
+export default FileRow;
