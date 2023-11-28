@@ -13,14 +13,10 @@ import { useProfile } from '@/contexts/ProfileContext';
 const Stack = createNativeStackNavigator();
 
 export default function OnboardingStack() {
-  const { completedOnboarding } = useProfile();
-
-  const routeToRender = completedOnboarding ? 'Home Screen' : 'Sign Up Transition Screen';
-
   return (
     <OnboardingProvider>
       <Stack.Navigator
-        initialRouteName={routeToRender}
+        initialRouteName={'Sign Up Transition Screen'}
         screenOptions={{
           headerShown: false
         }}

@@ -28,4 +28,5 @@ const ThreeDotsIcon = (props) => (
     </Svg>
   </View>
 );
+
 export default ThreeDotsIcon;

@@ -11,10 +11,9 @@ import {
 } from '@expo-google-fonts/dm-sans';
 import { Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ProfileProvider } from '@/contexts/ProfileContext';

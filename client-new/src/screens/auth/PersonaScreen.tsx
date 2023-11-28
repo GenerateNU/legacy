@@ -5,7 +5,7 @@ import { useOnboarding } from '@/contexts/OnboardingContext';
 import { useProfile } from '@/contexts/ProfileContext';
 import { useUser } from '@/contexts/UserContext';
 import { IPersona } from '@/interfaces/IPersona';
-import { getPersona } from '@/services/PersonaService';
+import { fetchUserPersona, getPersona } from '@/services/PersonaService';
 import { initalizeAllProgress } from '@/services/UserService';
 import { convertNumericToString } from '@/utils/ObjectConversionUtils';
 import { Divider, Text, View } from 'native-base';
