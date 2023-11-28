@@ -160,6 +160,8 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 		return models.File{}, errors.New("maximum file size 5 MB")
 	}
 
+	file.FileSize = data.Size
+
 	src, err := data.Open()
 	if err != nil {
 		return models.File{}, errors.New("failed to open file")
