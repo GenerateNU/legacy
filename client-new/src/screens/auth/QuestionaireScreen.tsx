@@ -49,9 +49,8 @@ export default function QuestionaireScreen({ route, navigation }) {
       </View>
     ) : null;
   return (
-    <>
-      <View bg={'creamyCanvas'} alignItems="center" h={h('100%')} w={w('100%')}>
-        <View paddingTop={h('7%')}></View>
+    <SafeAreaView style={{backgroundColor: "#FFF9EE"}}>
+      <View alignItems="center" h={h('100%')} w={w('100%')}>
 
         <View
           width={w('80%')}
@@ -60,7 +59,7 @@ export default function QuestionaireScreen({ route, navigation }) {
           justifyItems={'center'}
           paddingBottom={h('3%')}
         >
-          <Button backgroundColor={'transparent'}>
+          <Button backgroundColor={'transparent'} onPress={back}>
             <Icon name="chevron-back" size={20} color={'#374957'}></Icon>
           </Button>
           <LegacyWordmark />
@@ -86,7 +85,7 @@ export default function QuestionaireScreen({ route, navigation }) {
           handleChange={handleChange}
         />
 
-        <View paddingTop={h('4%')}>
+        <View paddingTop={h('5%')}>
           <ScreenWideButton
             text={'Next'}
             textColor="#FFFFFF"
@@ -98,6 +97,6 @@ export default function QuestionaireScreen({ route, navigation }) {
 
         {nextButton}
       </View>
-    </>
+    </SafeAreaView>
   );
 }

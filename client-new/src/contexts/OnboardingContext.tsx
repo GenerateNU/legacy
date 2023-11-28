@@ -51,6 +51,15 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
       props: {}
     },
     {
+      page: 'Quiz Section Intro Screen',
+      props: {
+        totalCircles: 6,
+        title: 'Worldview',
+        description:
+          'Explore how your perspectives and beliefs shape your approach to life, future planning, and personal standards.'
+      }
+    },
+    {
       page: 'Questionaire Screen',
       props: {
         inputName: 'worldviewQ1',
@@ -58,7 +67,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 0,
         questionNumber: '1',
         question:
-          'When it comes to the future, are you the ultimate planner or more of a "let\'s see what happens" kind of person?'
+          'Do you meticulously plan for future events, or do you prefer to adapt as situations unfold?',
       }
     },
     {
@@ -69,7 +78,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Would you describe yourself as more of a perfectionist or someone who is content with "good enough"?'
+          'Do you strive for perfection in everything you do, or are you satisfied once a task meets essential standards?'
       }
     },
     {
@@ -80,7 +89,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 2,
         questionNumber: '3',
         question:
-          'Are you a firm believer in self-improvement, no matter your age?'
+          'Do you actively seek self-improvement at all ages, or do you feel content with your current capabilities?'
       }
     },
     {
@@ -91,7 +100,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 3,
         questionNumber: '4',
         question:
-          'How open are you to learning and stepping out of your comfort zone?'
+          'How often do you embrace new learning opportunities and step outside your comfort zone?'
       }
     },
     {
@@ -102,7 +111,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 4,
         questionNumber: '5',
         question:
-          'Do you tend to focus on what you lack or on what you can provide for your loved ones?'
+          'Do you tend to concentrate on what you lack, or do you focus more on what you can provide to your loved ones?'
       }
     },
     {
@@ -113,14 +122,16 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 5,
         questionNumber: '6',
         question:
-          'Do you take the initiative to plan ahead, or do you wait until circumstances force you to react?'
+          'Do you actively plan ahead for future scenarios, or do you tend to plan only when circumstances require it?'
       }
     },
     {
       page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 3,
-        title: 'Emotional Patterns'
+        title: 'Emotional Patterns',
+        description:
+          'Identify your typical emotional responses and outlook on life, from your general mood to your approach to optimism.'
       }
     },
     {
@@ -130,7 +141,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         totalCircles: 3,
         completedCircles: 0,
         questionNumber: '1',
-        question: 'On a typical day, how anxious or calm do you tend to feel?'
+        question: 'On an average day, do you feel more anxious or calm?'
       }
     },
     {
@@ -141,7 +152,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Is your glass usually half full, or do you tend to see it as half empty?'
+          'Do you generally see the positive aspects of situations (glass half full), or do you focus on the negatives (glass half empty)?'
       }
     },
     {
@@ -152,14 +163,16 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 2,
         questionNumber: '3',
         question:
-          'When making decisions, how often do you consider the emotional burden it might place on those close to you?'
+          'When making decisions, how often do you consider the emotional impact on those close to you?'
       }
     },
     {
       page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 4,
-        title: 'Workstyle'
+        title: 'Workstyle',
+        description:
+          "Delve into your habits and preferences, understanding whether you're a multitasker, a focused executor, or somewhere in between."
       }
     },
     {
@@ -170,7 +183,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 0,
         questionNumber: '1',
         question:
-          "Are you a laser-focused, 'I get things done' dynamo, or more of a 'why stick to one thing when I can multitask' explorer?"
+          "In your work, do you focus on one task at a time, or do you prefer juggling multiple tasks simultaneously?"
       }
     },
     {
@@ -181,7 +194,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Are you more internally motivated to accomplish tasks, or do you rely on external notifications and reminders?'
+          'Are you self-driven to complete tasks, or do you rely on external cues and reminders?'
       }
     },
     {
@@ -192,7 +205,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 2,
         questionNumber: '3',
         question:
-          'Do you prefer to tackle tasks iteratively over time, or do you prefer to do everything all at once?'
+          'Do you prefer to handle tasks bit by bit over time, or do you like to tackle everything in one go?'
       }
     },
     {
@@ -203,7 +216,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 3,
         questionNumber: '4',
         question:
-          'Do you prefer in-depth, detailed information when making important decisions, or do you gravitate towards concise, action-oriented advice?'
+          'When making important decisions, do you seek in-depth, detailed information, or do you prefer concise, straightforward advice?'
       }
     },
 
@@ -211,7 +224,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
       page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 3,
-        title: 'Social Inclinations'
+        title: 'Social Inclinations',
+        description:
+          'Assess how you interact with others, your comfort in discussing sensitive topics, and your tendency to offer guidance or support.'
       }
     },
 
@@ -223,7 +238,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 0,
         questionNumber: '1',
         question:
-          'Is talking about death as easy as chatting about the weather, or do you tend to avoid the topic?'
+          'Is discussing sensitive topics like death as natural for you as casual conversation, or do you tend to avoid such topics?'
       }
     },
     {
@@ -234,7 +249,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Are you the go-to person to help friends and family with tricky decisions, or do you prefer someone else to do the heavy lifting?'
+          'Are you often the person friends and family turn to for help with difficult decisions, or do you prefer to let others take the lead?'
       }
     },
     {
@@ -245,7 +260,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 2,
         questionNumber: '3',
         question:
-          'Are you more inclined to focus on your issues, or do you often help others with theirs?'
+          'Do you primarily focus on addressing your own issues, or are you more inclined to assist others with their problems?'
       }
     },
 
@@ -253,7 +268,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
       page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 2,
-        title: 'Funnel Activities'
+        title: 'Funnel Activities',
+        description:
+          'Gauge your knowledge and preparedness regarding end-of-life planning, from understanding the basics to actively engaging in the process.'
       }
     },
     {
@@ -264,7 +281,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 0,
         questionNumber: '1',
         question:
-          "Are you a walking encyclopedia on end-of-life planning, or do you feel like you're navigating uncharted waters?"
+          "Are you highly knowledgeable about end-of-life planning, or do you feel like you have much to learn in this area?"
       }
     },
     {
@@ -275,7 +292,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Is your end-of-life planning a "when I get around to it" affair, or are you sprinting towards getting it done?'
+          'Is your approach to end-of-life planning proactive and immediate, or is it something you plan to address later?'
       }
     },
     {

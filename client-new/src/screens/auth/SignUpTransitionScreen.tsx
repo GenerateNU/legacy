@@ -23,9 +23,8 @@ export default function SignUpTransitionScreen({ route, navigation }) {
     navigation.push(nextPage.page, { props: nextPage.props });
   };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: "#FFF9EE"}} >
       <View
-        bg={'creamyCanvas'}
         alignItems="center"
         height={'100%'}
         width={'100%'}
@@ -49,7 +48,7 @@ export default function SignUpTransitionScreen({ route, navigation }) {
           <Text fontSize={20} fontWeight={'semibold'} paddingRight={'2%'}>
             Welcome {user?.username ?? 'Invalid User'}
           </Text>
-          <Icon name="flower-tulip-outline" size={30} color={'darkGreen'} />
+          <Icon name="flower-tulip-outline" size={30} color={'#0F4F43'} />
         </View>
 
         <View width={'80%'}>
