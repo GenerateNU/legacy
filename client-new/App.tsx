@@ -92,15 +92,15 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <UserProvider>
-        <ProfileProvider>
+      <ProfileProvider>
+        <UserProvider>
             <SafeAreaProvider>
               <NativeBaseProvider theme={theme}>
                 <Router />
               </NativeBaseProvider>
           </SafeAreaProvider>
-        </ProfileProvider>
-      </UserProvider>
+        </UserProvider>
+      </ProfileProvider>
     </QueryClientProvider>
   );
 }

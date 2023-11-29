@@ -40,39 +40,28 @@ const UserContext = React.createContext<UserContextData | undefined>(undefined);
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
+  const { profile, completedOnboarding, setCompletedOnboarding } = useProfile();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      await deleteItemAsync('firebaseUser');
-      await deleteItemAsync('completedOnboarding');
-      await deleteItemAsync('user');
+      console.log('[user context] user', user);
 
       if (user) {
-        // If there's a Firebase user, update state and fetch user data
-        setFirebaseUser(user);
-        // setItemAsync('firebaseUser', JSON.stringify(user));
-
-        // Fetch user data based on Firebase UID
+        // Uncomment this section to fetch user data
         const userData = await fetchUserByFirebaseID(user.uid);
         setUser(userData.data);
-        // setItemAsync('user', JSON.stringify(userData.data));
+        setFirebaseUser(user);
+        // Uncomment to store user data
+        setItemAsync('firebaseUser', JSON.stringify(user));
+        setItemAsync('user', JSON.stringify(userData.data));
       } else {
-        // If no user (logged out), load user data from storage
-        // const loadedFirebaseUser = await getItemAsync('firebaseUser');
-        // const loadedUser = await getItemAsync('user');
-
-        // if (loadedFirebaseUser && loadedUser) {
-        //   setFirebaseUser(JSON.parse(loadedFirebaseUser));
-        //   setUser(JSON.parse(loadedUser));
-        // }
+        // Uncomment this section to load user data from storage
+        loadStorageData();  
       }
     });
 
-    loadStorageData(); // Load other stored data
-
     return () => unsubscribe();
-  }, []); // Dependency array is empty to run only once on mount
-
+  }, []);
 
   const loadStorageData = async (): Promise<void> => {
     try {
@@ -80,21 +69,21 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       // const loadedUser = await getItem<IUser>("user");
       // const loadedOnboardingStatus = await getItem<boolean>("onboardingStatus");
 
-      // const firebaseUserSeralized = await getItemAsync('firebaseUser');
-      // const userSeralized = await getItemAsync('user');
+      const firebaseUserSeralized = await getItemAsync('firebaseUser');
+      const userSeralized = await getItemAsync('user');
 
-      // if (!firebaseUserSeralized || !userSeralized) {
-      //   return;
-      // }
+      if (!firebaseUserSeralized || !userSeralized) {
+        return;
+      }
 
-      // const loadedFirebaseUser: FirebaseUser = JSON.parse(
-      //   firebaseUserSeralized
-      // );
-      // const loadedUser: IUser = JSON.parse(userSeralized);
+      const loadedFirebaseUser: FirebaseUser = JSON.parse(
+        firebaseUserSeralized
+      );
+      const loadedUser: IUser = JSON.parse(userSeralized);
 
-      // console.log('[user context] loaded user', loadedUser);
-      // setUser(loadedUser);
-      // setFirebaseUser(loadedFirebaseUser);
+      console.log('[user context] loaded user', loadedUser);
+      setUser(loadedUser);
+      setFirebaseUser(loadedFirebaseUser);
     } catch (error) {
       console.error('Error loading data from storage:', error);
     }
@@ -114,7 +103,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       );
 
       setFirebaseUser(firebaseUserCredential.user);
-      // setItemAsync('firebaseUser', JSON.stringify(firebaseUserCredential.user));
+      setItemAsync('firebaseUser', JSON.stringify(firebaseUserCredential.user));
     } catch (error) {
       console.error('Error creating account:', error);
 
@@ -144,7 +133,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       console.log('[user context] newUser', newUser.data);
 
       setUser(newUser.data);
-      // setItemAsync('user', JSON.stringify(newUser.data));
+      setItemAsync('user', JSON.stringify(newUser.data));
     } catch (error) {
       return new Error('Something went wrong');
     }
@@ -153,9 +142,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     email: string,
     password: string
   ): Promise<void | Error> => {
-
+    let firebaseUserCredential: UserCredential;
     try {
-      const firebaseUserCredential = await signInWithEmailAndPassword(
+      firebaseUserCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
@@ -164,7 +153,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       console.log('[user context] firebaseUserCredential', firebaseUserCredential);
 
       setFirebaseUser(firebaseUserCredential.user);
-      // setItemAsync('firebaseUser', JSON.stringify(firebaseUserCredential.user));
+      setItemAsync('firebaseUser', JSON.stringify(firebaseUserCredential.user));
+      setCompletedOnboarding(profile.completed_onboarding_response);
     } catch (error) {
       console.error('Error logging in:', error);
 
@@ -187,13 +177,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       return error;
     }
 
-    try {
-      console.log('[user context] firebaseUserId', firebaseUser.uid)
-      const user = await fetchUserByFirebaseID(firebaseUser.uid);
+    console.log('[user context] firebaseUser', firebaseUserCredential.user.uid)
 
-      console.log('[user context] user', user);
+    try {
+      console.log('[user context] firebaseUserId', firebaseUserCredential.user.uid)
+      const user = await fetchUserByFirebaseID(firebaseUserCredential.user.uid);
+
+      console.log('[user context] user', user.data);
       setUser(user.data);
-      // setItemAsync('user', JSON.stringify(user.data));
+      setItemAsync('user', JSON.stringify(user.data));
     } catch (error) {
       return new Error('Something went wrong');
     }
