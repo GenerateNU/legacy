@@ -52,7 +52,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         fetchProfile(userData.data.id);
         setUser(userData.data);
         setFirebaseUser(user);
-        setCompletedOnboarding(profile.completed_onboarding_response);
+        setCompletedOnboarding(profile?.completed_onboarding_response || false);
         console.log('[user context] userData', completedOnboarding)
         // Uncomment to store user data
         setItemAsync('firebaseUser', JSON.stringify(user));

@@ -5,6 +5,7 @@ import { IProfile } from '../interfaces/IProfile';
 import { API_BASE_URL } from '@/services/const';
 
 export const getProfile = async (user_id: string) => {
+  console.log('[profile service] fetching profile', `${API_BASE_URL}/users/${user_id}/profile`)
   const response = await axios.get(`${API_BASE_URL}/users/${user_id}/profile`);
   return response.data as IProfile;
 };
@@ -37,6 +38,7 @@ export const insertOnboardingResponse = async (
 export const updateOnboardingToComplete = async (
   profile_id: number,
 ): Promise<IProfile> => {
+  console.log('[profile service] updating onboarding to complete', `${API_BASE_URL}/profiles/complete/${profile_id}`)
   const response = await axios.patch(`${API_BASE_URL}/profiles/complete/${profile_id}`);
   return response.data;
 }

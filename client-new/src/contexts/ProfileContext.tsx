@@ -140,12 +140,12 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   const toggleOnboarding = useCallback(async (): Promise<void> => {
     if (!profile) return;
 
-
     try {
+      console.log('[profile context] toggle onboarding profile (prev)', profile)
       const profileRespnse = await updateOnboardingToComplete(profile.id);
-      setCompletedOnboarding(true)
+      setCompletedOnboarding(profileRespnse.completed_onboarding_response)
       await setItemAsync('profile', JSON.stringify(profileRespnse));
-      await setItemAsync('completedOnboarding', JSON.stringify(true));
+      await setItemAsync('completedOnboarding', JSON.stringify(profileRespnse?.completed_onboarding_response || false))
     } catch (error) {
       console.error(`Error setting onboarding to complete in profile:`, error);
       // Handle error - show message or perform recovery action

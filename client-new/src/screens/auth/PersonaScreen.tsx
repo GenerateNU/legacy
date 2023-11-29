@@ -22,7 +22,7 @@ const PersonaScreen = ({ route, navigation }) => {
   const { page, setPage, onboardingState, onboardingFlow } = useOnboarding();
 
   const { user } = useUser();
-  const { profile, fetchProfile, completeOnboarding, toggleOnboarding } = useProfile();
+  const { completeOnboarding, toggleOnboarding } = useProfile();
   const [persona, setPersona] = useState<IPersona>(null);
 
   const requestOnboarding = convertNumericToString(onboardingState);
