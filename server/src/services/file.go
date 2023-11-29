@@ -143,13 +143,16 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 	if err != nil {
 		return models.File{}, errors.New("failed to convert id to int")
 	}
+
 	file.UserID = uint(idInt)
 
 	// check if filename is already taken
-	file.ObjectKey = fmt.Sprintf("%v-%v", file.UserID, file.FileName)
-	if err := f.DB.Where("object_key = ?", file.ObjectKey).Find(&testFile).Error; err == nil {
+	objectKey := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
+	if err := f.DB.Where("object_key = ?", objectKey).Find(&testFile).Error; err != nil {
 		return models.File{}, errors.New("file name already exists")
 	}
+
+	file.ObjectKey = objectKey
 
 	// Check if the file size is greater than 5 MB
 	if data.Size > 5000000 {

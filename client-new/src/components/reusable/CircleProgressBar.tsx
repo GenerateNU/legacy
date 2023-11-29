@@ -18,7 +18,7 @@ export default function CircleProgressBar(props: CircleProgressBarProps) {
     if (i === 0 && props.completedCircles === 0) {
       circles.push(<Circle color="#FFFFFF" border={true} key={i} />);
     } else if (i < props.completedCircles) {
-      circles.push(<Circle color="#000000" key={i} />);
+      circles.push(<Circle color="darkGreen" key={i} />);
     } else if (i === props.completedCircles) {
       circles.push(<Circle color="#D9D9D9" border={true} key={i} />);
     } else {

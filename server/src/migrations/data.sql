@@ -247,10 +247,6 @@ Preserving your legacy is a journey of love and responsibility. It''s about ensu
 As you reflect on your life''s journey, consider the importance of end-of-life planning. Embrace the joyful urgency of today, and gift your loved ones the solace of knowing your final wishes are honored.');
 
 -- Creating test files
-INSERT INTO files (file_name, object_key, user_id) VALUES
-('David_Oduneye.pdf', '1-David_Oduneye.pdf', 1),
-('Recommendation Letter.pdf', '1-Recommendation Letter.pdf', 1),
-('Recommendation Letter.pdf', '2-Recommendation Letter.pdf', 2);
 
 -- Creating test file_tags
 INSERT INTO file_tags (file_id, tag_id) VALUES

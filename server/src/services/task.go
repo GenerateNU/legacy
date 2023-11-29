@@ -103,7 +103,7 @@ func (t *TaskService) UpdateTask(id string, task models.Task) (models.Task, erro
 		return models.Task{}, err
 	}
 
-	if err := t.DB.Model(&existingTask).Updates(&task).Error; err != nil {
+	if err := t.DB.Model(&existingTask).Updates(task).Error; err != nil {
 		return models.Task{}, err
 	}
 

@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Router from './src/navigation/Router';
+import Router from '@/navigation/Router';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AuthProvider } from './src/contexts/AuthContext';
+import { AuthProvider } from '@/contexts/AuthContext';
 import {
   useFonts,
   DMSans_400Regular,
@@ -17,15 +17,9 @@ import React from 'react';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-const queryClient = new QueryClient(/*{
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false
-    }
-  }
-}*/);
+const queryClient = new QueryClient();
 
-import {Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
+import { Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
 
 
 export default function App() {
@@ -84,9 +78,12 @@ export default function App() {
       },
     },
     colors: {
-      deepEvergreen: '#0C362F',
-      muteEggplant: '#251B22',
-      brown: '#2F1D12'
+      deepEvergreen: "#0F4F43",
+      lightGreen: "#43A574",
+      darkGreen: "#0F4F43",
+      muteEggplant: "#251B22",
+      creamyCanvas: "#FFF9EE",
+      barkBrown: "#2F1D12"
     },
     fonts: {
       madeDillan: "MADE Dillan", // access fontFamily="madeDillan"

@@ -7,6 +7,7 @@ import {
   heightPercentageToDP as h,
 } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import ScreenWideButton from "@/components/reusable/ScreenWideButton";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 import React from "react";
 
@@ -29,8 +30,10 @@ export default function SignUpTransitionScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView>
-      <KeyboardAvoidingView alignItems="center">
+    <>
+      <View bg={"creamyCanvas"} alignItems="center" h={h("100%")} w={w("100%")}>
+        <View paddingTop={h("7%")}></View>
+
         <LegacyWordmark />
         <View paddingTop={h("4.5%")} paddingBottom={h("2%")}>
           <CircleProgressBar totalCircles={6} completedCircles={0} />
@@ -45,27 +48,46 @@ export default function SignUpTransitionScreen({ route, navigation }) {
           paddingTop={h("4%")}
           paddingBottom={h("5%")}
         >
-          <Text fontSize={20} fontWeight={"semibold"} paddingRight={w("2%")}>
+          <Text
+            fontSize={20}
+            fontFamily={"rocaOne"}
+            fontWeight={"Regular"}
+            fontStyle={"normal"}
+            paddingRight={w("2%")}
+          >
             Welcome Max!
           </Text>
-          <Icon name="flower-tulip-outline" size={30}></Icon>
+          <Icon name="flower-tulip-outline" size={30} color={"darkGreen"}></Icon>
         </View>
 
         <View width={w("80%")}>
           <Text
-            fontSize={18}
-            color={"#C4C4C4"}
-            fontWeight={"semibold"}
+            fontSize={16}
+            color={"#767676"}
+            fontFamily={"inter"}
+            fontWeight={"Regular"}
+            fontStyle={"normal"}
+            textAlign="center"
+          >
+            Welcome to Legacy!
+          </Text>
+          <Text
+            fontSize={16}
+            color={"#767676"}
+            fontFamily={"inter"}
+            fontWeight={"Regular"}
+            fontStyle={"normal"}
             paddingBottom={h("1%")}
             textAlign="center"
           >
-            Our mission is to mission, your mission here, your mission statement
-            here
+            We are excited to have you on board
           </Text>
           <Text
-            fontSize={18}
-            color={"#C4C4C4"}
-            fontWeight={"semibold"}
+            fontSize={16}
+            color={"#767676"}
+            fontFamily={"inter"}
+            fontWeight={"Regular"}
+            fontStyle={"normal"}
             paddingTop={h("3%")}
             paddingBottom={h("4%")}
             textAlign="center"
@@ -74,18 +96,17 @@ export default function SignUpTransitionScreen({ route, navigation }) {
             We have a few questions before we going.{" "}
           </Text>
         </View>
+        <View paddingTop={h("32%")}></View>
 
-        <Button
-          backgroundColor={"#D9D9D9"}
-          borderRadius={20}
-          width={w("35%")}
-          onPress={next}
-        > 
-          <Text color={"#000000"} fontWeight={"bold"}>
-            Get Started!
-          </Text>
-        </Button>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <ScreenWideButton
+          text="Get Started"
+          textColor="#FFFFFF"
+          backgroundColor="lightGreen"
+          borderColor="lightGreen"
+          onClick={next}
+        />
+      </View>
+    </>
+
   );
 }

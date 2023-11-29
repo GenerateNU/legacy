@@ -2,6 +2,7 @@ import {  View, Text, ScrollView, Button, } from "native-base";
 import { useAuth } from "../../contexts/AuthContext";
 import LegacyWordmark from "../../components/reusable/LegacyWordmark";
 import HomeScreenTaskCard from "../../components/homescreen components/HomeScreenTaskCard";
+import React from "react";
 
 export default function TaskScreen() {
   const { user, logout } = useAuth();

@@ -28,24 +28,30 @@ get_os() {
 # Get the operating system
 current_os=$(get_os)
 
+# Get the current directory
+current_dir=$(pwd)
+
 install_localtunnel
 
 # Open first terminal based on the operating system and run the tunnel command
 if [ "$current_os" == "linux" ]; then
-	gnome-terminal --tab --title="Tunnel" --command="bash -c 'lt --port 8080 --subdomain legacy; exec bash'"
-	sleep 5
-	cd ../server/src
-	go run main.go
+ gnome-terminal --tab --title="Tunnel" --command="bash -c 'cd $current_dir; lt --port 8080 --subdomain legacy; exec bash'" & disown
+    sleep 5
+    gnome-terminal --tab --title="Server" --command="bash -c 'cd $current_dir/../server/src; go run main.go; exec bash'" & disown
+    sleep 5
+    gnome-terminal --tab --title="Client" --command="bash -c 'cd $current_dir/../client-new; npx expo start --dev-client; exec bash'" & disown
 elif [ "$current_os" == "mac" ]; then
-	osascript -e 'tell app "Terminal" to do script "lt --port 8080 --subdomain legacy"'
+	osascript -e "tell app \"Terminal\" to do script \"cd $current_dir; lt --port 8080 --subdomain legacy\""
+	sleep 5	
+	osascript -e "tell app \"Terminal\" to do script \"cd $current_dir/../server/src; go run main.go\""
 	sleep 5
-	cd ../server/src
-	go run main.go
+	osascript -e "tell app \"Terminal\" to do script \"cd $current_dir/../client-new; npx expo start --dev-client\""
 elif [ "$current_os" == "windows" ]; then
-	Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command ""lt --port 8080 --subdomain legacy""" -Verb RunAs
+	start cmd.exe /K "cd $current_dir && lt --port 8080 --subdomain legacy"
 	sleep 5
-	cd ../server/src
-	go run main.go
+	start cmd.exe /K "cd $current_dir/../server/src && go run main.go"
+	sleep 5
+	start cmd.exe /K "cd $current_dir/../client-new && npx expo start --dev-client"
 else
 	echo "Unsupported operating system"
 	exit 1
