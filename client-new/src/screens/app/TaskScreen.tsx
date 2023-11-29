@@ -7,7 +7,7 @@ import HomeScreenTaskCard from '../../components/homescreen components/HomeScree
 import LegacyWordmark from '../../components/reusable/LegacyWordmark';
 import { fetchUserTasks } from '@/services/TaskService';
 import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator, Pressable } from 'react-native';
+import { ActivityIndicator, Pressable, RefreshControl } from 'react-native';
 import { ITask } from '@/interfaces/ITask';
 import BackArrowIcon from '@/components/icons/BackArrow';
 import TaskTagGrid from '@/components/reusable/TaskTagGrid';
@@ -16,7 +16,7 @@ export default function TaskScreen({ navigation }) {
   const { user } = useUser();
   const [filter, setFilter] = useState(null);
 
-  const { isPending, data: tasks, error } = useQuery({
+  const { isPending, data: tasks, error, refetch } = useQuery({
     queryKey: ['tasks', user?.id, filter],
     queryFn: async () => await fetchUserTasks(user.id, filter),
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
@@ -24,7 +24,18 @@ export default function TaskScreen({ navigation }) {
 
   return (
     <>
-      <ScrollView backgroundColor={'#FFFAF2'}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isPending}
+            onRefresh={() => {
+              refetch();
+            }}
+            colors={['#ff0000', '#00ff00', '#0000ff']}
+            tintColor={'#ff0000'}
+          />
+        }
+        backgroundColor={'#FFFAF2'}>
         <View margin={'30px'} marginTop={'60px'}>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
             <LegacyWordmark />

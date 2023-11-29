@@ -118,6 +118,10 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
       };
 
       try {
+        console.log('[profile context] updated profile', updatedProfile)
+        console.log('[profile context] updated profile profile id', profile.id)
+        console.log('[profile context] updated profile user id', profile.user_id)
+
         const profileResponse = await insertOnboardingResponse(
           updatedProfile.onboarding_response,
           profile.id,
