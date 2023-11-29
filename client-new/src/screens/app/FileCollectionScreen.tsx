@@ -24,7 +24,7 @@ export default function FileCollectionScreen() {
   const { isPending, data: files, error } = useQuery({
     queryKey: ['userFiles', user?.id, filter],
     queryFn: () => fetchUserFilesList(user.id, filter),
-    staleTime: 60000 // TEMP, unsolved refetch when unncessary
+    // staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
   console.log('Query Key:', ['userFiles', user?.id, filter]);
 

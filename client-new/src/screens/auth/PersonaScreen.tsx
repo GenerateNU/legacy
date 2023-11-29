@@ -29,9 +29,10 @@ const PersonaScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     const completedOnboarding = async () => {
-      await fetchProfile(user.id);
+      console.log('[persona screen] user', user);
       await completeOnboarding(requestOnboarding);
       const persona = await fetchUserPersona(user.id);
+      console.log('[persona screen] persona', persona);
       setPersona(persona);
     };
 

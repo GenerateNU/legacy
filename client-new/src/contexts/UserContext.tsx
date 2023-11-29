@@ -40,7 +40,7 @@ const UserContext = React.createContext<UserContextData | undefined>(undefined);
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
-  const { profile, completedOnboarding, setCompletedOnboarding } = useProfile();
+  const { profile, completedOnboarding, setCompletedOnboarding, fetchProfile } = useProfile();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -49,11 +49,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       if (user) {
         // Uncomment this section to fetch user data
         const userData = await fetchUserByFirebaseID(user.uid);
+        fetchProfile(userData.data.id);
         setUser(userData.data);
         setFirebaseUser(user);
+        setCompletedOnboarding(profile.completed_onboarding_response);
+        console.log('[user context] userData', completedOnboarding)
         // Uncomment to store user data
         setItemAsync('firebaseUser', JSON.stringify(user));
         setItemAsync('user', JSON.stringify(userData.data));
+        setItemAsync('completedOnboarding', JSON.stringify(profile.completed_onboarding_response)); 
       } else {
         // Uncomment this section to load user data from storage
         loadStorageData();  
