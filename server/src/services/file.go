@@ -28,6 +28,7 @@ type FileServiceInterface interface {
 	GetAllUserFilesWithTag(id string, tag []string) ([]models.File, error)
 	GetFileURL(id string, days string) (string, error)
 	CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error)
+	GeneratePDF(uid string, fileJSON string) (models.File, error)
 	DeleteFile(id string) error
 }
 
