@@ -166,6 +166,29 @@ func (p *ProfileController) InsertOnboardingResponse(c echo.Context) error {
 	return c.JSON(http.StatusOK, profile)
 }
 
+// SetOnboardingComplete godoc
+//
+//		@Summary		Sets onboarding complete
+//		@Description	Sets onboarding complete
+//		@ID				set-onboarding-complete
+//		@Tags			profile
+//		@Accept			json
+//		@Produce		json
+//	    @Param          pid	  path  string	true	"ProfileID"
+//		@Success		200	  {object}	  models.Profile
+//		@Failure        400   {string}    string "Failed to set onboarding complete"
+//		@Router			/api/profiles/complete/{pid}  [patch]
+func (p *ProfileController) SetOnboardingComplete(c echo.Context) error {
+	profileID := c.Param("pid")
+
+	profile, err := p.profileService.SetOnboardingComplete(profileID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, "Failed to set onboarding complete")
+	}
+
+	return c.JSON(http.StatusOK, profile)
+}
+
 // DeleteProfile godoc
 //
 //		@Summary		Deletes a profile

@@ -16,5 +16,6 @@ func ProfileRoutes(g *echo.Group, profileService services.ProfileServiceInterfac
 	g.POST("/", profileController.CreateProfile)
 	g.PATCH("/:pid", profileController.UpdateProfile)
 	g.PATCH("/response/:pid/:uid", profileController.InsertOnboardingResponse)
+	g.PATCH("/complete/:pid", profileController.SetOnboardingComplete)
 	g.DELETE("/:pid", profileController.DeleteProfile)
 }

@@ -15,6 +15,7 @@ type ProfileServiceInterface interface {
 	CreateProfile(profile models.Profile) (models.Profile, error)
 	UpdateProfile(id string, profile models.Profile) (models.Profile, error)
 	InsertOnboardingResponse(userID string, profileID string, onboardingResponse types.OnboardingResponse) (models.Profile, error)
+	SetOnboardingComplete(id string) (models.Profile, error)
 	DeleteProfile(id string) error
 }
 
@@ -88,7 +89,6 @@ func (p *ProfileService) InsertOnboardingResponse(userID string, profileID strin
 
 	// Update the profile with the new onboarding response
 	profile.OnboardingResponse = string(response)
-	profile.CompletedOnboardingResponse = true
 
 	// Calculate persona score
 	personaID, err := utils.CalculateScore(onboardingResponse)
@@ -105,6 +105,22 @@ func (p *ProfileService) InsertOnboardingResponse(userID string, profileID strin
 
 	user, err = userServiceInterface.UpdateUser(userID, user)
 	if err != nil {
+		return models.Profile{}, err
+	}
+
+	return profile, nil
+}
+
+func (p *ProfileService) SetOnboardingComplete(id string) (models.Profile, error) {
+	var profile models.Profile
+
+	if err := p.DB.First(&profile, id).Error; err != nil {
+		return models.Profile{}, err
+	}
+
+	profile.CompletedOnboardingResponse = true
+
+	if err := p.DB.Save(&profile).Error; err != nil {
 		return models.Profile{}, err
 	}
 
