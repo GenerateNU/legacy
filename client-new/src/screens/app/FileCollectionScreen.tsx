@@ -18,15 +18,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function FileCollectionScreen() {
 
-  const {user} = useUser()
+  const { user } = useUser()
   const [filter, setFilter] = useState(null);
 
   const { isPending, data: files, error } = useQuery({
-    queryKey: ['userFiles', user.id, filter],
+    queryKey: ['userFiles', user?.id, filter],
     queryFn: () => fetchUserFilesList(user.id, filter),
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
-  console.log('Query Key:', ['userFiles', user.id, filter]);
+  console.log('Query Key:', ['userFiles', user?.id, filter]);
 
   if (isPending) {
     return (

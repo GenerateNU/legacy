@@ -17,7 +17,7 @@ export default function TaskScreen({ navigation }) {
   const [filter, setFilter] = useState(null);
 
   const { isPending, data: tasks, error } = useQuery({
-    queryKey: ['tasks', user.id, filter],
+    queryKey: ['tasks', user?.id, filter],
     queryFn: async () => await fetchUserTasks(user.id, filter),
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
