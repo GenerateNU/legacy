@@ -75,9 +75,11 @@ export default function FileCollectionScreen() {
           All Files
         </Text>
         <TaskTagGrid pressed={filter} pressfunc={setFilter}/>
-        <FileList
-          files={files}
-        />
+        <ScrollView>
+          <FileList
+            files={files}
+          />
+        </ScrollView>
       </ScreenBody>
     </SafeAreaView>
   );

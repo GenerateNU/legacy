@@ -8,10 +8,13 @@ import { IProfile } from '../interfaces/IProfile';
 import {
   getProfile,
   insertOnboardingResponse,
+  updateOnboardingToComplete,
   updateProfile
 } from '../services/ProfileService';
 import { getItem, setItem } from '../utils/SecureStoreUtils';
 import { useUser } from './UserContext';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { fetchUser } from '@/services/UserService';
 
 type ProfileContextData = {
   profile: IProfile | null;
@@ -26,6 +29,7 @@ type ProfileContextData = {
     field: 'name' | 'dateOfBirth' | 'phoneNumber',
     value: string | Date | number
   ) => void;
+  toggleOnboarding: () => Promise<void>;
 };
 
 type ProfileProviderProps = {
@@ -38,7 +42,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   children
 }) => {
   const [profile, setProfile] = useState<IProfile | null>(null);
-  const [completedOnboarding, setCompletedOnboarding] = useState<boolean>(profile?.completed_onboarding_response || false);
+  const [completedOnboarding, setCompletedOnboarding] = useState<boolean>(profile?.completed_onboarding_response || true);
   const { user } = useUser();
 
   const fetchProfile = useCallback(async (userID: number): Promise<void> => {
@@ -48,8 +52,8 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
       if (fetchedProfile) {
         setProfile(fetchedProfile);
         setCompletedOnboarding(fetchedProfile?.completed_onboarding_response)
-        await setItemAsync('profile', JSON.stringify(fetchedProfile));
-        await setItemAsync('completedOnboarding', JSON.stringify(fetchedProfile?.completed_onboarding_response || false))
+        // await setItemAsync('profile', JSON.stringify(fetchedProfile));
+        // await setItemAsync('completedOnboarding', JSON.stringify(fetchedProfile?.completed_onboarding_response || false))
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -69,7 +73,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
 
       try {
         await updateProfile(updatedProfile, profile.id);
-        await setItemAsync('profile', JSON.stringify(updatedProfile));
+        // await setItemAsync('profile', JSON.stringify(updatedProfile));
       } catch (error) {
         console.error(`Error updating ${field} in profile:`, error);
         // Handle error - show message or perform recovery action
@@ -87,19 +91,14 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
         onboarding_response: onboardingFlowState
       };
 
-      console.log("UPDATED PROFILE", updatedProfile)
-      // setProfile(updatedProfile);
-
       try {
         const profileResponse = await insertOnboardingResponse(
           updatedProfile.onboarding_response,
           profile.id,
-          user.id,
+          profile.user_id
         );
-        await setItemAsync('profile', JSON.stringify(profileResponse));
         setProfile(profileResponse);
-        setCompletedOnboarding(true)
-        console.log("PROFILE RESPONSE", profileResponse)
+        // await setItemAsync('profile', JSON.stringify(profileResponse));
       } catch (error) {
         console.error(`Error updating onboardingFlowState in profile:`, error);
         // Handle error - show message or perform recovery action
@@ -108,22 +107,35 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
     [profile]
   );
 
+  const toggleOnboarding = useCallback(async (): Promise<void> => {
+    if (!profile) return;
+
+
+    try {
+      const profileRespnse = await updateOnboardingToComplete(profile.id);
+      setCompletedOnboarding(true)
+      // await setItemAsync('profile', JSON.stringify(profileRespnse));
+      // await setItemAsync('completedOnboarding', JSON.stringify(true));
+    } catch (error) {
+      console.error(`Error setting onboarding to complete in profile:`, error);
+      // Handle error - show message or perform recovery action
+    }
+  }, []);
+
   const loadStorageData = useCallback(async (): Promise<void> => {
     try {
-      // const loadedProfile = await getItem<IProfile>("profile");
-      const profileSerialized = await getItemAsync('profile');
-      const completedOnboardingSerialized = await getItemAsync('completedOnboarding');
+      // const profileSerialized = await getItemAsync('profile');
+      // const completedOnboardingSerialized = await getItemAsync('completedOnboarding');
 
-      if (!profileSerialized || !completedOnboardingSerialized) {
-        return;
-      }
+      // if (profileSerialized) {
+      //   const loadedProfile: IProfile = JSON.parse(profileSerialized);
+      //   setProfile(loadedProfile);
+      // }
 
-      const loadedProfile: IProfile = JSON.parse(profileSerialized);
-      const loadedCompletedOnboarding: boolean = JSON.parse(completedOnboardingSerialized);
-
-      console.log("LOADEd completed onboarding", loadedCompletedOnboarding)
-      setProfile(loadedProfile);
-      setCompletedOnboarding(loadedCompletedOnboarding);
+      // if (completedOnboardingSerialized) {
+      //   const loadedCompletedOnboarding: boolean = JSON.parse(completedOnboardingSerialized);
+      //   setCompletedOnboarding(loadedCompletedOnboarding);
+      // }
     } catch (error) {
       console.error('Error loading profile from storage:', error);
       // Handle error - show message or perform recovery action
@@ -131,11 +143,22 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   }, []);
 
   useEffect(() => {
-    if (user) {
-      fetchProfile(user.id);
-      loadStorageData();
-    }
-  }, [user, fetchProfile, loadStorageData]);
+    const updateLocalStorage = async (): Promise<void> => {
+      // if (profile) {
+      //   await setItemAsync('profile', JSON.stringify(profile));
+      // }
+      // await setItemAsync('completedOnboarding', JSON.stringify(completedOnboarding));
+    };
+
+    loadStorageData(); // Load stored data on mount
+
+    updateLocalStorage(); // Update local storage whenever profile or completedOnboarding changes
+
+    return () => {
+      // Cleanup function
+      updateLocalStorage(); // Update local storage before unmounting or before changes
+    };
+  }, []);
 
   const contextValue: ProfileContextData = {
     profile,
@@ -143,6 +166,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
     completedOnboarding,
     setCompletedOnboarding,
     completeOnboarding,
+    toggleOnboarding,
     fetchProfile,
     updateField
   };

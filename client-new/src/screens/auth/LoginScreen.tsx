@@ -1,3 +1,4 @@
+import BackArrowIcon from '@/components/icons/BackArrow';
 import Footer from '@/components/reusable/Footer';
 import HalfScreenWideButton from '@/components/reusable/HalfScreenWideButton';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
@@ -43,8 +44,10 @@ export default function LoginScreen({ route, navigation }) {
         }
       }
 
-      if (await login(email, password)) {
-        Alert.alert('Error', 'Something went wrong. Please try again.');
+      const response = await login(email, password)
+      console.log('[login screen] RESPONSE', response)
+      if (response instanceof Error) {
+        Alert.alert('Error', response.message);
         setEmail('');
         setPassword('');
         return;

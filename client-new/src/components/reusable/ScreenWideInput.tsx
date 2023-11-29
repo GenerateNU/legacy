@@ -58,7 +58,7 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
               height={h('5%')}
               paddingX={'auto'}
               value={getMonth(date.getMonth()) + ' ' + date.getDate() + ', ' + date.getFullYear()}
-              outlineColor={'#CDCBCB'}
+              // outlineColor={'#CDCBCB'}
               backgroundColor={'#F5F1E8'}
               InputLeftElement={
                 <View paddingLeft={w('4%')} paddingRight={w('1%')}>
@@ -97,7 +97,7 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
               height={h('5%')}
               paddingX={'auto'}
               value={props.value}
-              outlineColor={'#CDCBCB'}
+              // outlineColor={'#CDCBCB'}
               backgroundColor={'#F5F1E8'}
               onChangeText={(value) => props.onChangeText(value)}
               placeholder={props.placeholderText}

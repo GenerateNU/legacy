@@ -28,12 +28,15 @@ export const insertOnboardingResponse = async (
   profile_id: number,
   user_id: number
 ): Promise<IProfile> => {
-  console.log('onboardingResponse', onboardingResponse);
-  console.log('profile_id', profile_id)
-  console.log('user_id', user_id)
-  const response = await axios.patch(
-    `${API_BASE_URL}/profiles/response/${profile_id}/${user_id}`,
+  const response = await axios.patch(`${API_BASE_URL}/profiles/response/${profile_id}/${user_id}`,
     onboardingResponse
   );
   return response.data;
 };
+
+export const updateOnboardingToComplete = async (
+  profile_id: number,
+): Promise<IProfile> => {
+  const response = await axios.patch(`${API_BASE_URL}/profiles/complete/${profile_id}`);
+  return response.data;
+}

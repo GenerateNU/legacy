@@ -33,9 +33,10 @@ const MarkdownWrapper: React.FC<any> = ({ children }) => {
 
 type GuideScreenProps = {
   guideName: string;
+  navigation: any;
 };
 
-const GuideScreen: React.FC<GuideScreenProps> = ({ guideName }) => {
+const GuideScreen: React.FC<GuideScreenProps> = ({ guideName, navigation }) => {
   // props should include a guideName field.
   const { isPending, data: guide, error } = useQuery({
     queryKey: ['guide'],

@@ -1,8 +1,16 @@
 import { ITask } from '@/interfaces/ITask';
 import axios from 'axios';
 import { API_BASE_URL } from '@/services/const';
+import { sleep } from '@/utils/MockDelayUtil';
 
-export const fetchAllUserTasks = async (userId: string) => {
-  const response = await axios.get(`${API_BASE_URL}/tasks/${userId}/user`);
+export const fetchUserTasks = async (userId: number, tag?: string) => {
+  let response;
+  if (tag) {
+    response = await axios.get(`${API_BASE_URL}/tasks/${userId}/user`, {params: {tag: tag}});
+  } else {
+    response = await axios.get(`${API_BASE_URL}/tasks/${userId}/user`);
+  }
+  
   return response.data as ITask[];
-}
+  // return response.status === 200 ? response.data : [];
+};

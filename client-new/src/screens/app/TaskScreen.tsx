@@ -1,30 +1,26 @@
 import { useUser } from '@/contexts/UserContext';
 import { Button, ScrollView, Text, View } from 'native-base';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import HomeScreenTaskCard from '../../components/homescreen components/HomeScreenTaskCard';
 import LegacyWordmark from '../../components/reusable/LegacyWordmark';
+import { fetchUserTasks } from '@/services/TaskService';
+import { useQuery } from '@tanstack/react-query';
+import { ActivityIndicator, Pressable } from 'react-native';
+import { ITask } from '@/interfaces/ITask';
+import BackArrowIcon from '@/components/icons/BackArrow';
+import TaskTagGrid from '@/components/reusable/TaskTagGrid';
 
-export default function TaskScreen() {
-  const { user, logout } = useUser();
-  const tagData = ['Emotional', 'Financial', 'Value Based', 'Holistic'];
-  const subtaskData = [
-    {
-      title: 'Research Resources',
-      description: 'Research resources on overcoming death'
-    },
-    {
-      title: 'Connect with Local Support Group',
-      description:
-        'View marketplace for places to find individuals facing similar fears'
-    },
-    {
-      title: 'Explore Mindfulness & Meditation Practices',
-      description:
-        'View guides to access partnership with Calm to help manage anxiety related end-of-life topics'
-    }
-  ];
+export default function TaskScreen({ navigation }) {
+  const { user } = useUser();
+  const [filter, setFilter] = useState(null);
+
+  const { isPending, data: tasks, error } = useQuery({
+    queryKey: ['tasks', user.id, filter],
+    queryFn: async () => await fetchUserTasks(user.id, filter),
+    staleTime: 60000 // TEMP, unsolved refetch when unncessary
+  });
 
   return (
     <>
@@ -33,7 +29,10 @@ export default function TaskScreen() {
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
             <LegacyWordmark />
           </View>
-          <View width={'75%'} marginTop={'20px'}>
+          <Pressable onPress={() => navigation.goBack()}>
+            <BackArrowIcon />
+          </Pressable>
+          <View width={'100%'} marginTop={'20px'}>
             <Text
               marginBottom="20px"
               fontSize="24"
@@ -43,22 +42,8 @@ export default function TaskScreen() {
               All Tasks
             </Text>
             <View flexDirection={'row'}>
-              {tagData.map((item) => (
-                <Button
-                  variant="unstyled"
-                  marginRight={'5px'}
-                  marginBottom={'5px'}
-                  paddingLeft={'10px'}
-                  paddingRight={'10px'}
-                  paddingTop={'10px'}
-                  paddingBottom={'10px'}
-                  borderRadius={'100px'}
-                  borderWidth={'1px'}
-                  borderColor={'#0F4F43'}
-                >
-                  {item}
-                </Button>
-              ))}
+              <TaskTagGrid pressed={filter} pressfunc={setFilter} />
+
             </View>
           </View>
           <View
@@ -66,15 +51,14 @@ export default function TaskScreen() {
             flexDirection="column"
             justifyContent="space-between"
           >
-            {subtaskData.map((item, index) => (
-              <View key={index} marginBottom="10px">
-                <HomeScreenTaskCard
-                  title={item.title}
-                  description={item.description}
-                  progress={10}
-                />
-              </View>
-            ))}
+            {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
+            {error && <Text>Error: {error.message}</Text>}
+            {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
+            {tasks && tasks.map((item: ITask, index: number) =>
+              <View key={index} mb={0}>
+                <HomeScreenTaskCard task={item} />
+              </View> 
+            )}
           </View>
           <View marginTop={'20px'}></View>
         </View>

@@ -6,7 +6,13 @@ import { IUser } from '@/interfaces/IUser';
 
 import { API_BASE_URL } from '@/services/const';
 
-export const fetchUser = async (firebaseID: string): Promise<AxiosResponse<IUser>> => {
+export const fetchUser = async (userID: number): Promise<AxiosResponse<IUser>> => {
+  const response = await axios.get(`${API_BASE_URL}/users/${userID}`);
+  return response;
+}
+
+export const fetchUserByFirebaseID = async (firebaseID: string): Promise<AxiosResponse<IUser>> => {
+  console.log('[user service] fetching user by firebase id', `${API_BASE_URL}/users/firebase/${firebaseID}`)
   const response = await axios.get(`${API_BASE_URL}/users/firebase/${firebaseID}`);
   return response;
 }
@@ -20,7 +26,7 @@ export const fetchUserAndProfile = async (firebaseID: string): Promise<{
   user: AxiosResponse<IUser>;
   profile: AxiosResponse<IProfile>;
 }> => {
-  const user = await fetchUser(firebaseID);
+  const user = await fetchUserByFirebaseID(firebaseID);
   console.log("USER", user.data);
   const profile = await fetchProfile(user.data.id);
   console.log("PROFILE", profile.data);
@@ -36,7 +42,9 @@ export const createUserAndProfile = async (user: IUser) => {
       email: user.email,
       firebase_id: user.firebase_id
     }
-  );
+  ).catch((err) => {
+    return err;
+  });
 
   const _: AxiosResponse<IProfile> = await axios.post(
     `${API_BASE_URL}/profiles/`,
@@ -46,11 +54,14 @@ export const createUserAndProfile = async (user: IUser) => {
       phone_number: '123456789',
       user_id: newUser.data.id
     }
-  );
+  ).catch((err) => {
+    return err;
+  });
 
-  return { newUser };
+  return newUser;
 };
 
 export const initalizeAllProgress = async (userID: number) => {
+  console.log("INITIALIZING PROGRESS");
   await axios.post(`${API_BASE_URL}/users/${userID}/progress`).then((res) => console.log(res.data))
 }

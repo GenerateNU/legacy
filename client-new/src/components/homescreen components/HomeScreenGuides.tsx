@@ -3,7 +3,7 @@ import { ScrollView, Text, View } from 'native-base';
 import React from 'react';
 
 // Import NativeBase components
-import HomeScreenGuideCard from './HomeScreenGuideCard';
+import HomeScreenGuideCard from '@/components/homescreen components/HomeScreenGuideCard';
 import { IGuide } from '@/interfaces/IGuide';
 
 type GuidesProps = {

@@ -282,10 +282,6 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
       page: 'Persona Screen',
       props: {}
     },
-    {
-      page: 'Landing Screen',
-      props: {}
-    }
   ];
 
   const handleChange = (name: string, value: any) => {

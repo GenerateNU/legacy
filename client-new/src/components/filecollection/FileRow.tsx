@@ -10,6 +10,10 @@ import {
 import FileIcon from '../icons/FileIcon';
 import { ConvertFileSize } from '@/utils/FileUtils';
 import { RelativeTime } from '../../utils/FileUtils';
+import { Linking, Pressable } from 'react-native';
+import OpenLinkButton from '../reusable/OpenLinkButton';
+import { useQuery } from '@tanstack/react-query';
+import { fetchFileURL } from '@/services/FileService';
 
 type FileRowProps = {
   file: IFile;
@@ -21,7 +25,26 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
   const truncatedName = fileName.length > 40 ? fileName.substring(0, 40) + '...' + fileEnding : fileName + '.' + fileEnding;
   const date = RelativeTime(new Date(file.created_at));
 
+  const handlePress = async () => {
+    const url = await fetchFileURL(file.id);
+    console.log('URL', url);
+    // open file
+    try {
+      const supported = await Linking.canOpenURL(url);
+
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        console.error("Can't open URL:", url);
+      }
+    } catch (error) {
+      console.error('Error opening URL:', error);
+    }
+  };
+
+
   return (
+    <Pressable onPress={() => handlePress()}>
     <View flexDirection={'row'}>
       <View justifyContent={'center'} paddingBottom={h('1.5%')}>
         <FileIcon />
@@ -48,6 +71,7 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
         <ThreeDotsIcon />
       </View>
     </View>
+    </Pressable>
   );
 }
 

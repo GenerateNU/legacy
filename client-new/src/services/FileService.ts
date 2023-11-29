@@ -13,3 +13,8 @@ export const fetchUserFilesList = async (userId: number, tag?: string) => {
   return response.data as IFile[];
   // return response.status === 200 ? response.data : [];
 };
+
+export const fetchFileURL = async (fileId: number) => {
+  const response = await axios.get(`${API_BASE_URL}/files/${fileId}`);
+  return response.data as string;
+};

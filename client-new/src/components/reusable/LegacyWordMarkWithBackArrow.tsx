@@ -3,6 +3,7 @@ import { color } from 'native-base/lib/typescript/theme/styled-system';
 
 import React from 'react';
 import Svg, { Path } from 'react-native-svg';
+import BackArrowIcon from '../icons/BackArrow';
 
 export type LegacyWordmarkWithBackArrowProps = {
   handleOnPress: () => void;
@@ -14,12 +15,7 @@ export default function LegacyWordmarkWithBackArrow(
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <Pressable onPress={() => props.handleOnPress()}>
-        <Svg width="24" height="25" viewBox="0 0 24 25" fill="none">
-          <Path
-            d="M13.7751 18.7606L8.48206 13.4676C8.10712 13.0925 7.89648 12.5839 7.89648 12.0536C7.89648 11.5232 8.10712 11.0146 8.48206 10.6396L13.7751 5.34656L15.1891 6.76056L9.90006 12.0536L15.1931 17.3466L13.7751 18.7606Z"
-            fill="#374957"
-          />
-        </Svg>
+        <BackArrowIcon />
       </Pressable>
       <View marginLeft="auto">
         <Svg width="107" height="23" viewBox="0 0 107 23" fill="none">

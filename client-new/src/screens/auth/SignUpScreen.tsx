@@ -4,9 +4,8 @@ import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import LetsGo from '@/components/reusable/LetsGo';
 import ScreenWideInput from '@/components/reusable/ScreenWideInput';
 import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
-import { useProfile } from '@/contexts/ProfileContext';
 import { useUser } from '@/contexts/UserContext';
-import { FormControl, Icon, Input, KeyboardAvoidingView, View } from 'native-base';
+import { View } from 'native-base';
 
 import { useEffect, useState } from 'react';
 import React from 'react';
@@ -15,11 +14,7 @@ import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { z } from 'zod';
-import { Button } from 'react-native'
-import DatePicker from 'react-native-date-picker'
-import { getMonth } from '@/utils/DateUtils';
 
 type SignupData = {
   username: string;
@@ -46,9 +41,6 @@ export default function SignUpScreen({ route, navigation }) {
     const signup = async () => {
       const { username, email, password, date } = signupData;
 
-      console.log('username: ', username)
-      console.log('email: ', email)
-      // validation
       if (!username || !email || !password || !date) {
         Alert.alert('Error', 'Please fill in all required fields');
         return;
@@ -64,8 +56,10 @@ export default function SignUpScreen({ route, navigation }) {
         }
       } 
 
-      if (await createAccount(username, email, password)) {
-        Alert.alert('Error', 'Something went wrong. Please try again.');
+      // TODO: Date doesnt actually get passed through
+      const response = await createAccount(username, email, password)
+      if (response instanceof Error) {
+        Alert.alert('Error', response.message)
         setSignupData({
           username: '',
           email: '',
@@ -81,6 +75,7 @@ export default function SignUpScreen({ route, navigation }) {
     signup();
   };
 
+  // for debugging
   useEffect(() => {
     console.log('username: ', signupData.username)
     console.log('email: ', signupData.email)
@@ -126,7 +121,7 @@ export default function SignUpScreen({ route, navigation }) {
               value={signupData.email}
             />
           </View>
-          <View paddingTop={h('3%')}>
+          <View paddingTop={h('3%')} paddingBottom={h('4%')}>
             <ScreenWideInput
               placeholderText="Must be at least 8 characters long"
               title="Password"
@@ -136,7 +131,8 @@ export default function SignUpScreen({ route, navigation }) {
               value={signupData.password}
             />
           </View>
-          <View paddingTop={h('3%')} paddingBottom={h('3%')}>
+          {/* TODO: move this to a valid section for user data collection*/}
+          {/* <View paddingTop={h('3%')} paddingBottom={h('3%')}>
             <ScreenWideInput
               title="Date of Birth"
               onChangeText={(value) => setSignupData({ ...signupData, date: value })}
@@ -146,8 +142,7 @@ export default function SignUpScreen({ route, navigation }) {
               password={false}
               isDatePicker={true}
             />
-
-          </View>
+          </View> */}
           <View
             width={w('80%')}
             alignItems={'center'}

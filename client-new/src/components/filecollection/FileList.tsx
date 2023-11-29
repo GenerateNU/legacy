@@ -18,7 +18,7 @@ export default function FileList(props: FileListProps) {
   return (
     <View paddingTop={h('2%')}>
       {props.files.map((file, index) => (
-        <FileRow key={index} file={file} />
+        <FileRow key={file.id} file={file} />
       ))}
     </View>
   );
