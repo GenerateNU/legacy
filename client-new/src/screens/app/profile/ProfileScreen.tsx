@@ -15,7 +15,6 @@ import { getPersona } from '@/services/ProfileService';
 import { useUser } from '@/contexts/UserContext';
 import { useQuery } from '@tanstack/react-query';
 import { ActivityIndicator, Alert, Modal } from 'react-native';
-import { useProfile } from '@/contexts/ProfileContext';
 
 /**
  * Screen to render the user's profile
@@ -23,7 +22,7 @@ import { useProfile } from '@/contexts/ProfileContext';
  */
 export default function ProfileScreen({ route, navigation }) {
   const { user, logout } = useUser();
-  const { setCompletedOnboarding } = useProfile();
+  const { setCompletedOnboarding } = useUser();
 
   /**
    * Fetch all data for this screen:
@@ -49,7 +48,6 @@ export default function ProfileScreen({ route, navigation }) {
           style: 'destructive',
           onPress: () => {
             logout()
-            setCompletedOnboarding(false);
           }
         }
       ],

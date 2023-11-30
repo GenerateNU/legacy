@@ -37,7 +37,7 @@ export const fetchProfile = async (userID: number): Promise<AxiosResponse<IProfi
   try {
     const response = await axios.get(`${API_BASE_URL}/users/${userID}/profile`);
     console.log('[user service] fetching profile', `${API_BASE_URL}/users/${userID}/profile`, 'with status', response.status)
-    return response;
+    return response
   } catch (error) {
     console.log('Error fetching profile', error);
     throw new Error('Error fetching profile');
@@ -74,7 +74,7 @@ export const createUserAndProfile = async (user: IUser) => {
       return err;
     });
 
-    const _: AxiosResponse<IProfile> = await axios.post(
+    const newProfile: AxiosResponse<IProfile> = await axios.post(
       `${API_BASE_URL}/profiles/`,
       {
         name: user.email.split('@')[0],
@@ -86,7 +86,7 @@ export const createUserAndProfile = async (user: IUser) => {
       return err;
     });
 
-    return newUser;
+    return { user: newUser, profile: newProfile };
   } catch (error) {
     console.log('Error creating user and profile', error);
     throw new Error('Error creating user and profile');

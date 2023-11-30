@@ -2,7 +2,6 @@ import CircleProgressBar from '@/components/reusable/CircleProgressBar';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import ScreenWideButton from '@/components/reusable/ScreenWideButton';
 import { useOnboarding } from '@/contexts/OnboardingContext';
-import { useProfile } from '@/contexts/ProfileContext';
 import { useUser } from '@/contexts/UserContext';
 import { IPersona } from '@/interfaces/IPersona';
 import { fetchUserPersona } from '@/services/PersonaService';
@@ -21,8 +20,7 @@ import { SvgXml } from 'react-native-svg';
 const PersonaScreen = ({ route, navigation }) => {
   const { page, setPage, onboardingState, onboardingFlow } = useOnboarding();
 
-  const { user } = useUser();
-  const { completeOnboarding, toggleOnboarding } = useProfile();
+  const { user, completedOnboarding } = useUser();
   const [persona, setPersona] = useState<IPersona>(null);
 
   const requestOnboarding = convertNumericToString(onboardingState);
@@ -30,7 +28,7 @@ const PersonaScreen = ({ route, navigation }) => {
   useEffect(() => {
     const completedOnboarding = async () => {
       console.log('[persona screen] user', user);
-      await completeOnboarding(requestOnboarding);
+      // await completeOnboarding(requestOnboarding);
       const persona = await fetchUserPersona(user.id);
       console.log('[persona screen] persona', persona);
       setPersona(persona);
@@ -42,7 +40,7 @@ const PersonaScreen = ({ route, navigation }) => {
   const next = async () => {
     // go to app
     await initalizeAllProgress(user.id);
-    await toggleOnboarding();
+    // await toggleOnboarding();
     // navigation.navigate('Home Screen');
   };
 

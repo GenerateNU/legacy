@@ -16,8 +16,6 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { ProfileProvider } from '@/contexts/ProfileContext';
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -100,15 +98,13 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ProfileProvider>
-        <UserProvider>
-            <SafeAreaProvider>
-              <NativeBaseProvider theme={theme}>
-                <Router />
-              </NativeBaseProvider>
-          </SafeAreaProvider>
-        </UserProvider>
-      </ProfileProvider>
+      <UserProvider>
+        <SafeAreaProvider>
+          <NativeBaseProvider theme={theme}>
+            <Router />
+          </NativeBaseProvider>
+        </SafeAreaProvider>
+      </UserProvider>
     </QueryClientProvider>
   );
 }

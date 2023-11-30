@@ -8,7 +8,6 @@ import PersonaScreen from '../screens/auth/PersonaScreen';
 import QuestionaireScreen from '../screens/auth/QuestionaireScreen';
 import QuizSectionIntroScreen from '../screens/auth/QuizSectionIntroScreen';
 import SignUpTransitionScreen from '../screens/auth/SignUpTransitionScreen';
-import { useProfile } from '@/contexts/ProfileContext';
 
 const Stack = createNativeStackNavigator();
 

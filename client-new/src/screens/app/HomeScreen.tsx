@@ -16,14 +16,12 @@ import HomeScreenGuides from '../../components/homescreen components/HomeScreenG
 import HomeScreenTasks from '../../components/homescreen components/HomeScreenTasks';
 import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
 import { ITask } from '@/interfaces/ITask';
-import { useProfile } from '@/contexts/ProfileContext';
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllGuides } from '@/services/GuideService';
 import { RefreshControl } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
-  const { user, logout, refetchUser } = useUser();
-  const { setCompletedOnboarding } = useProfile();
+  const { user, logout, refetchUser, setCompletedOnboarding } = useUser();
 
   const { isPending, data: guides, error, refetch } = useQuery({
     queryKey: ['tasks'],
@@ -32,12 +30,8 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}>
-        <ScrollView 
-          bgColor={'#FFF9EE'}
-          contentContainerStyle={{ alignItems: 'center' }}
-          showsVerticalScrollIndicator={false}
-          marginLeft={w('1%')}
-          marginRight={w('1%')}
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
             refreshing={isPending}
@@ -49,6 +43,10 @@ export default function HomeScreen({ navigation }) {
             tintColor={'#ff0000'}
           />
         }
+        bgColor={'#FFF9EE'}
+        contentContainerStyle={{ alignItems: 'center' }}
+        marginLeft={w('1%')}
+        marginRight={w('1%')}
       >
           <View w={'95%'} flexDir={'column'} justifyContent={'space-between'}>
             <LegacyWordmark />
@@ -62,7 +60,7 @@ export default function HomeScreen({ navigation }) {
                   color={'#252525'}
                   fontSize={moderateScale(32)}
                 >
-                  Hello {user?.username}!
+                Hello {user?.username.split(' ')[0]}! {/* TODO: currently manually splitting the username string */}
                 </Text>
               </View>
               <View w={'100%'}>

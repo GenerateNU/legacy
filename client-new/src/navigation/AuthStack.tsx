@@ -7,13 +7,14 @@ import React from 'react';
 
 import { useUser } from '../contexts/UserContext';
 import OnboardingStack from './OnboardingStack';
+import { ActivityIndicator } from 'react-native';
+import { View } from 'native-base';
 
 const Stack = createNativeStackNavigator();
 
 export default function AuthStack() {
   const { user } = useUser();
-  const screenToDisplay = user ? 'Onboarding Stack' : 'Access Screen';
-
+  const screenToDisplay = user === null ? 'Access Screen' : 'Onboarding Stack';
   return (
     <Stack.Navigator
       initialRouteName={screenToDisplay}

@@ -12,7 +12,6 @@ import { SvgXml } from 'react-native-svg';
 
 // TODO: arrow function
 export default function AccessScreen({ navigation }) {
-  const { logout } = useUser();
 
   const toSignUp = () => {
     navigation.navigate('Sign Up Screen');
@@ -23,7 +22,6 @@ export default function AccessScreen({ navigation }) {
   };
 
   // If we return to the Access Screen for any reason, we want to log the user out 
-  // logout();
 
   // TODO: export this to a separate file
   const TreeLogo = `<svg width="302" height="376" viewBox="0 0 302 376" fill="none" xmlns="http://www.w3.org/2000/svg">

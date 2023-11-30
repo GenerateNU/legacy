@@ -2,12 +2,9 @@ import { ITask } from '@/interfaces/ITask';
 import { Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
-import BackArrowIcon from '../icons/BackArrow';
-import { Circle, Svg } from 'react-native-svg';
 import RightArrowIcon from '../icons/RightArrowIcon';
 import CircleProgress from '../reusable/CircleProgress';
 import { fetchTaskTag } from '@/services/TaskService';
-import { useQuery } from '@tanstack/react-query';
 
 type HSTCProps = {  
   task: ITask;
@@ -37,7 +34,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks }) => {
     }
   }, [isAllTasks, task.id]);
 
-  const progress = Math.floor(Math.random() * 100);
+  const progress = Math.floor(Math.random() * 100) + 1;
 
   return (
     <Pressable onPress={() => console.log(`pressed ${task.id}`)}>
