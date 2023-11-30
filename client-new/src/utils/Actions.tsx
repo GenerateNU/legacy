@@ -107,8 +107,8 @@ const FormComponent = ({ actions }: IActionList) => {
     e.preventDefault();
     const file_data = await generatePDF();
 
-    const user = await useAuth();
-    const uid = user.user.uid
+    const {user, logout} = await useAuth();
+    const uid = user.uid // i'm not sure if this is the proper way to get the user id
 
     await createFile(uid, file_data)
 
@@ -123,7 +123,7 @@ const FormComponent = ({ actions }: IActionList) => {
       case 'input':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'brown'} fontSize={12}>{action.label}</Text>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
             {/* Conditonally based on type */}
             <View marginBottom= '10px'>
               <Input
@@ -145,7 +145,7 @@ const FormComponent = ({ actions }: IActionList) => {
       case 'select':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'brown'} fontSize={12}>{action.label}</Text>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
             <View marginBottom= '10px'>
               <Select
                 minWidth="200"
@@ -169,7 +169,7 @@ const FormComponent = ({ actions }: IActionList) => {
       case 'textarea':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'brown'} fontSize={12}>{action.label}</Text>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
             <View marginBottom= '10px'>
               <TextArea
                 key={index}
@@ -194,7 +194,7 @@ const FormComponent = ({ actions }: IActionList) => {
       case 'checkbox':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'brown'} fontSize={12}>{action.label}</Text>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
             <View marginBottom= '10px'>
               <Checkbox.Group
                 color="deepEvergreen"
@@ -204,7 +204,7 @@ const FormComponent = ({ actions }: IActionList) => {
               >
                 {action.options.map((option, idx) => (
                   <Checkbox key={idx} value={option} my={1}>
-                    <Text fontFamily={"Inter_400Regular"} color={'brown'} fontSize={12}>{option}</Text>
+                    <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{option}</Text>
                   </Checkbox>
                 ))}
               </Checkbox.Group>
@@ -217,7 +217,7 @@ const FormComponent = ({ actions }: IActionList) => {
       case 'radio':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'brown'} fontSize={12}>{action.label}</Text>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
             <View marginBottom= '10px'>
               <Radio.Group
                 name={action.name}
@@ -227,7 +227,7 @@ const FormComponent = ({ actions }: IActionList) => {
               >
                 {action.options.map((option, idx) => (
                   <Radio key={idx} value={option} colorScheme="deepEvergreen">
-                    <Text fontFamily={"Inter_400Regular"} color={'brown'} fontSize={12}>{option}</Text>
+                    <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{option}</Text>
                   </Radio>
                 ))}
               </Radio.Group>

@@ -5,6 +5,4 @@ export interface ISubTask {
     sub_task_name: string;
     sub_task_description: string;
     task_id: number;
-    actions: IActionList;
-    actions_state: string;
   }

@@ -11,11 +11,9 @@ import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import TabNavigator from '@/screens/app/BottomTabNavigator';
 
 const SubTaskScreen = ({ props }) => {
-  const [state, setState] = useState<IActionList>(null);
   // props should include a id field that represents the subtask id
+  // props basically should be an ISubTask
 
-  // in theory not really necesarry if the prop containts all the subtask information but dont want to break it for now
-  // work w Ania on task screen and building subtask service to see if we can get it working
   const { isLoading, error, data } = useQuery(
     ['fetchActions', props.id],
     () => getActions(props.id)
@@ -51,10 +49,10 @@ const SubTaskScreen = ({ props }) => {
               </View>
           </HStack>
           <View width={'100%'} marginTop={'30px'}>
-            <Text marginBottom= '10px' fontSize='24' fontWeight={'400'} fontFamily={"Roca Regular"} color={'brown'}>
+            <Text marginBottom= '10px' fontSize='24' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'}>
               {props.sub_task_name}
               </Text>
-            <Text marginBottom= '20px' fontSize='16' fontWeight={'400'} fontFamily={"Inter_400Regular"} color={'brown'}>
+            <Text marginBottom= '20px' fontSize='16' fontWeight={'400'} fontFamily={"Inter_400Regular"} color={'barkBrown'}>
               {props.sub_task_description}
             </Text>
           </View>

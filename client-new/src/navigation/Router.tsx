@@ -7,6 +7,7 @@ import SubTaskScreen from '@/screens/app/SubTaskScreen';
 import GuideScreen from '@/screens/app/GuideScreen';
 import TaskScreen from '@/screens/app/TaskScreen';
 import HomeScreen from '@/screens/app/HomeScreen';
+import SubTaskSummaryScreen from '@/screens/app/SubTaskSummaryScreen';
 
 export default function Router() {
   const { user } = useAuth();
@@ -15,7 +16,8 @@ export default function Router() {
     <NavigationContainer>
       {/* <GuideScreen guideName="Test Guide" /> */}
       {/*SubTaskScreen subtask_id={9} */}
-      <SubTaskScreen props={{id: 9, sub_task_name: "Personal Information", sub_task_description: "Create a checklist of basic personal information needed for end-of-life planning. Personal intake for doulas and trust and estate lawyers."}}/>
+      {/*<SubTaskScreen props={{id: 9, sub_task_name: "Personal Information", sub_task_description: "Create a checklist of basic personal information needed for end-of-life planning. Personal intake for doulas and trust and estate lawyers."}}/>*/}
+      <SubTaskSummaryScreen props={{id: "1", task_name: "Create Familiarity with the Process"}}/>
     </NavigationContainer>
   );
 }
