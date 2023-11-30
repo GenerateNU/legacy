@@ -45,7 +45,7 @@ const CircleProgress = ({ progress }) => {
           strokeDashoffset={animatedValue.interpolate({
             inputRange: [0, 100],
             outputRange: [circumference, progressStrokeDashoffset],
-          })}
+          })}   
           strokeLinecap="round"
           fill="none"
           transform="rotate(-90 50 50)"

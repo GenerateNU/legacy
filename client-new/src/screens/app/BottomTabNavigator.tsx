@@ -11,7 +11,6 @@ import FileCollectionScreen from './FileCollectionScreen';
 import GuideScreen from './GuideScreen';
 import HomeScreen from './HomeScreen';
 import MapScreen from './MarketplaceScreen';
-import ProfileScreen from './ProfileScreen';
 import TaskScreen from './TaskScreen';
 import ProfileStack from '@/navigation/ProfileStack';
 

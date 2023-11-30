@@ -9,6 +9,6 @@ export const getActions = async (subtask_id: number) => {
     );
     return JSON.parse(res.data);
   } catch (error) {
-    throw new Error(error);
+    throw new Error('Error fetching actions');
   }
 };

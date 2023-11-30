@@ -6,27 +6,22 @@ import { getPersona } from "@/services/ProfileService";
 import { IPersona } from "@/interfaces/IPersona";
 import React , {useEffect, useState} from "react";
 import ScreenWideButton from "@/components/reusable/ScreenWideButton";
+import { useUser } from "@/contexts/UserContext";
+import { useQuery } from "@tanstack/react-query";
+import { ActivityIndicator } from "react-native";
 
-const mockUser = {
-  id: "1",
-};
 export default function MyPersonaScreen({route, navigation}) {
+  const { user } = useUser();
   const [myPersona, setMyPersona] = useState<IPersona | undefined>(undefined);
+
 
   /**
    * Fetches the persona of the current user
    */
-  const fetchMyPersona = async () => {
-    const myPersona = await getPersona(mockUser.id);
-    setMyPersona(myPersona);
-  };
-
-  /**
-   * Loads and displays the persona of the current user
-   */
-  useEffect(() => {
-    fetchMyPersona();
-  }, []);
+  const { isPending, data: persona, error } = useQuery({
+    queryKey: ['persona', user?.id],
+    queryFn: async () => await getPersona(user?.id)
+  });
 
   return (
     <SafeAreaView
@@ -47,10 +42,14 @@ export default function MyPersonaScreen({route, navigation}) {
         >
           You are an
         </Text>
-        <Persona
-          personaTitle={myPersona ? myPersona.persona_title : ""}
-          personaDescription={myPersona ? myPersona.persona_description : ""}
-        />
+        {isPending && <ActivityIndicator size="small" color="#000000" />}
+        {error && <Text>Something went wrong ...</Text>}
+        {persona && (
+          <Persona
+            personaTitle={persona?.persona_title}
+            personaDescription={persona?.persona_description}
+          />
+        )}
       </View>
       <View marginTop={"auto"}>
         <ScreenWideButton

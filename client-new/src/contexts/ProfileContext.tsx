@@ -77,6 +77,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
       console.log('[profile context] fetched profile', fetchedProfile);
       if (fetchedProfile) {
         setProfile(fetchedProfile);
+        console.log('[profile context] fetched profile completed onboarding', fetchedProfile?.completed_onboarding_response)
         setCompletedOnboarding(fetchedProfile?.completed_onboarding_response)
         await setItemAsync('profile', JSON.stringify(fetchedProfile));
         await setItemAsync('completedOnboarding', JSON.stringify(fetchedProfile?.completed_onboarding_response || false))

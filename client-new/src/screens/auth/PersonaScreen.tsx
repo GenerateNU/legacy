@@ -43,7 +43,7 @@ const PersonaScreen = ({ route, navigation }) => {
     // go to app
     await initalizeAllProgress(user.id);
     await toggleOnboarding();
-    navigation.navigate('Home Screen');
+    // navigation.navigate('Home Screen');
   };
 
   const svgImage = `<svg width="156" height="189" viewBox="0 0 156 189" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

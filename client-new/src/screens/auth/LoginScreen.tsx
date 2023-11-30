@@ -52,9 +52,6 @@ export default function LoginScreen({ route, navigation }) {
         setPassword('');
         return;
       }
-
-      console.log('HIT');
-      navigation.navigate('Onboarding Stack');
     }
 
     handleLogin();

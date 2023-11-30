@@ -1,4 +1,4 @@
-import { View, Text } from 'native-base';
+import { View, Text, Button, Skeleton, AlertDialog } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PersonaCard from '@/components/profile/PersonaCard';
 import ProfileCard from '@/components/profile/ProfileCard';
@@ -12,37 +12,97 @@ import {
 import { IPersona } from '@/interfaces/IPersona';
 import React from 'react';
 import { getPersona } from '@/services/ProfileService';
+import { useUser } from '@/contexts/UserContext';
+import { useQuery } from '@tanstack/react-query';
+import { ActivityIndicator, Alert, Modal } from 'react-native';
+import { useProfile } from '@/contexts/ProfileContext';
 
 /**
  * Screen to render the user's profile
  * @returns
  */
 export default function ProfileScreen({ route, navigation }) {
-  const userID = '1';
-  const [myPersona, setMyPersona] = useState<IPersona | null>(null);
-  const [shareModal, setShareModal] = useState<boolean>(false);
+  const { user, logout } = useUser();
+  const { setCompletedOnboarding } = useProfile();
 
   /**
    * Fetch all data for this screen:
    * - My Persona
    */
-  const fetchData = async () => {
-    const persona = await getPersona(userID);
-    setMyPersona(persona);
+  const { isPending, data: persona, error } = useQuery({
+    queryKey: ['persona', user?.id],
+    queryFn: async () => await getPersona(user?.id)
+  });
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => console.log('Cancel Pressed')
+        },
+        {
+          text: 'Logout',
+          style: 'destructive',
+          onPress: () => {
+            logout()
+            setCompletedOnboarding(false);
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+
   };
 
-  /**
-   * Load in data on first render
-   */
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to delete your account?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => console.log('Cancel Pressed')
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => console.log('Delete Pressed')
+        }
+      ],
+      { cancelable: false }
+    );
+  }
+
+  const handleShare = () => {
+    Alert.alert(
+      'Share Legacy',
+      'Share Legacy with your friends!',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => console.log('Cancel Pressed')
+        },
+        {
+          text: 'Share',
+          style: 'default',
+          onPress: () => console.log('Share Pressed')
+        }
+      ],
+      { cancelable: false }
+    );
+  }
 
   return (
     <SafeAreaView
       style={{ alignItems: 'center', flex: 1, backgroundColor: '#FFFAF2' }}
     >
-      <View width={340} marginTop={50} height={600}>
+      <View width={340} marginTop={50} height={'auto'}>
         <LegacyWordmarkWithBackArrow handleOnPress={() => {}} />
         <Text
           color={'#252525'}
@@ -55,15 +115,19 @@ export default function ProfileScreen({ route, navigation }) {
         >
           Profile
         </Text>
-        <PersonaCard
-          title={'Amanda Kerr'}
-          subtitle={myPersona?.persona_title}
-          subheading={myPersona?.persona_description}
-          image="https://i.postimg.cc/44Qn7BWC/temp-Image-KY7-Maq.jpg"
-          border={true}
-          backgroundColor="white"
-          handleOnPress={() => navigation.navigate('My Persona Screen')}
-        />
+        {isPending && <ActivityIndicator size="small" color="#43A573" />}
+        {error && <Text>Something went wrong...</Text>}
+        {persona && (
+          <PersonaCard
+            title={user?.username}
+            subtitle={persona?.persona_title}
+            subheading={'View My Persona'}
+            image="https://i.postimg.cc/44Qn7BWC/temp-Image-KY7-Maq.jpg"
+            border={true}
+            backgroundColor="white"
+            handleOnPress={() => navigation.navigate('My Persona Screen')}
+          />
+        )}
 
         <ProfileCard
           title={'Notification Settings'}
@@ -78,29 +142,56 @@ export default function ProfileScreen({ route, navigation }) {
         <ProfileCard title={'Personal Access'} />
         <ProfileCard
           title={'Share and Rate Legacy'}
-          handleOnPress={() => setShareModal(true)}
+          handleOnPress={() => handleShare()}
         />
       </View>
-      {shareModal && (
-        <OurModal showModal={shareModal} setShowModal={setShareModal}>
-          <View
-            backgroundColor={'#D9D9D9'}
-            height={272}
-            width={241}
-            alignItems={'center'}
-            justifyContent={'center'}
-          >
-            <Text
-              textAlign={'center'}
-              fontFamily={'Open Sans'}
-              fontSize={15}
-              fontWeight={'700'}
-            >
-              {'SHARE / RATE APP'}
-            </Text>
-          </View>
-        </OurModal>
-      )}
+
+      {/* {shareModal && ( */}
+      {/* // <OurModasl showModal={shareModal} setShowModal={setShareModal}>/ */}
+      {/* </OurModal> */}
+      {/* )} */}
+
+      <View
+        height={h('5%')}
+        width={w('100%')}
+        position={'absolute'}
+        bottom={h('8%')}
+        flexDirection={'column'}
+        padding={10}
+      >
+        <Button
+          onPress={handleLogout}
+          width={w('80%')}
+          height={h('5%')}
+          borderRadius={w('80%') / 2}
+          borderColor={'#43A573'}
+          borderWidth={1}
+          backgroundColor={'#FFF9EE'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          marginBottom={h('1%')}
+        >
+          <Text color={'#2F1D12'} fontFamily={'Inter'} fontWeight={'600'} fontSize={12}>
+            Logout
+          </Text>
+        </Button>
+
+        <Button
+          onPress={handleDeleteAccount}
+          width={w('80%')}
+          height={h('5%')}
+          borderRadius={w('80%') / 2}
+          borderColor={'warning.700'}
+          borderWidth={1}
+          backgroundColor={'warning.700'}
+          justifyContent={'center'}
+          alignItems={'center'}
+        >
+          <Text color={'white'} fontFamily={'Inter'} fontWeight={'600'} fontSize={12}>
+            Delete Account
+          </Text>
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }

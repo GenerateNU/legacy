@@ -49,11 +49,7 @@ export default function HomeScreen({ navigation }) {
             tintColor={'#ff0000'}
           />
         }
-        >
-          <Button onPress={() => {
-            logout();
-            setCompletedOnboarding(false);
-          }}>Logout</Button>
+      >
           <View w={'95%'} flexDir={'column'} justifyContent={'space-between'}>
             <LegacyWordmark />
             <View>

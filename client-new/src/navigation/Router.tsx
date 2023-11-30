@@ -5,20 +5,22 @@ import AuthStack from '@/navigation/AuthStack';
 import { NavigationContainer } from '@react-navigation/native';
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
+import { View } from 'native-base';
 
 export default function Router() {
-  const { completedOnboarding } = useProfile();
+  const { profile, completedOnboarding } = useProfile();
 
-  console.log('completedOnboarding', completedOnboarding);
-
-  if (completedOnboarding === null) {
+  if (completedOnboarding == undefined || profile == undefined) {
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View flex={1} justifyContent="center" alignItems="center">
+        <ActivityIndicator size="large" />
       </View>
-    )
+    );
   }
+
+  console.log('[router] completedOnboarding profile', profile.completed_onboarding_response);
+  console.log('[router] completedOnboarding', completedOnboarding);
 
   return (
     <NavigationContainer>

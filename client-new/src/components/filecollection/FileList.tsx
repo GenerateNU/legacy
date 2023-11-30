@@ -7,19 +7,20 @@ import {
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
 
-import FileIcon from '../icons/FileIcon';
 import FileRow from './FileRow';
 
 type FileListProps = {
   files: IFile[];
 };
 
-export default function FileList(props: FileListProps) {
+const FileList: React.FC<FileListProps> = ({ files }) => {
   return (
     <View paddingTop={h('2%')}>
-      {props.files.map((file, index) => (
+      {files?.filter((file) => file.file_name !== undefined).map((file) => (
         <FileRow key={file.id} file={file} />
       ))}
     </View>
   );
 }
+
+export default FileList;
