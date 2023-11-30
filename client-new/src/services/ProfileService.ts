@@ -1,8 +1,10 @@
-import axios from 'axios';
+
 
 import { IOnboardingFlowState } from '../interfaces/IOnboardingFlowState';
 import { IProfile } from '../interfaces/IProfile';
 import { API_BASE_URL } from '@/services/const';
+import axios from "axios";
+import {IPersona} from "../interfaces/IPersona";
 
 export const getProfile = async (user_id: string) => {
   console.log('[profile service] fetching profile', `${API_BASE_URL}/users/${user_id}/profile`)
@@ -42,3 +44,35 @@ export const updateOnboardingToComplete = async (
   const response = await axios.patch(`${API_BASE_URL}/profiles/complete/${profile_id}`);
   return response.data;
 }
+
+/**
+ * Gets all the personas from the backend
+ * @returns a list of personas
+ */
+export const getAllPersonas = async (): Promise<IPersona[]> => {
+  try {
+    const response = await axios.get<IPersona[]>(
+      `http://localhost:8080/api/personas/`
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+/**
+ * Gets the persona of the user with the given id
+ * @param userID id for some user
+ * @returns persona
+ */
+export const getPersona = async (userID: string): Promise<IPersona> => {
+  try {
+    const response = await axios.get<IPersona>(
+      `http://localhost:8080/api/personas/${userID}`
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

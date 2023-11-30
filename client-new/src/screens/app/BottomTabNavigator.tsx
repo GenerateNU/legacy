@@ -13,6 +13,9 @@ import HomeScreen from './HomeScreen';
 import MapScreen from './MarketplaceScreen';
 import ProfileScreen from './ProfileScreen';
 import TaskScreen from './TaskScreen';
+import ProfileStack from '@/navigation/ProfileStack';
+
+
 
 const Tab = createBottomTabNavigator();
 
@@ -50,8 +53,9 @@ const TabNavigator = () => {
       <Tab.Screen name="Guides" component={GuideScreen} />
       <Tab.Screen name="Marketplace" component={MapScreen} />
       <Tab.Screen name="Files" component={FileCollectionScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-    </Tab.Navigator>
+      <Tab.Screen name="Profile" component={ProfileStack} />
+
+    </Tab.Navigator >
   );
 };
 
