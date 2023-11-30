@@ -25,7 +25,7 @@ const YourJourneyComponent: React.FC<YourJourneyComponentProps> = ({ user_id }) 
         {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
         {tasks && tasks.slice(0, 3).map((item: ITask, index: number) =>
           <View key={index} mb={0}>
-            <HomeScreenTaskCard task={item} />
+            <HomeScreenTaskCard task={item} isAllTasks={false} />
           </View> 
         )}
       </View>

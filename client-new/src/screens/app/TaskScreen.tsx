@@ -25,16 +25,16 @@ export default function TaskScreen({ navigation }) {
   return (
     <>
       <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={isPending}
-            onRefresh={() => {
-              refetch();
-            }}
-            colors={['#ff0000', '#00ff00', '#0000ff']}
-            tintColor={'#ff0000'}
-          />
-        }
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={isPending}
+        //     onRefresh={() => {
+        //       refetch();
+        //     }}
+        //     colors={['#ff0000', '#00ff00', '#0000ff']}
+        //     tintColor={'#ff0000'}
+        //   />
+        // }
         backgroundColor={'#FFFAF2'}>
         <View margin={'30px'} marginTop={'60px'}>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
@@ -67,7 +67,7 @@ export default function TaskScreen({ navigation }) {
             {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
             {tasks && tasks.map((item: ITask, index: number) =>
               <View key={index} mb={0}>
-                <HomeScreenTaskCard task={item} />
+                <HomeScreenTaskCard task={item} isAllTasks={false} />
               </View> 
             )}
           </View>

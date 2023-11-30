@@ -29,7 +29,7 @@ const CircleProgress = ({ progress }) => {
           cx="50"
           cy="50"
           r={radius}
-          stroke="#EAEAEA"
+          stroke="#0F4D3F"
           strokeWidth={strokeWidth}
           strokeDasharray={circumference}
           strokeLinecap="round"

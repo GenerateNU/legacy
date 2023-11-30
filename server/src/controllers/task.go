@@ -39,6 +39,28 @@ func (t *TaskController) GetTask(c echo.Context) error {
 	return c.JSON(http.StatusOK, task)
 }
 
+// GetTaskTag godoc
+//
+//		@Summary		Gets a task tag from task id
+//		@Description	Returns a task tag from task id
+//		@ID				get-task-tag
+//		@Tags			task
+//		@Produce		json
+//		@Param          tid	  path  string	true	"TaskID"
+//		@Success		200	  {object}	  string
+//	 	@Failure        404   {string}    string "Failed to fetch task tag"
+//		@Router			/api/tasks/{tid}/tags  [get]
+func (t *TaskController) GetTaskTag(c echo.Context) error {
+	taskID := c.Param("tid")
+
+	tag, err := t.taskService.GetTaskTag(taskID)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, "Failed to fetch task tag")
+	}
+
+	return c.JSON(http.StatusOK, tag)
+}
+
 // GetAllTasks godoc
 //
 //		@Summary		Gets all tasks

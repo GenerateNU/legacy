@@ -15,9 +15,14 @@ export default function AppStack() {
         headerShown: false
       }}
     >
-      <Stack.Screen name="Home Screen" component={HomeScreen} />
-      <Stack.Screen name="Task Screen" component={TaskScreen} />
-      <Stack.Screen name="Guide Screen" component={GuideScreen} />
+      <Stack.Group screenOptions={{ presentation: 'modal' }} >
+        <Stack.Screen name="Home Screen" component={HomeScreen} />
+        <Stack.Screen name="Task Screen" component={TaskScreen} options={{
+          gestureEnabled: true, // Enable gestures for this screen
+          gestureDirection: 'vertical', // Allow vertical swipe gesture for this screen
+        }} />
+        <Stack.Screen name="Guide Screen" component={GuideScreen} />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }

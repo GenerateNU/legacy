@@ -6,19 +6,26 @@ import { IUser } from '@/interfaces/IUser';
 
 import { API_BASE_URL } from '@/services/const';
 
+/**
+ * Fetches a user from the API
+ * @param userID the ID of the user to fetch
+ * @returns the user [IUser]
+ */
 export const fetchUser = async (userID: number): Promise<AxiosResponse<IUser>> => {
   const response = await axios.get(`${API_BASE_URL}/users/${userID}`);
+  console.log('[user service] fetching user', `${API_BASE_URL}/users/${userID}`, 'with status', response.status)
   return response;
 }
 
 export const fetchUserByFirebaseID = async (firebaseID: string): Promise<AxiosResponse<IUser>> => {
-  console.log('[user service] fetching user by firebase id', `${API_BASE_URL}/users/firebase/${firebaseID}`)
   const response = await axios.get(`${API_BASE_URL}/users/firebase/${firebaseID}`);
+  console.log('[user service] fetching user by firebase id', `${API_BASE_URL}/users/firebase/${firebaseID}`, 'with status', response.status)
   return response;
 }
 
 export const fetchProfile = async (userID: number): Promise<AxiosResponse<IProfile>> => {
   const response = await axios.get(`${API_BASE_URL}/users/${userID}/profile`);
+  console.log('[user service] fetching profile', `${API_BASE_URL}/users/${userID}/profile`, 'with status', response.status)
   return response;
 }
 

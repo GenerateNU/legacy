@@ -1,17 +1,42 @@
 import { ITask } from '@/interfaces/ITask';
 import { Text, View } from 'native-base';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
 import BackArrowIcon from '../icons/BackArrow';
 import { Circle, Svg } from 'react-native-svg';
 import RightArrowIcon from '../icons/RightArrowIcon';
 import CircleProgress from '../reusable/CircleProgress';
+import { fetchTaskTag } from '@/services/TaskService';
+import { useQuery } from '@tanstack/react-query';
 
 type HSTCProps = {  
   task: ITask;
+  isAllTasks?: boolean;
 };
 
-const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task }) => {
+const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks }) => {
+  const [tag, setTag] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    if (!isAllTasks) {
+      const fetchData = async () => {
+        setIsPending(true);
+        try {
+          const fetchedTag = await fetchTaskTag(task.id);
+          setTag(fetchedTag);
+        } catch (err) {
+          setError(err);
+        } finally {
+          setIsPending(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [isAllTasks, task.id]);
+
   const progress = Math.floor(Math.random() * 100) + 1;
 
   return (
@@ -19,8 +44,8 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task }) => {
       <View
         paddingLeft={5}
         // paddingRight={5}
-        paddingTop={4}
-        paddingBottom={4}
+        paddingTop={6}
+        paddingBottom={6}
         bgColor={'#FFFFFF'}
         borderRadius={13}
         borderWidth={1}
@@ -29,6 +54,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task }) => {
         alignItems="center" // Align items vertically
         justifyContent="space-between" // Spread items horizontally
         marginBottom={4}
+        position={'relative'}
       >
         <View flexDir={'row'} alignItems={'flex-start'} justifyContent={'space-between'} width={'100%'}>
           <View style={{ flex: 1, paddingRight: 10, alignItems: 'flex-start', justifyContent: 'flex-start', alignContent: 'flex-start' }}>
@@ -51,8 +77,32 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task }) => {
           <View style={{ alignSelf: 'flex-end', marginTop: 10, marginLeft: 10, alignItems: 'center', justifyContent: 'center', alignContent: 'center' }}>
             <RightArrowIcon />
           </View>
-
         </View>
+
+        {isPending && <Text>Loading...</Text>}
+        {error && <Text>Error: {error.message}</Text>}
+        {tag && tag.length === 0 && <Text>No tag found</Text>}
+        {tag &&
+          <View style={{
+            position: 'absolute',
+            top: -1,
+            right: 0,
+            backgroundColor: '#0F4D3F',
+            borderTopRightRadius: 12,
+            borderBottomLeftRadius: 12,
+            paddingLeft: 3,
+            paddingRight: 5,
+            paddingTop: 2,
+            paddingBottom: 2,
+          }}>
+            <Text style={{
+              fontSize: 12,
+              color: '#FFFFFF',
+            }}>
+              {tag}
+            </Text>
+          </View>
+        }
       </View>
     </Pressable>
   );

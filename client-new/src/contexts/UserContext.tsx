@@ -22,6 +22,7 @@ import { Use } from 'react-native-svg';
 type UserContextData = {
   user: IUser | null;
   firebaseUser: FirebaseUser | null;
+  refetchUser: () => Promise<void>;
   createAccount: (
     fullName: string,
     email: string,
@@ -92,6 +93,24 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       console.error('Error loading data from storage:', error);
     }
   };
+
+  const refetchUser = async (): Promise<void> => {
+    if (user) {
+      // Uncomment this section to fetch user data
+      const userData = await fetchUserByFirebaseID(user.firebase_id);
+      fetchProfile(userData.data.id);
+      setUser(userData.data);
+      setCompletedOnboarding(profile?.completed_onboarding_response || false);
+      console.log('[user context] userData', completedOnboarding)
+      // Uncomment to store user data
+      setItemAsync('firebaseUser', JSON.stringify(user));
+      setItemAsync('user', JSON.stringify(userData.data));
+      setItemAsync('completedOnboarding', JSON.stringify(profile.completed_onboarding_response));
+    } else {
+      // Uncomment this section to load user data from storage
+      loadStorageData();
+    }
+  }
 
   const createAccount = async (
     fullName: string,
@@ -207,6 +226,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const contextValue: UserContextData = {
     user,
     firebaseUser,
+    refetchUser,
     createAccount,
     login,
     logout,

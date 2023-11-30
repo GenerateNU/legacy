@@ -149,10 +149,6 @@ func (p *ProfileController) InsertOnboardingResponse(c echo.Context) error {
 	}
 	defer c.Request().Body.Close()
 
-	// if err := json.Unmarshal(body, &requestBody); err != nil {
-	// 	return c.JSON(http.StatusBadRequest, "Failed to process the request body")
-	// }
-
 	// Unmarshal the nested JSON string inside "body" into onboardingResponse
 	if err := json.Unmarshal([]byte(body), &onboardingResponse); err != nil {
 		return c.JSON(http.StatusBadRequest, "Failed to unmarhsal the request body")

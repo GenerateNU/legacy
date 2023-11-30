@@ -19,27 +19,36 @@ import { ITask } from '@/interfaces/ITask';
 import { useProfile } from '@/contexts/ProfileContext';
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllGuides } from '@/services/GuideService';
+import { RefreshControl } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
-  const { user, logout } = useUser();
+  const { user, logout, refetchUser } = useUser();
   const { setCompletedOnboarding } = useProfile();
 
-  const { isPending, data: guides, error } = useQuery({
+  const { isPending, data: guides, error, refetch } = useQuery({
     queryKey: ['tasks'],
     queryFn: fetchAllGuides
   });
 
   return (
-    <>
-      <SafeAreaView
-        style={{ flex: 1, backgroundColor: '#FFF9EE' }}
-      >
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}>
         <ScrollView 
           bgColor={'#FFF9EE'}
           contentContainerStyle={{ alignItems: 'center' }}
           showsVerticalScrollIndicator={false}
           marginLeft={w('1%')}
           marginRight={w('1%')}
+        refreshControl={
+          <RefreshControl
+            refreshing={isPending}
+            onRefresh={() => {
+              refetch();
+              refetchUser();
+            }}
+            colors={['#ff0000', '#00ff00', '#0000ff']}
+            tintColor={'#ff0000'}
+          />
+        }
         >
           <Button onPress={() => {
             logout();
@@ -95,22 +104,22 @@ export default function HomeScreen({ navigation }) {
               </View>
             </View>
 
-            <View w={'100%'} mt={5}>
-              <View justifyContent={'space-between'} flexDir={'row'}>
+          <View w={'100%'} mt={5}>
+            <View justifyContent={'space-between'} flexDir={'row'}>
+              <Text
+                color={'#252525'}
+                fontSize={15}
+                fontFamily={'Open Sans'}
+                fontWeight={'700'}
+                lineHeight={20}
+              >
+                Guides
+              </Text>
+              <Pressable onPress={() => navigation.navigate('Guide Screen')}>
                 <Text
-                  color={'#252525'}
+                  color={'#909090'}
                   fontSize={15}
                   fontFamily={'Open Sans'}
-                  fontWeight={'700'}
-                  lineHeight={20}
-                >
-                  Guides
-                </Text>
-                <Pressable onPress={() => navigation.navigate('Guide Screen')}>
-                  <Text
-                    color={'#909090'}
-                    fontSize={15}
-                    fontFamily={'Open Sans'}
                     fontWeight={'400'}
                     textDecorationLine={'underline'}
                     lineHeight={20}
@@ -118,14 +127,13 @@ export default function HomeScreen({ navigation }) {
                     See all
                   </Text>
                 </Pressable>
-              </View>
-              {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
-              {error && <Text>Error: {error.message}</Text>}
-              {guides && <HomeScreenGuides guides={guides} />}
+            </View>
+            {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
+            {error && <Text>Error: {error.message}</Text>}
+            {guides && <HomeScreenGuides guides={guides} />}
             </View>
           </View>
         </ScrollView>
-      </SafeAreaView>
-    </>
+    </SafeAreaView >
   );
 }

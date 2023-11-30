@@ -41,7 +41,7 @@ const TabNavigator = () => {
           backgroundColor: '#FFF9EE',
           borderTopWidth: 1,
           paddingTop: 10,
-          paddingBottom: 10
+          paddingBottom: 10,
         },
         tabBarLabel: ''
       })}

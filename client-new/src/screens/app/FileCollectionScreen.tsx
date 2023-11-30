@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ScrollView, Text, ThreeDotsIcon, View } from 'native-base';
 
 import React, { useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, RefreshControl } from 'react-native';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
@@ -21,7 +21,7 @@ export default function FileCollectionScreen() {
   const { user } = useUser()
   const [filter, setFilter] = useState(null);
 
-  const { isPending, data: files, error } = useQuery({
+  const { isPending, data: files, error, refetch } = useQuery({
     queryKey: ['userFiles', user?.id, filter],
     queryFn: () => fetchUserFilesList(user.id, filter),
     // staleTime: 60000 // TEMP, unsolved refetch when unncessary
@@ -75,7 +75,17 @@ export default function FileCollectionScreen() {
           All Files
         </Text>
         <TaskTagGrid pressed={filter} pressfunc={setFilter}/>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={isPending}
+              onRefresh={() => {
+                refetch();
+              }}
+              colors={['#ff0000', '#00ff00', '#0000ff']}
+              tintColor={'#ff0000'}
+            />
+          }>
           <FileList
             files={files}
           />
