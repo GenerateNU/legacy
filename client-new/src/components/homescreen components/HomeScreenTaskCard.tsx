@@ -37,7 +37,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks }) => {
     }
   }, [isAllTasks, task.id]);
 
-  const progress = Math.floor(Math.random() * 100) + 1;
+  const progress = Math.floor(Math.random() * 100);
 
   return (
     <Pressable onPress={() => console.log(`pressed ${task.id}`)}>

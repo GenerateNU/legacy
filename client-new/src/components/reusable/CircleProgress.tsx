@@ -10,13 +10,12 @@ const CircleProgress = ({ progress }) => {
   const strokeWidth = 10;
   const radius = 50 - strokeWidth / 2;
   const circumference = 2 * Math.PI * radius;
-  const progressStrokeDashoffset = circumference - (progress / 100) * circumference;
+  const progressStrokeDashoffset = ((progress / 100) * circumference) / 100; 
 
-  // duration adjusts as progress changes
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: progress,
-      duration: progress * 25,
+      duration: 1000,
       useNativeDriver: true,
     }).start();
   }, [animatedValue, progress]);
