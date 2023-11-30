@@ -46,11 +46,14 @@ export default function LoginScreen({ route, navigation }) {
 
       const response = await login(email, password)
       console.log('[login screen] RESPONSE', response)
+
       if (response instanceof Error) {
         Alert.alert('Error', response.message);
         setEmail('');
         setPassword('');
         return;
+      } else if (response === true) {
+        navigation.navigate('Onboarding Stack');
       }
     }
 

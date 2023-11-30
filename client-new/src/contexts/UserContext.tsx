@@ -17,6 +17,8 @@ import {
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { IProfile } from '@/interfaces/IProfile';
+import { IOnboardingFlowState } from '@/interfaces/IOnboardingFlowState';
+import { insertOnboardingResponse, updateOnboardingToComplete } from '@/services/ProfileService';
 
 type UserContextData = {
   user: IUser | null;
@@ -25,13 +27,18 @@ type UserContextData = {
   completedOnboarding: boolean;
   setCompletedOnboarding: React.Dispatch<React.SetStateAction<boolean>>;
   refetchUser: () => Promise<void>;
+  refetchProfile: () => Promise<void>;
   createAccount: (
     fullName: string,
     email: string,
     password: string
   ) => Promise<void | Error>;
-  login: (email: string, password: string) => Promise<void | Error>;
+  login: (email: string, password: string) => Promise<boolean | Error>;
   logout: () => Promise<void>;
+  finishOnboarding: (
+    onboardingFlowState: IOnboardingFlowState
+  ) => Promise<void>;
+  toggleOnboarding: () => Promise<void>;
 };
 
 type UserProviderProps = {
@@ -72,7 +79,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [firebaseUser]);
+  }, []);
 
   const loadStorageData = async (): Promise<void> => {
     try {
@@ -127,6 +134,47 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       console.error(`Error refetching profile:`, error);
     }
   }
+
+  const finishOnboarding = useCallback(async (onboardingFlowState: IOnboardingFlowState): Promise<void> => {
+    if (!profile) return;
+
+    const updatedProfile: IProfile = {
+      ...profile,
+      onboarding_response: onboardingFlowState
+    };
+
+    try {
+      console.log('[profile context] updated profile', updatedProfile)
+      console.log('[profile context] updated profile profile id', profile.id)
+      console.log('[profile context] updated profile user id', profile.user_id)
+
+      const profileResponse = await insertOnboardingResponse(
+        updatedProfile.onboarding_response,
+        profile.id,
+        profile.user_id
+      );
+      setProfile(profileResponse);
+      await setItemAsync('profile', JSON.stringify(profileResponse));
+    } catch (error) {
+      console.error(`Error updating onboardingFlowState in profile:`, error);
+      // Handle error - show message or perform recovery action
+    }
+  }, [profile]);
+
+  const toggleOnboarding = useCallback(async (): Promise<void> => {
+    if (!profile) return;
+
+    try {
+      console.log('[profile context] toggle onboarding profile (prev)', profile)
+      const profileRespnse = await updateOnboardingToComplete(profile.id);
+      setCompletedOnboarding(profileRespnse.completed_onboarding_response)
+      await setItemAsync('profile', JSON.stringify(profileRespnse));
+      await setItemAsync('completedOnboarding', JSON.stringify(profileRespnse?.completed_onboarding_response || false))
+    } catch (error) {
+      console.error(`Error setting onboarding to complete in profile:`, error);
+      // Handle error - show message or perform recovery action
+    }
+  }, []);
 
   const createAccount = async (
     fullName: string,
@@ -186,7 +234,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const login = async (
     email: string,
     password: string
-  ): Promise<void | Error> => {
+  ): Promise<boolean | Error> => {
+    let stillInOnboarding: boolean;
     let firebaseUserCredential: UserCredential;
     try {
       firebaseUserCredential = await signInWithEmailAndPassword(
@@ -242,10 +291,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setCompletedOnboarding(profile.data.completed_onboarding_response);
       await setItemAsync('profile', JSON.stringify(profile.data));
       await setItemAsync('completedOnboarding', JSON.stringify(profile.data.completed_onboarding_response));
+      stillInOnboarding = !profile.data.completed_onboarding_response;
+      console.log('[user context] stillInOnboarding', stillInOnboarding)
     } catch (error) {
       console.error('Error fetching profile:', error);
-      // Handle error - show message or perform recovery action
+      // return new Error('Error fetching profile');
     }
+
+    return stillInOnboarding;
   };
 
   const logout = async (): Promise<void> => {
@@ -271,9 +324,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setCompletedOnboarding,
     firebaseUser,
     refetchUser,
+    refetchProfile,
     createAccount,
     login,
-    logout
+    logout,
+    finishOnboarding,
+    toggleOnboarding,
   };
 
   return (

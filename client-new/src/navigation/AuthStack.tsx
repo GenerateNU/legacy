@@ -15,6 +15,8 @@ const Stack = createNativeStackNavigator();
 export default function AuthStack() {
   const { user } = useUser();
   const screenToDisplay = user === null ? 'Access Screen' : 'Onboarding Stack';
+
+  console.log('[auth stack] user', user, 'screenToDisplay', screenToDisplay);
   return (
     <Stack.Navigator
       initialRouteName={screenToDisplay}
