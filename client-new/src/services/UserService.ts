@@ -17,6 +17,7 @@ export const fetchUser = async (userID: number): Promise<AxiosResponse<IUser>> =
     console.log('[user service] fetching user', `${API_BASE_URL}/users/${userID}`, 'with status', response.status)
     return response;
   } catch (error) {
+    console.log('Error fetching user', error);
     throw new Error('Error fetching user');
   }
 }
@@ -27,6 +28,7 @@ export const fetchUserByFirebaseID = async (firebaseID: string): Promise<AxiosRe
     console.log('[user service] fetching user by firebase id', `${API_BASE_URL}/users/firebase/${firebaseID}`, 'with status', response.status)
     return response;
   } catch (error) {
+    console.log('Error fetching user using firebase id', error);
     throw new Error('Error fetching user using firebase id');
   }
 }
@@ -37,6 +39,7 @@ export const fetchProfile = async (userID: number): Promise<AxiosResponse<IProfi
     console.log('[user service] fetching profile', `${API_BASE_URL}/users/${userID}/profile`, 'with status', response.status)
     return response;
   } catch (error) {
+    console.log('Error fetching profile', error);
     throw new Error('Error fetching profile');
   }
 }
@@ -52,6 +55,7 @@ export const fetchUserAndProfile = async (firebaseID: string): Promise<{
     console.log("PROFILE", profile.data);
     return { user, profile };
   } catch (error) {
+    console.log('Error fetching user and profile', error)
     throw new Error('Error fetching user and profile');
   }
 };
@@ -84,6 +88,7 @@ export const createUserAndProfile = async (user: IUser) => {
 
     return newUser;
   } catch (error) {
+    console.log('Error creating user and profile', error);
     throw new Error('Error creating user and profile');
   }
 };
@@ -93,6 +98,7 @@ export const initalizeAllProgress = async (userID: number) => {
   try {
     await axios.post(`${API_BASE_URL}/users/${userID}/progress`).then((res) => console.log(res.data))
   } catch (error) {
+    console.log('Error initializing progress', error);
     throw new Error('Error initializing progress');
   }
 }

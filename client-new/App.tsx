@@ -18,7 +18,15 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ProfileProvider } from '@/contexts/ProfileContext';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      staleTime: 1000 * 60 * 5
+    }
+  }
+});
 
 export default function App() {
   const [fontsLoaded] = useFonts({

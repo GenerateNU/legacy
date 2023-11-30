@@ -1,5 +1,4 @@
 import { View } from 'native-base';
-
 import React, { useState } from 'react';
 import {
   heightPercentageToDP as h,
@@ -9,42 +8,47 @@ import {
 import TaskTag from './TaskTag';
 
 type TaskTagGridProps = {
-  pressed: string;
-  pressfunc?: (tag: string) => void
+  selectedTags: string[];
+  pressfunc?: (tags: string[]) => void;
 };
 
 export default function TaskTagGrid(props: TaskTagGridProps) {
-  const [pressed, setPressed] = useState(props.pressed);
+  const [selectedTags, setSelectedTags] = useState(props.selectedTags);
 
   const pressTag = (tag: string) => {
-    if (pressed === tag) {
-      setPressed(null);
-      props.pressfunc && props.pressfunc(null) 
+    const tagIndex = selectedTags.indexOf(tag);
+    let updatedTags: string[] = [];
+
+    if (tagIndex === -1) {
+      updatedTags = [...selectedTags, tag];
     } else {
-      setPressed(tag);
-      props.pressfunc && props.pressfunc(tag)
+      updatedTags = selectedTags.filter((selectedTag) => selectedTag !== tag);
     }
+
+    setSelectedTags(updatedTags);
+    props.pressfunc && props.pressfunc(updatedTags);
   };
+
   return (
     <View flexDirection={'row'} flexWrap={'wrap'} mt={h('2%')}>
       <TaskTag
         taskText={'Emotional'}
-        taskPressed={pressed === 'Emotional'}
+        taskPressed={selectedTags.includes('Emotional')}
         taskPressFunction={() => pressTag('Emotional')}
       />
       <TaskTag
         taskText={'Financial'}
-        taskPressed={pressed === 'Financial'}
+        taskPressed={selectedTags.includes('Financial')}
         taskPressFunction={() => pressTag('Financial')}
       />
       <TaskTag
         taskText={'Value Based'}
-        taskPressed={pressed === 'Value Based'}
+        taskPressed={selectedTags.includes('Value Based')}
         taskPressFunction={() => pressTag('Value Based')}
       />
       <TaskTag
         taskText={'Holistic'}
-        taskPressed={pressed === 'Holistic'}
+        taskPressed={selectedTags.includes('Holistic')}
         taskPressFunction={() => pressTag('Holistic')}
       />
     </View>

@@ -14,11 +14,11 @@ import TaskTagGrid from '@/components/reusable/TaskTagGrid';
 
 export default function TaskScreen({ navigation }) {
   const { user } = useUser();
-  const [filter, setFilter] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const { isPending, data: tasks, error, refetch } = useQuery({
-    queryKey: ['tasks', user?.id, filter],
-    queryFn: async () => await fetchUserTasks(user.id, filter),
+    queryKey: ['tasks', user?.id, selectedTags],
+    queryFn: async () => await fetchUserTasks(user?.id, selectedTags),
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
 
@@ -53,7 +53,7 @@ export default function TaskScreen({ navigation }) {
               All Tasks
             </Text>
             <View flexDirection={'row'}>
-              <TaskTagGrid pressed={filter} pressfunc={setFilter} />
+              <TaskTagGrid selectedTags={selectedTags} pressfunc={setSelectedTags} />
 
             </View>
           </View>

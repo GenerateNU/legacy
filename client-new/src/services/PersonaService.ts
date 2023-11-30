@@ -9,6 +9,7 @@ export const fetchUserPersona = async (user_id: number): Promise<IPersona> => {
     const response = await axios.get(`${API_BASE_URL}/users/${user_id}/persona`);
     return response.data;
   } catch (error) {
+    console.log('Error fetching user persona', error);
     throw new Error('Error fetching user persona');
   }
 };

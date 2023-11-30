@@ -43,16 +43,15 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks }) => {
     <Pressable onPress={() => console.log(`pressed ${task.id}`)}>
       <View
         paddingLeft={5}
-        // paddingRight={5}
         paddingTop={6}
         paddingBottom={6}
         bgColor={'#FFFFFF'}
         borderRadius={13}
         borderWidth={1}
         borderColor={'#0F4D3F'}
-        flexDirection="row" // Set flexDirection to 'row'
-        alignItems="center" // Align items vertically
-        justifyContent="space-between" // Spread items horizontally
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between" 
         marginBottom={4}
         position={'relative'}
       >
@@ -79,9 +78,8 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks }) => {
           </View>
         </View>
 
-        {isPending && <Text>Loading...</Text>}
-        {error && <Text>Error: {error.message}</Text>}
-        {tag && tag.length === 0 && <Text>No tag found</Text>}
+        {isPending && <View />}
+        {error && <View />}
         {tag &&
           <View style={{
             position: 'absolute',

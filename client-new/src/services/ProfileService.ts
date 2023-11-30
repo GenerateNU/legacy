@@ -8,11 +8,12 @@ import {IPersona} from "../interfaces/IPersona";
 import { sleep } from '@/utils/MockDelayUtil';
 
 export const getProfile = async (user_id: string) => {
-  console.log('[profile service] fetching profile', `${API_BASE_URL}/users/${user_id}/profile`)
   try {
     const response = await axios.get(`${API_BASE_URL}/users/${user_id}/profile`);
+    console.log('[profile service] fetching profile', `${API_BASE_URL}/users/${user_id}/profile`, response.data, 'status', response.status)
     return response.data as IProfile;
   } catch (error) {
+    console.log('Error fetching profile', error);
     throw new Error('Error fetching profile');
   }
 };
@@ -31,6 +32,7 @@ export const updateProfile = async (
       user_id: profile.user_id
     });
   } catch (error) {
+    console.log('Error updating profile', error);
     throw new Error('Error updating profile');
   }
 };
@@ -46,6 +48,7 @@ export const insertOnboardingResponse = async (
     );
     return response.data;
   } catch (error) {
+    console.log('Error inserting onboarding response', error);
     throw new Error('Error inserting onboarding response');
   }
 };
@@ -58,6 +61,7 @@ export const updateOnboardingToComplete = async (
     const response = await axios.patch(`${API_BASE_URL}/profiles/complete/${profile_id}`);
     return response.data;
   } catch (error) {
+    console.log('Error updating onboarding to complete', error);
     throw new Error('Error updating onboarding to complete');
   }
 }
@@ -73,6 +77,7 @@ export const getAllPersonas = async (): Promise<IPersona[]> => {
     );
     return response.data;
   } catch (error) {
+    console.log('Error fetching all personas', error);
     throw new Error('Error fetching all personas');
   }
 };
@@ -88,6 +93,7 @@ export const getPersona = async (userID: number): Promise<IPersona> => {
     const response = await axios.get(`${API_BASE_URL}/users/${userID}/persona`);
     return response.data as IPersona;
   } catch (error) {
+    console.log('Error fetching persona', error);
     throw new Error('Error fetching persona');
   }
 };

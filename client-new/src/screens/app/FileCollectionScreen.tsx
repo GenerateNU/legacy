@@ -19,14 +19,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function FileCollectionScreen() {
 
   const { user } = useUser()
-  const [filter, setFilter] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const { isPending, data: files, error, refetch } = useQuery({
-    queryKey: ['userfiles', user?.id, filter],
-    queryFn: () => fetchUserFilesList(user.id, filter),
+    queryKey: ['userfiles', user?.id, selectedTags],
+    queryFn: () => fetchUserFilesList(user.id, selectedTags),
     // staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
-  console.log('Query Key:', ['userFiles', user?.id, filter]);
+  console.log('Query Key:', ['userFiles', user?.id, selectedTags])
 
    
   return (
@@ -46,7 +46,7 @@ export default function FileCollectionScreen() {
         >
           All Files
         </Text>
-        <TaskTagGrid pressed={filter} pressfunc={setFilter}/>
+        <TaskTagGrid selectedTags={selectedTags} pressfunc={setSelectedTags} />
         <ScrollView
           refreshControl={
             <RefreshControl

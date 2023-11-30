@@ -35,7 +35,6 @@ export default function OnboardingStack() {
           component={QuizSectionIntroScreen}
         />
         <Stack.Screen name="Persona Screen" component={PersonaScreen} />
-        {/* <Stack.Screen name="Home Screen" component={HomeScreen} /> */}
       </Stack.Navigator>
     </OnboardingProvider>
   );
