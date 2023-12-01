@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { ISubTask } from '../interfaces/ISubTask';
-import { ENDPOINT } from './const';
+import { API_BASE_URL } from './const';
 
 
 export const getAllSubTasks = async (taskID: string) => {
-  const subtasks = await axios.get(`${ENDPOINT}/api/tasks/${taskID}/subtasks`)
+  const subtasks = await axios.get(`${API_BASE_URL}/tasks/${taskID}/subtasks`)
       .then((res) => { return res.data; }).catch((err) => { console.log(err); });
   return subtasks;
 }

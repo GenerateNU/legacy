@@ -13,10 +13,8 @@ import {
 } from 'native-base';
 
 import React, { useCallback, useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useUser } from '@/contexts/UserContext';
 import { createFile } from '@/services/CreateFileService';
-import { PDFPage, PDFDocument, PDFLib } from "react-native-pdf-lib"
-import RNFS from 'react-native-fs';
 
 const FormComponent = ({ actions }: IActionList) => {
   const [formState, setFormState] = useState({});
@@ -75,6 +73,7 @@ const FormComponent = ({ actions }: IActionList) => {
     }));
   };
   
+  /*
   const generatePDF = async () => {
     const doc = await PDFPage.create().setMediaBox(200, 200)
 
@@ -102,16 +101,16 @@ const FormComponent = ({ actions }: IActionList) => {
 
     return pdfBlob;
   };
-
+*/
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const file_data = await generatePDF();
+    //const file_data = await generatePDF();
 
-    const {user, logout} = await useAuth();
-    const uid = user.uid // i'm not sure if this is the proper way to get the user id
+    const user = await useUser();
+    const uid = user.user.id // i'm not sure if this is the proper way to get the user id
 
-    await createFile(uid, file_data)
+    //await createFile(uid, file_data)
 
     console.log('Form submitted:', {
       metadata: { timestamp: new Date() },
