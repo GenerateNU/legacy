@@ -26,27 +26,27 @@ export default function TaskScreen({ navigation }) {
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
 
-  useEffect(() => {
-    const debounce = (func, delay) => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        func();
-      }, delay);
-    };
+  // useEffect(() => {
+  //   const debounce = (func, delay) => {
+  //     clearTimeout(debounceTimer);
+  //     debounceTimer = setTimeout(() => {
+  //       func();
+  //     }, delay);
+  //   };
 
-    const filterTasks = () => {
-      const filtered = tasks?.filter((task) => {
-        return task.task_name.toLowerCase().includes(search.toLowerCase()) || task.task_description.toLowerCase().includes(search.toLowerCase());
-      });
-      setFilteredTasks(filtered);
-    };
+  //   const filterTasks = () => {
+  //     const filtered = tasks?.filter((task) => {
+  //       return task.task_name.toLowerCase().includes(search.toLowerCase()) || task.task_description.toLowerCase().includes(search.toLowerCase());
+  //     });
+  //     setFilteredTasks(filtered);
+  //   };
 
-    debounce(filterTasks, 300);
+  //   debounce(filterTasks, 300);
 
-    return () => {
-      clearTimeout(debounceTimer);
-    };
-  }, [search]);
+  //   return () => {
+  //     clearTimeout(debounceTimer);
+  //   };
+  // }, [search]);
 
   return (
     <>
@@ -104,8 +104,8 @@ export default function TaskScreen({ navigation }) {
           >
             {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
             {error && <Text>Error: {error.message}</Text>}
-            {fileteredTasks && fileteredTasks.length === 0 && <Text>No tasks found</Text>}
-            {fileteredTasks && fileteredTasks.map((item: ITask, index: number) =>
+            {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
+            {tasks && tasks.map((item: ITask, index: number) =>
               <View key={index} mb={0}>
                 <HomeScreenTaskCard task={item} isAllTasks={false} />
               </View> 

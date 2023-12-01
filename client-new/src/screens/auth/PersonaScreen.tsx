@@ -7,10 +7,12 @@ import { IPersona } from '@/interfaces/IPersona';
 import { fetchUserPersona } from '@/services/PersonaService';
 import { initalizeAllProgress } from '@/services/UserService';
 import { convertNumericToString } from '@/utils/ObjectConversionUtils';
+import { isLoading } from 'expo-font';
 import { Divider, Text, View } from 'native-base';
 
 import { useEffect, useState } from 'react';
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
