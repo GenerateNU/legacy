@@ -1,9 +1,10 @@
 import { View } from 'native-base';
-import {
-    widthPercentageToDP as w,
-    heightPercentageToDP as h
-  } from 'react-native-responsive-screen';
+
 import React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
 
 export default function ScreenBody({ children }) {
   return (

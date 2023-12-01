@@ -1,23 +1,26 @@
-import { View, Text, ThreeDotsIcon } from 'native-base';
-import React from 'react';
-import FileIcon from '../icons/FileIcon';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
 import { IFile } from '@/interfaces/IFile';
+import { Text, ThreeDotsIcon, View } from 'native-base';
+
+import React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+
 import FileRow from './FileRow';
 
 type FileListProps = {
-  files: IFile[]
-}
+  files: IFile[];
+};
 
-export default function FileList(props: FileListProps) {
+const FileList: React.FC<FileListProps> = ({ files }) => {
   return (
     <View paddingTop={h('2%')}>
-      {props.files.map((file, index) => (
-        <FileRow key={index} file={file}/>
+      {files?.filter((file) => file.file_name !== undefined).map((file) => (
+        <FileRow key={file.id} file={file} />
       ))}
     </View>
   );
 }
+
+export default FileList;

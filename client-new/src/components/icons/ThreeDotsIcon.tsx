@@ -1,10 +1,11 @@
 import { View } from 'native-base';
+
 import * as React from 'react';
-import Svg, { Path } from 'react-native-svg';
 import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
 } from 'react-native-responsive-screen';
+import Svg, { Path } from 'react-native-svg';
 
 const originalWidth = 24;
 const originalHeight = 24;
@@ -27,4 +28,5 @@ const ThreeDotsIcon = (props) => (
     </Svg>
   </View>
 );
+
 export default ThreeDotsIcon;

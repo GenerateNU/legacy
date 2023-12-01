@@ -1,53 +1,33 @@
-import { View, Text } from "native-base";
-import HomeScreenTaskCard from "./HomeScreenTaskCard";
+import { Button, Pressable, Text, View } from 'native-base';
+import React from 'react';
+import HomeScreenTaskCard from './HomeScreenTaskCard';
+import { ITask } from '@/interfaces/ITask';
+import { useQuery } from '@tanstack/react-query';
+import { fetchUserTasks } from '@/services/TaskService';
+import { ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; 
 
-type YourJourneyProps = {
-  tasks: {
-    task_name: string;
-    task_description: string;
-    progress: number;
-  }[];
+type YourJourneyComponentProps = {
+  user_id: number;
 };
 
-const YourJourneyComponent: React.FC<YourJourneyProps> = ({ tasks }) => {
-  // Get the first three tasks
-  const displayedTasks = tasks.slice(0, 3);
+const YourJourneyComponent: React.FC<YourJourneyComponentProps> = ({ user_id }) => {
+  const { isPending, data: tasks, error } = useQuery({
+    queryKey: ['tasks', user_id],
+    queryFn: async () => await fetchUserTasks(user_id)
+  });
 
   return (
-    <View width={'100%'} marginTop={5}>
-      <View justifyContent={'space-between'} flexDir={'row'}>
-        <Text
-          color={'#252525'}
-          fontFamily={"rocaOne"}
-          fontWeight={"Regular"}
-          fontStyle={"normal"}
-          fontSize={24}
-          lineHeight={26.4}
-        >
-          Your Journey
-        </Text>
-        <Text
-          color={'#909090'}
-          fontSize={15}
-          fontFamily={'Open Sans'}
-          fontWeight={'400'}
-          textDecorationLine={'underline'}
-          lineHeight={20}
-        >
-          See all
-        </Text>
-      </View>
-
-      <View mt={5} flexDir={'column'} justifyContent={'space-between'}>
-        {displayedTasks.map((item, index) => (
+    <View width={'100%'}>
+      <View mt={2} flexDir={'column'} justifyContent={'space-evenly'}>
+        {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
+        {error && <Text>Error: {error.message}</Text>}
+        {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
+        {tasks && tasks.slice(0, 3).map((item: ITask, index: number) =>
           <View key={index} mb={0}>
-            <HomeScreenTaskCard
-              title={item.task_name}
-              description={item.task_description}
-              progress={item.progress}
-            />
-          </View>
-        ))}
+            <HomeScreenTaskCard task={item} isAllTasks={false} />
+          </View> 
+        )}
       </View>
     </View>
   );

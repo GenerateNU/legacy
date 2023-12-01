@@ -1,8 +1,10 @@
 -- Creating test personas
 INSERT INTO personas (persona_title, persona_description) VALUES 
-('Procrastinating Rookie', 'Compassionate and reassuring'),
-('Adventurous Optimist', 'Informed and death positive'),
-('Adventurous Optimist with Wealth', 'Expert driven and death positive');
+('Procrastinating Rookie', 'Enjoys a challenge, scarcity mindset, the ultimate planner, a perfectionist, selfish, always on the edge, half-empty glass thinker, externally motivated, all-at-once worker, quick-start guide enthusiast, uncomfortable discussing death, less nurturing, inexperienced with EOLP, racing against time, tight finances, dipping toes in the water.'),
+('Easygoing Explorer', 'Thrives on adventure, abundance advocate, let''s-see-what-happens future, content with ''good enough,'' empathetic, beach-level tranquility, sunny disposition, internally motivated, explores tasks over time, full novel enthusiast, comfortable discussing death, nurturing, fairly familiar with EOLP, no rush, tight finances, ready to start.'),
+('Multitasking Dynamo', 'Loves a challenge, abundance believer, the ultimate planner, prefers perfection, selfish, edgy, half-empty glass view, externally motivated, all-at-once worker, quick-start guide fan, uncomfortable discussing death, less nurturing, somewhat familiar with EOLP, procrastinator, comfortable finances, at the starting line.'),
+('Tranquil Trailblzer', 'Adventuresome, abundance thinker, let''s-see-what-happens future, content with ''good enough,'' empathetic, always at the beach, glass-half-full mentality, internally motivated, an explorer of tasks, quick-start guide lover, comfortable discussing death, nurturing, knowledgeable about EOLP, no rush, comfortable finances, ready to start.'),
+('Adventurous Optimist', 'Always up for new experiences, believes in abundance, a laid-back planner, a chill perfectionist, empathetic, beach-level calmness, a sunny outlook, internally motivated, explores tasks over time, loves the full novel, comfortable discussing death, nurturing, well-versed in EOLP, has time to plan, financially stable, ready to start.');
 
 -- Creating test users
 INSERT INTO users (username, password, firebase_id, email, persona_id) VALUES 
@@ -209,11 +211,19 @@ INSERT INTO persona_tasks (persona_id, task_id) VALUES
 
 -- Persona 2: Adventurous Optimist
 INSERT INTO persona_tasks (persona_id, task_id) VALUES
-(2, 4), (2, 5), (2, 6), (2, 6), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 15);
+(2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 15);
 
 -- Persona 3: Adventurous Optimist with Wealth
 INSERT INTO persona_tasks (persona_id, task_id) VALUES
 (3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15);
+
+-- Persona 4: Multitasking Dynamo
+INSERT INTO persona_tasks (persona_id, task_id) VALUES
+(4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (4, 9), (4, 10), (4, 11), (4, 12), (4, 13), (4, 14), (4, 15);
+
+-- Persona 5: Tranquil Trailblazer
+INSERT INTO persona_tasks (persona_id, task_id) VALUES
+(5, 4), (5, 5), (5, 6), (5, 7), (5, 8), (5, 9), (5, 10), (5, 11), (5, 12), (5, 13), (5, 14), (5, 15);
 
 -- Creating test guides
 INSERT INTO guides (guide_name, title, sub_title, author, author_image_url, mins_read, date, full_text) VALUES

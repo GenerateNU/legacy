@@ -1,10 +1,15 @@
 import FormComponent from '@/utils/Actions';
 import { getActions } from '@/services/ActionsService';
 import { IAction, IActionList } from '@/interfaces/IAction';
+import { getActions } from '@/services/SubTaskService';
+import { API_BASE_URL } from '@/services/const';
+import FormComponent from '@/utils/Actions';
+import { Text } from 'native-base';
+
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { ENDPOINT } from '@/services/const';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Button, ScrollView, Text, View, HStack } from 'native-base';
 import Icon from "react-native-vector-icons/Ionicons";
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
@@ -13,7 +18,16 @@ import TabNavigator from '@/screens/app/BottomTabNavigator';
 const SubTaskScreen = ({ props }) => {
   // props should include a id field that represents the subtask id
   // props basically should be an ISubTask
+import { useQuery } from '@tanstack/react-query';
 
+const SubTaskScreen = ({ subtask_id }) => {
+  const [state, setState] = useState<IActionList>(null);
+  // props should include a id field
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['actions', subtask_id],
+    queryFn: () => getActions(subtask_id)
+  });
   const { isLoading, error, data } = useQuery(
     ['fetchActions', props.id],
     () => getActions(props.id)

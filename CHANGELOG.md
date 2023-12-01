@@ -2,6 +2,7 @@
 
 ### Feat
 
+- **client**: fixed, refactored and improevd frontend services and contexts
 - **files-+-tasks**: filterable based on users and tags
 
 ### Fix

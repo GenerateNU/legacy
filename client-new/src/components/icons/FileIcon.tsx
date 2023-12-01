@@ -1,10 +1,11 @@
-import * as React from 'react';
-import Svg, { Path } from 'react-native-svg';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
 import { View } from 'native-base';
+
+import * as React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import Svg, { Path } from 'react-native-svg';
 
 const originalWidth = 26;
 const originalHeight = 32;
@@ -16,7 +17,6 @@ const FileIcon = (props) => (
       xmlns="http://www.w3.org/2000/svg"
       width="100%"
       height="100%"
-      fill="none"
       viewBox={`0 0 ${originalWidth} ${originalHeight}`}
       {...props}
     >

@@ -1,15 +1,19 @@
-import { ScrollView, Box, View, Text, Image } from 'native-base';
+import Markdown from '@ronradtke/react-native-markdown-display';
+import { Box, Image, ScrollView, Text, View } from 'native-base';
+
 import { useEffect, useState } from 'react';
+import React from 'react';
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
+
 import { IGuide } from '../../interfaces/IGuide';
+import { fetchGuideByName } from '../../services/GuideService';
 import { getMonth } from '../../utils/DateUtils';
 import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
-import { getGuide } from '../../services/GuideService';
-import Markdown from '@ronradtke/react-native-markdown-display';
-import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { ActivityIndicator } from 'react-native';
 
 const MarkdownWrapper: React.FC<any> = ({ children }) => {
   return (
@@ -27,25 +31,47 @@ const MarkdownWrapper: React.FC<any> = ({ children }) => {
   );
 };
 
-const GuideScreen = (props) => {
-  // props should include a guideName field.
-  const [state, setState] = useState<IGuide>(null);
+type GuideScreenProps = {
+  guideName: string;
+  navigation: any;
+};
 
-  useEffect(() => {
-    const fetchGuide = async (guideName: string) => {
-      try {
-        const guide = await getGuide(guideName);
-        setState(guide);
-        console.log('initialize guide success: ', guide);
-      } catch (err) {
-        console.log('failed to initialize guide: ', err);
-      }
-    };
-    fetchGuide(props.guideName);
-  }, [props.guideName]);
+const GuideScreen: React.FC<GuideScreenProps> = ({ guideName, navigation }) => {
+  // props should include a guideName field.
+  const { isPending, data: guide, error } = useQuery({
+    queryKey: ['guide'],
+    queryFn: () => fetchGuideByName('Test Guide')
+  });
+
+  if (isPending) {
+    return (
+      < View
+        flex={1}
+        justifyContent={'center'}
+        alignItems={'center'}
+        bg={'#FFF9EE'}
+      >
+        <ActivityIndicator size="large" />
+      </View>
+
+    );
+  }
+
+  if (error) {
+    return (
+      < View
+        flex={1}
+        justifyContent={'center'}
+        alignItems={'center'}
+        bg={'#FFF9EE'}
+      >
+        <Text>Error!</Text>
+      </View>
+    );
+  }
 
   return (
-    state && (
+    guide && (
       <ScrollView>
         <View bg="#FFB017" w={wp('100%')}>
           <View alignItems={'center'}>
@@ -59,7 +85,7 @@ const GuideScreen = (props) => {
                 bold
                 color={'deepEvergreen'}
               >
-                {state.title}
+                {guide.title}
               </Text>
               <Text
                 maxW={wp('65%')}
@@ -71,14 +97,14 @@ const GuideScreen = (props) => {
                 max-width
                 color={'deepEvergreen'}
               >
-                {state.sub_title}
+                {guide.sub_title}
               </Text>
               <View py={hp('2%')} flexDirection={'row'} alignItems={'center'}>
                 <Image
                   size={50}
                   borderRadius={35}
                   source={{
-                    uri: state.author_image_url
+                    uri: guide.author_image_url
                   }}
                   alt="barack"
                 />
@@ -90,7 +116,7 @@ const GuideScreen = (props) => {
                   fontSize={moderateScale(10.5)}
                   color={'deepEvergreen'}
                 >
-                  Written by {state.author}
+                  Written by {guide.author}
                 </Text>
               </View>
               <View pb={hp('4%')} flexDirection={'row'}>
@@ -101,7 +127,7 @@ const GuideScreen = (props) => {
                   fontSize={moderateScale(10.5)}
                   color={'deepEvergreen'}
                 >
-                  {state.mins_read.toString()} min read
+                  {guide.mins_read.toString()} min read
                 </Text>
                 <Text
                   px={wp('2%')}
@@ -111,15 +137,15 @@ const GuideScreen = (props) => {
                   fontSize={moderateScale(10.5)}
                   color={'deepEvergreen'}
                 >
-                  {getMonth(new Date(state.date).getMonth())}{' '}
-                  {new Date(state.date).getDay().toString()},{' '}
-                  {new Date(state.date).getFullYear().toString()}
+                  {getMonth(new Date(guide.date).getMonth())}{' '}
+                  {new Date(guide.date).getDay().toString()},{' '}
+                  {new Date(guide.date).getFullYear().toString()}
                 </Text>
               </View>
             </View>
             <View>
               <Box roundedTop={wp('17%')} bg="#FAF8F2" w={wp('100%')}>
-                <MarkdownWrapper>{state.full_text}</MarkdownWrapper>
+                <MarkdownWrapper>{guide.full_text}</MarkdownWrapper>
               </Box>
             </View>
           </View>

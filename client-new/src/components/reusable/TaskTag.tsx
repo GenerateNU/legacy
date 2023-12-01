@@ -1,10 +1,11 @@
-import { View, Text, Pressable } from 'native-base';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
-import React from 'react';
 import { moderateScale } from '@/utils/FontSizeUtils';
+import { Pressable, Text, View } from 'native-base';
+
+import React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
 
 type TaskTagProps = {
   taskText: string;
@@ -15,21 +16,23 @@ type TaskTagProps = {
 export default function TaskTag(props: TaskTagProps) {
   return (
     <Pressable
-      paddingX={w('3.5%')}
-      paddingY={h('1.5%')}
       backgroundColor={props.taskPressed ? 'deepEvergreen' : '#00000000'}
       alignSelf={'flex-start'}
-      borderRadius={30}
+      borderRadius={'full'}
       borderColor={'deepEvergreen'}
-      borderWidth={1.5}
+      borderWidth={'1px'}
       onPress={props.taskPressFunction}
-      marginTop={h('0.75%')}
-      marginRight={w('0.5%')}
+      marginRight={w('.5%')}
+      paddingLeft={w('3%')}
+      paddingRight={w('3%')}
+      paddingTop={h('1%')}
+      paddingBottom={h('1%')}
+      marginBottom={h('1%')}
     >
       <Text
         fontFamily={'inter'}
         fontWeight={'600'}
-        fontSize={moderateScale(13)}
+        fontSize={moderateScale(12)}
         color={props.taskPressed ? '#FFFFFF' : 'deepEvergreen'}
       >
         {props.taskText}

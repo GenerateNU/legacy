@@ -1,22 +1,24 @@
-import { Text, View } from "native-base";
+import { Text, View } from 'native-base';
+import React from 'react';
 import {
-  widthPercentageToDP as w,
   heightPercentageToDP as h,
-} from "react-native-responsive-screen";
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import OpenLinkButton from './OpenLinkButton';
 
 export default function Footer() {
   return (
     <>
-      <View justifyContent={"center"} alignItems={"center"}>
-        <Text
-          fontSize={12}
-          fontFamily={"inter"}
-          fontWeight={"Regular"}
-          fontStyle={"normal"}
-          color={"darkGreen"}
-        >
-          Terms of Service | Privacy Policy
+      <View justifyContent={'center'} alignItems={'center'} flexDirection={'row'}>
+        <OpenLinkButton url={'https://www.example.com'}>
+          Terms of Service
+        </OpenLinkButton>
+        <Text fontSize={12} fontFamily={'inter'} fontWeight={'Regular'}>
+          {' '}|{' '}
         </Text>
+        <OpenLinkButton url={'https://www.example.com'}>
+          Privacy Policy
+        </OpenLinkButton>
       </View>
     </>
   );

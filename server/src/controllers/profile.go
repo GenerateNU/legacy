@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"encoding/json"
+	"io"
 	"net/http"
 	"server/src/models"
 	"server/src/services"
@@ -136,22 +138,48 @@ func (p *ProfileController) UpdateProfile(c echo.Context) error {
 //		@Failure        400   {string}    string "Failed to insert onboarding response"
 //		@Router			/api/profiles/response/{pid}  [patch]
 func (p *ProfileController) InsertOnboardingResponse(c echo.Context) error {
-	var profile models.Profile
 	var onboardingResponse types.OnboardingResponse
+	// var requestBody types.RequestBody
 	profileID := c.Param("pid")
+	userID := c.Param("uid")
 
-	if err := c.Bind(&onboardingResponse); err != nil {
-		return c.JSON(http.StatusBadRequest, "Failed to process the request")
+	body, err := io.ReadAll(c.Request().Body)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, "Failed to read request body")
+	}
+	defer c.Request().Body.Close()
+
+	// Unmarshal the nested JSON string inside "body" into onboardingResponse
+	if err := json.Unmarshal([]byte(body), &onboardingResponse); err != nil {
+		return c.JSON(http.StatusBadRequest, "Failed to unmarhsal the request body")
 	}
 
-	// 1. Get Score
-	// 2. Remove it from struct
-	// 3. Calculate Score to determine persona
-	// 4. Insert persona into user
-	// 5. Return user
-	profile, err := p.profileService.InsertOnboardingResponse(profileID, onboardingResponse, profile)
+	profile, err := p.profileService.InsertOnboardingResponse(userID, profileID, onboardingResponse)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, "Failed to insert onboarding response")
+		return c.JSON(http.StatusInternalServerError, "Failed to process onboarding response")
+	}
+
+	return c.JSON(http.StatusOK, profile)
+}
+
+// SetOnboardingComplete godoc
+//
+//		@Summary		Sets onboarding complete
+//		@Description	Sets onboarding complete
+//		@ID				set-onboarding-complete
+//		@Tags			profile
+//		@Accept			json
+//		@Produce		json
+//	    @Param          pid	  path  string	true	"ProfileID"
+//		@Success		200	  {object}	  models.Profile
+//		@Failure        400   {string}    string "Failed to set onboarding complete"
+//		@Router			/api/profiles/complete/{pid}  [patch]
+func (p *ProfileController) SetOnboardingComplete(c echo.Context) error {
+	profileID := c.Param("pid")
+
+	profile, err := p.profileService.SetOnboardingComplete(profileID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, "Failed to set onboarding complete")
 	}
 
 	return c.JSON(http.StatusOK, profile)

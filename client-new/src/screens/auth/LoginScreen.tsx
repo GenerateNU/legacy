@@ -1,46 +1,63 @@
-import { View } from 'native-base';
-import { useAuth } from '@/contexts/AuthContext';
-import { useState } from 'react';
-import ScreenWideInput from '@/components/reusable/ScreenWideInput';
-import ScreenWideButton from '@/components/reusable/ScreenWideButton';
-import HalfScreenWideButton from '@/components/reusable/HalfScreenWideButton';
-import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
+import BackArrowIcon from '@/components/icons/BackArrow';
 import Footer from '@/components/reusable/Footer';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
+import HalfScreenWideButton from '@/components/reusable/HalfScreenWideButton';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import LetsGo from '@/components/reusable/LetsGo';
+import ScreenWideButton from '@/components/reusable/ScreenWideButton';
+import ScreenWideInput from '@/components/reusable/ScreenWideInput';
+import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
+import { useUser } from '@/contexts/UserContext';
+import { View } from 'native-base';
+
+import { useState } from 'react';
 import React from 'react';
-import { signIn } from '@/services/authService';
+import { Alert } from 'react-native';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { z } from 'zod';
 
 export default function LoginScreen({ route, navigation }) {
-  const { user, login } = useAuth();
+  const { login } = useUser();
+
+  const emailSchema = z.string().email('Invalid email format');
+  const passwordSchema = z.string().min(8, 'Password must be at least 8 characters long');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const logIn = () => {
-    login(email, password);
-    console.log('HIT');
-    navigation.navigate('Access Screen');
+  const signIn = () => {
+    const handleLogin = async () => {
+      if (email === '' || password === '') {
+        Alert.alert('Error', 'Please fill in all required fields');
+        return;
+      }
 
-    //
-    // login(email, password).then((response) => {
-    //   if (response === true) {
-    //     // ONCE WE FIGURE OUT HOW TO GO TO HOME SCREEN, PUT HERE
-    //     navigation.navigate("");
-    //   } else {
-    //     const err = JSON.parse(JSON.stringify(response)).code;
-    //     console.log("ERROR: ", err)
-    //     Alert.alert(
-    //       "Error",
-    //       "There was an error with authentication. Please try again.",
-    //       [{ text: "OK", onPress: () => {} }]
-    //     );
-    //   }
-    // });
+      try {
+        emailSchema.parse(email);
+        passwordSchema.parse(password);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          Alert.alert('Error', error.issues[0].message);
+          return;
+        }
+      }
+
+      const response = await login(email, password)
+      console.log('[login screen] RESPONSE', response)
+
+      if (response instanceof Error) {
+        Alert.alert('Error', response.message);
+        setEmail('');
+        setPassword('');
+        return;
+      } else if (response === true) {
+        navigation.navigate('Onboarding Stack');
+      }
+    }
+
+    handleLogin();
   };
 
   const switchToSignUp = () => {

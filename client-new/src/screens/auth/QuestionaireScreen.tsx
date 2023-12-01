@@ -1,16 +1,17 @@
-import { SafeAreaView } from 'react-native-safe-area-context';
-import QuestionaireBox from '@/components/reusable/QuestionaireBox';
-import { Button, Divider, KeyboardAvoidingView, View } from 'native-base';
 import CircleProgressBar from '@/components/reusable/CircleProgressBar';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
+import QuestionaireBox from '@/components/reusable/QuestionaireBox';
 import ScreenWideButton from '@/components/reusable/ScreenWideButton';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { Button, Divider, KeyboardAvoidingView, View } from 'native-base';
+
 import React from 'react';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function QuestionaireScreen({ route, navigation }) {
   const {
@@ -48,9 +49,8 @@ export default function QuestionaireScreen({ route, navigation }) {
       </View>
     ) : null;
   return (
-    <>
-      <View bg={'creamyCanvas'} alignItems="center" h={h('100%')} w={w('100%')}>
-        <View paddingTop={h('7%')}></View>
+    <SafeAreaView style={{backgroundColor: "#FFF9EE"}}>
+      <View alignItems="center" h={h('100%')} w={w('100%')}>
 
         <View
           width={w('80%')}
@@ -59,7 +59,7 @@ export default function QuestionaireScreen({ route, navigation }) {
           justifyItems={'center'}
           paddingBottom={h('3%')}
         >
-          <Button backgroundColor={'transparent'}>
+          <Button backgroundColor={'transparent'} onPress={back}>
             <Icon name="chevron-back" size={20} color={'#374957'}></Icon>
           </Button>
           <LegacyWordmark />
@@ -85,7 +85,7 @@ export default function QuestionaireScreen({ route, navigation }) {
           handleChange={handleChange}
         />
 
-        <View paddingTop={h('4%')}>
+        <View paddingTop={h('5%')}>
           <ScreenWideButton
             text={'Next'}
             textColor="#FFFFFF"
@@ -97,6 +97,6 @@ export default function QuestionaireScreen({ route, navigation }) {
 
         {nextButton}
       </View>
-    </>
+    </SafeAreaView>
   );
 }

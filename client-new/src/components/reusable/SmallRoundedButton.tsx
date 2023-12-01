@@ -1,8 +1,10 @@
-import { Button, Text } from "native-base";
+import { Button, Text } from 'native-base';
+import React from 'react';
+
 import {
-  widthPercentageToDP as w,
   heightPercentageToDP as h,
-} from "react-native-responsive-screen";
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
 
 type SquareButtonProps = {
   title: string;
@@ -12,12 +14,12 @@ type SquareButtonProps = {
 export default function SmallRoundedButton(props: SquareButtonProps) {
   return (
     <Button
-      backgroundColor={"lightGreen"}
+      backgroundColor={'lightGreen'}
       borderRadius={25}
-      width={w("23%")}
+      width={w('23%')}
       onPress={props.onClick}
     >
-      <Text color={"#FFFFFF"} fontFamily={"rocaOne"} fontWeight={"bold"}>
+      <Text color={'#FFFFFF'} fontFamily={'rocaOne'} fontWeight={'bold'}>
         {props.title}
       </Text>
     </Button>

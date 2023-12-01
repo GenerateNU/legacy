@@ -1,63 +1,118 @@
-import {  View, Text, ScrollView, Button, } from "native-base";
-import { useAuth } from "../../contexts/AuthContext";
-import LegacyWordmark from "../../components/reusable/LegacyWordmark";
-import HomeScreenTaskCard from "../../components/homescreen components/HomeScreenTaskCard";
-import React from "react";
+import { useUser } from '@/contexts/UserContext';
+import { Button, Icon, Input, ScrollView, Text, View } from 'native-base';
 
-export default function TaskScreen() {
-  const { user, logout } = useAuth();
-  const tagData = ['Emotional', 'Financial', 'Value Based', 'Holistic'];
-  const subtaskData = [
-    {
-        title: 'Research Resources',
-        description: 'Research resources on overcoming death'
-    }, {
-        title: 'Connect with Local Support Group',
-        description: 'View marketplace for places to find individuals facing similar fears'
-    }, {
-        title: 'Explore Mindfulness & Meditation Practices',
-        description: 'View guides to access partnership with Calm to help manage anxiety related end-of-life topics'
-    }];
+import React, { useEffect, useState } from 'react';
+
+import HomeScreenTaskCard from '../../components/homescreen components/HomeScreenTaskCard';
+import LegacyWordmark from '../../components/reusable/LegacyWordmark';
+import { fetchUserTasks } from '@/services/TaskService';
+import { useQuery } from '@tanstack/react-query';
+import { ActivityIndicator, Pressable, RefreshControl } from 'react-native';
+import { ITask } from '@/interfaces/ITask';
+import BackArrowIcon from '@/components/icons/BackArrow';
+import TaskTagGrid from '@/components/reusable/TaskTagGrid';
+
+export default function TaskScreen({ navigation }) {
+  const { user } = useUser();
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [search, setSearch] = useState('');
+  const [fileteredTasks, setFilteredTasks] = useState<ITask[]>([]);
+  let debounceTimer;
+
+
+  const { isPending, data: tasks, error, refetch } = useQuery({
+    queryKey: ['tasks', user?.id, selectedTags],
+    queryFn: async () => await fetchUserTasks(user?.id, selectedTags),
+    staleTime: 60000 // TEMP, unsolved refetch when unncessary
+  });
+
+  // useEffect(() => {
+  //   const debounce = (func, delay) => {
+  //     clearTimeout(debounceTimer);
+  //     debounceTimer = setTimeout(() => {
+  //       func();
+  //     }, delay);
+  //   };
+
+  //   const filterTasks = () => {
+  //     const filtered = tasks?.filter((task) => {
+  //       return task.task_name.toLowerCase().includes(search.toLowerCase()) || task.task_description.toLowerCase().includes(search.toLowerCase());
+  //     });
+  //     setFilteredTasks(filtered);
+  //   };
+
+  //   debounce(filterTasks, 300);
+
+  //   return () => {
+  //     clearTimeout(debounceTimer);
+  //   };
+  // }, [search]);
 
   return (
     <>
-      <ScrollView backgroundColor={'#FFFAF2'}>
+      <ScrollView
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={isPending}
+        //     onRefresh={() => {
+        //       refetch();
+        //     }}
+        //     colors={['#ff0000', '#00ff00', '#0000ff']}
+        //     tintColor={'#ff0000'}
+        //   />
+        // }
+        backgroundColor={'#FFFAF2'}>
         <View margin={'30px'} marginTop={'60px'}>
-            <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                <LegacyWordmark/>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <LegacyWordmark />
+          </View>
+          <Pressable onPress={() => navigation.goBack()}>
+            <BackArrowIcon />
+          </Pressable>
+          <View width={'100%'} marginTop={'20px'}>
+            <Text
+              marginBottom="20px"
+              fontSize="24"
+              fontWeight={'200'}
+              fontFamily={'madeDillan'}
+            >
+              All Tasks
+            </Text>
+            <View>
+              <Input
+                placeholder="Search"
+                size="md"
+                isDisabled={isPending ? true : false}
+                width={'100%'}
+                backgroundColor={'#F2F2F2'}
+                borderRadius={'10px'}
+                paddingLeft={'10px'}
+                paddingRight={'10px'}
+                marginBottom={'20px'}
+                value={search}
+                onChangeText={(text) => setSearch(text)}
+              />
             </View>
-            <View width={'75%'} marginTop={'20px'}>
-            <Text marginBottom= '20px' fontSize='24' fontWeight={'200'} fontFamily={"madeDillan"}>
-                All Tasks
-              </Text>
-              <View flexDirection={'row'}>
-              {tagData.map((item) => (
-                  <Button 
-                  variant="unstyled" 
-                  marginRight={'5px'} 
-                  marginBottom={'5px'}
-                  paddingLeft={'10px'}
-                  paddingRight={'10px'}
-                  paddingTop={'10px'}
-                  paddingBottom={'10px'}
-                  borderRadius={'100px'}
-                  borderWidth={'1px'}
-                  borderColor={'#0F4F43'}>{item}</Button>
-                ))}
-              </View>
+            <View flexDirection={'row'}>
+              <TaskTagGrid selectedTags={selectedTags} pressfunc={setSelectedTags} />
             </View>
-            <View marginTop= '20px' flexDirection='column' justifyContent= 'space-between'>
-                {subtaskData.map((item, index) => (
-                  <View key={index} marginBottom='10px'>
-                    <HomeScreenTaskCard title={item.title} description={item.description} progress={10} />
-                  </View>
-                ))}
-              </View>
-              <View marginTop={'20px'}>
-            </View>
-
+          </View>
+          <View
+            marginTop="20px"
+            flexDirection="column"
+            justifyContent="space-between"
+          >
+            {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
+            {error && <Text>Error: {error.message}</Text>}
+            {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
+            {tasks && tasks.map((item: ITask, index: number) =>
+              <View key={index} mb={0}>
+                <HomeScreenTaskCard task={item} isAllTasks={false} />
+              </View> 
+            )}
+          </View>
+          <View marginTop={'20px'}></View>
         </View>
-
       </ScrollView>
     </>
   );

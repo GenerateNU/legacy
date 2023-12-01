@@ -22,5 +22,5 @@ func UserRoutes(g *echo.Group, userService services.UserServiceInterface) {
 	g.PATCH("/:uid", userController.UpdateUser)
 	g.DELETE("/:uid", userController.DeleteUser)
 
-	g.PUT("/:uid/progress", userController.InitializeUserProgress)
+	g.POST("/:uid/progress", userController.InitializeUserProgress)
 }
