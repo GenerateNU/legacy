@@ -11,6 +11,7 @@ import { ActivityIndicator, Pressable, RefreshControl } from 'react-native';
 import { ITask } from '@/interfaces/ITask';
 import BackArrowIcon from '@/components/icons/BackArrow';
 import TaskTagGrid from '@/components/reusable/TaskTagGrid';
+import Fuse from 'fuse.js';
 
 export default function TaskScreen({ navigation }) {
   const { user } = useUser();
@@ -26,27 +27,34 @@ export default function TaskScreen({ navigation }) {
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
 
-  // useEffect(() => {
-  //   const debounce = (func, delay) => {
-  //     clearTimeout(debounceTimer);
-  //     debounceTimer = setTimeout(() => {
-  //       func();
-  //     }, delay);
-  //   };
+  useEffect(() => {
+    const debounce = (func, delay) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        func();
+      }, delay);
+    };
 
-  //   const filterTasks = () => {
-  //     const filtered = tasks?.filter((task) => {
-  //       return task.task_name.toLowerCase().includes(search.toLowerCase()) || task.task_description.toLowerCase().includes(search.toLowerCase());
-  //     });
-  //     setFilteredTasks(filtered);
-  //   };
+    const filterTasks = () => {
+      if (search.length > 0) {
+        const options = {
+          keys: ['task_name', 'task_description'],
+          threshold: 0.2
+        };
+        const fuse = new Fuse(tasks, options);
+        const result = fuse.search(search);
+        setFilteredTasks(result.map((item) => item.item));
+      } else {
+        setFilteredTasks(tasks);
+      }
+    };
 
-  //   debounce(filterTasks, 300);
+    debounce(filterTasks, 300);
 
-  //   return () => {
-  //     clearTimeout(debounceTimer);
-  //   };
-  // }, [search]);
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [search, tasks]);
 
   return (
     <>
@@ -105,7 +113,7 @@ export default function TaskScreen({ navigation }) {
             {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
             {error && <Text>Error: {error.message}</Text>}
             {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
-            {tasks && tasks.map((item: ITask, index: number) =>
+            {fileteredTasks && fileteredTasks.map((item: ITask, index: number) =>
               <View key={index} mb={0}>
                 <HomeScreenTaskCard task={item} isAllTasks={false} />
               </View> 
