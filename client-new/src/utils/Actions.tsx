@@ -16,7 +16,12 @@ import React, { useCallback, useState } from 'react';
 import { useUser } from '@/contexts/UserContext';
 import { createFile } from '@/services/CreateFileService';
 
-const FormComponent = ({ actions }: IActionList) => {
+type FormComponentProps = {
+  actions: IAction[]
+  subTaskName: string
+}
+
+const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
   const [formState, setFormState] = useState({});
   const handleListChange = (e, name, index) => {
     e.preventDefault();
@@ -77,10 +82,10 @@ const FormComponent = ({ actions }: IActionList) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //const user = await useUser();
-    //const uid = user.user.id // i'm not sure if this is the proper way to get the user id
+    const { user } = useUser();
+    const uid = user.id // i'm not sure if this is the proper way to get the user id
 
-    await createFile(2, "test_subtask", formState)
+    await createFile(uid, subTaskName, formState)
 
     console.log('Form submitted:', {
       metadata: { timestamp: new Date() },

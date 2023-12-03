@@ -12,9 +12,9 @@ import SubTaskSummaryScreen from '@/screens/app/SubTaskSummaryScreen';
 import SubTaskScreen from '@/screens/app/SubTaskScreen';
 
 export default function Router() {
-  //const { completedOnboarding } = useUser();
+  /*const { completedOnboarding } = useUser();
 
-  /*
+  
   if (completedOnboarding == undefined) {
     return (
       <View flex={1} justifyContent="center" alignItems="center">
@@ -22,15 +22,15 @@ export default function Router() {
       </View>
     );
   } 
-  */
+  
 
-  //console.log('[router] completedOnboarding', completedOnboarding);
+  console.log('[router] completedOnboarding', completedOnboarding); */
 
   return (
     <NavigationContainer>
       {/*completedOnboarding ? <AppStack /> : <AuthStack />*/}
-      <SubTaskScreen props={{id: 9, sub_task_name: "Personal Information", sub_task_description: "Create a checklist of basic personal information needed for end-of-life planning. Personal intake for doulas and trust and estate lawyers."}}/>
-      {/*<SubTaskSummaryScreen props={{id: 1, task_name: "Create Familiarity with the Process"}}/>*/}
+      {/*<SubTaskScreen subtask={{id: 9, task_id: 1, sub_task_name: "Personal Information", sub_task_description: "Create a checklist of basic personal information needed for end-of-life planning. Personal intake for doulas and trust and estate lawyers."}}/>*/}
+      {<SubTaskSummaryScreen task={{id: 1, task_name: "Create Familiarity with the Process", task_description: "blah blah blah"}}/>}
     </NavigationContainer>
   );
 }

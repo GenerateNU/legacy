@@ -27,7 +27,7 @@ export default function AuthStack() {
       <Stack.Screen name="Access Screen" component={AccessScreen} />
       <Stack.Screen name="Login Screen" component={LoginScreen} />
       <Stack.Screen name="Sign Up Screen" component={SignUpScreen} />
-      <Stack.Screen name="Onboarding Stack" component={OnboardingStack} />
+      {/* <Stack.Screen name="Onboarding Stack" component={OnboardingStack} /> */}
     </Stack.Navigator>
   );
 }

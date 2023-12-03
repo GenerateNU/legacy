@@ -108,6 +108,7 @@ const CircleProgress = ({ progress }) => {
         {`${progress}%`}
       </Text>
     </View>
+  </View>
   );
 };
 

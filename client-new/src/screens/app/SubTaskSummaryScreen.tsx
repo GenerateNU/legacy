@@ -9,18 +9,23 @@ import { useQuery } from '@tanstack/react-query';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import CircleProgressSubtask from '@/components/reusable/CircleProgressSubtask';
 import RightArrowIcon from '@/components/icons/RightArrowIcon';
+import { ITask } from '@/interfaces/ITask';
 
-const SubTaskSummaryScreen = ({ props }) => {
+type SubTaskSummaryScreenProps = {
+  task: ITask
+}
+
+const SubTaskSummaryScreen = ({ task }: SubTaskSummaryScreenProps) => {
     // props basically should be an ITask
 
     const progress = Math.floor(Math.random() * 100) + 1;
 
     const { isLoading, error, data } = useQuery({
-        queryKey: ['fetchSubTasks', props.id],
-        queryFn: () => getAllSubTasks(props.id)
+        queryKey: ['fetchSubTasks', task?.id],
+        queryFn: () => getAllSubTasks(task?.id)
     });
     
-      console.log(props.id)
+      console.log(task.id)
       console.log('subtask fetched: ', data); // {"actions": [{"action_type": "input", "label": "Full Legal Name", "name": "full_name", "placeholder": "Enter your full legal name", "required": true, "type": "text"}, {"action_type": "input", "description": "Please enter your date of birth in the format: MM/DD/YYYY", "label": "Date of Birth", "name": "date_of_birth", "placeholder": "MM/DD/YYYY", "required": true, "type": "date"}, {"action_type": "input", "description": "Please provide your 9-digit social security number", "label": "Social Security Number", "name": "ssn", "placeholder": "Enter your social security number", "required": true, "type": "text"}, {"action_type": "input", "description": "Please provide your complete current residential address", "label": "Current Address", "name": "current_address", "placeholder": "Enter your current address", "required": true, "type": "text"}, {"action_type": "input", "description": "Please provide a valid phone number where you can be reached", "label": "Phone Number", "name": "phone_number", "placeholder": "Enter your phone number", "required": true, "type": "tel"}, {"action_type": "input", "description": "Please provide a valid email address for communication purposes", "label": "Email Address", "name": "email", "placeholder": "Enter your email address", "required": true, "type": "email"}, {"action_type": "select", "description": "Please select your current marital status from the options provided", "label": "Marital Status", "name": "marital_status", "options": [Array], "placeholder": "Select your marital status", "required": true}, {"action_type": "textarea", "description": "Feel free to provide any additional information or comments here", "label": "Additional Comments", "name": "additional_comments", "placeholder": "Enter any additional comments", "required": false}, {"action_type": "checkbox", "description": "Select the services you require", "label": "Select Services", "name": "services", "options": [Array], "required": true}, {"action_type": "radio", "description": "Select your preferred method of payment", "label": "Select Payment Method", "name": "payment_method", "options": [Array], "required": true}]}
     
       if (isLoading) {
@@ -53,7 +58,7 @@ const SubTaskSummaryScreen = ({ props }) => {
             </HStack>
             <View width={'100%'} marginTop={'20px'}>
               <Text marginBottom= '25px' fontSize='32' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'} justifyContent={'center'} textAlign={"center"} lineHeight={"32"}>
-                {props.task_name}
+                {task.task_name}
               </Text>
               <CircleProgressSubtask progress={progress}/>
               <Text marginTop= '25px' fontSize='24' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'}>
