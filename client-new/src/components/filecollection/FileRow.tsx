@@ -22,7 +22,7 @@ type FileRowProps = {
 const FileRow: React.FC<FileRowProps> = ({ file }) => {
   const size = ConvertFileSize(file.file_size);
   const { 0: fileName, 1: fileEnding } = file.file_name.split('.');
-  const truncatedName = fileName.length > 40 ? fileName.substring(0, 40) + '...' : fileName + '.' + fileEnding;
+  const truncatedName = fileName.length > 50 ? fileName.substring(0, 50) + '...' : fileName + '.' + fileEnding;
   // const date = RelativeTime(new Date(file.created_at));
 
   const handlePress = async () => {

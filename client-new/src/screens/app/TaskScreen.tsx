@@ -11,12 +11,15 @@ import { ActivityIndicator, Pressable, RefreshControl } from 'react-native';
 import { ITask } from '@/interfaces/ITask';
 import BackArrowIcon from '@/components/icons/BackArrow';
 import TaskTagGrid from '@/components/reusable/TaskTagGrid';
+import Fuse from 'fuse.js';
+import SubTaskScreen from './SubTaskScreen';
 
 export default function TaskScreen({ navigation }) {
   const { user } = useUser();
   const [selectedTags, setSelectedTags] = useState([]);
   const [search, setSearch] = useState('');
   const [fileteredTasks, setFilteredTasks] = useState<ITask[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   let debounceTimer;
 
 
@@ -26,27 +29,36 @@ export default function TaskScreen({ navigation }) {
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
 
-  // useEffect(() => {
-  //   const debounce = (func, delay) => {
-  //     clearTimeout(debounceTimer);
-  //     debounceTimer = setTimeout(() => {
-  //       func();
-  //     }, delay);
-  //   };
+  useEffect(() => {
+    const debounce = (func, delay) => {
+      clearTimeout(debounceTimer);
+      setIsLoading(true); // Set loading to true when debounce starts
+      debounceTimer = setTimeout(() => {
+        func();
+        setIsLoading(false); // Set loading to false when debounce ends
+      }, delay);
+    };
 
-  //   const filterTasks = () => {
-  //     const filtered = tasks?.filter((task) => {
-  //       return task.task_name.toLowerCase().includes(search.toLowerCase()) || task.task_description.toLowerCase().includes(search.toLowerCase());
-  //     });
-  //     setFilteredTasks(filtered);
-  //   };
+    const filterTasks = () => {
+      if (search.length > 0) {
+        const options = {
+          keys: ['task_name', 'task_description'],
+          threshold: 0.2
+        };
+        const fuse = new Fuse(tasks, options);
+        const result = fuse.search(search);
+        setFilteredTasks(result.map((item) => item.item));
+      } else {
+        setFilteredTasks(tasks);
+      }
+    };
 
-  //   debounce(filterTasks, 300);
+    debounce(filterTasks, 300);
 
-  //   return () => {
-  //     clearTimeout(debounceTimer);
-  //   };
-  // }, [search]);
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [search, tasks]);
 
   return (
     <>
@@ -102,14 +114,23 @@ export default function TaskScreen({ navigation }) {
             flexDirection="column"
             justifyContent="space-between"
           >
-            {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
-            {error && <Text>Error: {error.message}</Text>}
-            {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
-            {tasks && tasks.map((item: ITask, index: number) =>
-              <View key={index} mb={0}>
-                <HomeScreenTaskCard task={item} isAllTasks={false} />
-              </View> 
+            {error && <Text>error</Text>}
+            {isPending && <ActivityIndicator size="small" />}
+            {/* {tasks && fileteredTasks?.length === 0 && (
+              <Text>No tasks found. Try changing your filters.</Text>
+            )} */}
+            {isLoading ? (
+              <ActivityIndicator size="small" />
+            ) : (
+              fileteredTasks?.map((task) => (
+                <HomeScreenTaskCard
+                  key={task.id}
+                  task={task}
+                // navigation={navigation}
+                />
+              ))
             )}
+
           </View>
           <View marginTop={'20px'}></View>
         </View>
