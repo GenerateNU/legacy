@@ -1,9 +1,13 @@
 package services
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"mime/multipart"
+	"net/textproto"
 	"server/src/models"
 	"strconv"
 	"time"
@@ -13,6 +17,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/go-pdf/fpdf"
 	"gorm.io/gorm"
 )
 
@@ -27,8 +32,8 @@ type FileServiceInterface interface {
 	GetAllUserFiles(id string) ([]models.File, error)
 	GetAllUserFilesWithTag(id string, tag []string) ([]models.File, error)
 	GetFileURL(id string, days string) (string, error)
-	CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error)
-	GeneratePDF(uid string, fileJSON string) (models.File, error)
+	CreateFile(id string, file models.File, data *multipart.FileHeader, reader io.Reader) (models.File, error)
+	GeneratePDF(uid string, subtaskName string, fileJSON string) (*multipart.FileHeader, io.Reader, error)
 	DeleteFile(id string) error
 }
 
@@ -137,7 +142,7 @@ func (f *FileService) GetFileURL(id string, days string) (string, error) {
 	return url, nil
 }
 
-func (f *FileService) CreateFile(id string, file models.File, data *multipart.FileHeader) (models.File, error) {
+func (f *FileService) CreateFile(id string, file models.File, data *multipart.FileHeader, reader io.Reader) (models.File, error) {
 	var testFile models.File
 	file.FileName = data.Filename
 	idInt, err := strconv.Atoi(id)
@@ -162,12 +167,6 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 
 	file.FileSize = data.Size
 
-	src, err := data.Open()
-	if err != nil {
-		return models.File{}, errors.New("failed to open file")
-	}
-	defer src.Close()
-
 	// Upload the file to the S3 bucket
 	sess, err := createAWSSession()
 	if err != nil {
@@ -179,7 +178,7 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(BUCKET_NAME),
 		Key:    aws.String(file.ObjectKey),
-		Body:   src,
+		Body:   reader,
 	})
 	if err != nil {
 		return models.File{}, errors.New("failed to upload file to S3 bucket")
@@ -193,8 +192,49 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 	return file, nil
 }
 
-func (f *FileService) GeneratePDF(uid string, fileJSON string) (models.File, error) {
-	return models.File{}, nil
+func (f *FileService) GeneratePDF(uid string, subtaskName string, fileJSON string) (*multipart.FileHeader, io.Reader, error) {
+	// Decoding JSON string into a map
+	var data map[string]interface{}
+	if err := json.Unmarshal([]byte(fileJSON), &data); err != nil {
+		return nil, nil, err
+	}
+
+	pdf := fpdf.New("P", "mm", "A4", "")
+	pdf.AddPage()
+	pdf.SetFont("Arial", "", 12)
+
+	x := 20.0
+	y := 20.0
+
+	// Looping through the fields of the map to generate pdf
+	for key, value := range data {
+		switch subData := value.(type) {
+		case map[string]interface{}:
+			for key1, value1 := range subData {
+				pdf.Text(x, y, fmt.Sprintf("%v: %v", key1, value1))
+				y += 10.0
+			}
+
+		default:
+			pdf.Text(x, y, fmt.Sprintf("%v: %v", key, value))
+			y += 10.0
+		}
+	}
+
+	var buffer bytes.Buffer
+	if err := pdf.Output(&buffer); err != nil {
+		return nil, nil, errors.New("error generating pdf file")
+	}
+
+	fileHeader := &multipart.FileHeader{
+		Filename: fmt.Sprintf("%v.pdf", subtaskName),
+		Header:   textproto.MIMEHeader{"Content-Type": []string{"application/pdf"}},
+		Size:     int64(len(buffer.Bytes())),
+	}
+
+	reader := bytes.NewReader(buffer.Bytes())
+
+	return fileHeader, reader, nil
 }
 
 func (f *FileService) DeleteFile(id string) error {

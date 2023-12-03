@@ -73,44 +73,14 @@ const FormComponent = ({ actions }: IActionList) => {
     }));
   };
   
-  /*
-  const generatePDF = async () => {
-    const doc = await PDFPage.create().setMediaBox(200, 200)
-
-    doc.drawText('Form Data:', {x: 20, y: 20, color: "#000000"});
-
-    let verticalPosition = 30;
-    for (const [key, value] of Object.entries(formState)) {
-      doc.drawText(`${key}: ${value}`, {x: 20, y: verticalPosition, color: "#000000"});
-      verticalPosition += 10;
-    }
-
-    const docsDir = await PDFLib.getDocumentsDirectory();
-    const pdfPath = `${docsDir}/temp.pdf`;
-    
-    PDFDocument.create(pdfPath)
-    .addPages(doc)
-    .write()
-
-    const fileContent = await RNFS.readFile(pdfPath, 'base64');
-
-    // Convert the file content to bytes
-    const pdfBytes = Buffer.from(fileContent, 'base64');
-
-    const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-
-    return pdfBlob;
-  };
-*/
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //const file_data = await generatePDF();
 
-    const user = await useUser();
-    const uid = user.user.id // i'm not sure if this is the proper way to get the user id
+    //const user = await useUser();
+    //const uid = user.user.id // i'm not sure if this is the proper way to get the user id
 
-    //await createFile(uid, file_data)
+    await createFile(2, "test_subtask", formState)
 
     console.log('Form submitted:', {
       metadata: { timestamp: new Date() },

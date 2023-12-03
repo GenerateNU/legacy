@@ -29,8 +29,8 @@ export default function Router() {
   return (
     <NavigationContainer>
       {/*completedOnboarding ? <AppStack /> : <AuthStack />*/}
-      {/*<SubTaskScreen props={{id: 9, sub_task_name: "Personal Information", sub_task_description: "Create a checklist of basic personal information needed for end-of-life planning. Personal intake for doulas and trust and estate lawyers."}}/>*/}
-      <SubTaskSummaryScreen props={{id: 1, task_name: "Create Familiarity with the Process"}}/>
+      <SubTaskScreen props={{id: 9, sub_task_name: "Personal Information", sub_task_description: "Create a checklist of basic personal information needed for end-of-life planning. Personal intake for doulas and trust and estate lawyers."}}/>
+      {/*<SubTaskSummaryScreen props={{id: 1, task_name: "Create Familiarity with the Process"}}/>*/}
     </NavigationContainer>
   );
 }
