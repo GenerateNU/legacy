@@ -11,6 +11,7 @@ import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
 import { useQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
 import { AddIcon, Icon, ScrollView, Text, View } from 'native-base';
+import DocumentPicker from 'react-native-document-picker';
 
 import React, { useState } from 'react';
 import { ActivityIndicator, RefreshControl } from 'react-native';
@@ -52,6 +53,57 @@ export default function FileCollectionScreen() {
       return files;
     }
   };
+
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+
+      // Now you have the selected file, and you can proceed with the upload
+      console.log(result);
+      uploadFile(result);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the document picker
+        console.log('User cancelled the document picker');
+      } else {
+        // Handle other errors
+        console.error(err);
+      }
+    }
+  };
+
+  const uploadFile = async (document) => {
+    try {
+      // Fetch file data
+      const fileData = await fetch(document.uri);
+      const blobData = await fileData.blob();
+
+      // Create FormData object
+      const formData = new FormData();
+      formData.append('file', blobData, document.name);
+
+      // Perform the upload using fetch
+      const response = await fetch(`http://localhost:8080/api/files/${user?.id}`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      // Handle the response
+      if (response.ok) {
+        console.log('File uploaded successfully');
+      } else {
+        console.error('File upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}>
