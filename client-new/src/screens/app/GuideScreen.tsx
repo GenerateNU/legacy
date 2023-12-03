@@ -144,7 +144,7 @@ const GuideScreen: React.FC<GuideScreenProps> = ({ guideName, navigation }) => {
               </View>
             </View>
             <View>
-              <Box roundedTop={wp('17%')} bg="#FAF8F2" w={wp('100%')}>
+              <Box roundedTop={wp('5%')} bg="#FAF8F2" w={wp('100%')}>
                 <MarkdownWrapper>{guide.full_text}</MarkdownWrapper>
               </Box>
             </View>

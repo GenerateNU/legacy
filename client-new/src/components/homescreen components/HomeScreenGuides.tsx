@@ -11,7 +11,7 @@ type GuidesProps = {
 
 const GuidesComponent: React.FC<GuidesProps> = ({ guides }) => {
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} mt={5}>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} mt={5} >
       {guides.map((item, index) => (
         <View key={index} marginRight={5}>
           <HomeScreenGuideCard guide={item} />

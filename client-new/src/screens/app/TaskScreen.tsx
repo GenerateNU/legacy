@@ -12,12 +12,14 @@ import { ITask } from '@/interfaces/ITask';
 import BackArrowIcon from '@/components/icons/BackArrow';
 import TaskTagGrid from '@/components/reusable/TaskTagGrid';
 import Fuse from 'fuse.js';
+import SubTaskScreen from './SubTaskScreen';
 
 export default function TaskScreen({ navigation }) {
   const { user } = useUser();
   const [selectedTags, setSelectedTags] = useState([]);
   const [search, setSearch] = useState('');
   const [fileteredTasks, setFilteredTasks] = useState<ITask[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   let debounceTimer;
 
 
@@ -30,8 +32,10 @@ export default function TaskScreen({ navigation }) {
   useEffect(() => {
     const debounce = (func, delay) => {
       clearTimeout(debounceTimer);
+      setIsLoading(true); // Set loading to true when debounce starts
       debounceTimer = setTimeout(() => {
         func();
+        setIsLoading(false); // Set loading to false when debounce ends
       }, delay);
     };
 
@@ -110,14 +114,23 @@ export default function TaskScreen({ navigation }) {
             flexDirection="column"
             justifyContent="space-between"
           >
-            {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
-            {error && <Text>Error: {error.message}</Text>}
-            {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
-            {fileteredTasks && fileteredTasks.map((item: ITask, index: number) =>
-              <View key={index} mb={0}>
-                <HomeScreenTaskCard task={item} isAllTasks={false} />
-              </View> 
+            {error && <Text>error</Text>}
+            {isPending && <ActivityIndicator size="small" />}
+            {/* {tasks && fileteredTasks?.length === 0 && (
+              <Text>No tasks found. Try changing your filters.</Text>
+            )} */}
+            {isLoading ? (
+              <ActivityIndicator size="small" />
+            ) : (
+              fileteredTasks?.map((task) => (
+                <HomeScreenTaskCard
+                  key={task.id}
+                  task={task}
+                // navigation={navigation}
+                />
+              ))
             )}
+
           </View>
           <View marginTop={'20px'}></View>
         </View>

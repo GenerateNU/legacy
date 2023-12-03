@@ -111,6 +111,7 @@ func (p *ProfileService) InsertOnboardingResponse(userID string, profileID strin
 	return profile, nil
 }
 
+// Takes a profile ID and sets the CompletedOnboardingResponse field to true
 func (p *ProfileService) SetOnboardingComplete(id string) (models.Profile, error) {
 	var profile models.Profile
 

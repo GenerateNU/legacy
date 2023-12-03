@@ -11,33 +11,33 @@ import { API_BASE_URL } from '@/services/const';
  * @param userID the ID of the user to fetch
  * @returns the user [IUser]
  */
-export const fetchUser = async (userID: number): Promise<AxiosResponse<IUser>> => {
+export const fetchUser = async (userID: number): Promise<IUser> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/users/${userID}`);
     console.log('[user service] fetching user', `${API_BASE_URL}/users/${userID}`, 'with status', response.status)
-    return response;
+    return response.data;
   } catch (error) {
     console.log('Error fetching user', error);
     throw new Error('Error fetching user');
   }
 }
 
-export const fetchUserByFirebaseID = async (firebaseID: string): Promise<AxiosResponse<IUser>> => {
+export const fetchUserByFirebaseID = async (firebaseID: string): Promise<IUser> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/users/firebase/${firebaseID}`);
     console.log('[user service] fetching user by firebase id', `${API_BASE_URL}/users/firebase/${firebaseID}`, 'with status', response.status)
-    return response;
+    return response.data;
   } catch (error) {
     console.log('Error fetching user using firebase id', error);
     throw new Error('Error fetching user using firebase id');
   }
 }
 
-export const fetchProfile = async (userID: number): Promise<AxiosResponse<IProfile>> => {
+export const fetchProfile = async (userID: number): Promise<IProfile> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/users/${userID}/profile`);
     console.log('[user service] fetching profile', `${API_BASE_URL}/users/${userID}/profile`, 'with status', response.status)
-    return response
+    return response.data;
   } catch (error) {
     console.log('Error fetching profile', error);
     throw new Error('Error fetching profile');
@@ -45,14 +45,14 @@ export const fetchProfile = async (userID: number): Promise<AxiosResponse<IProfi
 }
 
 export const fetchUserAndProfile = async (firebaseID: string): Promise<{
-  user: AxiosResponse<IUser>;
-  profile: AxiosResponse<IProfile>;
+  user: IUser;
+  profile: IProfile;
 }> => {
   try {
      const user = await fetchUserByFirebaseID(firebaseID);
-    console.log("USER", user.data);
-    const profile = await fetchProfile(user.data.id);
-    console.log("PROFILE", profile.data);
+    console.log("USER", user);
+    const profile = await fetchProfile(user.id);
+    console.log("PROFILE", profile);
     return { user, profile };
   } catch (error) {
     console.log('Error fetching user and profile', error)
@@ -86,7 +86,7 @@ export const createUserAndProfile = async (user: IUser) => {
       return err;
     });
 
-    return { user: newUser, profile: newProfile };
+    return { user: newUser.data, profile: newProfile.data };
   } catch (error) {
     console.log('Error creating user and profile', error);
     throw new Error('Error creating user and profile');

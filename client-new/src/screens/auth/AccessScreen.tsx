@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SvgXml } from 'react-native-svg';
 
-// TODO: arrow function
+// TODO: arrow functionssss
 export default function AccessScreen({ navigation }) {
 
   const toSignUp = () => {
