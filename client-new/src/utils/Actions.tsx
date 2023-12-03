@@ -1,117 +1,28 @@
-import React, { useState, useCallback } from 'react';
-import { Input, FormControl, Select, TextArea, Checkbox, Radio } from "native-base";
 import { IAction, IActionList } from '@/interfaces/IAction';
-// import TextField from '@mui/material/TextField';
-// import Select from '@mui/material/Select';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import InputLabel from '@mui/material/InputLabel';
-// import FormHelperText from '@mui/material/FormHelperText';
-// import Button from '@mui/material/Button';
-// import { TextareaAutosize } from '@mui/material';
-// import { Input } from '@mui/material/';
-// import jsPDF from 'jspdf';
+import {
+  Text,
+  Checkbox,
+  FormControl,
+  Input,
+  Radio,
+  Select,
+  TextArea,
+  Button,
+  View,
+  HStack
+} from 'native-base';
 
-const formData = {
-  "actions": [
-    {
-      "action_type": "input",
-      "label": "Full Legal Name",
-      "placeholder": "Enter your full legal name",
-      "name": "full_name",
-      "type": "text",
-      "required": true
-    },
-    {
-      "action_type": "input",
-      "label": "Date of Birth",
-      "placeholder": "MM/DD/YYYY",
-      "name": "date_of_birth",
-      "type": "date",
-      "required": true,
-      "description": "Please enter your date of birth in the format: MM/DD/YYYY"
-    },
-    {
-      "action_type": "input",
-      "label": "Social Security Number",
-      "placeholder": "Enter your social security number",
-      "name": "ssn",
-      "type": "text",
-      "required": true,
-      "description": "Please provide your 9-digit social security number"
-    },
-    {
-      "action_type": "input",
-      "label": "Current Address",
-      "placeholder": "Enter your current address",
-      "name": "current_address",
-      "type": "text",
-      "required": true,
-      "description": "Please provide your complete current residential address"
-    },
-    {
-      "action_type": "input",
-      "label": "Phone Number",
-      "placeholder": "Enter your phone number",
-      "name": "phone_number",
-      "type": "tel",
-      "required": true,
-      "description": "Please provide a valid phone number where you can be reached"
-    },
-    {
-      "action_type": "input",
-      "label": "Email Address",
-      "placeholder": "Enter your email address",
-      "name": "email",
-      "type": "email",
-      "required": true,
-      "description": "Please provide a valid email address for communication purposes"
-    },
-    {
-      "action_type": "select",
-      "label": "Marital Status",
-      "name": "marital_status",
-      "options": ["Married", "Single", "Divorced", "Widowed"],
-      "required": true,
-      "placeholder": "Select your marital status",
-      "description": "Please select your current marital status from the options provided"
-    },
-    {
-      "action_type": "textarea",
-      "label": "Additional Comments",
-      "placeholder": "Enter any additional comments",
-      "name": "additional_comments",
-      "required": false,
-      "description": "Feel free to provide any additional information or comments here",
-    },
-    {
-      "action_type": "checkbox",
-      "label": "Select Services",
-      "name": "services",
-      "options": ["Service 1", "Service 2", "Service 3"],
-      "required": true,
-      "description": "Select the services you require"
-    },
-    {
-      "action_type": "radio",
-      "label": "Select Payment Method",
-      "name": "payment_method",
-      "options": ["Credit Card", "Debit Card", "Cash", "Check"],
-      "required": true,
-      "description": "Select your preferred method of payment"
-
-    }
-  ]
-};  
-
+import React, { useCallback, useState } from 'react';
+import { useUser } from '@/contexts/UserContext';
+import { createFile } from '@/services/CreateFileService';
 
 type FormComponentProps = {
-  actions: IActionList
+  actions: IAction[]
+  subTaskName: string
 }
 
-const FormComponent = (props: FormComponentProps )=> {
+const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
   const [formState, setFormState] = useState({});
-  console.log("????", props)
   const handleListChange = (e, name, index) => {
     e.preventDefault();
 
@@ -119,7 +30,7 @@ const FormComponent = (props: FormComponentProps )=> {
     if (index >= formState[name].length) {
       return;
     }
-  
+
     const { value } = e.target;
     const newValues = [...(formState[name] || [])];
     newValues[index] = value;
@@ -133,7 +44,7 @@ const FormComponent = (props: FormComponentProps )=> {
   };
 
   const handleAddListItem = (e, name) => {
-    const newValues = [...(formState[name] || []), ""]; // Initialize as an array
+    const newValues = [...(formState[name] || []), '']; // Initialize as an array
     setFormState((prevState) => ({ ...prevState, [name]: newValues }));
   };
 
@@ -141,16 +52,16 @@ const FormComponent = (props: FormComponentProps )=> {
   const handleRadioChange = (name, value) => {
     setFormState((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: value
     }));
   };
-  
+
   const handleInputChange = (name, value) => {
     setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
-  
+
   const handleSelectChange = (name, value) => {
-    setFormState((prevState) => ({ ...prevState, [name]: value }));  
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleTextAreaChange = (name, value) => {
@@ -163,27 +74,23 @@ const FormComponent = (props: FormComponentProps )=> {
       [name]: values.reduce((obj, value) => {
         obj[value] = true;
         return obj;
-      }, {}),
+      }, {})
     }));
   };
+  
 
-  // const generatePDF = () => {
- 
-  //   const doc = new jsPDF();
-  //   doc.text(20, 20, 'Form Data:');
-  //   let verticalPosition = 30;
-  //   for (const [key, value] of Object.entries(formState)) {
-  //     doc.text(20, verticalPosition, `${key}: ${value}`);
-  //     verticalPosition += 10;
-  //   }
-  //   doc.save('form_data.pdf');
-  // };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', { "metadata": { "timestamp": new Date(), } , "form": formState });
-    // generatePDF();
 
+    const { user } = useUser();
+    const uid = user.id // i'm not sure if this is the proper way to get the user id
+
+    await createFile(uid, subTaskName, formState)
+
+    console.log('Form submitted:', {
+      metadata: { timestamp: new Date() },
+      form: formState
+    });
   };
 
   const renderField = (action, index) => {
@@ -191,26 +98,30 @@ const FormComponent = (props: FormComponentProps )=> {
       case 'input':
         return (
           <>
-            <FormControl.Label>{action.label}</FormControl.Label>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
             {/* Conditonally based on type */}
-            <Input
-              key={index}
-              // label={action.label}
-              placeholder={action.placeholder}
-              // name={action.name}
-              type={action.type}
-              // required={action.required}
-              onChangeText={(value) => handleInputChange(action.name, value)}
-              margin="normal"
-              variant="outlined"
-            />
+            <View marginBottom= '10px'>
+              <Input
+                key={index}
+                // label={action.label}
+                placeholder={action.placeholder}
+                // name={action.name}
+                type={action.type}
+                // required={action.required}
+                onChangeText={(value) => handleInputChange(action.name, value)}
+                margin="normal"
+                variant="outlined"
+                backgroundColor={"#F5EFE7"}
+              />
+            </View>
             {/* <FormControl.HelperText>{action.description}</FormControl.HelperText> */}
           </>
         );
       case 'select':
-          return ( 
-            <>
-              <FormControl.Label>{action.label}</FormControl.Label>
+        return (
+          <>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
+            <View marginBottom= '10px'>
               <Select
                 minWidth="200"
                 accessibilityLabel={action.placeholder}
@@ -218,57 +129,71 @@ const FormComponent = (props: FormComponentProps )=> {
                 selectedValue={formState[action.name] || ''}
                 onValueChange={(value) => handleSelectChange(action.name, value)}
                 mt={1}
+                backgroundColor={"#F5EFE7"}
               >
                 {action.options.map((option, idx) => (
                   <Select.Item key={idx} label={option} value={option} />
                 ))}
               </Select>
-              <FormControl.HelperText>{action.description}</FormControl.HelperText>
-            </>
-          );
+            </View>
+            {/*<FormControl.HelperText>
+              {action.description}
+              </FormControl.HelperText>*/}
+          </>
+        );
       case 'textarea':
         return (
           <>
-            <FormControl.Label>{action.label}</FormControl.Label>
-            <TextArea
-              key={index}
-              area-label={action.label}
-              // label={action.label}
-              placeholder={action.placeholder}
-              // name={action.name}
-              // required={action.required}
-              numberOfLines={4}
-              onChangeText={(value) => handleTextAreaChange(action.name, value)}
-              margin="normal"
-              variant="outlined" 
-              autoCompleteType={undefined}    
-            />
-            <FormControl.HelperText>{action.description}</FormControl.HelperText>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
+            <View marginBottom= '10px'>
+              <TextArea
+                key={index}
+                area-label={action.label}
+                // label={action.label}
+                placeholder={action.placeholder}
+                // name={action.name}
+                // required={action.required}
+                numberOfLines={4}
+                onChangeText={(value) => handleTextAreaChange(action.name, value)}
+                margin="normal"
+                variant="outlined"
+                autoCompleteType={undefined}
+                backgroundColor={"#F5EFE7"}
+              />
+            </View>
+            {/*<FormControl.HelperText>
+              {action.description}
+            </FormControl.HelperText>*/}
           </>
         );
-        case 'checkbox':
-          return (
-            <>
-              <FormControl.Label>{action.label}</FormControl.Label>
+      case 'checkbox':
+        return (
+          <>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
+            <View marginBottom= '10px'>
               <Checkbox.Group
-                colorScheme="green"
+                color="deepEvergreen"
                 defaultValue={[]}
                 onChange={(values) => handleCheckboxChange(values, action.name)}
                 style={{ flexDirection: 'column' }}
               >
                 {action.options.map((option, idx) => (
                   <Checkbox key={idx} value={option} my={1}>
-                    {option}
+                    <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{option}</Text>
                   </Checkbox>
                 ))}
               </Checkbox.Group>
-              <FormControl.HelperText>{action.description}</FormControl.HelperText>
-            </>
-          );
-        case 'radio':
-          return (
-            <>
-              <FormControl.Label>{action.label}</FormControl.Label>
+            </View>
+            {/*<FormControl.HelperText>
+              {action.description}
+              </FormControl.HelperText>*/}
+          </>
+        );
+      case 'radio':
+        return (
+          <>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
+            <View marginBottom= '10px'>
               <Radio.Group
                 name={action.name}
                 defaultValue={formState[action.name] || ''}
@@ -276,55 +201,33 @@ const FormComponent = (props: FormComponentProps )=> {
                 style={{ flexDirection: 'column' }}
               >
                 {action.options.map((option, idx) => (
-                  <Radio key={idx} value={option}>
-                    {option}
+                  <Radio key={idx} value={option} colorScheme="deepEvergreen">
+                    <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{option}</Text>
                   </Radio>
                 ))}
               </Radio.Group>
-              <FormControl.HelperText>{action.description}</FormControl.HelperText>
-            </>
-          );
+            </View>
+            {/*<FormControl.HelperText>
+              {action.description}
+              </FormControl.HelperText>*/}
+          </>
+        );
       default:
         return null;
     }
   };
-  console.log('Form submitted:', { "metadata": { "timestamp": new Date(), } , "form": formState });
 
   return (
-    // <FormControl key={index} fullWidth margin="normal"></FormControl>
-    <FormControl isInvalid w="75%" maxW="300px">
-      {props.actions.actions.map((action, index) => renderField(action, index))}
-      {/* <Button type="submit" variant="contained" color="primary">
-        Submit
-      </Button> */}
+    <FormControl isInvalid w="75%" width={"100%"}>
+      {actions.map((action, index) => renderField(action, index))}
+      <HStack flexDirection="row" justifyContent="center" flex={1} marginTop={"10px"}>
+        <Button textDecorationColor={"#FFFFFF"} backgroundColor={"#43A573"} 
+                borderColor={"#43A573"} onPress={handleSubmit} flex={0.90}>
+          Submit
+        </Button>
+      </HStack>
     </FormControl>
   );
 };
 
 export default FormComponent;
-
-{/* <FormControl isInvalid w="75%" maxW="300px">
-        <FormControl.Label>Password</FormControl.Label>
-        <Input placeholder="Enter password" />
-        <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-          Try different from previous passwords.
-        </FormControl.ErrorMessage>
-      </FormControl> */}
-
-{/* const Example = () => {
-  return <Box alignItems="center">
-      <Box w="100%" maxWidth="300px">
-        <FormControl isRequired>
-          <Stack mx="4">
-            <FormControl.Label>Password</FormControl.Label>
-            <Input type="password" defaultValue="12345" placeholder="password" />
-            <FormControl.HelperText>
-              Must be atleast 6 characters.
-            </FormControl.HelperText>
-            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-              Atleast 6 characters are required.
-            </FormControl.ErrorMessage>
-          </Stack>
-        </FormControl>
-      </Box>
-    </Box>; */}

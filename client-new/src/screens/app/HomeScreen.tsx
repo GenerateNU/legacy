@@ -1,209 +1,133 @@
-import { KeyboardAvoidingView, View, Text, ScrollView } from "native-base";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "@/contexts/AuthContext";
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h,
-} from "react-native-responsive-screen";
-import LegacyWordmark from "@/components/reusable/LegacyWordmark";
-import { SvgUri } from "react-native-svg";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import React from "react";
+import LegacyWordmark from '@/components/reusable/LegacyWordmark';
+import { useUser } from '@/contexts/UserContext';
+import { Button, KeyboardAvoidingView, Pressable, ScrollView, Text, View } from 'native-base';
 
-export default function HomeScreen() {
-  const { user, logout } = useAuth();
-  const testData = [
-    {
-      title: "Acknowledge Your Aversion to End-Of-Life-Planning",
-      description: "Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.",
-      progress: 33,
-    },
-    {
-      title: "Create Familiarity with the Process",
-      description: "Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.",
-      progress: 10,
-    },
-    {
-      title: "Define Your Values and Priorities",
-      description: "Lorem ipsum dolor sit amet consectetur. Ornare vestibulum.",
-      progress: 0,
-    },
-  ];
+import { useEffect, useState } from 'react';
+import React from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { SvgUri } from 'react-native-svg';
+
+import HomeScreenGuides from '../../components/homescreen components/HomeScreenGuides';
+import HomeScreenTasks from '../../components/homescreen components/HomeScreenTasks';
+import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
+import { ITask } from '@/interfaces/ITask';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAllGuides } from '@/services/GuideService';
+import { RefreshControl } from 'react-native';
+
+export default function HomeScreen({ navigation }) {
+  const { user, logout, refetchUser, setCompletedOnboarding } = useUser();
+
+  const { isPending, data: guides, error, refetch } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: fetchAllGuides
+  });
 
   return (
-    <ScrollView>
-      <SafeAreaView style={{ alignItems: 'center', flex: 1 }}>
-        <View
-          style={{
-            width: "90%",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          <LegacyWordmark />
-
-          <View>
-            <View style={{ width: "100%", marginTop: 20 }}>
-              <Text style={{ width: "100%", color: "#252525", fontSize: 18 }}>
-                Hello Amanda!
-              </Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={isPending}
+            onRefresh={() => {
+              refetch();
+              refetchUser();
+            }}
+            colors={['#ff0000', '#00ff00', '#0000ff']}
+            tintColor={'#ff0000'}
+          />
+        }
+        bgColor={'#FFF9EE'}
+        contentContainerStyle={{ alignItems: 'center' }}
+        marginLeft={w('1%')}
+        marginRight={w('1%')}
+      >
+          <View w={'95%'} flexDir={'column'} justifyContent={'space-between'}>
+            <LegacyWordmark />
+            <View>
+              <View w={'100%'} mt={5} mb={5}>
+                <Text
+                  w={'100%'}
+                  fontFamily={'rocaOne'}
+                  fontWeight={'Regular'}
+                  fontStyle={'normal'}
+                  color={'#252525'}
+                  fontSize={moderateScale(32)}
+                >
+                Hello {user?.username.split(' ')[0]}! {/* TODO: currently manually splitting the username string */}
+                </Text>
+              </View>
+              <View w={'100%'}>
+                <View justifyContent={'space-between'} flexDir={'row'} alignContent={'center'} alignItems={'center'} width={'100%'}
+                  fontSize={15}
+                  fontFamily={'Open Sans'}
+                  fontWeight={'400'}
+                  textDecorationLine={'underline'}
+                  lineHeight={20}
+                >
+                  <Text
+                    color={'#252525'}
+                    fontFamily={'rocaOne'}
+                    fontWeight={'Regular'}
+                    fontStyle={'normal'}
+                    fontSize={24}
+                    lineHeight={26.4}
+                  >
+                    Your Journey
+                  </Text>
+                  <Pressable onPress={() => navigation.navigate('Task Screen')}>
+                    <Text
+                      color={'#909090'}
+                      fontSize={15}
+                      fontFamily={'Open Sans'}
+                      fontWeight={'400'}
+                      textDecorationLine={'underline'}
+                      lineHeight={20}
+                    >
+                      See all
+                    </Text>
+                  </Pressable>
+                </View>
+                <HomeScreenTasks user_id={user?.id} />
+              </View>
             </View>
 
-            <View style={{ width: "100%", marginTop: 20 }}>
-              <View
-                style={{
-                  justifyContent: "space-between",
-                  flexDirection: "row",
-                }}
+          <View w={'100%'} mt={5}>
+            <View justifyContent={'space-between'} flexDir={'row'}>
+              <Text
+                color={'#252525'}
+                fontSize={15}
+                fontFamily={'Open Sans'}
+                fontWeight={'700'}
+                lineHeight={20}
               >
+                Guides
+              </Text>
+              <Pressable onPress={() => navigation.navigate('Guide Screen')}>
                 <Text
-                  style={{
-                    color: "#252525",
-                    fontSize: 15,
-                    fontFamily: "Open Sans",
-                    fontWeight: "700",
-                    lineHeight: 20,
-                  }}
-                >
-                  Your Journey
-                </Text>
-                <Text
-                  style={{
-                    color: "#909090",
-                    fontSize: 15,
-                    fontFamily: "Open Sans",
-                    fontWeight: "400",
-                    textDecorationLine: "underline",
-                    lineHeight: 20,
-                  }}
-                >
-                  See all
-                </Text>
-              </View>
-
-              <View
-                style={{
-                  marginTop: 20,
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
-              >
-                {testData.map((item, index) => (
-                  <View key={index} style={{ marginBottom: 20 }}>
-                    <Card
-                      title={item.title}
-                      description={item.description}
-                      progress={item.progress}
-                    />
-                  </View>
-                ))}
-              </View>
+                  color={'#909090'}
+                  fontSize={15}
+                  fontFamily={'Open Sans'}
+                    fontWeight={'400'}
+                    textDecorationLine={'underline'}
+                    lineHeight={20}
+                  >
+                    See all
+                  </Text>
+                </Pressable>
+            </View>
+            {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
+            {error && <Text>Error: {error.message}</Text>}
+            {guides && <HomeScreenGuides guides={guides} />}
             </View>
           </View>
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+        </ScrollView>
+    </SafeAreaView >
   );
 }
-
-const Card = (props) => {
-  return (
-    <View
-      style={{
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 16,
-        paddingBottom: 16,
-        backgroundColor: "white",
-        borderRadius: 13,
-        borderWidth: 1,
-        borderColor: "#EFEFEF",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        flexDirection: "row",
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          alignSelf: "stretch",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          marginHorizontal: 12,
-        }}
-      >
-        <Text
-          style={{
-            color: "#252525",
-            fontSize: 15,
-            fontFamily: "Open Sans",
-            fontWeight: "600",
-            lineHeight: 20,
-            flexWrap: "wrap",
-          }}
-        >
-          {props.title}
-        </Text>
-        <Text
-          style={{
-            color: "#C1C3C7",
-            fontSize: 12,
-            fontFamily: "Open Sans",
-            fontWeight: "400",
-            lineHeight: 20,
-            flexWrap: "wrap",
-          }}
-        >
-          {props.description}
-        </Text>
-      </View>
-      <View
-        style={{
-          width: 72,
-          height: 74,
-          justifyContent: "center",
-          alignItems: "center",
-          position: "relative",
-        }}
-      >
-        <View
-          style={{
-            width: 65.13,
-            height: 63.43,
-            position: "absolute",
-            backgroundColor: "#D9D9D9",
-            borderRadius: 9999,
-            transform: [{ rotate: "-96.92deg" }],
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{
-              width: "100%",
-              height: "100%",
-              transform: [{ rotate: "-98.20deg" }],
-              backgroundColor: "#F7F7F8",
-              borderRadius: 9999,
-            }}
-          />
-        </View>
-        <Text
-          style={{
-            position: "absolute",
-            textAlign: "center",
-            color: "#252525",
-            fontSize: 8,
-            fontFamily: "Open Sans",
-            fontWeight: "600",
-            lineHeight: 20,
-          }}
-        >
-          {props.progress}%
-        </Text>
-      </View>
-    </View>
-  );
-};

@@ -1,3 +1,52 @@
+## 0.7.0 (2023-11-27)
+
+### Feat
+
+- added file size as attribute + bug fixes
+- **File-Collection**: File Collection is now connected to backend
+- **Frontend**: Signup/Login/Logout mostly working!
+- **File-Collection**: Implemented Hardcoded version of File Collection
+
+### Fix
+
+- made base api endpoint consistent between all services
+- major frontend issues, completed onboarding flow instantiation + user/profile management, also added import sorting
+- minor api issues
+
+## 0.6.0 (2023-11-21)
+
+### Feat
+
+- completed swagger documentation
+
+## 0.5.0 (2023-11-17)
+
+### Feat
+
+- added swagger documentaiton + health check
+- **Taskfile**: added a new way to serve up the backend, task dev
+
+### Fix
+
+- **SubTaskScreen.tsx**: updated fetch function
+- **client**: missing imports + added new routing abilites
+- **tunnel.sh**: addd third terminal for frontent
+- minor issues
+- minor issues
+- **services**: updated services with endpoint const
+
+## 0.4.0 (2023-11-06)
+
+### Feat
+
+- **files-+-tasks**: filterable based on users and tags
+- **client**: fixed, refactored and improevd frontend services and contexts
+
+### Fix
+
+- **file.go**: print statement
+- **user.go**: updated firebase param
+
 ## 0.3.0 (2023-11-01)
 
 ### Feat

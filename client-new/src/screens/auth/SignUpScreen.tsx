@@ -1,212 +1,221 @@
-import { KeyboardAvoidingView, View } from "native-base";
-import { StyleSheet, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "@/contexts/AuthContext";
-import { useState } from "react";
-import ScreenWideInput from "@/components/reusable/ScreenWideInput";
-import ScreenWideButton from "@/components/reusable/HalfScreenWideButton";
-import SquareButton from "@/components/reusable/SquareButton";
-import CompaniesFooter from "@/components/reusable/CompaniesFooter";
+import Footer from '@/components/reusable/Footer';
+import ScreenWideButton from '@/components/reusable/HalfScreenWideButton';
+import LegacyWordmark from '@/components/reusable/LegacyWordmark';
+import LetsGo from '@/components/reusable/LetsGo';
+import ScreenWideInput from '@/components/reusable/ScreenWideInput';
+import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
+import { useUser } from '@/contexts/UserContext';
+import { View } from 'native-base';
+
+import { useEffect, useState } from 'react';
+import React from 'react';
+import { Alert, StyleSheet } from 'react-native';
 import {
-  widthPercentageToDP as w,
   heightPercentageToDP as h,
-} from "react-native-responsive-screen";
-import LegacyWordmark from "@/components/reusable/LegacyWordmark";
-import LetsGo from "@/components/reusable/LetsGo";
-import React from "react";
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { z } from 'zod';
 
+type SignupData = {
+  username: string;
+  email: string;
+  password: string;
+  date: Date;
+};
+
+// TODO: signup is still not fully reistant
 export default function SignUpScreen({ route, navigation }) {
-  const { user, createAccount } = useAuth();
+  const { createAccount } = useUser();
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const emailSchema = z.string().email('Invalid email format');
+  const passwordSchema = z.string().min(8, 'Password must be at least 8 characters long');
+
+  const [signupData, setSignupData] = useState<SignupData>({
+    username: '',
+    email: '',
+    password: '',
+    date: new Date()
+  });
 
   const signUp = () => {
-    createAccount(username, email, password);
-    navigation.setOptions();
-    navigation.navigate("Onboarding Stack");
-    // createAccount(fullName, email, password).then((response) => {
-    //   if (response === true) {
-    //     navigation.setOptions();
-    //     navigation.navigate("Onboarding Stack");
-    //   } else {
-    //     const errorMessage = response.code;
-    //     console.log("ERROR: ", errorMessage);
-    //     if (errorMessage === "auth/invalid-email") {
-    //       Alert.alert("Error", "Invalid email, please try again.", [
-    //         { text: "OK", onPress: () => {} },
-    //       ]);
-    //     } else if (errorMessage === "auth/email-already-in-use") {
-    //       Alert.alert(
-    //         "Error",
-    //         "A Legacy account already exists for this email. Please log in.",
-    //         [{ text: "OK", onPress: () => {} }]
-    //       );
-    //     } else if (errorMessage === "auth/weak-password") {
-    //       Alert.alert("Error", "Password must be 8 characters long.", [
-    //         { text: "OK", onPress: () => {} },
-    //       ]);
-    //     } else {
-    //       Alert.alert(
-    //         "Error",
-    //         "There was an error with signing up. Please try again.",
-    //         [{ text: "OK", onPress: () => {} }]
-    //       );
-    //     }
-    //   }
-    // });
+    const signup = async () => {
+      const { username, email, password, date } = signupData;
+
+      if (!username || !email || !password || !date) {
+        Alert.alert('Error', 'Please fill in all required fields');
+        return;
+      }
+
+      try {
+        emailSchema.parse(signupData.email);
+        passwordSchema.parse(signupData.password);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          Alert.alert('Error', error.issues[0].message);
+          return;
+        }
+      } 
+
+      // TODO: Date doesnt actually get passed through
+      const response = await createAccount(username, email, password)
+      if (response instanceof Error) {
+        Alert.alert('Error', response.message)
+        setSignupData({
+          username: '',
+          email: '',
+          password: '',
+          date: new Date()
+        });
+        return;
+      }
+      navigation.setOptions();
+      navigation.navigate('Onboarding Stack');
+    }
+
+    signup();
   };
 
+  // for debugging
+  useEffect(() => {
+    console.log('username: ', signupData.username)
+    console.log('email: ', signupData.email)
+    console.log('password: ', signupData.password)
+    console.log('date: ', signupData.date)
+  }, [signupData]);
+
   const switchToLogin = () => {
-    navigation.navigate("Login Screen");
+    navigation.navigate('Login Screen');
   };
 
   return (
-    <SafeAreaView>
-      <KeyboardAvoidingView alignItems="center">
+    <>
+      <View bg={'creamyCanvas'} alignItems="center" h={h('100%')} w={w('100%')}>
         <View
-          width={w("80%")}
+          alignItems="center"
+          width={w('80%')}
           flexDirection="row"
           justifyContent="space-between"
-          justifyItems={"center"}
+          justifyItems={'center'}
+          paddingTop={h('8%')}
         >
           <LegacyWordmark />
-          <SquareButton title="LOGIN" onClick={switchToLogin} />
+          <SmallRoundedButton title="Login" onClick={switchToLogin} />
         </View>
-        <View paddingTop={h("7%")}>
+        <View paddingTop={h('7%')}>
           <LetsGo />
         </View>
-        <View alignItems={"center"} paddingTop={h("6.5%")}>
+        <View alignItems={'center'} paddingTop={h('6.5%')}>
           <ScreenWideInput
             placeholderText="Example"
             title="Full Name"
             iconName="user-o"
-            onChangeText={(value) => setUsername(value)}
-            value={username}
+            onChangeText={(value) => setSignupData({ ...signupData, username: value })}
+            value={signupData.username}
           />
-          <View paddingTop={h("3%")}>
+          <View paddingTop={h('3%')}>
             <ScreenWideInput
               placeholderText="example@email.com"
               title="Email"
               iconName="envelope-o"
-              onChangeText={(value) => setEmail(value)}
-              value={email}
+              onChangeText={(value) => setSignupData({ ...signupData, email: value })}
+              value={signupData.email}
             />
           </View>
-          <View paddingTop={h("3%")} paddingBottom={h("4%")}>
+          <View paddingTop={h('3%')} paddingBottom={h('4%')}>
             <ScreenWideInput
               placeholderText="Must be at least 8 characters long"
               title="Password"
               iconName="lock"
               password={true}
-              onChangeText={(value) => setPassword(value)}
-              value={password}
+              onChangeText={(value) => setSignupData({ ...signupData, password: value })}
+              value={signupData.password}
             />
           </View>
+          {/* TODO: move this to a valid section for user data collection*/}
+          {/* <View paddingTop={h('3%')} paddingBottom={h('3%')}>
+            <ScreenWideInput
+              title="Date of Birth"
+              onChangeText={(value) => setSignupData({ ...signupData, date: value })}
+              placeholderText="Select your date of birth"
+              iconName="calendar"
+              disabled={false}
+              password={false}
+              isDatePicker={true}
+            />
+          </View> */}
           <View
-            width={w("80%")}
-            alignItems={"center"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
+            width={w('80%')}
+            alignItems={'center'}
+            flexDirection={'row'}
+            justifyContent={'space-between'}
           >
             <ScreenWideButton
               text="Sign up with SSO"
-              textColor="#8F8F8F"
-              backgroundColor="#FFFFFF"
-              borderColor="#8F8F8F"
+              textColor={'#000000'}
+              backgroundColor={'transparent'}
+              borderColor={'lightGreen'}
+              onClick={() => Alert.alert('Not implemented yet')}
             />
             <ScreenWideButton
               text="Sign up to Legacy"
-              textColor="#FFFFFF"
-              backgroundColor="#8F8F8F"
-              borderColor="#8F8F8F"
+              textColor={'#FFFFFF'}
+              backgroundColor={'lightGreen'}
+              borderColor={'lightGreen'}
               onClick={signUp}
             />
           </View>
-          <View paddingTop={h("4%")}>
-            <CompaniesFooter />
+          <View paddingTop={h('20%')}>
+            <Footer />
           </View>
         </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-    // <SafeAreaView>
-    //   <KeyboardAvoidingView>
-    //     <View alignItems={"center"}>
-    //       <SquareButton
-    //         title = "LOGIN"
-    //       />
-    //      <ScreenWideInput
-    //         placeholderText="Example"
-    //         title="Full Name"
-    //         onChangeText={(value) => setFullName(value)}
-    //         value={fullName}
-    //       />
-    //       <ScreenWideInput
-    //         placeholderText="example@email.com"
-    //         title="Email"
-    //         iconName="envelope-o"
-    //         onChangeText={(value) => setEmail(value)}
-    //         value={email}
-    //       />
-    //       <ScreenWideInput
-    //         placeholderText="Must be at least 8 characters long"
-    //         title="Password"
-    //         iconName="lock"
-    //         password={true}
-    //         onChangeText={(value) => setPassword(value)}
-    //         value={password}
-    //       />
-    //       <ScreenWideButton text="Login to Legacy" textColor="#FFFFFF" backgroundColor="#8F8F8F"/>
-    //     </View>
-    //   </KeyboardAvoidingView>
-    // </SafeAreaView>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   inputContainer: {
-    width: "80%",
+    width: '80%'
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 5
   },
   buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
+    width: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40
   },
   button: {
-    backgroundColor: "#0782F9",
-    width: "100%",
+    backgroundColor: '#0782F9',
+    width: '100%',
     padding: 15,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center'
   },
   buttonOutline: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     marginTop: 5,
-    borderColor: "#0782F9",
-    borderWidth: 2,
+    borderColor: '#0782F9',
+    borderWidth: 2
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 16,
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16
   },
   buttonOutlineText: {
-    color: "#0782F9",
-    fontWeight: "700",
-    fontSize: 16,
-  },
+    color: '#0782F9',
+    fontWeight: '700',
+    fontSize: 16
+  }
 });

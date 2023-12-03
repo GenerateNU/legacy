@@ -1,17 +1,25 @@
-import axios from "axios";
-import { IGuide } from "@/interfaces/IGuide";
+import axios from 'axios';
 
-export const getGuide = (guideName: string): Promise<IGuide> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      axios
-        .get<IGuide>(`http://localhost:8080/api/guides/${guideName}`)
-        .then((res) => {
-          resolve(res.data);
-        })
-        .catch((error) => {
-          reject(error.response.data);
-        });
-    });
-  });
-};
+import { IGuide } from '@/interfaces/IGuide';
+import { sleep } from '@/utils/MockDelayUtil';
+import { API_BASE_URL } from '@/services/const';
+
+export const fetchAllGuides = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/guides/`);
+    return response.data as IGuide[];
+  } catch (error) {
+    console.log('Error fetching all guides', error);
+    throw new Error('Error fetching all guides');
+  }
+}
+
+export const fetchGuideByName = async (name: string) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/guides/${name}`);
+    return response.data as IGuide;
+  } catch (error) {
+    console.log('Error fetching guide by name', error);
+    throw new Error('Error fetching guide by name');
+  }
+}

@@ -8,13 +8,24 @@ import (
 	"os"
 	"os/signal"
 	"server/src/database"
+
 	"sync"
 	"syscall"
 	"time"
 
 	"github.com/labstack/echo/v4"
+
+	_ "server/src/docs"
 )
 
+// @title Legacy API
+// @version 1.0
+// @description Backend Server for Legacy App
+
+// @contact.name	David Oduneye and Akshay Dupuguntla
+// @contact.email	oduneye.d@northeastern.edu and dupuguntla@northeastern.edu
+// @host localhost:8080
+// @BasePath /api
 func main() {
 	e := echo.New()
 

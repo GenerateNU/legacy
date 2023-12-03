@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from "react";
-import { IOnboardingFlowState } from "@/interfaces/IOnboardingFlowState";
-import React from "react";
+import { IOnboardingFlowState } from '@/interfaces/IOnboardingFlowState';
+
+import { createContext, useContext, useState } from 'react';
+import React from 'react';
 
 type OnboardingContextData = {
   page: number;
@@ -20,266 +21,283 @@ const OnboardingContext = createContext<OnboardingContextData>(
 );
 
 export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
-  children,
+  children
 }) => {
   const [page, setPage] = useState(0);
   const [onboardingState, setOnboardingState] = useState<IOnboardingFlowState>({
-    worldviewQ1: 3,
-    worldviewQ2: 3,
-    worldviewQ3: 3,
-    worldviewQ4: 3,
-    worldviewQ5: 3,
-    worldviewQ6: 3,
-    emotionalPatternQ1: 3,
-    emotionalPatternQ2: 3,
-    emotionalPatternQ3: 3,
-    workstyleQ1: 3,
-    workstyleQ2: 3,
-    workstyleQ3: 3,
-    workstyleQ4: 3,
-    socialInclinationQ1: 3,
-    socialInclinationQ2: 3,
-    socialInclinationQ3: 3,
-    funnelActivitiesQ1: 3,
-    funnelActivitiesQ2: 3,
+    worldviewQ1: 1,
+    worldviewQ2: 1,
+    worldviewQ3: 1,
+    worldviewQ4: 1,
+    worldviewQ5: 1,
+    worldviewQ6: 1,
+    emotionalPatternQ1: 1,
+    emotionalPatternQ2: 1,
+    emotionalPatternQ3: 1,
+    workstyleQ1: 1,
+    workstyleQ2: 1,
+    workstyleQ3: 1,
+    workstyleQ4: 1,
+    socialInclinationQ1: 1,
+    socialInclinationQ2: 1,
+    socialInclinationQ3: 1,
+    funnelActivitiesQ1: 1,
+    funnelActivitiesQ2: 1
   });
 
   const onboardingFlow = [
     {
-      page: "Sign Up Transition Screen",
-      props: {},
+      page: 'Sign Up Transition Screen',
+      props: {}
     },
     {
-      page: "Questionaire Screen",
+      page: 'Quiz Section Intro Screen',
       props: {
-        inputName: "worldviewQ1",
+        totalCircles: 6,
+        title: 'Worldview',
+        description:
+          'Explore how your perspectives and beliefs shape your approach to life, future planning, and personal standards.'
+      }
+    },
+    {
+      page: 'Questionaire Screen',
+      props: {
+        inputName: 'worldviewQ1',
         totalCircles: 6,
         completedCircles: 0,
-        questionNumber: "1",
+        questionNumber: '1',
         question:
-          'When it comes to the future, are you the ultimate planner or more of a "let\'s see what happens" kind of person?',
-      },
+          'Do you meticulously plan for future events, or do you prefer to adapt as situations unfold?',
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ2",
+        inputName: 'worldviewQ2',
         totalCircles: 6,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          'Would you describe yourself as more of a perfectionist or someone who is content with "good enough"?',
-      },
+          'Do you strive for perfection in everything you do, or are you satisfied once a task meets essential standards?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ3",
+        inputName: 'worldviewQ3',
         totalCircles: 6,
         completedCircles: 2,
-        questionNumber: "3",
+        questionNumber: '3',
         question:
-          "Are you a firm believer in self-improvement, no matter your age?",
-      },
+          'Do you actively seek self-improvement at all ages, or do you feel content with your current capabilities?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ4",
+        inputName: 'worldviewQ4',
         totalCircles: 6,
         completedCircles: 3,
-        questionNumber: "4",
+        questionNumber: '4',
         question:
-          "How open are you to learning and stepping out of your comfort zone?",
-      },
+          'How often do you embrace new learning opportunities and step outside your comfort zone?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ5",
+        inputName: 'worldviewQ5',
         totalCircles: 6,
         completedCircles: 4,
-        questionNumber: "5",
+        questionNumber: '5',
         question:
-          "Do you tend to focus on what you lack or on what you can provide for your loved ones?",
-      },
+          'Do you tend to concentrate on what you lack, or do you focus more on what you can provide to your loved ones?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "worldviewQ6",
+        inputName: 'worldviewQ6',
         totalCircles: 6,
         completedCircles: 5,
-        questionNumber: "6",
+        questionNumber: '6',
         question:
-          "Do you take the initiative to plan ahead, or do you wait until circumstances force you to react?",
-      },
+          'Do you actively plan ahead for future scenarios, or do you tend to plan only when circumstances require it?'
+      }
     },
     {
-      page: "Quiz Section Intro Screen",
+      page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 3,
-      },
+        title: 'Emotional Patterns',
+        description:
+          'Identify your typical emotional responses and outlook on life, from your general mood to your approach to optimism.'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "emotionalPatternQ1",
+        inputName: 'emotionalPatternQ1',
         totalCircles: 3,
         completedCircles: 0,
-        questionNumber: "1",
-        question: "On a typical day, how anxious or calm do you tend to feel?",
-      },
+        questionNumber: '1',
+        question: 'On an average day, do you feel more anxious or calm?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "emotionalPatternQ2",
+        inputName: 'emotionalPatternQ2',
         totalCircles: 3,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          "Is your glass usually half full, or do you tend to see it as half empty?",
-      },
+          'Do you generally see the positive aspects of situations (glass half full), or do you focus on the negatives (glass half empty)?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "emotionalPatternQ3",
+        inputName: 'emotionalPatternQ3',
         totalCircles: 3,
         completedCircles: 2,
-        questionNumber: "3",
+        questionNumber: '3',
         question:
-          "When making decisions, how often do you consider the emotional burden it might place on those close to you?",
-      },
+          'When making decisions, how often do you consider the emotional impact on those close to you?'
+      }
     },
     {
-      page: "Quiz Section Intro Screen",
+      page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 4,
-      },
+        title: 'Workstyle',
+        description:
+          "Delve into your habits and preferences, understanding whether you're a multitasker, a focused executor, or somewhere in between."
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "workstyleQ1",
+        inputName: 'workstyleQ1',
         totalCircles: 4,
         completedCircles: 0,
-        questionNumber: "1",
+        questionNumber: '1',
         question:
-          "Are you a laser-focused, 'I get things done' dynamo, or more of a 'why stick to one thing when I can multitask' explorer?",
-      },
+          "In your work, do you focus on one task at a time, or do you prefer juggling multiple tasks simultaneously?"
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "workstyleQ2",
+        inputName: 'workstyleQ2',
         totalCircles: 4,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          "Are you more internally motivated to accomplish tasks, or do you rely on external notifications and reminders?",
-      },
+          'Are you self-driven to complete tasks, or do you rely on external cues and reminders?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "workstyleQ3",
+        inputName: 'workstyleQ3',
         totalCircles: 4,
         completedCircles: 2,
-        questionNumber: "3",
+        questionNumber: '3',
         question:
-          "Do you prefer to tackle tasks iteratively over time, or do you prefer to do everything all at once?",
-      },
+          'Do you prefer to handle tasks bit by bit over time, or do you like to tackle everything in one go?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "workstyleQ4",
+        inputName: 'workstyleQ4',
         totalCircles: 4,
         completedCircles: 3,
-        questionNumber: "4",
+        questionNumber: '4',
         question:
-          "Do you prefer in-depth, detailed information when making important decisions, or do you gravitate towards concise, action-oriented advice?",
-      },
+          'When making important decisions, do you seek in-depth, detailed information, or do you prefer concise, straightforward advice?'
+      }
     },
 
     {
-      page: "Quiz Section Intro Screen",
+      page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 3,
-      },
+        title: 'Social Inclinations',
+        description:
+          'Assess how you interact with others, your comfort in discussing sensitive topics, and your tendency to offer guidance or support.'
+      }
     },
 
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "socialInclinationQ1",
+        inputName: 'socialInclinationQ1',
         totalCircles: 3,
         completedCircles: 0,
-        questionNumber: "1",
+        questionNumber: '1',
         question:
-          "Is talking about death as easy as chatting about the weather, or do you tend to avoid the topic?",
-      },
+          'Is discussing sensitive topics like death as natural for you as casual conversation, or do you tend to avoid such topics?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "socialInclinationQ2",
+        inputName: 'socialInclinationQ2',
         totalCircles: 3,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          "Are you the go-to person to help friends and family with tricky decisions, or do you prefer someone else to do the heavy lifting?",
-      },
+          'Are you often the person friends and family turn to for help with difficult decisions, or do you prefer to let others take the lead?'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "socialInclinationQ3",
+        inputName: 'socialInclinationQ3',
         totalCircles: 3,
         completedCircles: 2,
-        questionNumber: "3",
+        questionNumber: '3',
         question:
-          "Are you more inclined to focus on your issues, or do you often help others with theirs?",
-      },
+          'Do you primarily focus on addressing your own issues, or are you more inclined to assist others with their problems?'
+      }
     },
 
     {
-      page: "Quiz Section Intro Screen",
+      page: 'Quiz Section Intro Screen',
       props: {
         totalCircles: 2,
-      },
+        title: 'Funnel Activities',
+        description:
+          'Gauge your knowledge and preparedness regarding end-of-life planning, from understanding the basics to actively engaging in the process.'
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "funnelActivitiesQ1",
+        inputName: 'funnelActivitiesQ1',
         totalCircles: 2,
         completedCircles: 0,
-        questionNumber: "1",
+        questionNumber: '1',
         question:
-          "Are you a walking encyclopedia on end-of-life planning, or do you feel like you're navigating uncharted waters?",
-      },
+          "Are you highly knowledgeable about end-of-life planning, or do you feel like you have much to learn in this area?"
+      }
     },
     {
-      page: "Questionaire Screen",
+      page: 'Questionaire Screen',
       props: {
-        inputName: "funnelActivitiesQ2",
+        inputName: 'funnelActivitiesQ2',
         totalCircles: 2,
         completedCircles: 1,
-        questionNumber: "2",
+        questionNumber: '2',
         question:
-          'Is your end-of-life planning a "when I get around to it" affair, or are you sprinting towards getting it done?',
-      },
+          'Is your approach to end-of-life planning proactive and immediate, or is it something you plan to address later?'
+      }
     },
     {
-      page: "Persona Screen",
-      props: {},
-    },
-    {
-      page: "Landing Screen",
-      props: {},
+      page: 'Persona Screen',
+      props: {}
     },
   ];
 
@@ -287,7 +305,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
     console.log(value);
     setOnboardingState((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value
     }));
   };
 
@@ -299,7 +317,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         onboardingState,
         setOnboardingState,
         onboardingFlow,
-        handleChange,
+        handleChange
       }}
     >
       {children}
@@ -311,7 +329,7 @@ export const useOnboarding = (): OnboardingContextData => {
   const context = useContext(OnboardingContext);
 
   if (!context) {
-    throw new Error("useOnboarding must be used within an AuthProvider");
+    throw new Error('useOnboarding must be used within an AuthProvider');
   }
 
   return context;
