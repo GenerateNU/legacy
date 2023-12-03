@@ -161,7 +161,7 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VA
 
 -- Creating test subtasks
 INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description) VALUES
-(1, 'Research Fear', 'Research books, articles, or podcasts on overcoming fear of death.'),
+(1, 'Research Fear', 'Research books, articles, or podcasts on overcoming fear of death.'), 
 (1, 'Connect With Support', 'Connect with a local support group for individuals facing similar fears.'),
 (1, 'Manage Anxiety', 'Explore mindfulness or meditation practices to help manage anxiety related to end-of-life topics.'),
 (2, 'Create Checklist', 'Create a checklist of basic personal information needed for end-of-life planning.'),
