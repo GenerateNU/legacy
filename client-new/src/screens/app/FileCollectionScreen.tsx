@@ -10,7 +10,7 @@ import { fetchUserFilesList } from '@/services/FileService';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
 import { useQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
-import { ScrollView, Text, View } from 'native-base';
+import { AddIcon, Icon, ScrollView, Text, View } from 'native-base';
 
 import React, { useState } from 'react';
 import { ActivityIndicator, RefreshControl } from 'react-native';
@@ -25,6 +25,7 @@ export default function FileCollectionScreen() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredFiles, setFilteredFiles] = useState<IFile[]>([]);
+  const [open, setOpen] = useState(false);
 
   const {
     isPending,
@@ -69,7 +70,14 @@ export default function FileCollectionScreen() {
         >
           All Files
         </Text>
-        <SearchBar<IFile>
+        <View display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-evenly'}>
+          <AddIcon
+            as={Icon}
+            color={'#000'}
+            size={'sm'}
+            onPress={() => console.log('Add File')}
+          />
+          {/* <SearchBar
           isPending={isPending}
           inputSearch={search}
           keys={['file_name']}
@@ -77,7 +85,14 @@ export default function FileCollectionScreen() {
           filterItems={filterFiles}
           filteringType={files}
           updateFilteredValues={setFilteredFiles}
-        />
+            width={w('80%')}
+            height={h('5%')}
+            borderRadius={10}
+            backgroundColor={'#FFF'}
+            placeholder={'Search'}
+            // placeholderTextColor={'#000'}
+        /> */}
+        </View>
 
         <TaskTagGrid selectedTags={selectedTags} pressfunc={setSelectedTags} />
         <ScrollView

@@ -104,6 +104,12 @@ export default function TaskScreen({ navigation }) {
                 filterItems={filterTasks}
                 filteringType={tasks}
                 updateFilteredValues={setFilteredTasks}
+                width={'100%'}
+                backgroundColor={'#F2F2F2'}
+                borderRadius={'10px'}
+                paddingLeft={'10px'}
+                paddingRight={'10px'}
+                marginBottom={'10px'}
               />
             </View>
             <View flexDirection={'row'}>

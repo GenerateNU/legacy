@@ -1,6 +1,6 @@
-import { Input } from 'native-base';
-
+import { Input, IInputProps } from 'native-base';
 import React, { useEffect } from 'react';
+import { ViewStyle } from 'react-native';
 
 type SearchBarProps<T> = {
   isPending: boolean;
@@ -10,13 +10,14 @@ type SearchBarProps<T> = {
   filterItems: (itemsList: T[], keys: string[]) => T[];
   filteringType: T[];
   updateFilteredValues: (filteredValues: T[]) => void;
-};
+  style?: ViewStyle;
+} & IInputProps;
 
 export default function SearchBar<T>(props: SearchBarProps<T>) {
   let debounceTimer;
 
   useEffect(() => {
-    const debounce = (func, delay) => {
+    const debounce = (func: () => void, delay: number) => {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
         func();
@@ -41,14 +42,10 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
       placeholder="Search"
       size="md"
       isDisabled={props.isPending ? true : false}
-      width={'100%'}
-      backgroundColor={'#F2F2F2'}
-      borderRadius={'10px'}
-      paddingLeft={'10px'}
-      paddingRight={'10px'}
-      marginBottom={'20px'}
       value={props.inputSearch}
       onChangeText={(text) => props.updateSearchValue(text)}
+      style={props.style}
+      {...props}
     />
   );
 }
