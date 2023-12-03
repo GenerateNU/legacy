@@ -188,9 +188,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       console.log('[profile context] user id', userID)
       const profile = await fetchProfile(userID);
       const profileRespnse = await updateOnboardingToComplete(profile.id);
+      setProfile(profileRespnse);
       setCompletedOnboarding(profileRespnse.completed_onboarding_response)
+
       await initalizeAllProgress(userID);
-      await setProfile(profileRespnse);
       await setItemAsync('profile', JSON.stringify(profileRespnse));
       await setItemAsync('completedOnboarding', JSON.stringify(profileRespnse.completed_onboarding_response))
     } catch (error) {
