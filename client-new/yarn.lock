@@ -7363,6 +7363,11 @@ react-native-date-picker@^4.3.3:
   resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.3.3.tgz#5ca4ca10283538ab9307b7f2dc6b83233ded122b"
   integrity sha512-Lq2hGZkwoyCMsxi/uw4KVGu4/xdPZ8AHEx2SU5KY2mipHFpX+r4n5/gXa+rpCRkARJaTFYPZ7S59bT9KMh7fGw==
 
+react-native-file-viewer@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-file-viewer/-/react-native-file-viewer-2.1.5.tgz#cd4544f573108e79002b5c7e1ebfce4371885250"
+  integrity sha512-MGC6sx9jsqHdefhVQ6o0akdsPGpkXgiIbpygb2Sg4g4bh7v6K1cardLV1NwGB9A6u1yICOSDT/MOC//9Ez6EUg==
+
 react-native-fit-image@^1.5.5:
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/react-native-fit-image/-/react-native-fit-image-1.5.5.tgz#c660d1ad74b9dcaa1cba27a0d9c23837e000226c"

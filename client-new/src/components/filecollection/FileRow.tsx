@@ -14,6 +14,7 @@ import { Linking, Pressable } from 'react-native';
 import OpenLinkButton from '../reusable/OpenLinkButton';
 import { useQuery } from '@tanstack/react-query';
 import { fetchFileURL } from '@/services/FileService';
+import FileViewer from "react-native-file-viewer";
 
 type FileRowProps = {
   file: IFile;
@@ -26,20 +27,24 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
   // const date = RelativeTime(new Date(file.created_at));
 
   const handlePress = async () => {
-    const url = await fetchFileURL(file.id);
-    console.log('URL', url);
-    // open file
-    try {
-      const supported = await Linking.canOpenURL(url);
+    // const url = await fetchFileURL(file.id);
+    // console.log('URL', url);
+    // // open file
+    // try {
+    //   const supported = await Linking.canOpenURL(url);
 
-      if (supported) {
-        await Linking.openURL(url);
-      } else {
-        console.error("Can't open URL:", url);
-      }
-    } catch (error) {
-      console.error('Error opening URL:', error);
-    }
+    //   if (supported) {
+    //     await Linking.openURL(url);
+    //   } else {
+    //     console.error("Can't open URL:", url);
+    //   }
+    // } catch (error) {
+    //   console.error('Error opening URL:', error);
+    // }
+
+    const path = FileViewer.open('/Users/akshayd2020/Downloads/test.txt')
+    .then(() => {console.log('Success')});
+
   };
 
 
@@ -68,7 +73,8 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
           justifyContent={'center'}
           paddingBottom={h('1.5%')}
         >
-          <ThreeDotsIcon />
+          <ThreeDotsIcon /> 
+          {/* TODO: change this to a button since it is an image now. */}
         </View>
       </View>
     </Pressable>

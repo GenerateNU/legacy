@@ -1,5 +1,5 @@
 import { IFile } from '@/interfaces/IFile';
-import { Text, ThreeDotsIcon, View } from 'native-base';
+import { Text, View } from 'native-base';
 
 import React from 'react';
 import {
