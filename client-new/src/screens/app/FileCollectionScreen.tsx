@@ -10,7 +10,7 @@ import { fetchUserFilesList } from '@/services/FileService';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
 import { useQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
-import { AddIcon, Icon, ScrollView, Text, View } from 'native-base';
+import { AddIcon, Button, Icon, ScrollView, Text, View } from 'native-base';
 import DocumentPicker from 'react-native-document-picker';
 
 import React, { useState } from 'react';
@@ -76,16 +76,19 @@ export default function FileCollectionScreen() {
 
   const uploadFile = async (document) => {
     try {
-      // Fetch file data
-      const fileData = await fetch(document.uri);
-      const blobData = await fileData.blob();
+      // Fetch file data as Blob
+      const response = await fetch(document[0].uri);
+      const blobData = await response.blob();
 
       // Create FormData object
       const formData = new FormData();
-      formData.append('file', blobData, document.name);
+      formData.append('file_data', blobData); // Use 'file_data' as the key
+
+      console.log('FormData:', formData);
+      console.log('BlobData:', blobData);
 
       // Perform the upload using fetch
-      const response = await fetch(`http://localhost:8080/api/files/${user?.id}`, {
+      const uploadResponse = await fetch(`http://localhost:8080/api/files/${user?.id}`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -94,7 +97,7 @@ export default function FileCollectionScreen() {
       });
 
       // Handle the response
-      if (response.ok) {
+      if (uploadResponse.ok) {
         console.log('File uploaded successfully');
       } else {
         console.error('File upload failed');
@@ -123,12 +126,13 @@ export default function FileCollectionScreen() {
           All Files
         </Text>
         <View display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-evenly'}>
-          <AddIcon
-            as={Icon}
-            color={'#000'}
-            size={'sm'}
-            onPress={() => console.log('Add File')}
-          />
+          <Button onPress={pickDocument} backgroundColor={'transparent'} borderRadius={10} height={h('5%')} justifyContent={'center'} alignItems={'center'}>
+            <AddIcon
+              as={Icon}
+              color={'#000'}
+              size={'sm'}
+            />
+          </Button>
           {/* <SearchBar
           isPending={isPending}
           inputSearch={search}
@@ -161,10 +165,10 @@ export default function FileCollectionScreen() {
         >
           {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
           {error && <Text>Error: {error.message}</Text>}
-          {filteredFiles && filteredFiles.length === 0 && (
+          {files && files.length === 0 && (
             <Text>No files found</Text>
           )}
-          {filteredFiles && <FileList files={filteredFiles} />}
+          {files && <FileList files={files} />}
         </ScrollView>
       </ScreenBody>
     </SafeAreaView>

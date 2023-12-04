@@ -15,6 +15,7 @@ import OpenLinkButton from '../reusable/OpenLinkButton';
 import { useQuery } from '@tanstack/react-query';
 import { fetchFileURL } from '@/services/FileService';
 import FileViewer from "react-native-file-viewer";
+import RNFS from 'react-native-fs';
 
 type FileRowProps = {
   file: IFile;
@@ -23,30 +24,29 @@ type FileRowProps = {
 const FileRow: React.FC<FileRowProps> = ({ file }) => {
   const size = ConvertFileSize(file.file_size);
   const { 0: fileName, 1: fileEnding } = file.file_name.split('.');
-  const truncatedName = fileName.length > 50 ? fileName.substring(0, 50) + '...' : fileName + '.' + fileEnding;
-  // const date = RelativeTime(new Date(file.created_at));
+  const truncatedName =
+    fileName.length > 50 ? fileName.substring(0, 50) + '...' : fileName + '.' + fileEnding;
 
   const handlePress = async () => {
-    // const url = await fetchFileURL(file.id);
-    // console.log('URL', url);
-    // // open file
-    // try {
-    //   const supported = await Linking.canOpenURL(url);
+    const url = await fetchFileURL(file.id);
 
-    //   if (supported) {
-    //     await Linking.openURL(url);
-    //   } else {
-    //     console.error("Can't open URL:", url);
-    //   }
-    // } catch (error) {
-    //   console.error('Error opening URL:', error);
-    // }
+    const downloadOptions: RNFS.DownloadFileOptions = {
+      fromUrl: url,
+      toFile: `${RNFS.DocumentDirectoryPath}/${file.file_name}`,
+      progress: (res) => {
+        console.log('Progress', res);
+      },
+    };
 
-    const path = FileViewer.open('/Users/akshayd2020/Downloads/test.txt')
-    .then(() => {console.log('Success')});
-
-  };
-
+    try {
+      const downloadResult = RNFS.downloadFile(downloadOptions);
+      const res = await downloadResult.promise;
+      console.log('File downloaded', res);
+      FileViewer.open(`${RNFS.DocumentDirectoryPath}/${file.file_name}`, { showOpenWithDialog: true, showAppsSuggestions: true })
+    } catch (e) {
+      console.log('Error', e);
+    }
+  }
 
   return (
     <Pressable onPress={() => handlePress()}>
