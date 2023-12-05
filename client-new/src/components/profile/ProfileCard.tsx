@@ -1,9 +1,10 @@
-import { View, Text, Image } from 'native-base';
-import Svg, { Path } from 'react-native-svg';
-import { StyleProp, ViewStyle } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import { Image, Text, View } from 'native-base';
+
 import { useEffect } from 'react';
 import React from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 
 export type ProfileCardProps = {
   title: string;

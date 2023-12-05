@@ -96,7 +96,7 @@ export default function TaskScreen({ navigation }) {
               All Tasks
             </Text>
             <View>
-              <SearchBar<ITask>
+              <SearchBar
                 isPending={isPending}
                 inputSearch={search}
                 keys={['task_name', 'task_description']}

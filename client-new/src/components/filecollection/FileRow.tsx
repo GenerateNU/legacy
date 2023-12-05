@@ -1,21 +1,22 @@
 import { IFile } from '@/interfaces/IFile';
-import { Text, ThreeDotsIcon, View } from 'native-base';
+import { fetchFileURL } from '@/services/FileService';
+import { ConvertFileSize } from '@/utils/FileUtils';
+import { useQuery } from '@tanstack/react-query';
+import { Text, View } from 'native-base';
 
 import React from 'react';
+import { Linking, Pressable } from 'react-native';
+import FileViewer from 'react-native-file-viewer';
+import RNFS from 'react-native-fs';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
 
-import FileIcon from '../icons/FileIcon';
-import { ConvertFileSize } from '@/utils/FileUtils';
 import { RelativeTime } from '../../utils/FileUtils';
-import { Linking, Pressable } from 'react-native';
+import FileIcon from '../icons/FileIcon';
+import ThreeDotsIcon from '../icons/ThreeDotsIcon';
 import OpenLinkButton from '../reusable/OpenLinkButton';
-import { useQuery } from '@tanstack/react-query';
-import { fetchFileURL } from '@/services/FileService';
-import FileViewer from "react-native-file-viewer";
-import RNFS from 'react-native-fs';
 
 type FileRowProps = {
   file: IFile;
@@ -23,9 +24,14 @@ type FileRowProps = {
 
 const FileRow: React.FC<FileRowProps> = ({ file }) => {
   const size = ConvertFileSize(file.file_size);
-  const { 0: fileName, 1: fileEnding } = file.file_name.split('.');
+  const lastDotIndex = file.file_name.lastIndexOf('.');
+  const fileName = file.file_name.substring(0, lastDotIndex);
+  const fileExtension = file.file_name.substring(lastDotIndex + 1);
+
   const truncatedName =
-    fileName.length > 50 ? fileName.substring(0, 50) + '...' : fileName + '.' + fileEnding;
+    fileName.length > 50
+      ? fileName.substring(0, 50) + '...'
+      : fileName;
 
   const handlePress = async () => {
     const url = await fetchFileURL(file.id);
@@ -35,18 +41,21 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
       toFile: `${RNFS.DocumentDirectoryPath}/${file.file_name}`,
       progress: (res) => {
         console.log('Progress', res);
-      },
+      }
     };
 
     try {
       const downloadResult = RNFS.downloadFile(downloadOptions);
       const res = await downloadResult.promise;
       console.log('File downloaded', res);
-      FileViewer.open(`${RNFS.DocumentDirectoryPath}/${file.file_name}`, { showOpenWithDialog: true, showAppsSuggestions: true })
+      FileViewer.open(`${RNFS.DocumentDirectoryPath}/${file.file_name}`, {
+        showOpenWithDialog: true,
+        showAppsSuggestions: true
+      });
     } catch (e) {
       console.log('Error', e);
     }
-  }
+  };
 
   return (
     <Pressable onPress={() => handlePress()}>
@@ -65,20 +74,22 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
           marginTop={h('1%')}
         >
           <Text style={{ width: w('60%') }}>{truncatedName}</Text>
-          <Text>1 item ∙ {size}</Text>
-          {/* <Text>Created {date.toString()}</Text> */}
+          <Text>{fileExtension} ∙ {size}</Text>
+          {/* <Text>Created {RelativeTime(file.created_at)}</Text> */}
         </View>
         <View
           paddingRight={0}
           justifyContent={'center'}
           paddingBottom={h('1.5%')}
         >
-          <ThreeDotsIcon /> 
+          <View style={{ transform: [{ rotate: '90deg' }] }}>
+            <ThreeDotsIcon />
+          </View>
           {/* TODO: change this to a button since it is an image now. */}
         </View>
       </View>
     </Pressable>
   );
-}
+};
 
 export default FileRow;

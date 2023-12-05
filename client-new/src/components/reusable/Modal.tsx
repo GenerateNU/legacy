@@ -1,10 +1,12 @@
-import { View, Text, Center, Modal } from 'native-base';
-import Circle from './Circle';
+import { Center, Modal, Text, View } from 'native-base';
 import { color } from 'native-base/lib/typescript/theme/styled-system';
-import Svg, { Path } from 'react-native-svg';
+
+import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import { ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native';
-import React from 'react';
+import Svg, { Path } from 'react-native-svg';
+
+import Circle from './Circle';
 
 export type ModalProps = {
   showModal: boolean;

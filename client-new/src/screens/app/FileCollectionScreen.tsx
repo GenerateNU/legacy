@@ -9,12 +9,18 @@ import { ITask } from '@/interfaces/ITask';
 import { fetchUserFilesList } from '@/services/FileService';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
 import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import Fuse from 'fuse.js';
-import { AddIcon, Button, Icon, ScrollView, Text, View } from 'native-base';
-import DocumentPicker from 'react-native-document-picker';
+import { AddIcon, Button, CloseIcon, Icon, ScrollView, SearchIcon, Text, View } from 'native-base';
+import RNFetchBlob from 'rn-fetch-blob';
+import FormData from 'form-data'
 
-import React, { useState } from 'react';
-import { ActivityIndicator, RefreshControl } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { ActivityIndicator, Alert, RefreshControl, TextInput, Animated, Easing } from 'react-native';
+import DocumentPicker, {
+  DocumentPickerResponse
+} from 'react-native-document-picker';
+import RNFS, { DocumentDirectoryPath } from 'react-native-fs';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
@@ -26,7 +32,6 @@ export default function FileCollectionScreen() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredFiles, setFilteredFiles] = useState<IFile[]>([]);
-  const [open, setOpen] = useState(false);
 
   const {
     isPending,
@@ -39,6 +44,7 @@ export default function FileCollectionScreen() {
     // staleTime: 6000 // TEMP, unsolved refetch when unncessary
   });
   console.log('Query Key:', ['userFiles', user?.id, selectedTags]);
+
 
   const filterFiles = (files: IFile[], keys: string[]): IFile[] => {
     if (search.length > 0) {
@@ -58,119 +64,138 @@ export default function FileCollectionScreen() {
     try {
       const result = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
+        // DocumentPicker.types.pdf,
+        // DocumentPicker.types.docx,
+        // DocumentPicker.types.doc,
+        // DocumentPicker.types.ppt,
+        // DocumentPicker.types.pptx,
+        // DocumentPicker.types.xls,
+        // DocumentPicker.types.xlsx,
+        // DocumentPicker.types.csv,
+        // DocumentPicker.types.plainText,
+        // DocumentPicker.types.images
+        // ],
+        allowMultiSelection: false
+        // copyTo: 'cachesDirectory',
+        // mode: 'import',
       });
 
       // Now you have the selected file, and you can proceed with the upload
-      console.log(result);
-      uploadFile(result);
+      console.log('result', result);
+      await uploadFile(result[0]);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        // User cancelled the document picker
-        console.log('User cancelled the document picker');
+        // User cancelled the picker
+        // Alert.alert('Canceled');
+        console.log('Canceled');
       } else {
-        // Handle other errors
-        console.error(err);
+        // Error occurred in picking the file
+        Alert.alert('Error', 'Something went wrong while picking the file.');
       }
     }
   };
 
-  const uploadFile = async (document) => {
+  const uploadFile = async (selectedFile: DocumentPickerResponse) => {
     try {
-      // Fetch file data as Blob
-      const response = await fetch(document[0].uri);
-      const blobData = await response.blob();
-
-      // Create FormData object
+      const strippedUri = selectedFile.uri.replace('file://', '');
+      const data = await RNFetchBlob.fs.readFile(strippedUri, 'base64');
       const formData = new FormData();
-      formData.append('file_data', blobData); // Use 'file_data' as the key
+      formData.append('file_data', data, selectedFile.name);
 
-      console.log('FormData:', formData);
-      console.log('BlobData:', blobData);
-
-      // Perform the upload using fetch
-      const uploadResponse = await fetch(`http://localhost:8080/api/files/${user?.id}`, {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post('http://localhost:8080/api/files/6', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      // Handle the response
-      if (uploadResponse.ok) {
-        console.log('File uploaded successfully');
-      } else {
-        console.error('File upload failed');
-      }
+      console.log('File uploaded successfully:', response.data);
     } catch (error) {
       console.error('Error uploading file:', error);
+      Alert.alert('Error', 'Failed to upload file.');
     }
   };
 
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}>
-      <ScreenBody>
-        <View marginLeft={'auto'} marginRight={0}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isPending}
+            onRefresh={() => {
+              refetch();
+            }}
+            colors={['#ff0000', '#00ff00', '#0000ff']}
+            tintColor={'#ff0000'}
+          />
+        }
+      >
+        <ScreenBody>
           <LegacyWordmark />
-        </View>
-        <Text
-          color={'barkBrown'}
-          fontFamily={'rocaOne'}
-          fontWeight={'Regular'}
-          fontStyle={'normal'}
-          fontSize={moderateScale(22)}
-          lineHeight={verticalScale(21)}
-          marginTop={h('2%')}
-        >
-          All Files
-        </Text>
-        <View display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-evenly'}>
-          <Button onPress={pickDocument} backgroundColor={'transparent'} borderRadius={10} height={h('5%')} justifyContent={'center'} alignItems={'center'}>
-            <AddIcon
-              as={Icon}
-              color={'#000'}
-              size={'sm'}
-            />
-          </Button>
-          {/* <SearchBar
-          isPending={isPending}
-          inputSearch={search}
-          keys={['file_name']}
-          updateSearchValue={setSearch}
-          filterItems={filterFiles}
-          filteringType={files}
-          updateFilteredValues={setFilteredFiles}
-            width={w('80%')}
-            height={h('5%')}
-            borderRadius={10}
-            backgroundColor={'#FFF'}
-            placeholder={'Search'}
-            // placeholderTextColor={'#000'}
-        /> */}
-        </View>
+          <View
+            display={'flex'}
+            flexDirection={'row'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            marginTop={h('2%')}
+          >
+            <View style={{ marginRight: 10 }}>
+              <Text
+                color={'barkBrown'}
+                fontFamily={'rocaOne'}
+                fontWeight={'Regular'}
+                fontStyle={'normal'}
+                fontSize={moderateScale(22)}
+                lineHeight={verticalScale(21)}
+              >
+                All Files
+              </Text>
+            </View>
+            <View
+              flexDirection={'row'}
+              alignItems={'center'}
+              justifyContent={'flex-end'}
+              flex={1}>
+              <SearchBar
+                isPending={isPending}
+                inputSearch={search}
+                keys={['file_name']}
+                updateSearchValue={setSearch}
+                filterItems={filterFiles}
+                filteringType={files}
+                updateFilteredValues={setFilteredFiles}
+                width={h('20%')}
+                height={h('4%')}
+                justifyContent={'center'}
+                alignItems={'center'}
+                borderRadius={10}
+                backgroundColor={'transparent'}
+              />
+              <Button
+                onPress={pickDocument}
+                backgroundColor={'transparent'}
+                borderRadius={10}
+                height={h('5%')}
+                justifyContent={'space-between'}
+                alignItems={'center'}
 
-        <TaskTagGrid selectedTags={selectedTags} pressfunc={setSelectedTags} />
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={isPending}
-              onRefresh={() => {
-                refetch();
-              }}
-              colors={['#ff0000', '#00ff00', '#0000ff']}
-              tintColor={'#ff0000'}
-            />
-          }
-        >
+              >
+                <AddIcon as={Icon} color={'#000'} size={h('2%')} />
+              </Button>
+            </View>
+          </View>
+
+          <TaskTagGrid
+            selectedTags={selectedTags}
+            pressfunc={setSelectedTags}
+          />
+
           {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
           {error && <Text>Error: {error.message}</Text>}
-          {files && files.length === 0 && (
-            <Text>No files found</Text>
-          )}
-          {files && <FileList files={files} />}
-        </ScrollView>
-      </ScreenBody>
+          {filteredFiles && filteredFiles.length === 0 && <Text>No files found</Text>}
+          {filteredFiles && <FileList files={filteredFiles} />}
+        </ScreenBody>
+      </ScrollView>
     </SafeAreaView>
   );
-}
+}  

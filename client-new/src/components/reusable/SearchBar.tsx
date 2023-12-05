@@ -1,10 +1,12 @@
-import { Input, IInputProps } from 'native-base';
+import { IInputProps, Input } from 'native-base';
+
 import React, { useEffect } from 'react';
-import { ViewStyle } from 'react-native';
+import { ActivityIndicator, ViewStyle } from 'react-native';
 
 type SearchBarProps<T> = {
   isPending: boolean;
   inputSearch: string;
+  debounceTime?: number;
   keys: string[];
   updateSearchValue: (text: string) => void;
   filterItems: (itemsList: T[], keys: string[]) => T[];
@@ -14,7 +16,8 @@ type SearchBarProps<T> = {
 } & IInputProps;
 
 export default function SearchBar<T>(props: SearchBarProps<T>) {
-  let debounceTimer;
+  const [loading, setLoading] = React.useState(false);
+  let debounceTimer: NodeJS.Timeout;
 
   useEffect(() => {
     const debounce = (func: () => void, delay: number) => {
@@ -24,13 +27,19 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
       }, delay);
     };
 
-    const filteredTasks = props.filterItems(props.filteringType, props.keys);
-    props.updateFilteredValues(filteredTasks);
-
-    debounce(() => {
+    const filterAndSetLoading = () => {
+      setLoading(true); // Set isLoading to true when filtering starts
       const filteredTasks = props.filterItems(props.filteringType, props.keys);
       props.updateFilteredValues(filteredTasks);
-    }, 300);
+
+      debounce(() => {
+        setLoading(false); // Set isLoading to false after filtering
+        const filteredTasks = props.filterItems(props.filteringType, props.keys);
+        props.updateFilteredValues(filteredTasks);
+      }, props.debounceTime || 300);
+    }
+
+    debounce(filterAndSetLoading, props.debounceTime || 300);
 
     return () => {
       clearTimeout(debounceTimer);
@@ -46,6 +55,19 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
       onChangeText={(text) => props.updateSearchValue(text)}
       style={props.style}
       {...props}
+      rightElement={
+        loading ? (
+          <>
+            <ActivityIndicator
+              size="small"
+              color="#0F4D3F"
+              style={{ marginRight: 10 }}
+            />
+          </>
+        ) : (
+          <></>
+        )
+      }
     />
   );
 }

@@ -1,6 +1,6 @@
 import { Button, Text } from 'native-base';
-import React from 'react';
 
+import React from 'react';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w

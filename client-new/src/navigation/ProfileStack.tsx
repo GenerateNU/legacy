@@ -1,11 +1,13 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProfileScreen from '@/screens/app/profile/ProfileScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import React from 'react';
+
 import AllPersonasScreen from '../screens/app/profile/AllPersonasScreen';
 import MyPersonaScreen from '../screens/app/profile/MyPersonaScreen';
-import PersonaScreen from '../screens/app/profile/PersonaScreen'
-import PasswordAndSecurityScreeen from '../screens/app/profile/PasswordAndSecurityScreen';
 import NotificationsScreen from '../screens/app/profile/NotificationsScreen';
-import React from 'react';
+import PasswordAndSecurityScreeen from '../screens/app/profile/PasswordAndSecurityScreen';
+import PersonaScreen from '../screens/app/profile/PersonaScreen';
 
 const Stack = createNativeStackNavigator();
 /**

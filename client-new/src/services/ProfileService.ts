@@ -1,16 +1,23 @@
-
+import { API_BASE_URL } from '@/services/const';
+import { sleep } from '@/utils/MockDelayUtil';
+import axios from 'axios';
 
 import { IOnboardingFlowState } from '../interfaces/IOnboardingFlowState';
+import { IPersona } from '../interfaces/IPersona';
 import { IProfile } from '../interfaces/IProfile';
-import { API_BASE_URL } from '@/services/const';
-import axios from "axios";
-import {IPersona} from "../interfaces/IPersona";
-import { sleep } from '@/utils/MockDelayUtil';
 
 export const getProfile = async (user_id: string) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/users/${user_id}/profile`);
-    console.log('[profile service] fetching profile', `${API_BASE_URL}/users/${user_id}/profile`, response.data, 'status', response.status)
+    const response = await axios.get(
+      `${API_BASE_URL}/users/${user_id}/profile`
+    );
+    console.log(
+      '[profile service] fetching profile',
+      `${API_BASE_URL}/users/${user_id}/profile`,
+      response.data,
+      'status',
+      response.status
+    );
     return response.data as IProfile;
   } catch (error) {
     console.log('Error fetching profile', error);
@@ -43,7 +50,8 @@ export const insertOnboardingResponse = async (
   user_id: number
 ): Promise<IProfile> => {
   try {
-    const response = await axios.patch(`${API_BASE_URL}/profiles/response/${profile_id}/${user_id}`,
+    const response = await axios.patch(
+      `${API_BASE_URL}/profiles/response/${profile_id}/${user_id}`,
       onboardingResponse
     );
     return response.data;
@@ -54,17 +62,22 @@ export const insertOnboardingResponse = async (
 };
 
 export const updateOnboardingToComplete = async (
-  profile_id: number,
+  profile_id: number
 ): Promise<IProfile> => {
-  console.log('[profile service] updating onboarding to complete', `${API_BASE_URL}/profiles/complete/${profile_id}`)
+  console.log(
+    '[profile service] updating onboarding to complete',
+    `${API_BASE_URL}/profiles/complete/${profile_id}`
+  );
   try {
-    const response = await axios.patch(`${API_BASE_URL}/profiles/complete/${profile_id}`);
+    const response = await axios.patch(
+      `${API_BASE_URL}/profiles/complete/${profile_id}`
+    );
     return response.data;
   } catch (error) {
     console.log('Error updating onboarding to complete', error);
     throw new Error('Error updating onboarding to complete');
   }
-}
+};
 
 /**
  * Gets all the personas from the backend
@@ -88,7 +101,10 @@ export const getAllPersonas = async (): Promise<IPersona[]> => {
  * @returns persona
  */
 export const getPersona = async (userID: number): Promise<IPersona> => {
-  console.log('[profile service] getting persona', `${API_BASE_URL}/users/${userID}/persona`)
+  console.log(
+    '[profile service] getting persona',
+    `${API_BASE_URL}/users/${userID}/persona`
+  );
   try {
     const response = await axios.get(`${API_BASE_URL}/users/${userID}/persona`);
     return response.data as IPersona;

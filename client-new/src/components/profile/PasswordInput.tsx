@@ -1,6 +1,7 @@
-import {View, Text, Input, Pressable, Icon} from "native-base";
-import {StyleProp, ViewStyle} from "react-native";
-import React, {useState} from "react";
+import { Icon, Input, Pressable, Text, View } from 'native-base';
+
+import React, { useState } from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 
 export type PasswordInputProps = {
   title: string;
@@ -14,10 +15,10 @@ export default function PasswordInput(props: PasswordInputProps) {
     <View
       style={[
         {
-          flexDirection: "row",
-          alignItems: "center",
-          minHeight: 76,
-        },
+          flexDirection: 'row',
+          alignItems: 'center',
+          minHeight: 76
+        }
       ]}
     >
       <View
@@ -25,26 +26,26 @@ export default function PasswordInput(props: PasswordInputProps) {
           // marginLeft: 16,
           // marginTop: 16,
           marginBottom: 16,
-          width: "100%",
+          width: '100%'
         }}
       >
         <Text
           style={{
-            color: "#2F1D12",
-            fontFamily: "Inter",
+            color: '#2F1D12',
+            fontFamily: 'Inter',
             fontSize: 12,
-            fontWeight: "400",
+            fontWeight: '400',
             lineHeight: 20,
-            marginBottom: 10,
+            marginBottom: 10
           }}
         >
           {props.title}
         </Text>
         <Input
           value={props.password}
-          w='100%'
+          w="100%"
           h={12}
-          type='password'
+          type="password"
           onChangeText={props.handleOnChange}
         />
       </View>
@@ -53,14 +54,14 @@ export default function PasswordInput(props: PasswordInputProps) {
 }
 
 const containerWithBoarder: StyleProp<ViewStyle> = {
-  borderColor: "#D9D9D9",
+  borderColor: '#D9D9D9',
   borderWidth: 1,
-  borderStyle: "solid",
-  borderRadius: 13,
+  borderStyle: 'solid',
+  borderRadius: 13
 };
 
 const containerWithOutBoarder: StyleProp<ViewStyle> = {
-  borderBottomColor: "#D9D9D9",
+  borderBottomColor: '#D9D9D9',
   borderBottomWidth: 1,
-  borderStyle: "solid",
+  borderStyle: 'solid'
 };

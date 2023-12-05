@@ -16,11 +16,11 @@ type FileListProps = {
 const FileList: React.FC<FileListProps> = ({ files }) => {
   return (
     <View paddingTop={h('2%')}>
-      {files?.filter((file) => file.file_name !== undefined).map((file) => (
-        <FileRow key={file.id} file={file} />
-      ))}
+      {files
+        ?.filter((file) => file.file_name !== undefined)
+        .map((file) => <FileRow key={file.id} file={file} />)}
     </View>
   );
-}
+};
 
 export default FileList;

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"server/src/models"
@@ -179,6 +180,9 @@ func (f *FileController) GeneratePDF(c echo.Context) error {
 //		@Failure        400   {string}    string "Failed to create file"
 //		@Router			/api/files/{uid}  [post]
 func (f *FileController) CreateFile(c echo.Context) error {
+
+	fmt.Println("------------------")
+
 	var file models.File
 	userID := c.Param("uid")
 
@@ -195,17 +199,36 @@ func (f *FileController) CreateFile(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Failed to get form")
 	}
 
-	fileResponse := form.File["file_data"][0]
-	fileData, err := fileResponse.Open()
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, "Failed to open file")
-	}
-	defer fileData.Close()
+	fmt.Println("------------------")
 
-	file, err = f.fileService.CreateFile(userID, file, fileResponse, fileData)
+	fmt.Printf("form details: %+v\n", &form)
+
+	fmt.Printf("file details 1: %+v\n", form.Value["file_data"][0])
+	fmt.Printf("file: %+v\n", form.File)
+
+	fileData, header, err := c.Request().FormFile("file_data")
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, "Failed to create file: "+err.Error())
+		return c.JSON(http.StatusBadRequest, "Failed to get file")
 	}
+
+	fmt.Printf("file details: %+v\n", fileData)
+
+	data, err := io.ReadAll(fileData)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, "Failed to read file")
+	}
+
+	fmt.Printf("file details: %+v\n", data)
+
+	fmt.Printf("file details: %+v\n", header)
+	fmt.Println("user id: ", userID)
+
+	fmt.Println("------------------")
+
+	// file, err = f.fileService.CreateFile(userID, file, fileResponse, fileData)
+	// if err != nil {
+	// 	return c.JSON(http.StatusBadRequest, "Failed to create file: "+err.Error())
+	// }
 
 	return c.JSON(http.StatusOK, file)
 }

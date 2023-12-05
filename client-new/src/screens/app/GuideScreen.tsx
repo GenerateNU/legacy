@@ -1,8 +1,10 @@
 import Markdown from '@ronradtke/react-native-markdown-display';
+import { useQuery } from '@tanstack/react-query';
 import { Box, Image, ScrollView, Text, View } from 'native-base';
 
 import { useEffect, useState } from 'react';
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
@@ -12,8 +14,6 @@ import { IGuide } from '../../interfaces/IGuide';
 import { fetchGuideByName } from '../../services/GuideService';
 import { getMonth } from '../../utils/DateUtils';
 import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
-import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator } from 'react-native';
 
 const MarkdownWrapper: React.FC<any> = ({ children }) => {
   return (
@@ -38,14 +38,18 @@ type GuideScreenProps = {
 
 const GuideScreen: React.FC<GuideScreenProps> = ({ guideName, navigation }) => {
   // props should include a guideName field.
-  const { isPending, data: guide, error } = useQuery({
+  const {
+    isPending,
+    data: guide,
+    error
+  } = useQuery({
     queryKey: ['guide'],
     queryFn: () => fetchGuideByName('Test Guide')
   });
 
   if (isPending) {
     return (
-      < View
+      <View
         flex={1}
         justifyContent={'center'}
         alignItems={'center'}
@@ -53,13 +57,12 @@ const GuideScreen: React.FC<GuideScreenProps> = ({ guideName, navigation }) => {
       >
         <ActivityIndicator size="large" />
       </View>
-
     );
   }
 
   if (error) {
     return (
-      < View
+      <View
         flex={1}
         justifyContent={'center'}
         alignItems={'center'}

@@ -1,4 +1,4 @@
-import { IModel } from "@/interfaces/IModel";
+import { IModel } from '@/interfaces/IModel';
 
 export interface IFile extends IModel {
   file_name: string;

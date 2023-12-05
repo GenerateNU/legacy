@@ -1,8 +1,9 @@
-import { View, Text, Input } from 'native-base';
-import { Switch } from 'react-native';
-import { useEffect, useState } from 'react';
+import { Input, Text, View } from 'native-base';
 import { color } from 'native-base/lib/typescript/theme/styled-system';
+
+import { useEffect, useState } from 'react';
 import React from 'react';
+import { Switch } from 'react-native';
 
 export type NotificationsToggleProps = {
   title: string;

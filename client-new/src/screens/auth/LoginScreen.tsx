@@ -8,6 +8,7 @@ import ScreenWideInput from '@/components/reusable/ScreenWideInput';
 import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
 import { useUser } from '@/contexts/UserContext';
 import { View } from 'native-base';
+import { z } from 'zod';
 
 import { useState } from 'react';
 import React from 'react';
@@ -16,13 +17,14 @@ import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
-import { z } from 'zod';
 
 export default function LoginScreen({ route, navigation }) {
   const { login } = useUser();
 
   const emailSchema = z.string().email('Invalid email format');
-  const passwordSchema = z.string().min(8, 'Password must be at least 8 characters long');
+  const passwordSchema = z
+    .string()
+    .min(8, 'Password must be at least 8 characters long');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,8 +46,8 @@ export default function LoginScreen({ route, navigation }) {
         }
       }
 
-      const response = await login(email, password)
-      console.log('[login screen] RESPONSE', response)
+      const response = await login(email, password);
+      console.log('[login screen] RESPONSE', response);
 
       if (response instanceof Error) {
         Alert.alert('Error', response.message);
@@ -55,7 +57,7 @@ export default function LoginScreen({ route, navigation }) {
       } else if (response === true) {
         navigation.navigate('Onboarding Stack');
       }
-    }
+    };
 
     handleLogin();
   };
