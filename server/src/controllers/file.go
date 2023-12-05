@@ -139,18 +139,24 @@ func (f *FileController) GeneratePDF(c echo.Context) error {
 
 	// get user id
 	uid := c.Param("uid")
+	subtaskName := c.Param("sub_task_name")
 
 	// Read the request body
 	body, err := io.ReadAll(c.Request().Body)
 	if err != nil {
-		return c.String(http.StatusInternalServerError, "Error reading request body")
+		return c.JSON(http.StatusInternalServerError, "Error reading request body")
 	}
 	// Convert the byte slice to a string
 	rawJSON := string(body)
 
-	file, err = f.fileService.GeneratePDF(uid, rawJSON)
+	fileHeader, reader, err := f.fileService.GeneratePDF(uid, subtaskName, rawJSON)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, err.Error())
+	}
+
+	file, err = f.fileService.CreateFile(uid, file, fileHeader, reader)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, "Failed to create file: "+err.Error())
 	}
 
 	return c.JSON(http.StatusOK, file)
@@ -190,8 +196,13 @@ func (f *FileController) CreateFile(c echo.Context) error {
 	}
 
 	fileResponse := form.File["file_data"][0]
+	fileData, err := fileResponse.Open()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, "Failed to open file")
+	}
+	defer fileData.Close()
 
-	file, err = f.fileService.CreateFile(userID, file, fileResponse)
+	file, err = f.fileService.CreateFile(userID, file, fileResponse, fileData)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, "Failed to create file: "+err.Error())
 	}

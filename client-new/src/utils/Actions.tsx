@@ -1,16 +1,27 @@
 import { IAction, IActionList } from '@/interfaces/IAction';
 import {
+  Text,
   Checkbox,
   FormControl,
   Input,
   Radio,
   Select,
-  TextArea
+  TextArea,
+  Button,
+  View,
+  HStack
 } from 'native-base';
 
 import React, { useCallback, useState } from 'react';
+import { useUser } from '@/contexts/UserContext';
+import { createFile } from '@/services/CreateFileService';
 
-const FormComponent = ({ actions }: IActionList) => {
+type FormComponentProps = {
+  actions: IAction[]
+  subTaskName: string
+}
+
+const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
   const [formState, setFormState] = useState({});
   const handleListChange = (e, name, index) => {
     e.preventDefault();
@@ -66,26 +77,20 @@ const FormComponent = ({ actions }: IActionList) => {
       }, {})
     }));
   };
+  
 
-  // const generatePDF = () => {
-
-  //   const doc = new jsPDF();
-  //   doc.text(20, 20, 'Form Data:');
-  //   let verticalPosition = 30;
-  //   for (const [key, value] of Object.entries(formState)) {
-  //     doc.text(20, verticalPosition, `${key}: ${value}`);
-  //     verticalPosition += 10;
-  //   }
-  //   doc.save('form_data.pdf');
-  // };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const { user } = useUser();
+    const uid = user.id // i'm not sure if this is the proper way to get the user id
+
+    await createFile(uid, subTaskName, formState)
+
     console.log('Form submitted:', {
       metadata: { timestamp: new Date() },
       form: formState
     });
-    // generatePDF();
   };
 
   const renderField = (action, index) => {
@@ -93,119 +98,134 @@ const FormComponent = ({ actions }: IActionList) => {
       case 'input':
         return (
           <>
-            <FormControl.Label>{action.label}</FormControl.Label>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
             {/* Conditonally based on type */}
-            <Input
-              key={index}
-              // label={action.label}
-              placeholder={action.placeholder}
-              // name={action.name}
-              type={action.type}
-              // required={action.required}
-              onChangeText={(value) => handleInputChange(action.name, value)}
-              margin="normal"
-              variant="outlined"
-            />
+            <View marginBottom= '10px'>
+              <Input
+                key={index}
+                // label={action.label}
+                placeholder={action.placeholder}
+                // name={action.name}
+                type={action.type}
+                // required={action.required}
+                onChangeText={(value) => handleInputChange(action.name, value)}
+                margin="normal"
+                variant="outlined"
+                backgroundColor={"#F5EFE7"}
+              />
+            </View>
             {/* <FormControl.HelperText>{action.description}</FormControl.HelperText> */}
           </>
         );
       case 'select':
         return (
           <>
-            <FormControl.Label>{action.label}</FormControl.Label>
-            <Select
-              minWidth="200"
-              accessibilityLabel={action.placeholder}
-              placeholder={action.placeholder}
-              selectedValue={formState[action.name] || ''}
-              onValueChange={(value) => handleSelectChange(action.name, value)}
-              mt={1}
-            >
-              {action.options.map((option, idx) => (
-                <Select.Item key={idx} label={option} value={option} />
-              ))}
-            </Select>
-            <FormControl.HelperText>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
+            <View marginBottom= '10px'>
+              <Select
+                minWidth="200"
+                accessibilityLabel={action.placeholder}
+                placeholder={action.placeholder}
+                selectedValue={formState[action.name] || ''}
+                onValueChange={(value) => handleSelectChange(action.name, value)}
+                mt={1}
+                backgroundColor={"#F5EFE7"}
+              >
+                {action.options.map((option, idx) => (
+                  <Select.Item key={idx} label={option} value={option} />
+                ))}
+              </Select>
+            </View>
+            {/*<FormControl.HelperText>
               {action.description}
-            </FormControl.HelperText>
+              </FormControl.HelperText>*/}
           </>
         );
       case 'textarea':
         return (
           <>
-            <FormControl.Label>{action.label}</FormControl.Label>
-            <TextArea
-              key={index}
-              area-label={action.label}
-              // label={action.label}
-              placeholder={action.placeholder}
-              // name={action.name}
-              // required={action.required}
-              numberOfLines={4}
-              onChangeText={(value) => handleTextAreaChange(action.name, value)}
-              margin="normal"
-              variant="outlined"
-              autoCompleteType={undefined}
-            />
-            <FormControl.HelperText>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
+            <View marginBottom= '10px'>
+              <TextArea
+                key={index}
+                area-label={action.label}
+                // label={action.label}
+                placeholder={action.placeholder}
+                // name={action.name}
+                // required={action.required}
+                numberOfLines={4}
+                onChangeText={(value) => handleTextAreaChange(action.name, value)}
+                margin="normal"
+                variant="outlined"
+                autoCompleteType={undefined}
+                backgroundColor={"#F5EFE7"}
+              />
+            </View>
+            {/*<FormControl.HelperText>
               {action.description}
-            </FormControl.HelperText>
+            </FormControl.HelperText>*/}
           </>
         );
       case 'checkbox':
         return (
           <>
-            <FormControl.Label>{action.label}</FormControl.Label>
-            <Checkbox.Group
-              colorScheme="green"
-              defaultValue={[]}
-              onChange={(values) => handleCheckboxChange(values, action.name)}
-              style={{ flexDirection: 'column' }}
-            >
-              {action.options.map((option, idx) => (
-                <Checkbox key={idx} value={option} my={1}>
-                  {option}
-                </Checkbox>
-              ))}
-            </Checkbox.Group>
-            <FormControl.HelperText>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
+            <View marginBottom= '10px'>
+              <Checkbox.Group
+                color="deepEvergreen"
+                defaultValue={[]}
+                onChange={(values) => handleCheckboxChange(values, action.name)}
+                style={{ flexDirection: 'column' }}
+              >
+                {action.options.map((option, idx) => (
+                  <Checkbox key={idx} value={option} my={1}>
+                    <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{option}</Text>
+                  </Checkbox>
+                ))}
+              </Checkbox.Group>
+            </View>
+            {/*<FormControl.HelperText>
               {action.description}
-            </FormControl.HelperText>
+              </FormControl.HelperText>*/}
           </>
         );
       case 'radio':
         return (
           <>
-            <FormControl.Label>{action.label}</FormControl.Label>
-            <Radio.Group
-              name={action.name}
-              defaultValue={formState[action.name] || ''}
-              onChange={(value) => handleRadioChange(action.name, value)}
-              style={{ flexDirection: 'column' }}
-            >
-              {action.options.map((option, idx) => (
-                <Radio key={idx} value={option}>
-                  {option}
-                </Radio>
-              ))}
-            </Radio.Group>
-            <FormControl.HelperText>
+            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
+            <View marginBottom= '10px'>
+              <Radio.Group
+                name={action.name}
+                defaultValue={formState[action.name] || ''}
+                onChange={(value) => handleRadioChange(action.name, value)}
+                style={{ flexDirection: 'column' }}
+              >
+                {action.options.map((option, idx) => (
+                  <Radio key={idx} value={option} colorScheme="deepEvergreen">
+                    <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{option}</Text>
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </View>
+            {/*<FormControl.HelperText>
               {action.description}
-            </FormControl.HelperText>
+              </FormControl.HelperText>*/}
           </>
         );
       default:
         return null;
     }
   };
-  console.log('Form submitted:', {
-    metadata: { timestamp: new Date() },
-    form: formState
-  });
 
   return (
-    <FormControl isInvalid w="75%" maxW="300px">
+    <FormControl isInvalid w="75%" width={"100%"}>
       {actions.map((action, index) => renderField(action, index))}
+      <HStack flexDirection="row" justifyContent="center" flex={1} marginTop={"10px"}>
+        <Button textDecorationColor={"#FFFFFF"} backgroundColor={"#43A573"} 
+                borderColor={"#43A573"} onPress={handleSubmit} flex={0.90}>
+          Submit
+        </Button>
+      </HStack>
     </FormControl>
   );
 };

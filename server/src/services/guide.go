@@ -13,7 +13,7 @@ type GuideServiceInterface interface {
 
 	CreateGuide(guide models.Guide) (models.Guide, error)
 	UpdateGuide(id string, guide models.Guide) (models.Guide, error)
-	DeleteGuide(id string) error
+	DeleteGuide(name string) error
 }
 
 type GuideService struct {

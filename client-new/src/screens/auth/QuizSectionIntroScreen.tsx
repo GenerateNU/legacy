@@ -2,7 +2,7 @@ import CircleProgressBar from '@/components/reusable/CircleProgressBar';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import ScreenWideButton from '@/components/reusable/ScreenWideButton';
 import { useOnboarding } from '@/contexts/OnboardingContext';
-import { Button, Divider, KeyboardAvoidingView, Text, View } from 'native-base';
+import { Divider, Text, View } from 'native-base';
 
 import React from 'react';
 import {
@@ -57,7 +57,6 @@ export default function QuizSectionIntroScreen({ route, navigation }) {
             <Icon
               name="flower-tulip-outline"
               size={30}
-              color={'darkGreen'}
             ></Icon>
           </View>
         </View>
