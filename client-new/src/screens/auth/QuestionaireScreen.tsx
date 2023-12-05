@@ -49,9 +49,8 @@ export default function QuestionaireScreen({ route, navigation }) {
       </View>
     ) : null;
   return (
-    <SafeAreaView style={{backgroundColor: "#FFF9EE"}}>
+    <SafeAreaView style={{ backgroundColor: '#FFF9EE' }}>
       <View alignItems="center" h={h('100%')} w={w('100%')}>
-
         <View
           width={w('80%')}
           flexDirection="row"
@@ -83,6 +82,8 @@ export default function QuestionaireScreen({ route, navigation }) {
           initialSliderValue={onboardingState[props.inputName]}
           field={props.inputName}
           handleChange={handleChange}
+          lowerSpectrumValue={props.lowerSpectrumValue}
+          upperSpectrumValue={props.upperSpectrumValue}
         />
 
         <View paddingTop={h('5%')}>
