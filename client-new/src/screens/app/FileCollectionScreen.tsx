@@ -9,26 +9,18 @@ import SearchBar from '@/components/reusable/SearchBar';
 import TaskTagGrid from '@/components/reusable/TaskTagGrid';
 import { useUser } from '@/contexts/UserContext';
 import { IFile } from '@/interfaces/IFile';
-import { ITask } from '@/interfaces/ITask';
 import { fetchUserFilesList, uploadFile } from '@/services/FileService';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import Fuse from 'fuse.js';
-import { AddIcon, ArrowDownIcon, Button, ChevronDownIcon, CloseIcon, Icon, ScrollView, SearchIcon, Text, View } from 'native-base';
-import FormData from 'form-data'
-
+import { AddIcon, Button, ChevronDownIcon, Icon, ScrollView, Text, View } from 'native-base';
 import React, { useRef, useState } from 'react';
-import { ActivityIndicator, Alert, RefreshControl, TextInput, Animated, Easing, Pressable } from 'react-native';
-import RNFS, { DocumentDirectoryPath } from 'react-native-fs';
+import { Alert, RefreshControl } from 'react-native';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import RNFetchBlob from 'rn-fetch-blob';
-import { SvgXml } from 'react-native-svg';
-import { FileSystemUploadResult } from 'expo-file-system';
 import NoTaskIcon from '@/components/icons/NoTaskIcon';
 import ActivityLoader from '@/components/reusable/ActivityLoader';
 
@@ -39,22 +31,6 @@ export default function FileCollectionScreen() {
   const [search, setSearch] = useState('');
   const [filteredFiles, setFilteredFiles] = useState<IFile[]>([]);
   const [open, setOpen] = useState(false);
-  const searchBarAnimation = useRef(new Animated.Value(0)).current;
-
-  // const toggleSearchBar = () => {
-  //   setOpen(!open);
-  //   Animated.timing(searchBarAnimation, {
-  //     toValue: open ? 0 : 1, // Animate to 1 when opening and 0 when closing
-  //     duration: 300, // Animation duration in milliseconds
-  //     easing: Easing.ease,
-  //     useNativeDriver: true, // Use native driver for performance
-  //   }).start();
-  // };
-
-  // const searchbarWidth = searchBarAnimation.interpolate({
-  //   inputRange: [0, 1],
-  //   outputRange: ['0%', '22%'],
-  // });
 
   const {
     isPending,
@@ -94,7 +70,6 @@ export default function FileCollectionScreen() {
       if (result.canceled === false) {
         sendFile.mutate(result.assets[0], {
           onSuccess: () => {
-            console.log('File uploaded successfully!');
             refetch();
           },
           onError: (error) => {
@@ -176,39 +151,10 @@ export default function FileCollectionScreen() {
                   backgroundColor={'transparent'}
                   placeholder={'Search'}
                 display={'flex'}
-                // InputRightElement={
-                //   <Button
-                //     onPress={() => {
-                //       setOpen(!open)
-                //       setSearch('')
-                //       setFilteredFiles([])
-                //     }}
-                //     backgroundColor={'transparent'}
-                //     borderRadius={10}
-                //     height={h('5%')}
-                //     justifyContent={'space-between'}
-                //     alignItems={'center'}
-                //   >
-                //     <CloseIcon as={Icon} color={'#000'} size={h('1.5%')} />
-                //   </Button>
-                // }
-                />
-              {/* <Button
-                onPress={() => setOpen(!open)}
-                backgroundColor={'transparent'}
-                borderRadius={10}
-                height={h('5%')}
-                justifyContent={'space-between'}
-                alignItems={'center'}
-                marginLeft={w('2%')}
-                display={open ? 'none' : 'flex'}
-              >
-                <SearchIcon as={Icon} color={'#000'} size={h('2%')} />
-              </Button> */}
+              />
               <Button
                 onPress={selectDocument}
                 backgroundColor={'transparent'}
-                borderRadius={10}
                 height={h('5%')}
                 justifyContent={'space-between'}
                 alignItems={'center'}

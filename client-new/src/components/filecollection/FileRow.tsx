@@ -7,7 +7,7 @@ import { Text, View } from 'native-base';
 import React from 'react';
 import { Alert, Linking, Pressable } from 'react-native';
 import FileViewer from 'react-native-file-viewer';
-import RNFS from 'react-native-fs';
+import * as FileSystem from 'expo-file-system';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
@@ -36,26 +36,23 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
   const handlePress = async () => {
     const url = await fetchFileURL(file.id);
 
-    const downloadOptions: RNFS.DownloadFileOptions = {
-      fromUrl: url,
-      toFile: `${RNFS.DocumentDirectoryPath}/${file.file_name}`,
-      progress: (res) => {
-        console.log('Progress', res);
-      }
-    };
+    const downloadResumable = FileSystem.createDownloadResumable(url,
+      FileSystem.cacheDirectory + file.file_name,
+    );
 
     try {
-      const downloadResult = RNFS.downloadFile(downloadOptions);
-      const res = await downloadResult.promise;
-      console.log('File downloaded', res);
-      FileViewer.open(`${RNFS.DocumentDirectoryPath}/${file.file_name}`, {
+      const { uri } = await downloadResumable.downloadAsync();
+      console.log('Finished downloading to ', uri);
+      FileViewer.open(uri, {
         showOpenWithDialog: true,
-        showAppsSuggestions: true
+        showAppsSuggestions: true,
+        onDismiss: () => FileSystem.deleteAsync(uri) 
       });
     } catch (e) {
-      console.log('Error', e);
+      console.error(e);
     }
-  };
+
+  }
 
   // Example of setup fileOptions
   // const fileOptions = (fileId: number) => {
@@ -114,7 +111,6 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
         >
           <Text style={{ width: w('60%') }}>{truncatedName}</Text>
           <Text>{fileExtension} ∙ {size}</Text>
-          {/* <Text>Created {RelativeTime(file.created_at)}</Text> */}
         </View>
         <View
           paddingRight={0}
