@@ -4,6 +4,7 @@ import { useUser } from '@/contexts/UserContext';
 import { Text, View } from 'native-base';
 
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
@@ -20,8 +21,6 @@ export default function AccessScreen({ navigation }) {
   const toLogin = () => {
     navigation.navigate('Login Screen');
   };
-
-  // If we return to the Access Screen for any reason, we want to log the user out
 
   return (
     <SafeAreaView style={{ backgroundColor: '#FFF9EE' }}>

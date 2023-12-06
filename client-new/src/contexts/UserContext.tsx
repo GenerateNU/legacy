@@ -27,6 +27,7 @@ type UserContextData = {
   user: IUser | null;
   profile: IProfile | null;
   firebaseUser: FirebaseUser | null;
+  loading: boolean;
   completedOnboarding: boolean;
   setCompletedOnboarding: React.Dispatch<React.SetStateAction<boolean>>;
   refetchUser: () => Promise<void>;
@@ -56,6 +57,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [completedOnboarding, setCompletedOnboarding] =
     useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (fuser) => {
@@ -107,6 +109,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           setFirebaseUser(null);
           signOut(auth);
         }
+        setLoading(false);
+
       } else {
         loadStorageData();
       }
@@ -410,6 +414,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const contextValue: UserContextData = {
     user,
     profile,
+    loading,
     completedOnboarding,
     setCompletedOnboarding,
     firebaseUser,

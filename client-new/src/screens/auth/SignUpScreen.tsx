@@ -78,12 +78,12 @@ export default function SignUpScreen({ route, navigation }) {
   };
 
   // for debugging
-  useEffect(() => {
-    console.log('username: ', signupData.username);
-    console.log('email: ', signupData.email);
-    console.log('password: ', signupData.password);
-    console.log('date: ', signupData.date);
-  }, [signupData]);
+  // useEffect(() => {
+  //   console.log('username: ', signupData.username);
+  //   console.log('email: ', signupData.email);
+  //   console.log('password: ', signupData.password);
+  //   console.log('date: ', signupData.date);
+  // }, [signupData]);
 
   const switchToLogin = () => {
     navigation.navigate('Login Screen');

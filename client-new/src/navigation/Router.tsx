@@ -1,20 +1,47 @@
+import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import { useUser } from '@/contexts/UserContext';
 import AppStack from '@/navigation/AppStack';
 import AuthStack from '@/navigation/AuthStack';
-import HomeScreen from '@/screens/app/HomeScreen';
-import SubTaskScreen from '@/screens/app/SubTaskScreen';
-import SubTaskSummaryScreen from '@/screens/app/SubTaskSummaryScreen';
-import TaskScreen from '@/screens/app/TaskScreen';
 import { NavigationContainer } from '@react-navigation/native';
+import { Animated, Easing } from 'react-native';
 import { View } from 'native-base';
 
-import React from 'react';
-import { ActivityIndicator, Text } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { ActivityIndicator } from 'react-native';
 
 export default function Router() {
-  const { completedOnboarding } = useUser();
+  const { completedOnboarding, loading } = useUser();
+  // const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  if (completedOnboarding == undefined) {
+  // const fadeInAndOut = () => {
+  //   Animated.loop(
+  //     Animated.sequence([
+  //       Animated.timing(fadeAnim, {
+  //         toValue: 1,
+  //         duration: 1500, // Adjust the duration to control the speed of the fade-in
+  //         easing: Easing.bezier(0.23, 0.46, 0.61, 0.75),
+  //         useNativeDriver: true,
+  //       }),
+  //       Animated.timing(fadeAnim, {
+  //         toValue: 0, // Adjust the opacity to which it fades out
+  //         duration: 1500, // Adjust the duration to control the speed of the fade-out
+  //         easing: Easing.bezier(0.23, 0.46, 0.61, 0.75),
+  //         useNativeDriver: true,
+  //       }),
+  //     ]),
+  //     { iterations: loading ? -1 : 0 }
+  //   ).start();
+  // };
+
+  // useEffect(() => {
+  //   if (loading) {
+  //     fadeInAndOut();
+  //   } else {
+  //     fadeAnim.setValue(0);
+  //   }
+  // }, [loading, fadeAnim]);
+
+  if (completedOnboarding === undefined) {
     return (
       <View flex={1} justifyContent="center" alignItems="center">
         <ActivityIndicator size="large" />
@@ -22,13 +49,28 @@ export default function Router() {
     );
   }
 
-  console.log('[router] completedOnboarding', completedOnboarding);
+  // if (loading) {
+  //   return (
+  //     <View
+  //       flex={1}
+  //       justifyContent="center"
+  //       alignItems="center"
+  //       backgroundColor="#FFF9EE"
+  //     >
+  //       <Animated.View
+  //         style={{
+  //           opacity: fadeAnim,
+  //         }}
+  //       >
+  //         <LegacyWordmark />
+  //       </Animated.View>
+  //     </View>
+  //   );
+  // }
 
   return (
     <NavigationContainer>
       {completedOnboarding ? <AppStack /> : <AuthStack />}
-      {/*<SubTaskScreen subtask={{id: 9, task_id: 1, sub_task_name: "Personal Information", sub_task_description: "Create a checklist of basic personal information needed for end-of-life planning. Personal intake for doulas and trust and estate lawyers."}}/>*/}
-      {/* {<SubTaskSummaryScreen task={{id: 1, task_name: "Create Familiarity with the Process", task_description: "blah blah blah"}}/>} */}
     </NavigationContainer>
   );
 }
