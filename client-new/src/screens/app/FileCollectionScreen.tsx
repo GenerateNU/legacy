@@ -13,7 +13,7 @@ import { fetchUserFilesList, uploadFile } from '@/services/FileService';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
-import { AddIcon, Button, ChevronDownIcon, Icon, ScrollView, Text, View } from 'native-base';
+import { AddIcon, Button, ChevronDownIcon, Icon, Pressable, ScrollView, Text, View } from 'native-base';
 import React, { useRef, useState } from 'react';
 import { Alert, RefreshControl } from 'react-native';
 import {
@@ -31,6 +31,8 @@ export default function FileCollectionScreen() {
   const [search, setSearch] = useState('');
   const [filteredFiles, setFilteredFiles] = useState<IFile[]>([]);
   const [open, setOpen] = useState(false);
+  const [orderBy, setOrderBy] = useState('name');
+  const [reverse, setReverse] = useState(false);
 
   const {
     isPending,
@@ -39,8 +41,8 @@ export default function FileCollectionScreen() {
     refetch
   } = useQuery({
     queryKey: ['userfiles', user?.id, selectedTags],
-    queryFn: () => fetchUserFilesList(user.id, selectedTags)
-    // staleTime: 6000 // TEMP, unsolved refetch when unncessary
+    queryFn: () => fetchUserFilesList(user.id, selectedTags),
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
   console.log('Query Key:', ['userFiles', user?.id, selectedTags]);
 
@@ -84,12 +86,7 @@ export default function FileCollectionScreen() {
 
   const sendFile = useMutation({
     mutationFn: async (file: DocumentPicker.DocumentPickerAsset) => await uploadFile(file, user.id)
-  });
-
-
-  if (sendFile.isSuccess) {
-    refetch();
-  }
+  })
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }} edges={['top', 'left', 'right']}>
@@ -170,12 +167,11 @@ export default function FileCollectionScreen() {
             pressfunc={setSelectedTags}
           />
 
-          <AllFilesSelection />
+          <AllFilesSelection orderBy={orderBy} setOrderBy={setOrderBy} reverse={reverse} setReverse={setReverse} />
 
           {isPending && <ActivityLoader />}
           {error && <Text>Error: {error.message}</Text>}
-          {!sendFile.isPending && filteredFiles && filteredFiles.length === 0 && <NoTasks />}
-          {filteredFiles && filteredFiles.length > 0 && <FileList files={filteredFiles} />}
+          {filteredFiles && <FileList files={filteredFiles} orderBy={orderBy} reverse={reverse} />}
           {sendFile.isPending && <ActivityLoader />}
         </ScreenBody>
       </ScrollView>
@@ -183,7 +179,31 @@ export default function FileCollectionScreen() {
   );
 }
 
-const AllFilesSelection = () => {
+type AllFilesSelectionProps = {
+  orderBy: string;
+  setOrderBy: React.Dispatch<React.SetStateAction<string>>;
+  reverse: boolean;
+  setReverse: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const AllFilesSelection = ({ orderBy, setOrderBy, reverse, setReverse }: AllFilesSelectionProps) => {
+  const [rotated, setRotated] = useState(false);
+
+  // name -> size -> date
+  const handleOrderBy = () => {
+    if (orderBy === 'name') {
+      setOrderBy('size');
+    } else if (orderBy === 'size') {
+      setOrderBy('date');
+    } else {
+      setOrderBy('name');
+    }
+  }
+
+  const handleReverse = () => {
+    setReverse(!reverse);
+  }
+
   return (
     <View
       marginTop={h('2%')}
@@ -206,51 +226,25 @@ const AllFilesSelection = () => {
         alignItems={'center'}
         justifyContent={'space-evenly'}
       >
-        <Text
-          color={'barkBrown'}
-          fontFamily={'rocaOne'}
-          fontWeight={'Regular'}
-          fontStyle={'normal'}
-          fontSize={moderateScale(19)}
-          lineHeight={verticalScale(21)}
-          paddingRight={w('.5%')}
-        >
-          A - Z
-        </Text>
-        <ChevronDownIcon as={Icon} color={'#000'} size={h('2%')} />
+        <Pressable onPress={() => handleOrderBy()}>
+          <Text
+            color={'barkBrown'}
+            fontFamily={'rocaOne'}
+            fontWeight={'Regular'}
+            fontStyle={'normal'}
+            fontSize={moderateScale(19)}
+            lineHeight={verticalScale(21)}
+            paddingRight={w('.5%')}
+          >
+            {orderBy === 'name' ? 'Name' : orderBy === 'name-reversed' ? 'Name' : orderBy === 'size' ? 'Size' : 'Date'}
+          </Text>
+        </Pressable>
+        <Pressable onPress={() => {
+          handleReverse();
+        }} style={{ transform: [{ rotate: reverse ? '180deg' : '0deg' }] }}>
+          <ChevronDownIcon as={Icon} color={'#000'} size={h('2%')} />
+        </Pressable>
       </View>
     </View>
   )
 }
-
-const NoTasks = () => {
-  return (
-    <View
-      marginTop={h('2%')}
-      justifyContent={'center'}
-      alignItems={'center'}
-    >
-      <NoTaskIcon />
-      <Text
-        color={'#00000066'}
-        fontFamily={'rocaOne'}
-        fontWeight={'Regular'}
-        fontStyle={'normal'}
-        fontSize={moderateScale(21)}
-        lineHeight={verticalScale(21)}
-      >
-        Whoops!
-      </Text>
-      <Text
-        color={'#00000066'}
-        fontFamily={'rocaOne'}
-        fontWeight={'Regular'}
-        fontStyle={'normal'}
-        fontSize={moderateScale(12)}
-        lineHeight={verticalScale(21)}
-      >
-        No files found.
-      </Text>
-    </View>
-  )
-} 

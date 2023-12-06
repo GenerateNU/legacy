@@ -46,7 +46,6 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
       FileViewer.open(uri, {
         showOpenWithDialog: true,
         showAppsSuggestions: true,
-        onDismiss: () => FileSystem.deleteAsync(uri) 
       });
     } catch (e) {
       console.error(e);
@@ -55,44 +54,45 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
   }
 
   // Example of setup fileOptions
-  // const fileOptions = (fileId: number) => {
-  //   Alert.alert(
-  //     'File Options',
-  //     'What would you like to do with this file?',
-  //     [
-  //       {
-  //         text: 'Cancel',
-  //         style: 'cancel',
-  //         onPress: () => console.log('Cancel Pressed')
-  //       },
-  //       {
-  //         text: 'Download',
-  //         style: 'default',
-  //         onPress: () => {
-  //           handlePress();
-  //         }
-  //       },
-  //       {
-  //         text: 'Open in Browser',
-  //         style: 'default',
-  //         onPress: async () => {
-  //           const url = await fetchFileURL(file.id);
-  //           Linking.openURL(url);
-  //         }
-  //       },
-  //       {
-  //         text: 'Share',
-  //         style: 'default',
-  //         onPress: () => console.log('Share Pressed')
-  //       },
-  //       {
-  //         text: 'Delete',
-  //         style: 'destructive',
-  //         onPress: () => console.log('Delete Pressed')
-  //       }
-  //     ]
-  //   );
-  // };
+  const fileOptions = (fileId: number) => {
+    Alert.alert(
+      'File Options',
+      'What would you like to do with this file?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => console.log('Cancel Pressed')
+        },
+        {
+          text: 'Download',
+          style: 'default',
+          onPress: () => {
+            handlePress();
+          }
+        },
+        {
+          text: 'Open in Browser',
+          style: 'default',
+          onPress: async () => {
+            const url = await fetchFileURL(file.id);
+            Linking.openURL(url);
+          }
+        },
+        {
+          text: 'Share',
+          style: 'default',
+          onPress: () => console.log('Share Pressed')
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => console.log('Delete Pressed')
+        }
+      ]
+    );
+  };
+
   return (
     <Pressable onPress={() => handlePress()}>
       <View flexDirection={'row'}>
@@ -117,7 +117,7 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
           justifyContent={'center'}
           paddingBottom={h('1.5%')}
         >
-          <Pressable onPress={() => console.log('File Options Pressed')} style={{ transform: [{ rotate: '90deg' }] }} >
+          <Pressable onPress={() => fileOptions(file.id)} style={{ transform: [{ rotate: '90deg' }] }} >
             <ThreeDotsIcon />
           </Pressable>
         </View>
