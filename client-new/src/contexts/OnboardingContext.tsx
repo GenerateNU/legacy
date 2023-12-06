@@ -68,8 +68,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '1',
         question:
           'Do you meticulously plan for future events, or do you prefer to adapt as situations unfold?',
-        lowerSpectrumValue: 'Proactive',
-        upperSpectrumValue: 'Spontaneous'
+        upperSpectrumValue: 'Proactive',
+        lowerSpectrumValue: 'Spontaneous'
       }
     },
     {
@@ -81,8 +81,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '2',
         question:
           'Do you strive for perfection in everything you do, or are you satisfied once a task meets essential standards?',
-        lowerSpectrumValue: 'Perfectionist',
-        upperSpectrumValue: 'Pragmatist'
+        upperSpectrumValue: 'Perfectionist',
+        lowerSpectrumValue: 'Pragmatist'
       }
     },
     {
@@ -94,8 +94,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '3',
         question:
           'Do you actively seek self-improvement at all ages, or do you feel content with your current capabilities?',
-        lowerSpectrumValue: 'Self-Improver',
-        upperSpectrumValue: 'Content'
+        upperSpectrumValue: 'Self-Improver',
+        lowerSpectrumValue: 'Content'
       }
     },
     {
@@ -107,8 +107,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '4',
         question:
           'How often do you embrace new learning opportunities and step outside your comfort zone?',
-        lowerSpectrumValue: 'Learner',
-        upperSpectrumValue: 'Stability'
+        upperSpectrumValue: 'Learner',
+        lowerSpectrumValue: 'Stability'
       }
     },
     {
@@ -120,8 +120,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '5',
         question:
           'Do you tend to concentrate on what you lack, or do you focus more on what you can provide to your loved ones?',
-        lowerSpectrumValue: 'Deficiencies',
-        upperSpectrumValue: 'Contributions'
+        upperSpectrumValue: 'Deficiencies',
+        lowerSpectrumValue: 'Contributions'
       }
     },
     {
@@ -133,8 +133,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '6',
         question:
           'Do you actively plan ahead for future scenarios, or do you tend to plan only when circumstances require it?',
-        lowerSpectrumValue: 'Proactive',
-        upperSpectrumValue: 'Reactive'
+        upperSpectrumValue: 'Proactive',
+        lowerSpectrumValue: 'Reactive'
       }
     },
     {
@@ -154,8 +154,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 0,
         questionNumber: '1',
         question: 'On an average day, do you feel more anxious or calm?',
-        lowerSpectrumValue: 'Anxious',
-        upperSpectrumValue: 'Calm'
+        upperSpectrumValue: 'Anxious',
+        lowerSpectrumValue: 'Calm'
       }
     },
     {
@@ -167,8 +167,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '2',
         question:
           'Do you generally see the positive aspects of situations (glass half full), or do you focus on the negatives (glass half empty)?',
-        lowerSpectrumValue: 'Optimist',
-        upperSpectrumValue: 'Pessimist'
+        upperSpectrumValue: 'Optimist',
+        lowerSpectrumValue: 'Pessimist'
       }
     },
     {
@@ -180,8 +180,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '3',
         question:
           'When making decisions, how often do you consider the emotional impact on those close to you?',
-        lowerSpectrumValue: 'Considerate',
-        upperSpectrumValue: 'Self-focused'
+        upperSpectrumValue: 'Considerate',
+        lowerSpectrumValue: 'Self-focused'
       }
     },
     {
@@ -202,8 +202,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '1',
         question:
           'In your work, do you focus on one task at a time, or do you prefer juggling multiple tasks simultaneously?',
-        lowerSpectrumValue: 'Single-task',
-        upperSpectrumValue: 'Multitasking'
+        upperSpectrumValue: 'Single-task',
+        lowerSpectrumValue: 'Multitasking'
       }
     },
     {
@@ -215,8 +215,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '2',
         question:
           'Are you self-driven to complete tasks, or do you rely on external cues and reminders?',
-        lowerSpectrumValue: 'Self Driven',
-        upperSpectrumValue: 'External Cues'
+        upperSpectrumValue: 'Self Driven',
+        lowerSpectrumValue: 'External Cues'
       }
     },
     {
@@ -228,8 +228,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '3',
         question:
           'Do you prefer to handle tasks bit by bit over time, or do you like to tackle everything in one go?',
-        lowerSpectrumValue: 'Incremental',
-        upperSpectrumValue: 'Bulk'
+        upperSpectrumValue: 'Incremental',
+        lowerSpectrumValue: 'Bulk'
       }
     },
     {
@@ -241,11 +241,11 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '4',
         question:
           'When making important decisions, do you seek in-depth, detailed information, or do you prefer concise, straightforward advice?',
-        lowerSpectrumValue: 'Detailed',
-        upperSpectrumValue: 'Concise'
+        upperSpectrumValue: 'Detailed',
+        lowerSpectrumValue: 'Concise'
       }
     },
-
+    
     {
       page: 'Quiz Section Intro Screen',
       props: {
@@ -265,8 +265,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '1',
         question:
           'Is discussing sensitive topics like death as natural for you as casual conversation, or do you tend to avoid such topics?',
-        lowerSpectrumValue: 'Comfortable',
-        upperSpectrumValue: 'Avoidant'
+        upperSpectrumValue: 'Comfortable',
+        lowerSpectrumValue: 'Avoidant'
       }
     },
     {
@@ -278,8 +278,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '2',
         question:
           'Are you often the person friends and family turn to for help with difficult decisions, or do you prefer to let others take the lead?',
-        lowerSpectrumValue: 'Advisor',
-        upperSpectrumValue: 'Supportive'
+        upperSpectrumValue: 'Advisor',
+        lowerSpectrumValue: 'Supportive'
       }
     },
     {
@@ -291,8 +291,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '3',
         question:
           'Do you primarily focus on addressing your own issues, or are you more inclined to assist others with their problems?',
-        lowerSpectrumValue: 'Self-focused',
-        upperSpectrumValue: 'Others-focused'
+        upperSpectrumValue: 'Self-focused',
+        lowerSpectrumValue: 'Others-focused'
       }
     },
 
@@ -314,8 +314,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '1',
         question:
           'Are you highly knowledgeable about end-of-life planning, or do you feel like you have much to learn in this area?',
-        lowerSpectrumValue: 'Well-informed',
-        upperSpectrumValue: 'Unfamiliar'
+        upperSpectrumValue: 'Well-informed',
+        lowerSpectrumValue: 'Unfamiliar'
       }
     },
     {
@@ -327,8 +327,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '2',
         question:
           'Is your approach to end-of-life planning proactive and immediate, or is it something you plan to address later?',
-        lowerSpectrumValue: 'Proactive',
-        upperSpectrumValue: 'Deferred'
+        upperSpectrumValue: 'Proactive',
+        lowerSpectrumValue: 'Deferred'
       }
     },
     {
