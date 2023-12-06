@@ -1,3 +1,50 @@
+## 0.9.0 (2023-12-06)
+
+### Feat
+
+- file upload to aws s3
+- added SubTaskSummaryScreen visuals
+- full fileviewer functionality
+- added functions for uploading file from local storage to server
+- added native base styling for search bar
+- extracted search bar functionality + file viewer
+
+### Fix
+
+- cleaned up file uploader
+- subtask merge change
+- **guide.go**: update guide services for param
+
+### Refactor
+
+- added progress initalization, removed profile context
+- added progress initalization, removed profile context
+
+## 0.8.0 (2023-12-03)
+
+### Feat
+
+- added search for all tasks
+- added multiselect ability + added comments to services
+- **Minor-stuff**: Minor stuff
+- meanial work on frontend, focusing on connection services to front end screens
+
+### Fix
+
+- resolved onboarding issues
+- fixed search + added fuzzy search
+- general onboarding flow resolved
+- merging profile + user contexts
+- fixed circle progress error
+- removed comments
+- resolved service calls handling + other profile page changes
+- partial persona generation issue resolution
+- partial persona generation issue resolution
+- resolved login persistence issue
+- slowly solving context issues
+- handle user.id error
+- resolved weird errors and warnings in cli
+
 ## 0.7.0 (2023-11-27)
 
 ### Feat
