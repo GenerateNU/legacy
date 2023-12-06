@@ -1,19 +1,22 @@
 import { IFile } from '@/interfaces/IFile';
-import { Text, ThreeDotsIcon, View } from 'native-base';
+import { fetchFileURL } from '@/services/FileService';
+import { ConvertFileSize } from '@/utils/FileUtils';
+import { useQuery } from '@tanstack/react-query';
+import { Text, View } from 'native-base';
 
 import React from 'react';
+import { Alert, Linking, Pressable } from 'react-native';
+import FileViewer from 'react-native-file-viewer';
+import * as FileSystem from 'expo-file-system';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
 
-import FileIcon from '../icons/FileIcon';
-import { ConvertFileSize } from '@/utils/FileUtils';
 import { RelativeTime } from '../../utils/FileUtils';
-import { Linking, Pressable } from 'react-native';
+import FileIcon from '../icons/FileIcon';
+import ThreeDotsIcon from '../icons/ThreeDotsIcon';
 import OpenLinkButton from '../reusable/OpenLinkButton';
-import { useQuery } from '@tanstack/react-query';
-import { fetchFileURL } from '@/services/FileService';
 
 type FileRowProps = {
   file: IFile;
@@ -21,27 +24,74 @@ type FileRowProps = {
 
 const FileRow: React.FC<FileRowProps> = ({ file }) => {
   const size = ConvertFileSize(file.file_size);
-  const { 0: fileName, 1: fileEnding } = file.file_name.split('.');
-  const truncatedName = fileName.length > 50 ? fileName.substring(0, 50) + '...' : fileName + '.' + fileEnding;
-  // const date = RelativeTime(new Date(file.created_at));
+  const lastDotIndex = file.file_name.lastIndexOf('.');
+  const fileName = file.file_name.substring(0, lastDotIndex);
+  const fileExtension = file.file_name.substring(lastDotIndex + 1);
+
+  const truncatedName =
+    fileName.length > 50
+      ? fileName.substring(0, 50) + '...'
+      : fileName;
 
   const handlePress = async () => {
     const url = await fetchFileURL(file.id);
-    console.log('URL', url);
-    // open file
+
+    const downloadResumable = FileSystem.createDownloadResumable(url,
+      FileSystem.cacheDirectory + file.file_name,
+    );
+
     try {
-      const supported = await Linking.canOpenURL(url);
-
-      if (supported) {
-        await Linking.openURL(url);
-      } else {
-        console.error("Can't open URL:", url);
-      }
-    } catch (error) {
-      console.error('Error opening URL:', error);
+      const { uri } = await downloadResumable.downloadAsync();
+      console.log('Finished downloading to ', uri);
+      FileViewer.open(uri, {
+        showOpenWithDialog: true,
+        showAppsSuggestions: true,
+      });
+    } catch (e) {
+      console.error(e);
     }
-  };
 
+  }
+
+  // Example of setup fileOptions
+  const fileOptions = (fileId: number) => {
+    Alert.alert(
+      'File Options',
+      'What would you like to do with this file?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => console.log('Cancel Pressed')
+        },
+        {
+          text: 'Download',
+          style: 'default',
+          onPress: () => {
+            handlePress();
+          }
+        },
+        {
+          text: 'Open in Browser',
+          style: 'default',
+          onPress: async () => {
+            const url = await fetchFileURL(file.id);
+            Linking.openURL(url);
+          }
+        },
+        {
+          text: 'Share',
+          style: 'default',
+          onPress: () => console.log('Share Pressed')
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => console.log('Delete Pressed')
+        }
+      ]
+    );
+  };
 
   return (
     <Pressable onPress={() => handlePress()}>
@@ -60,19 +110,20 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
           marginTop={h('1%')}
         >
           <Text style={{ width: w('60%') }}>{truncatedName}</Text>
-          <Text>1 item ∙ {size}</Text>
-          {/* <Text>Created {date.toString()}</Text> */}
+          <Text>{fileExtension} ∙ {size}</Text>
         </View>
         <View
           paddingRight={0}
           justifyContent={'center'}
           paddingBottom={h('1.5%')}
         >
-          <ThreeDotsIcon />
+          <Pressable onPress={() => fileOptions(file.id)} style={{ transform: [{ rotate: '90deg' }] }} >
+            <ThreeDotsIcon />
+          </Pressable>
         </View>
       </View>
     </Pressable>
   );
-}
+};
 
 export default FileRow;

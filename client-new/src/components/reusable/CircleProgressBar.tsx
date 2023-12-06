@@ -40,4 +40,3 @@ export default function CircleProgressBar(props: CircleProgressBarProps) {
     </View>
   );
 }
-

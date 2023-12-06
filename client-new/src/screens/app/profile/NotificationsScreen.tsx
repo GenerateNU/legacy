@@ -1,13 +1,14 @@
-import {SafeAreaView} from "react-native-safe-area-context";
-import React, {useEffect, useState} from "react";
-import LegacyWordmarkWithBackArrow from "@/components/reusable/LegacyWordMarkWithBackArrow";
-import {View, Text} from "native-base";
-import NotificationsToggle from "@/components/profile/NotificationsToggle";
-import {getItemAsync, setItemAsync} from "expo-secure-store";
+import NotificationsToggle from '@/components/profile/NotificationsToggle';
+import LegacyWordmarkWithBackArrow from '@/components/reusable/LegacyWordMarkWithBackArrow';
+import { getItemAsync, setItemAsync } from 'expo-secure-store';
+import { Text, View } from 'native-base';
+
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Currently only stores user preferences in local storage and does not actually set up
 // notifications.
-export default function NotificationsScreen({route, navigation}) {
+export default function NotificationsScreen({ route, navigation }) {
   const [motivationReminders, setMotivationReminders] =
     useState<boolean>(false);
   const [progressReminders, setProgressReminders] = useState<boolean>(false);
@@ -18,7 +19,7 @@ export default function NotificationsScreen({route, navigation}) {
    */
   const handleMotivationReminders = (newValue: boolean) => {
     setMotivationReminders(newValue);
-    setItemAsync("motivationReminders", newValue.toString());
+    setItemAsync('motivationReminders', newValue.toString());
   };
 
   /**
@@ -27,7 +28,7 @@ export default function NotificationsScreen({route, navigation}) {
    */
   const handleProgressReminders = (newValue: boolean) => {
     setProgressReminders(newValue);
-    setItemAsync("progressReminders", newValue.toString());
+    setItemAsync('progressReminders', newValue.toString());
   };
 
   /**
@@ -35,9 +36,9 @@ export default function NotificationsScreen({route, navigation}) {
    */
   const handleScreenSetup = async () => {
     setMotivationReminders(
-      (await getItemAsync("motivationReminders")) === "true"
+      (await getItemAsync('motivationReminders')) === 'true'
     );
-    setProgressReminders((await getItemAsync("progressReminders")) === "true");
+    setProgressReminders((await getItemAsync('progressReminders')) === 'true');
   };
 
   /**
@@ -49,17 +50,17 @@ export default function NotificationsScreen({route, navigation}) {
 
   return (
     <SafeAreaView
-      style={{alignItems: "center", flex: 1, backgroundColor: "#FFFAF2"}}
+      style={{ alignItems: 'center', flex: 1, backgroundColor: '#FFFAF2' }}
     >
-      <View width={340} marginTop={50} height={"auto"}>
+      <View width={340} marginTop={50} height={'auto'}>
         <LegacyWordmarkWithBackArrow
-          handleOnPress={() => navigation.navigate("Profile Screen")}
+          handleOnPress={() => navigation.navigate('Profile Screen')}
         />
         <Text
-          color='#252525'
-          fontFamily='Roca Regular'
+          color="#252525"
+          fontFamily="Roca Regular"
           fontSize={24}
-          fontWeight={"700"}
+          fontWeight={'700'}
           lineHeight={35}
           marginTop={18}
           marginBottom={10}
@@ -67,12 +68,12 @@ export default function NotificationsScreen({route, navigation}) {
           Notifications
         </Text>
         <NotificationsToggle
-          title='Allow motivation reminders'
+          title="Allow motivation reminders"
           toggle={motivationReminders}
           toggleChange={handleMotivationReminders}
         />
         <NotificationsToggle
-          title='Allow progress reminders'
+          title="Allow progress reminders"
           toggle={progressReminders}
           toggleChange={handleProgressReminders}
         />

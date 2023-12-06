@@ -24,7 +24,6 @@ export default function QuizSectionIntroScreen({ route, navigation }) {
   return (
     <SafeAreaView style={{ backgroundColor: '#FFF9EE' }}>
       <View alignItems="center" h={h('100%')} w={w('100%')}>
-
         <LegacyWordmark />
 
         <View paddingTop={h('4.5%')} paddingBottom={h('2%')}>
@@ -54,10 +53,7 @@ export default function QuizSectionIntroScreen({ route, navigation }) {
             </Text>
           </View>
           <View marginRight={'auto'}>
-            <Icon
-              name="flower-tulip-outline"
-              size={30}
-            ></Icon>
+            <Icon name="flower-tulip-outline" size={30}></Icon>
           </View>
         </View>
 

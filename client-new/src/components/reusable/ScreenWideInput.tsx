@@ -1,9 +1,13 @@
-import { Button, FormControl, Input, Text, View } from 'native-base';
-import React, { useState } from 'react';
-import { heightPercentageToDP as h, widthPercentageToDP as w } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import DatePicker from 'react-native-date-picker';
 import { getMonth } from '@/utils/DateUtils';
+import { Button, FormControl, Input, Text, View } from 'native-base';
+
+import React, { useState } from 'react';
+import DatePicker from 'react-native-date-picker';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 type ScreenWideInputProps = {
   title?: string;
@@ -57,7 +61,13 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
               width={w('80%')}
               height={h('5%')}
               paddingX={'auto'}
-              value={getMonth(date.getMonth()) + ' ' + date.getDate() + ', ' + date.getFullYear()}
+              value={
+                getMonth(date.getMonth()) +
+                ' ' +
+                date.getDate() +
+                ', ' +
+                date.getFullYear()
+              }
               // outlineColor={'#CDCBCB'}
               backgroundColor={'#F5F1E8'}
               InputLeftElement={
@@ -81,7 +91,7 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
                 onConfirm={(selectedDate) => {
                   setOpenDatePicker(false);
                   setDate(selectedDate);
-                  props.onChangeText(selectedDate)
+                  props.onChangeText(selectedDate);
                 }}
                 onCancel={() => {
                   setOpenDatePicker(false);
@@ -92,22 +102,22 @@ export default function ScreenWideInput(props: ScreenWideInputProps) {
         ) : (
           <Input
             isDisabled={props.disabled}
-              type={showPassword || !props.password ? 'text' : 'password'}
-              width={w('80%')}
-              height={h('5%')}
-              paddingX={'auto'}
-              value={props.value}
-              // outlineColor={'#CDCBCB'}
-              backgroundColor={'#F5F1E8'}
-              onChangeText={(value) => props.onChangeText(value)}
-              placeholder={props.placeholderText}
-              InputLeftElement={inputLeftIcon}
-              InputRightElement={inputRightElement}
-              fontFamily={'inter'}
-              fontWeight={'Regular'}
-              fontStyle={'normal'}
-              rounded={'full'}
-            />
+            type={showPassword || !props.password ? 'text' : 'password'}
+            width={w('80%')}
+            height={h('5%')}
+            paddingX={'auto'}
+            value={props.value}
+            // outlineColor={'#CDCBCB'}
+            backgroundColor={'#F5F1E8'}
+            onChangeText={(value) => props.onChangeText(value)}
+            placeholder={props.placeholderText}
+            InputLeftElement={inputLeftIcon}
+            InputRightElement={inputRightElement}
+            fontFamily={'inter'}
+            fontWeight={'Regular'}
+            fontStyle={'normal'}
+            rounded={'full'}
+          />
         )}
       </View>
     </>

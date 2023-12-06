@@ -1,18 +1,19 @@
+import BackArrowIcon from '@/components/icons/BackArrow';
+import SearchBar from '@/components/reusable/SearchBar';
+import TaskTagGrid from '@/components/reusable/TaskTagGrid';
 import { useUser } from '@/contexts/UserContext';
+import { ITask } from '@/interfaces/ITask';
+import { fetchUserTasks } from '@/services/TaskService';
+import { useQuery } from '@tanstack/react-query';
+import Fuse from 'fuse.js';
 import { Button, Icon, Input, ScrollView, Text, View } from 'native-base';
 
 import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Pressable, RefreshControl } from 'react-native';
 
 import HomeScreenTaskCard from '../../components/homescreen components/HomeScreenTaskCard';
 import LegacyWordmark from '../../components/reusable/LegacyWordmark';
-import { fetchUserTasks } from '@/services/TaskService';
-import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator, Pressable, RefreshControl } from 'react-native';
-import { ITask } from '@/interfaces/ITask';
-import BackArrowIcon from '@/components/icons/BackArrow';
-import TaskTagGrid from '@/components/reusable/TaskTagGrid';
-import Fuse from 'fuse.js';
-import SubTaskScreen from './SubTaskScreen';
+import LegacyWordmarkWithBackArrow from '@/components/reusable/LegacyWordMarkWithBackArrow';
 
 export default function TaskScreen({ navigation }) {
   const { user } = useUser();
@@ -20,45 +21,49 @@ export default function TaskScreen({ navigation }) {
   const [search, setSearch] = useState('');
   const [fileteredTasks, setFilteredTasks] = useState<ITask[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  let debounceTimer;
+  // let debounceTimer;
 
-
-  const { isPending, data: tasks, error, refetch } = useQuery({
+  const {
+    isPending,
+    data: tasks,
+    error,
+    refetch
+  } = useQuery({
     queryKey: ['tasks', user?.id, selectedTags],
     queryFn: async () => await fetchUserTasks(user?.id, selectedTags),
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
 
-  useEffect(() => {
-    const debounce = (func, delay) => {
-      clearTimeout(debounceTimer);
-      setIsLoading(true); // Set loading to true when debounce starts
-      debounceTimer = setTimeout(() => {
-        func();
-        setIsLoading(false); // Set loading to false when debounce ends
-      }, delay);
-    };
+  // useEffect(() => {
+  //   const debounce = (func, delay) => {
+  //     clearTimeout(debounceTimer);
+  //     setIsLoading(true); // Set loading to true when debounce starts
+  //     debounceTimer = setTimeout(() => {
+  //       func();
+  //       setIsLoading(false); // Set loading to false when debounce ends
+  //     }, delay);
+  //   };
 
-    const filterTasks = () => {
-      if (search.length > 0) {
-        const options = {
-          keys: ['task_name', 'task_description'],
-          threshold: 0.2
-        };
-        const fuse = new Fuse(tasks, options);
-        const result = fuse.search(search);
-        setFilteredTasks(result.map((item) => item.item));
-      } else {
-        setFilteredTasks(tasks);
-      }
-    };
+  const filterTasks = (tasks: ITask[], keys: string[]): ITask[] => {
+    if (search.length > 0) {
+      const options = {
+        keys: keys,
+        threshold: 0.2
+      };
+      const fuse = new Fuse(tasks, options);
+      const fuseResponse = fuse.search(search);
+      return fuseResponse.map((item) => item.item);
+    } else {
+      return tasks;
+    }
+  };
 
-    debounce(filterTasks, 300);
+  // debounce(filterTasks, 300);
 
-    return () => {
-      clearTimeout(debounceTimer);
-    };
-  }, [search, tasks]);
+  //   return () => {
+  //     clearTimeout(debounceTimer);
+  //   };
+  // }, [search, tasks]);
 
   return (
     <>
@@ -73,14 +78,10 @@ export default function TaskScreen({ navigation }) {
         //     tintColor={'#ff0000'}
         //   />
         // }
-        backgroundColor={'#FFFAF2'}>
+        backgroundColor={'#FFFAF2'}
+      >
         <View margin={'30px'} marginTop={'60px'}>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <LegacyWordmark />
-          </View>
-          <Pressable onPress={() => navigation.goBack()}>
-            <BackArrowIcon />
-          </Pressable>
+          <LegacyWordmarkWithBackArrow handleOnPress={() => navigation.goBack()} />
           <View width={'100%'} marginTop={'20px'}>
             <Text
               marginBottom="20px"
@@ -91,22 +92,27 @@ export default function TaskScreen({ navigation }) {
               All Tasks
             </Text>
             <View>
-              <Input
-                placeholder="Search"
-                size="md"
-                isDisabled={isPending ? true : false}
+              <SearchBar
+                isPending={isPending}
+                inputSearch={search}
+                keys={['task_name', 'task_description']}
+                updateSearchValue={setSearch}
+                filterItems={filterTasks}
+                filteringType={tasks}
+                updateFilteredValues={setFilteredTasks}
                 width={'100%'}
                 backgroundColor={'#F2F2F2'}
                 borderRadius={'10px'}
                 paddingLeft={'10px'}
                 paddingRight={'10px'}
-                marginBottom={'20px'}
-                value={search}
-                onChangeText={(text) => setSearch(text)}
+                marginBottom={'10px'}
               />
             </View>
             <View flexDirection={'row'}>
-              <TaskTagGrid selectedTags={selectedTags} pressfunc={setSelectedTags} />
+              <TaskTagGrid
+                selectedTags={selectedTags}
+                pressfunc={setSelectedTags}
+              />
             </View>
           </View>
           <View
@@ -126,11 +132,10 @@ export default function TaskScreen({ navigation }) {
                 <HomeScreenTaskCard
                   key={task.id}
                   task={task}
-                // navigation={navigation}
+                  // navigation={navigation}
                 />
               ))
             )}
-
           </View>
           <View marginTop={'20px'}></View>
         </View>

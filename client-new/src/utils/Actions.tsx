@@ -1,25 +1,25 @@
+import { useUser } from '@/contexts/UserContext';
 import { IAction, IActionList } from '@/interfaces/IAction';
+import { createFile } from '@/services/CreateFileService';
 import {
-  Text,
+  Button,
   Checkbox,
   FormControl,
+  HStack,
   Input,
   Radio,
   Select,
+  Text,
   TextArea,
-  Button,
-  View,
-  HStack
+  View
 } from 'native-base';
 
 import React, { useCallback, useState } from 'react';
-import { useUser } from '@/contexts/UserContext';
-import { createFile } from '@/services/CreateFileService';
 
 type FormComponentProps = {
-  actions: IAction[]
-  subTaskName: string
-}
+  actions: IAction[];
+  subTaskName: string;
+};
 
 const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
   const [formState, setFormState] = useState({});
@@ -77,15 +77,14 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
       }, {})
     }));
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { user } = useUser();
-    const uid = user.id // i'm not sure if this is the proper way to get the user id
+    const uid = user.id; // i'm not sure if this is the proper way to get the user id
 
-    await createFile(uid, subTaskName, formState)
+    await createFile(uid, subTaskName, formState);
 
     console.log('Form submitted:', {
       metadata: { timestamp: new Date() },
@@ -98,9 +97,15 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
       case 'input':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
+            <Text
+              fontFamily={'Inter_400Regular'}
+              color={'barkBrown'}
+              fontSize={12}
+            >
+              {action.label}
+            </Text>
             {/* Conditonally based on type */}
-            <View marginBottom= '10px'>
+            <View marginBottom="10px">
               <Input
                 key={index}
                 // label={action.label}
@@ -111,7 +116,7 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
                 onChangeText={(value) => handleInputChange(action.name, value)}
                 margin="normal"
                 variant="outlined"
-                backgroundColor={"#F5EFE7"}
+                backgroundColor={'#F5EFE7'}
               />
             </View>
             {/* <FormControl.HelperText>{action.description}</FormControl.HelperText> */}
@@ -120,16 +125,24 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
       case 'select':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
-            <View marginBottom= '10px'>
+            <Text
+              fontFamily={'Inter_400Regular'}
+              color={'barkBrown'}
+              fontSize={12}
+            >
+              {action.label}
+            </Text>
+            <View marginBottom="10px">
               <Select
                 minWidth="200"
                 accessibilityLabel={action.placeholder}
                 placeholder={action.placeholder}
                 selectedValue={formState[action.name] || ''}
-                onValueChange={(value) => handleSelectChange(action.name, value)}
+                onValueChange={(value) =>
+                  handleSelectChange(action.name, value)
+                }
                 mt={1}
-                backgroundColor={"#F5EFE7"}
+                backgroundColor={'#F5EFE7'}
               >
                 {action.options.map((option, idx) => (
                   <Select.Item key={idx} label={option} value={option} />
@@ -144,8 +157,14 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
       case 'textarea':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
-            <View marginBottom= '10px'>
+            <Text
+              fontFamily={'Inter_400Regular'}
+              color={'barkBrown'}
+              fontSize={12}
+            >
+              {action.label}
+            </Text>
+            <View marginBottom="10px">
               <TextArea
                 key={index}
                 area-label={action.label}
@@ -154,11 +173,13 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
                 // name={action.name}
                 // required={action.required}
                 numberOfLines={4}
-                onChangeText={(value) => handleTextAreaChange(action.name, value)}
+                onChangeText={(value) =>
+                  handleTextAreaChange(action.name, value)
+                }
                 margin="normal"
                 variant="outlined"
                 autoCompleteType={undefined}
-                backgroundColor={"#F5EFE7"}
+                backgroundColor={'#F5EFE7'}
               />
             </View>
             {/*<FormControl.HelperText>
@@ -169,8 +190,14 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
       case 'checkbox':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
-            <View marginBottom= '10px'>
+            <Text
+              fontFamily={'Inter_400Regular'}
+              color={'barkBrown'}
+              fontSize={12}
+            >
+              {action.label}
+            </Text>
+            <View marginBottom="10px">
               <Checkbox.Group
                 color="deepEvergreen"
                 defaultValue={[]}
@@ -179,7 +206,13 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
               >
                 {action.options.map((option, idx) => (
                   <Checkbox key={idx} value={option} my={1}>
-                    <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{option}</Text>
+                    <Text
+                      fontFamily={'Inter_400Regular'}
+                      color={'barkBrown'}
+                      fontSize={12}
+                    >
+                      {option}
+                    </Text>
                   </Checkbox>
                 ))}
               </Checkbox.Group>
@@ -192,8 +225,14 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
       case 'radio':
         return (
           <>
-            <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{action.label}</Text>
-            <View marginBottom= '10px'>
+            <Text
+              fontFamily={'Inter_400Regular'}
+              color={'barkBrown'}
+              fontSize={12}
+            >
+              {action.label}
+            </Text>
+            <View marginBottom="10px">
               <Radio.Group
                 name={action.name}
                 defaultValue={formState[action.name] || ''}
@@ -202,7 +241,13 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
               >
                 {action.options.map((option, idx) => (
                   <Radio key={idx} value={option} colorScheme="deepEvergreen">
-                    <Text fontFamily={"Inter_400Regular"} color={'barkBrown'} fontSize={12}>{option}</Text>
+                    <Text
+                      fontFamily={'Inter_400Regular'}
+                      color={'barkBrown'}
+                      fontSize={12}
+                    >
+                      {option}
+                    </Text>
                   </Radio>
                 ))}
               </Radio.Group>
@@ -218,11 +263,21 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
   };
 
   return (
-    <FormControl isInvalid w="75%" width={"100%"}>
+    <FormControl isInvalid w="75%" width={'100%'}>
       {actions.map((action, index) => renderField(action, index))}
-      <HStack flexDirection="row" justifyContent="center" flex={1} marginTop={"10px"}>
-        <Button textDecorationColor={"#FFFFFF"} backgroundColor={"#43A573"} 
-                borderColor={"#43A573"} onPress={handleSubmit} flex={0.90}>
+      <HStack
+        flexDirection="row"
+        justifyContent="center"
+        flex={1}
+        marginTop={'10px'}
+      >
+        <Button
+          textDecorationColor={'#FFFFFF'}
+          backgroundColor={'#43A573'}
+          borderColor={'#43A573'}
+          onPress={handleSubmit}
+          flex={0.9}
+        >
           Submit
         </Button>
       </HStack>

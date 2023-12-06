@@ -1,8 +1,7 @@
-import axios from 'axios';
-
 import { IGuide } from '@/interfaces/IGuide';
-import { sleep } from '@/utils/MockDelayUtil';
 import { API_BASE_URL } from '@/services/const';
+import { sleep } from '@/utils/MockDelayUtil';
+import axios from 'axios';
 
 export const fetchAllGuides = async () => {
   try {
@@ -12,7 +11,7 @@ export const fetchAllGuides = async () => {
     console.log('Error fetching all guides', error);
     throw new Error('Error fetching all guides');
   }
-}
+};
 
 export const fetchGuideByName = async (name: string) => {
   try {
@@ -22,4 +21,4 @@ export const fetchGuideByName = async (name: string) => {
     console.log('Error fetching guide by name', error);
     throw new Error('Error fetching guide by name');
   }
-}
+};

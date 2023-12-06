@@ -1,5 +1,6 @@
 import { IGuide } from '@/interfaces/IGuide';
 import { Text, View } from 'native-base';
+
 import React from 'react';
 
 type HSGCProps = {
@@ -17,7 +18,7 @@ const HomeScreenGuideCard: React.FC<HSGCProps> = ({ guide }) => {
         borderColor: '#0F4D3F',
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: 16
       }}
     >
       <View style={{ flex: 1, marginHorizontal: 5 }}>

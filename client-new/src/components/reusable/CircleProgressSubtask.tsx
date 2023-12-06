@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { Animated, View, Text } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -10,17 +10,22 @@ const CircleProgress = ({ progress }) => {
   const strokeWidth = 13;
   const radius = 50 - strokeWidth / 2;
   const circumference = 2 * Math.PI * radius;
-  const progressStrokeDashoffset = ((progress / 100) * circumference) / 100; 
+  const progressStrokeDashoffset = ((progress / 100) * circumference) / 100;
 
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: progress,
       duration: 1000,
-      useNativeDriver: true,
+      useNativeDriver: true
     }).start();
   }, [animatedValue, progress]);
 
-  const { left, top } = progress < 10 ? { left: 165, top: 41 } : progress >= 100 ? { left: 156, top: 41 } : { left: 159, top: 41 };
+  const { left, top } =
+    progress < 10
+      ? { left: 165, top: 41 }
+      : progress >= 100
+        ? { left: 156, top: 41 }
+        : { left: 159, top: 41 };
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
       <Svg height="110" width="110" viewBox="0 0 100 100">
@@ -43,14 +48,22 @@ const CircleProgress = ({ progress }) => {
           strokeDasharray={circumference}
           strokeDashoffset={animatedValue.interpolate({
             inputRange: [0, 100],
-            outputRange: [circumference, progressStrokeDashoffset],
-          })}   
+            outputRange: [circumference, progressStrokeDashoffset]
+          })}
           strokeLinecap="round"
           fill="transparent"
           transform="rotate(-90 50 50)"
         />
       </Svg>
-      <Text style={{ position: 'absolute', top: top, left: left, zIndex: 2, fontSize: 20 }}>
+      <Text
+        style={{
+          position: 'absolute',
+          top: top,
+          left: left,
+          zIndex: 2,
+          fontSize: 20
+        }}
+      >
         {`${progress}%`}
       </Text>
     </View>

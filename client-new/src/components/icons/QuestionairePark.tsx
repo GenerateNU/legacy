@@ -11,7 +11,6 @@ const ParkImage = `<svg width="220" height="146" viewBox="0 0 220 146" fill="non
   </defs>
   </svg>`;
 
-
-  export default function Tree() {
-    return <SvgXml xml={ParkImage} />;
-  }
+export default function Tree() {
+  return <SvgXml xml={ParkImage} />;
+}
