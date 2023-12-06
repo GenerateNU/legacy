@@ -13,6 +13,7 @@ import { ActivityIndicator, Pressable, RefreshControl } from 'react-native';
 
 import HomeScreenTaskCard from '../../components/homescreen components/HomeScreenTaskCard';
 import LegacyWordmark from '../../components/reusable/LegacyWordmark';
+import LegacyWordmarkWithBackArrow from '@/components/reusable/LegacyWordMarkWithBackArrow';
 
 export default function TaskScreen({ navigation }) {
   const { user } = useUser();
@@ -80,12 +81,7 @@ export default function TaskScreen({ navigation }) {
         backgroundColor={'#FFFAF2'}
       >
         <View margin={'30px'} marginTop={'60px'}>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <LegacyWordmark />
-          </View>
-          <Pressable onPress={() => navigation.goBack()}>
-            <BackArrowIcon />
-          </Pressable>
+          <LegacyWordmarkWithBackArrow handleOnPress={() => navigation.goBack()} />
           <View width={'100%'} marginTop={'20px'}>
             <Text
               marginBottom="20px"

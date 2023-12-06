@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Text, View } from 'native-base';
 
 import React from 'react';
-import { Linking, Pressable } from 'react-native';
+import { Alert, Linking, Pressable } from 'react-native';
 import FileViewer from 'react-native-file-viewer';
 import RNFS from 'react-native-fs';
 import {
@@ -57,6 +57,45 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
     }
   };
 
+  // Example of setup fileOptions
+  // const fileOptions = (fileId: number) => {
+  //   Alert.alert(
+  //     'File Options',
+  //     'What would you like to do with this file?',
+  //     [
+  //       {
+  //         text: 'Cancel',
+  //         style: 'cancel',
+  //         onPress: () => console.log('Cancel Pressed')
+  //       },
+  //       {
+  //         text: 'Download',
+  //         style: 'default',
+  //         onPress: () => {
+  //           handlePress();
+  //         }
+  //       },
+  //       {
+  //         text: 'Open in Browser',
+  //         style: 'default',
+  //         onPress: async () => {
+  //           const url = await fetchFileURL(file.id);
+  //           Linking.openURL(url);
+  //         }
+  //       },
+  //       {
+  //         text: 'Share',
+  //         style: 'default',
+  //         onPress: () => console.log('Share Pressed')
+  //       },
+  //       {
+  //         text: 'Delete',
+  //         style: 'destructive',
+  //         onPress: () => console.log('Delete Pressed')
+  //       }
+  //     ]
+  //   );
+  // };
   return (
     <Pressable onPress={() => handlePress()}>
       <View flexDirection={'row'}>
@@ -82,10 +121,9 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
           justifyContent={'center'}
           paddingBottom={h('1.5%')}
         >
-          <View style={{ transform: [{ rotate: '90deg' }] }}>
+          <Pressable onPress={() => console.log('File Options Pressed')} style={{ transform: [{ rotate: '90deg' }] }} >
             <ThreeDotsIcon />
-          </View>
-          {/* TODO: change this to a button since it is an image now. */}
+          </Pressable>
         </View>
       </View>
     </Pressable>

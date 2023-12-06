@@ -41,8 +41,10 @@ export default function HomeScreen({ navigation }) {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}
+      edges={['top', 'left', 'right']}>
       <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
@@ -56,7 +58,6 @@ export default function HomeScreen({ navigation }) {
           />
         }
         bgColor={'#FFF9EE'}
-        contentContainerStyle={{ alignItems: 'center' }}
         marginLeft={w('1%')}
         marginRight={w('1%')}
       >
