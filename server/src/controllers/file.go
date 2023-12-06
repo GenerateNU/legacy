@@ -224,7 +224,7 @@ func (f *FileController) CreateFile(c echo.Context) error {
 func (f *FileController) DeleteFile(c echo.Context) error {
 	fileID := c.Param("fid")
 
-	if err := f.fileService.DeleteFile(fileID); err != nil {
+	if err := f.fileService.DeleteFile(fileID, false); err != nil {
 		return c.JSON(http.StatusNotFound, "Failed to delete file")
 	}
 

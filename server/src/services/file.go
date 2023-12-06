@@ -10,6 +10,7 @@ import (
 	"net/textproto"
 	"server/src/models"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -34,7 +35,7 @@ type FileServiceInterface interface {
 	GetFileURL(id string, days string) (string, error)
 	CreateFile(id string, file models.File, data *multipart.FileHeader, reader io.Reader) (models.File, error)
 	GeneratePDF(uid string, subtaskName string, fileJSON string) (*multipart.FileHeader, io.Reader, error)
-	DeleteFile(id string) error
+	DeleteFile(id string, s3Only bool) error
 }
 
 type FileService struct {
@@ -144,6 +145,7 @@ func (f *FileService) GetFileURL(id string, days string) (string, error) {
 
 func (f *FileService) CreateFile(id string, file models.File, data *multipart.FileHeader, reader io.Reader) (models.File, error) {
 	var testFile models.File
+	var searchFiles []models.File
 	file.FileName = data.Filename
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
@@ -152,13 +154,27 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 
 	file.UserID = uint(idInt)
 
-	// check if filename is already taken
+	// check if filename is already taken, and add (filenumber) to name if it is
 	objectKey := fmt.Sprintf("%v-%v", file.UserID, file.FileName)
-	if err := f.DB.Where("object_key = ?", objectKey).Find(&testFile).Error; err != nil {
-		return models.File{}, errors.New("file name already exists")
-	}
+	dotIndex := strings.LastIndex(objectKey, ".")
+	file_substring := objectKey[:dotIndex]
+	file_extension := objectKey[dotIndex:]
+	searchKey := file_substring + "%" + file_extension
 
 	file.ObjectKey = objectKey
+
+	if err := f.DB.Where("object_key = ?", objectKey).Find(&testFile).Error; err == nil {
+		f.DB.Where("object_key LIKE ?", searchKey).Find(&searchFiles)
+		i := len(searchFiles)
+
+		if i > 5 {
+			return models.File{}, errors.New("maximum 5 duplicate filenames per user")
+		}
+
+		file_num := fmt.Sprintf(" (%v)", i)
+		file.ObjectKey = file_substring + file_num + file_extension
+		file.FileName = file_substring[strings.Index(file_substring, "-")+1:] + file_num + file_extension
+	}
 
 	// Check if the file size is greater than 5 MB
 	if data.Size > 5000000 {
@@ -186,6 +202,7 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 
 	// Create the file in the database
 	if err := f.DB.Create(&file).Error; err != nil {
+		f.DeleteFile(fmt.Sprint(file.ID), true) // delete file from s3 if it cant be made in database
 		return models.File{}, errors.New("failed to create file in database")
 	}
 
@@ -237,7 +254,7 @@ func (f *FileService) GeneratePDF(uid string, subtaskName string, fileJSON strin
 	return fileHeader, reader, nil
 }
 
-func (f *FileService) DeleteFile(id string) error {
+func (f *FileService) DeleteFile(id string, s3Only bool) error {
 	var file models.File
 
 	if err := f.DB.First(&file, id).Error; err != nil {
@@ -262,8 +279,10 @@ func (f *FileService) DeleteFile(id string) error {
 	}
 
 	// Required to delete the file from the database permanently
-	if err := f.DB.Unscoped().Delete(&file).Error; err != nil {
-		return err
+	if !s3Only {
+		if err := f.DB.Unscoped().Delete(&file).Error; err != nil {
+			return err
+		}
 	}
 
 	return nil
