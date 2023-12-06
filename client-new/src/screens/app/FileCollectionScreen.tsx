@@ -236,7 +236,7 @@ const AllFilesSelection = ({ orderBy, setOrderBy, reverse, setReverse }: AllFile
             lineHeight={verticalScale(21)}
             paddingRight={w('.5%')}
           >
-            {orderBy === 'name' ? 'Name' : orderBy === 'name-reversed' ? 'Name' : orderBy === 'size' ? 'Size' : 'Date'}
+            {orderBy === 'name' ? 'Name' : orderBy === 'name-reversed' ? 'Name' : orderBy === 'size' ? 'Size' : 'Last Modified'}
           </Text>
         </Pressable>
         <Pressable onPress={() => {

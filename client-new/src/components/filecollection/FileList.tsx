@@ -19,7 +19,7 @@ const FileList: React.FC<FileListProps> = ({ files, orderBy, reverse }: FileList
   if (orderBy === 'name') {
     sortedFiles = sortedFiles.sort((a, b) => a.file_name.localeCompare(b.file_name));
   } else if (orderBy === 'date') {
-    sortedFiles = sortedFiles.sort((a, b) => (a.created_at > b.created_at ? -1 : 1));
+    sortedFiles = sortedFiles.sort((a, b) => (a.updated_at > b.updated_at ? -1 : 1));
   } else if (orderBy === 'size') {
     sortedFiles = sortedFiles.sort((a, b) => (a.file_size > b.file_size ? -1 : 1));
   }
