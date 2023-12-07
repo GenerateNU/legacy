@@ -72,7 +72,6 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
     }
   };
 
-  // </View >
   return (
     <View>
         {actions.map((action, index) => (
