@@ -11,9 +11,10 @@ import (
 type ProgressServiceInterface interface {
 	GetAllTaskProgress() ([]models.TaskProgress, error)
 	GetAllSubTaskProgress() ([]models.SubTaskProgress, error)
+	GetAllSubTaskProgressOfTask(uid string, tid string) ([]models.SubTaskProgress, error)
 
-	GetTaskProgress(id string) (models.TaskProgress, error)
-	GetSubTaskProgress(id string) (models.SubTaskProgress, error)
+	GetTaskProgress(uid string, tid string) (models.TaskProgress, error)
+	GetSubTaskProgress(uid string, sid string) (models.SubTaskProgress, error)
 
 	CreateAllTaskProgress(id string) ([]models.TaskProgress, error)
 	CreateAllSubTaskProgress(id string) ([]models.SubTaskProgress, error)
@@ -21,8 +22,8 @@ type ProgressServiceInterface interface {
 	CreateTaskProgress(taskProgress models.TaskProgress) (models.TaskProgress, error)
 	CreateSubTaskProgress(subTaskProgress models.SubTaskProgress) (models.SubTaskProgress, error)
 
-	CompleteTaskProgress(id string, taskProgress models.TaskProgress) (models.TaskProgress, error)
-	CompleteSubTaskProgress(id string, subTaskProgress models.SubTaskProgress) (models.SubTaskProgress, error)
+	CompleteTaskProgress(uid string, tid string) (models.TaskProgress, error)
+	CompleteSubTaskProgress(uid string, sid string) (models.SubTaskProgress, error)
 
 	DeleteTaskProgress(id string) error
 	DeleteSubTaskProgress(id string) error
@@ -52,20 +53,43 @@ func (p *ProgressService) GetAllSubTaskProgress() ([]models.SubTaskProgress, err
 	return subTaskProgress, nil
 }
 
-func (p *ProgressService) GetTaskProgress(id string) (models.TaskProgress, error) {
+func (p *ProgressService) GetAllSubTaskProgressOfTask(uid string, tid string) ([]models.SubTaskProgress, error) {
+	var subTaskProgress []models.SubTaskProgress
+	var subTasks []models.SubTask
+	var subTaskIDs []uint
+
+	// find all subtasks associated with the task
+	if err := p.DB.Where("task_id = ?", tid).Find(&subTasks).Error; err != nil {
+		return []models.SubTaskProgress{}, err
+	}
+
+	// create slice of subtask ids
+	for _, subTask := range subTasks {
+		subTaskIDs = append(subTaskIDs, subTask.ID)
+	}
+
+	// fetch all the subtask progresses
+	if err := p.DB.Where("user_id = ? and sub_task_id IN ?", uid, subTaskIDs).Find(&subTaskProgress).Error; err != nil {
+		return nil, err
+	}
+
+	return subTaskProgress, nil
+}
+
+func (p *ProgressService) GetTaskProgress(uid string, tid string) (models.TaskProgress, error) {
 	var taskProgress models.TaskProgress
 
-	if err := p.DB.First(&taskProgress, id).Error; err != nil {
+	if err := p.DB.Where("user_id = ? and task_id = ?", uid, tid).Find(&taskProgress).Error; err != nil {
 		return models.TaskProgress{}, err
 	}
 
 	return taskProgress, nil
 }
 
-func (p *ProgressService) GetSubTaskProgress(id string) (models.SubTaskProgress, error) {
+func (p *ProgressService) GetSubTaskProgress(uid string, sid string) (models.SubTaskProgress, error) {
 	var subTaskProgress models.SubTaskProgress
 
-	if err := p.DB.First(&subTaskProgress, id).Error; err != nil {
+	if err := p.DB.Where("user_id = ? and sub_task_id = ?", uid, sid).Find(&subTaskProgress).Error; err != nil {
 		return models.SubTaskProgress{}, err
 	}
 
@@ -158,28 +182,29 @@ func (p *ProgressService) CreateSubTaskProgress(subTaskProgress models.SubTaskPr
 	return subTaskProgress, nil
 }
 
-func (p *ProgressService) CompleteTaskProgress(id string, taskProgress models.TaskProgress) (models.TaskProgress, error) {
+func (p *ProgressService) CompleteTaskProgress(uid string, tid string) (models.TaskProgress, error) {
 	var existingTaskProgress models.TaskProgress
 
-	if err := p.DB.First(&existingTaskProgress, id).Error; err != nil {
+	if err := p.DB.Model(&existingTaskProgress).Where("user_id = ? and task_id = ?", uid, tid).Update("completed", "true").Error; err != nil {
 		return models.TaskProgress{}, err
 	}
 
-	if err := p.DB.Model(&existingTaskProgress).Updates(taskProgress).Error; err != nil {
+	if err := p.DB.Where("user_id = ? and task_id = ?", uid, tid).Find(&existingTaskProgress).Error; err != nil {
 		return models.TaskProgress{}, err
 	}
 
 	return existingTaskProgress, nil
+
 }
 
-func (p *ProgressService) CompleteSubTaskProgress(id string, subTaskProgress models.SubTaskProgress) (models.SubTaskProgress, error) {
+func (p *ProgressService) CompleteSubTaskProgress(uid string, sid string) (models.SubTaskProgress, error) {
 	var existingSubTaskProgress models.SubTaskProgress
 
-	if err := p.DB.First(&existingSubTaskProgress, id).Error; err != nil {
+	if err := p.DB.Model(&existingSubTaskProgress).Where("user_id = ? and sub_task_id = ?", uid, sid).Update("completed", "true").Error; err != nil {
 		return models.SubTaskProgress{}, err
 	}
 
-	if err := p.DB.Model(&existingSubTaskProgress).Updates(subTaskProgress).Error; err != nil {
+	if err := p.DB.Where("user_id = ? and sub_task_id = ?", uid, sid).Find(&existingSubTaskProgress).Error; err != nil {
 		return models.SubTaskProgress{}, err
 	}
 

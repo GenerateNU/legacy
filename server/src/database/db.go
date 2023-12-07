@@ -46,6 +46,7 @@ func AddRoutes(db *gorm.DB, e *echo.Echo) {
 	subTaskService := services.SubTaskService{DB: db}
 	fileService := services.FileService{DB: db}
 	guideService := services.GuideService{DB: db}
+	progressService := services.ProgressService{DB: db}
 
 	routes.UserRoutes(e.Group("/api/users"), &userService)
 	routes.ProfileRoutes(e.Group("/api/profiles"), &profileService)
@@ -54,6 +55,7 @@ func AddRoutes(db *gorm.DB, e *echo.Echo) {
 	routes.SubTaskRoutes(e.Group("/api/subtasks"), &subTaskService)
 	routes.FileRoutes(e.Group("/api/files"), &fileService)
 	routes.GuideRoutes(e.Group("/api/guides"), &guideService)
+	routes.ProgressRoutes(e.Group("/api/progresses"), &progressService)
 }
 
 func InitDB() (*gorm.DB, error) {
