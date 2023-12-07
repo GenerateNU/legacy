@@ -28,7 +28,7 @@ import HomeScreenTasks from '../../components/homescreen components/HomeScreenTa
 import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
 
 export default function HomeScreen({ navigation }) {
-  const { user, logout, refetchUser, setCompletedOnboarding } = useUser();
+  const { user, refetchUser } = useUser();
 
   const {
     isPending,
@@ -74,7 +74,6 @@ export default function HomeScreen({ navigation }) {
                 fontSize={moderateScale(32)}
               >
                 Hello {user?.username.split(' ')[0]}!{' '}
-                {/* TODO: currently manually splitting the username string */}
               </Text>
             </View>
             <View w={'100%'}>
@@ -113,7 +112,7 @@ export default function HomeScreen({ navigation }) {
                   </Text>
                 </Pressable>
               </View>
-              <HomeScreenTasks user_id={user?.id} />
+              <HomeScreenTasks user_id={user?.id} navigation={navigation} />
             </View>
           </View>
 

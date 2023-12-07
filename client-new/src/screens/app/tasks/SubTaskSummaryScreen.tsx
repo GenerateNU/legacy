@@ -1,5 +1,5 @@
-import { getAllSubTasks } from '@/services/AllSubTasksService';
-import { Button, HStack, ScrollView, Text, View } from 'native-base';
+import { getAllSubTasks } from '@/services/SubTasksService';
+import { Button, HStack, Pressable, ScrollView, Text, View } from 'native-base';
 import Icon from "react-native-vector-icons/Ionicons";
 import React from "react";
 import { useQuery } from '@tanstack/react-query';
@@ -7,108 +7,103 @@ import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import CircleProgressSubtask from '@/components/reusable/CircleProgressSubtask';
 import RightArrowIcon from '@/components/icons/RightArrowIcon';
 import { ITask } from '@/interfaces/ITask';
+import BackArrowIcon from '@/components/icons/BackArrow';
+import ActivityLoader from '@/components/reusable/ActivityLoader';
+import { ISubTask } from '@/interfaces/ISubTask';
+import { RefreshControl } from 'react-native';
+import { heightPercentageToDP as h, widthPercentageToDP as w } from 'react-native-responsive-screen';
+import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
+import SubTask from '@/components/task/Subtask';
 
 type SubTaskSummaryScreenProps = {
-  task: ITask
+  route: any
   navigation: any
 }
 
-const SubTaskSummaryScreen = ({ task, navigation }: SubTaskSummaryScreenProps) => {
-    // props basically should be an ITask
+const SubTaskSummaryScreen = ({ route, navigation }: SubTaskSummaryScreenProps) => {
+  const { task } = route.params as { task: ITask };
 
-    const progress = Math.floor(Math.random() * 100) + 1;
+  const progress = Math.floor(Math.random() * 100) + 1;
 
-    const { isLoading, error, data } = useQuery({
-        queryKey: ['fetchSubTasks', task?.id],
-        queryFn: () => getAllSubTasks(task?.id)
-    });
+  const { isLoading, error, data: subtasks, refetch } = useQuery({
+    queryKey: ['fetchSubTasks', task?.id],
+    queryFn: () => getAllSubTasks(task?.id)
+  });
 
-      console.log(task.id)
-      console.log('subtask fetched: ', data); // {"actions": [{"action_type": "input", "label": "Full Legal Name", "name": "full_name", "placeholder": "Enter your full legal name", "required": true, "type": "text"}, {"action_type": "input", "description": "Please enter your date of birth in the format: MM/DD/YYYY", "label": "Date of Birth", "name": "date_of_birth", "placeholder": "MM/DD/YYYY", "required": true, "type": "date"}, {"action_type": "input", "description": "Please provide your 9-digit social security number", "label": "Social Security Number", "name": "ssn", "placeholder": "Enter your social security number", "required": true, "type": "text"}, {"action_type": "input", "description": "Please provide your complete current residential address", "label": "Current Address", "name": "current_address", "placeholder": "Enter your current address", "required": true, "type": "text"}, {"action_type": "input", "description": "Please provide a valid phone number where you can be reached", "label": "Phone Number", "name": "phone_number", "placeholder": "Enter your phone number", "required": true, "type": "tel"}, {"action_type": "input", "description": "Please provide a valid email address for communication purposes", "label": "Email Address", "name": "email", "placeholder": "Enter your email address", "required": true, "type": "email"}, {"action_type": "select", "description": "Please select your current marital status from the options provided", "label": "Marital Status", "name": "marital_status", "options": [Array], "placeholder": "Select your marital status", "required": true}, {"action_type": "textarea", "description": "Feel free to provide any additional information or comments here", "label": "Additional Comments", "name": "additional_comments", "placeholder": "Enter any additional comments", "required": false}, {"action_type": "checkbox", "description": "Select the services you require", "label": "Select Services", "name": "services", "options": [Array], "required": true}, {"action_type": "radio", "description": "Select your preferred method of payment", "label": "Select Payment Method", "name": "payment_method", "options": [Array], "required": true}]}
-
-      if (isLoading) {
-        return <Text> ...loading </Text>;
-      }
-
-      if (error) {
-        return <Text> error </Text>;
-      }
-
-      if (data === null) {
-        // Data is still being fetched, you can render a loading indicator or return null
-        return null;
-      }
-
-    return (
-
-        <>
-        <ScrollView backgroundColor={'#FFFAF2'}>
-          <View margin={'30px'} marginTop={'60px'}>
-            <HStack flexDirection="row" justifyContent="center" flex={1}>
-                <View style={{flexDirection: 'row', justifyContent: 'flex-start'}} flex={1}>
-                  <Button backgroundColor={"transparent"}>
-                    <Icon name="chevron-back" size={20} color={"#374957"}></Icon>
-                  </Button>
-                </View>
-                <View style={{flexDirection: 'row', justifyContent: 'flex-end'}} flex={1}>
-                  <LegacyWordmark/>
-                </View>
-            </HStack>
-            <View width={'100%'} marginTop={'20px'}>
-              <Text marginBottom= '25px' fontSize='32' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'} justifyContent={'center'} textAlign={"center"} lineHeight={"32"}>
-                {task.task_name}
-              </Text>
-              <CircleProgressSubtask progress={progress}/>
-              <Text marginTop= '25px' fontSize='24' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'}>
-                Upcoming Tasks
-              </Text>
-            </View>
-            <View width={"100%"} marginTop= '15px'>
-              <View marginTop= '5px' flexDirection='column' justifyContent='space-between' flex={1}>
-                  {data.map((item, index) => (
-                    <View
-                    paddingLeft={5}
-                    paddingTop={2.5}
-                    paddingBottom={3.5}
-                    bgColor={'#FFFFFF'}
-                    borderRadius={13}
-                    borderWidth={1}
-                    borderColor={'#0F4D3F'}
-                    flexDirection="row"
-                    alignItems="center"
-                    justifyContent="space-between" 
-                    marginBottom={4}
-                    position={'relative'}
-                    >
-                      <View flexDir={'row'} alignItems={'flex-start'} justifyContent={'space-between'} width={'100%'}>
-                        <View style={{ flex: 1, paddingRight: 10, alignItems: 'flex-start', justifyContent: 'flex-start', alignContent: 'flex-start' }}>
-                          <Text style={{
-                            fontSize: 15,
-                            fontWeight: '600',
-                            marginBottom: 5,
-                        }}
-                          >
-                            {item.sub_task_name}
-                          </Text>
-                          <Text style={{
-                            fontSize: 14,
-                            color: '#2F1D12',
-                          }}>
-                          {item.sub_task_description}
-                          </Text>
-                        </View>
-                        <View alignSelf={'center'} marginTop={2.5}>
-                          <RightArrowIcon />
-                        </View>
-                      </View>
-                    </View>
-                  ))}
-              </View>
-            </View>
+  return (
+    <ScrollView backgroundColor={'#FFFAF2'}
+      refreshControl={
+        <RefreshControl
+          refreshing={isLoading}
+          onRefresh={() => {
+            refetch();
+          }}
+          colors={['#ff0000', '#00ff00', '#0000ff']}
+          tintColor={'gray'}
+        />
+      }>
+      <View margin={'30px'} marginTop={'60px'}>
+        <HStack flexDirection="row" justifyContent="center" flex={1}>
+          <Pressable style={{ flexDirection: 'row', justifyContent: 'flex-start' }} flex={1} onPress={() => navigation.goBack()}>
+            <BackArrowIcon />
+          </Pressable>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }} flex={1}>
+            <LegacyWordmark />
           </View>
-        </ScrollView>
-        </>
-    )};
+        </HStack>
+        <View
+          width={'100%'}
+          marginTop={h('2%')}
+          flexDirection="column"
+        >
+          <Text
+            marginBottom={h('2%')}
+            fontSize={moderateScale(26)}
+            lineHeight={verticalScale(29)}
+            fontWeight={'400'}
+            fontFamily={"Roca Regular"}
+            color={'barkBrown'}
+            justifyContent={'center'}
+            textAlign={"center"}>
+            {task?.task_name}
+          </Text>
+          <Text
+            marginBottom={h('2%')}
+            paddingX={w('10%')}
+            fontWeight={'400'}
+            fontSize={moderateScale(15)}
+            lineHeight={verticalScale(19)}
+            fontFamily={"Inter_400Regular"}
+            color={'barkBrown'}
+            justifyContent={'center'}
+            textAlign={"center"}>
+            {task?.task_description}
+          </Text>
+          <CircleProgressSubtask progress={progress ? progress : 0} />
+          <Text marginTop='25px' fontSize='24' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'}>
+            Upcoming Tasks
+          </Text>
+        </View>
+        <View
+          marginTop={h('2%')}
+          width={'100%'}
+          flexDirection="column"
+        >
+          <View marginTop='5px' flexDirection='column' justifyContent='space-between' flex={1}>
+            {isLoading && <ActivityLoader />}
+            {error && <Text>Error: {error.message}</Text>}
+            {subtasks?.length === 0 && <Text>No subtasks found</Text>}
+            {subtasks?.map((item, index) => (
+              <Pressable key={index} onPress={() => navigation.navigate('Subtask Screen', { subtask: item })}>
+                <SubTask subtasks={item} />
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      </View>
+    </ScrollView>
+  )
+};
 
 
-    export default SubTaskSummaryScreen;
+export default SubTaskSummaryScreen;

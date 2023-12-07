@@ -12,13 +12,16 @@ import { ITask } from '@/interfaces/ITask';
 import BackArrowIcon from '@/components/icons/BackArrow';
 import TaskTagGrid from '@/components/reusable/TaskTagGrid';
 
-export default function TaskScreen({ navigation }) {
+type TaskScreenProps = {
+  navigation: any;
+};
+
+export default function TaskScreen({ navigation }: TaskScreenProps) {
   const { user } = useUser();
   const [selectedTags, setSelectedTags] = useState([]);
   const [search, setSearch] = useState('');
   const [fileteredTasks, setFilteredTasks] = useState<ITask[]>([]);
   let debounceTimer;
-
 
   const { isPending, data: tasks, error, refetch } = useQuery({
     queryKey: ['tasks', user?.id, selectedTags],
@@ -26,41 +29,19 @@ export default function TaskScreen({ navigation }) {
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
 
-  // useEffect(() => {
-  //   const debounce = (func, delay) => {
-  //     clearTimeout(debounceTimer);
-  //     debounceTimer = setTimeout(() => {
-  //       func();
-  //     }, delay);
-  //   };
-
-  //   const filterTasks = () => {
-  //     const filtered = tasks?.filter((task) => {
-  //       return task.task_name.toLowerCase().includes(search.toLowerCase()) || task.task_description.toLowerCase().includes(search.toLowerCase());
-  //     });
-  //     setFilteredTasks(filtered);
-  //   };
-
-  //   debounce(filterTasks, 300);
-
-  //   return () => {
-  //     clearTimeout(debounceTimer);
-  //   };
-  // }, [search]);
-
   return (
     <>
       <ScrollView
-        // refreshControl={
-        //   <RefreshControl
-        //     refreshing={isPending}
-        //     onRefresh={() => {
-        //       refetch();
-        //     }}
-        //     colors={['#ff0000', '#00ff00', '#0000ff']}
-        //     tintColor={'#ff0000'}
-        //   />
-        // }
+        refreshControl={
+          <RefreshControl
+            refreshing={isPending}
+            onRefresh={() => {
+              refetch();
+            }}
+            colors={['#ff0000', '#00ff00', '#0000ff']}
+            tintColor={'#ff0000'}
+          />
+        }
         backgroundColor={'#FFFAF2'}>
         <View margin={'30px'} marginTop={'60px'}>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
@@ -107,8 +88,7 @@ export default function TaskScreen({ navigation }) {
             {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
             {tasks && tasks.map((item: ITask, index: number) =>
               <View key={index} mb={0}>
-                <HomeScreenTaskCard task={item} isAllTasks={false} handleOnPress={() => navigation.navigate('Subtask Summary Screen')
-          }/>
+                <HomeScreenTaskCard task={item} isAllTasks={false} handleOnPress={() => navigation.navigate('SubTask Summary Screen', { task: item })} />
               </View> 
             )}
           </View>
