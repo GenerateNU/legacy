@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import { OnboardingProvider } from '../contexts/OnboardingContext';
-import HomeScreen from '../screens/app/BottomTabNavigator';
+import HomeScreen from './BottomTabNavigator';
 import PersonaScreen from '../screens/auth/PersonaScreen';
 import QuestionaireScreen from '../screens/auth/QuestionaireScreen';
 import QuizSectionIntroScreen from '../screens/auth/QuizSectionIntroScreen';

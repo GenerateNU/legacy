@@ -11,10 +11,12 @@ import HomeScreenTaskCard from './HomeScreenTaskCard';
 
 type YourJourneyComponentProps = {
   user_id: number;
+  navigation: any;
 };
 
 const YourJourneyComponent: React.FC<YourJourneyComponentProps> = ({
-  user_id
+  user_id,
+  navigation
 }) => {
   const {
     isPending,
@@ -34,7 +36,7 @@ const YourJourneyComponent: React.FC<YourJourneyComponentProps> = ({
         {tasks &&
           tasks.slice(0, 3).map((item: ITask, index: number) => (
             <View key={index} mb={0}>
-              <HomeScreenTaskCard task={item} isAllTasks={false} />
+              <HomeScreenTaskCard task={item} isAllTasks={false} handleOnPress={() => navigation.navigate('SubTask Summary Screen', { task: item })} />
             </View>
           ))}
       </View>

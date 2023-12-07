@@ -8,7 +8,7 @@ import FileCollectionScreen from '@/screens/app/FileCollectionScreen';
 import GuideScreen from '@/screens/app/GuideScreen';
 import HomeScreen from '@/screens/app/HomeScreen';
 import MarketplaceScreen from '@/screens/app/MarketplaceScreen';
-import TaskScreen from '@/screens/app/TaskScreen';
+import TaskScreen from '@/screens/app/tasks/TaskScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import React from 'react';
@@ -17,7 +17,7 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator 
+    <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused }) => {

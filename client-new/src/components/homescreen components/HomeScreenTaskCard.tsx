@@ -3,7 +3,7 @@ import { fetchTaskTag } from '@/services/TaskService';
 import { Text, View } from 'native-base';
 
 import React, { useEffect, useState } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, TouchableOpacity } from 'react-native';
 
 import RightArrowIcon from '../icons/RightArrowIcon';
 import CircleProgress from '../reusable/CircleProgress';
@@ -11,9 +11,10 @@ import CircleProgress from '../reusable/CircleProgress';
 type HSTCProps = {
   task: ITask;
   isAllTasks?: boolean;
+  handleOnPress?: () => void;
 };
 
-const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks }) => {
+const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks, handleOnPress }) => {
   const [tag, setTag] = useState<string | null>(null);
   const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -39,7 +40,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks }) => {
   const progress = Math.floor(Math.random() * 100) + 1;
 
   return (
-    <Pressable onPress={() => console.log(`pressed ${task.id}`)}>
+    <TouchableOpacity onPress={handleOnPress}>
       <View
         paddingLeft={5}
         paddingTop={6}
@@ -130,7 +131,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks }) => {
           </View>
         )}
       </View>
-    </Pressable>
+      </TouchableOpacity>
   );
 };
 
