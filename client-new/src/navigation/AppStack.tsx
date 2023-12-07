@@ -1,10 +1,11 @@
 import GuideScreen from '@/screens/app/GuideScreen';
-import TaskScreen from '@/screens/app/TaskScreen';
+import TaskScreen from '@/screens/app/tasks/TaskScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import React from 'react';
 
 import HomeScreen from '../screens/app/BottomTabNavigator';
+import TaskStack from './TaskStack';
 
 const Stack = createNativeStackNavigator();
 

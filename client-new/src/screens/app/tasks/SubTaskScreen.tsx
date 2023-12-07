@@ -1,19 +1,15 @@
-import LegacyWordmark from '@/components/reusable/LegacyWordmark';
-import { ISubTask } from '@/interfaces/ISubTask';
-import TabNavigator from '@/screens/app/BottomTabNavigator';
 import { getActions } from '@/services/ActionsService';
-import { API_BASE_URL } from '@/services/const';
-import FormComponent from '@/utils/Actions';
-import { useQuery } from '@tanstack/react-query';
-import { Button, HStack, ScrollView, Text, View } from 'native-base';
-
-import { useEffect, useState } from 'react';
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { useQuery } from '@tanstack/react-query';
+import { Button, ScrollView, Text, View, HStack } from 'native-base';
+import Icon from "react-native-vector-icons/Ionicons";
+import LegacyWordmark from '@/components/reusable/LegacyWordmark';
+import FormComponent from '@/utils/Actions';
+import { ISubTask } from '@/interfaces/ISubTask';
 
 type SubTaskScreenProps = {
-  subtask: ISubTask;
-};
+  subtask: ISubTask
+}
 const SubTaskScreen = ({ subtask }: SubTaskScreenProps) => {
   // props basically should be an ISubTask
 
@@ -42,46 +38,25 @@ const SubTaskScreen = ({ subtask }: SubTaskScreenProps) => {
       <ScrollView backgroundColor={'#FFFAF2'}>
         <View margin={'30px'} marginTop={'60px'}>
           <HStack flexDirection="row" justifyContent="center" flex={1}>
-            <View
-              style={{ flexDirection: 'row', justifyContent: 'flex-start' }}
-              flex={1}
-            >
-              <Button backgroundColor={'transparent'}>
-                <Icon name="chevron-back" size={20} color={'#374957'}></Icon>
-              </Button>
-            </View>
-            <View
-              style={{ flexDirection: 'row', justifyContent: 'flex-end' }}
-              flex={1}
-            >
-              <LegacyWordmark />
-            </View>
+              <View style={{flexDirection: 'row', justifyContent: 'flex-start'}} flex={1}>
+                <Button backgroundColor={"transparent"}>
+                  <Icon name="chevron-back" size={20} color={"#374957"}></Icon>
+                </Button>
+              </View>
+              <View style={{flexDirection: 'row', justifyContent: 'flex-end'}} flex={1}>
+                <LegacyWordmark/>
+              </View>
           </HStack>
           <View width={'100%'} marginTop={'30px'}>
-            <Text
-              marginBottom="10px"
-              fontSize="24"
-              fontWeight={'400'}
-              fontFamily={'Roca Regular'}
-              color={'barkBrown'}
-            >
+            <Text marginBottom= '10px' fontSize='24' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'}>
               {subtask.sub_task_name}
-            </Text>
-            <Text
-              marginBottom="20px"
-              fontSize="16"
-              fontWeight={'400'}
-              fontFamily={'Inter_400Regular'}
-              color={'barkBrown'}
-            >
+              </Text>
+            <Text marginBottom= '20px' fontSize='16' fontWeight={'400'} fontFamily={"Inter_400Regular"} color={'barkBrown'}>
               {subtask.sub_task_description}
             </Text>
           </View>
-          <View width={'100%'} marginTop="15px">
-            <FormComponent
-              actions={data.actions}
-              subTaskName={subtask.sub_task_name}
-            />
+          <View width={"100%"} marginTop= '15px'>
+            <FormComponent actions={data.actions} subTaskName={subtask.sub_task_name} />
           </View>
         </View>
       </ScrollView>
