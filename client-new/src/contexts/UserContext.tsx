@@ -18,10 +18,12 @@ import {
   UserCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  updatePassword
 } from 'firebase/auth';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 
 type UserContextData = {
   user: IUser | null;
@@ -43,6 +45,7 @@ type UserContextData = {
     onboardingFlowState: IOnboardingFlowState
   ) => Promise<void>;
   toggleOnboarding: (userID: number) => Promise<void>;
+  changePassword: (oldPassowrd: string, newPassword: string) => Promise<void>;
 };
 
 type UserProviderProps = {
@@ -411,6 +414,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
+  const changePassword = async (oldPassword: string, newPassword:string): Promise<void> => {
+    try {
+      console.log('[user context] oldPassword', oldPassword);
+      await signInWithEmailAndPassword(auth, user?.email, oldPassword);
+      console.log('logged in')
+      // Get the user from the UserCredential
+      await updatePassword(firebaseUser, newPassword);
+      console.log('password changed')
+    } catch (error) {
+      throw error
+    }
+  }
+
+
   const contextValue: UserContextData = {
     user,
     profile,
@@ -424,7 +441,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     login,
     logout,
     finishOnboarding,
-    toggleOnboarding
+    toggleOnboarding,
+    changePassword,
   };
 
   return (

@@ -2,15 +2,20 @@ import PasswordInput from '@/components/profile/PasswordInput';
 import LegacyWordmarkWithBackArrow from '@/components/reusable/LegacyWordMarkWithBackArrow';
 import ScreenWideButton from '@/components/reusable/ScreenWideButton';
 import { Text, View } from 'native-base';
-
+import { Alert } from 'react-native';
 import React, { useState } from 'react';
 import { Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { z } from 'zod';
+import { useUser } from '@/contexts/UserContext';
 
 export default function PasswordAndSecurityScreeen({ route, navigation }) {
   const [curentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [retypeNewPassword, setRetypeNewPassword] = useState('');
+  
+  //
+  const { user, changePassword } = useUser();
 
   /**
    * Navigate to Profile Screen
@@ -19,13 +24,47 @@ export default function PasswordAndSecurityScreeen({ route, navigation }) {
     navigation.navigate('Profile Screen');
   };
 
+  const resetFields = () => {
+    setCurrentPassword('');
+    setNewPassword('');
+    setRetypeNewPassword('');
+  }
+
   /**
    * Save password and navigate to Profile Screen
    */
-  const handleSavePassword = () => {
+  const handleSavePassword = async () => {
     console.log('pressed save password');
-    toProfile();
+    if (newPassword !== retypeNewPassword) {
+      Alert.alert('Error', 'Passwords do not match', [{ text: 'OK', onPress: () => resetFields() }]);
+      return;
+    }
+    try {
+      passwordSchema.parse(newPassword);
+      await changePassword(curentPassword, newPassword);
+      Alert.alert('Succesful', 'Password changed',[{ text: 'OK', onPress: () => toProfile() }]);
+    }
+    catch (error) {
+      if (error instanceof z.ZodError) {
+          Alert.alert('Error','Password must be at least 8 characters long', [{ text: 'OK', onPress: () => resetFields() }]);
+          return;
+      }
+      else {
+        Alert.alert('Error', error.message, [{ text: 'OK', onPress: () => resetFields() }]);
+        return;
+      }
+      
+    }
   };
+
+  /**
+   * Password schema for validation. Passwords must be at least 8 characters long
+   */
+  const passwordSchema = z
+    .string()
+    .min(8, 'Password must be at least 8 characters long');
+
+ 
 
   return (
     <SafeAreaView
