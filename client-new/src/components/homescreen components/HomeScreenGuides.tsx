@@ -1,9 +1,8 @@
+import HomeScreenGuideCard from '@/components/homescreen components/HomeScreenGuideCard';
+import { IGuide } from '@/interfaces/IGuide';
 import { ScrollView, Text, View } from 'native-base';
 
 import React from 'react';
-
-import HomeScreenGuideCard from '@/components/homescreen components/HomeScreenGuideCard';
-import { IGuide } from '@/interfaces/IGuide';
 
 type GuidesProps = {
   guides: IGuide[];

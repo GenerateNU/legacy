@@ -1,20 +1,21 @@
-import { View, Text, Button, Skeleton, AlertDialog } from 'native-base';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import PersonaCard from '@/components/profile/PersonaCard';
 import ProfileCard from '@/components/profile/ProfileCard';
-import { useEffect, useState } from 'react';
-import OurModal from '@/components/reusable/Modal';
 import LegacyWordmarkWithBackArrow from '@/components/reusable/LegacyWordMarkWithBackArrow';
-import {
-  widthPercentageToDP as w,
-  heightPercentageToDP as h
-} from 'react-native-responsive-screen';
-import { IPersona } from '@/interfaces/IPersona';
-import React from 'react';
-import { getPersona } from '@/services/ProfileService';
+import OurModal from '@/components/reusable/Modal';
 import { useUser } from '@/contexts/UserContext';
+import { IPersona } from '@/interfaces/IPersona';
+import { getPersona } from '@/services/ProfileService';
 import { useQuery } from '@tanstack/react-query';
+import { AlertDialog, Button, Skeleton, Text, View } from 'native-base';
+
+import { useEffect, useState } from 'react';
+import React from 'react';
 import { ActivityIndicator, Alert, Modal } from 'react-native';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 /**
  * Screen to render the user's profile
@@ -28,7 +29,11 @@ export default function ProfileScreen({ route, navigation }) {
    * Fetch all data for this screen:
    * - My Persona
    */
-  const { isPending, data: persona, error } = useQuery({
+  const {
+    isPending,
+    data: persona,
+    error
+  } = useQuery({
     queryKey: ['persona', user?.id],
     queryFn: async () => await getPersona(user?.id)
   });
@@ -47,13 +52,12 @@ export default function ProfileScreen({ route, navigation }) {
           text: 'Logout',
           style: 'destructive',
           onPress: () => {
-            logout()
+            logout();
           }
         }
       ],
       { cancelable: false }
     );
-
   };
 
   const handleDeleteAccount = () => {
@@ -74,7 +78,7 @@ export default function ProfileScreen({ route, navigation }) {
       ],
       { cancelable: false }
     );
-  }
+  };
 
   const handleShare = () => {
     Alert.alert(
@@ -94,13 +98,14 @@ export default function ProfileScreen({ route, navigation }) {
       ],
       { cancelable: false }
     );
-  }
+  };
 
   return (
     <SafeAreaView
       style={{ alignItems: 'center', flex: 1, backgroundColor: '#FFFAF2' }}
     >
       <View width={340} marginTop={50} height={'auto'}>
+        {/* TODO: FIX this */}
         <LegacyWordmarkWithBackArrow handleOnPress={() => {}} />
         <Text
           color={'#252525'}
@@ -169,7 +174,12 @@ export default function ProfileScreen({ route, navigation }) {
           alignItems={'center'}
           marginBottom={h('1%')}
         >
-          <Text color={'#2F1D12'} fontFamily={'Inter'} fontWeight={'600'} fontSize={12}>
+          <Text
+            color={'#2F1D12'}
+            fontFamily={'Inter'}
+            fontWeight={'600'}
+            fontSize={12}
+          >
             Logout
           </Text>
         </Button>
@@ -185,7 +195,12 @@ export default function ProfileScreen({ route, navigation }) {
           justifyContent={'center'}
           alignItems={'center'}
         >
-          <Text color={'white'} fontFamily={'Inter'} fontWeight={'600'} fontSize={12}>
+          <Text
+            color={'white'}
+            fontFamily={'Inter'}
+            fontWeight={'600'}
+            fontSize={12}
+          >
             Delete Account
           </Text>
         </Button>

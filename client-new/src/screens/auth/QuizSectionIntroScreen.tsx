@@ -2,7 +2,7 @@ import CircleProgressBar from '@/components/reusable/CircleProgressBar';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import ScreenWideButton from '@/components/reusable/ScreenWideButton';
 import { useOnboarding } from '@/contexts/OnboardingContext';
-import { Button, Divider, KeyboardAvoidingView, Text, View } from 'native-base';
+import { Divider, Text, View } from 'native-base';
 
 import React from 'react';
 import {
@@ -24,7 +24,6 @@ export default function QuizSectionIntroScreen({ route, navigation }) {
   return (
     <SafeAreaView style={{ backgroundColor: '#FFF9EE' }}>
       <View alignItems="center" h={h('100%')} w={w('100%')}>
-
         <LegacyWordmark />
 
         <View paddingTop={h('4.5%')} paddingBottom={h('2%')}>
@@ -54,11 +53,7 @@ export default function QuizSectionIntroScreen({ route, navigation }) {
             </Text>
           </View>
           <View marginRight={'auto'}>
-            <Icon
-              name="flower-tulip-outline"
-              size={30}
-              color={'darkGreen'}
-            ></Icon>
+            <Icon name="flower-tulip-outline" size={30}></Icon>
           </View>
         </View>
 

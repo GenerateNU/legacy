@@ -20,7 +20,7 @@ export const ConvertFileSize = (bits: number) => {
   } else {
     return `${(bits / TB).toFixed(2)} TB`;
   }
-}
+};
 
 /**
  * Convert date to relative time
@@ -28,7 +28,6 @@ export const ConvertFileSize = (bits: number) => {
  * @returns relative time
  */
 export const RelativeTime = (date: Date) => {
-  // from now to years
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
@@ -50,4 +49,4 @@ export const RelativeTime = (date: Date) => {
   } else {
     return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
   }
-}
+};

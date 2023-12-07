@@ -1,18 +1,17 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import React from 'react';
-
 import GuidesIcon from '@/components/icons/GuidesIcon';
 import HomeIcon from '@/components/icons/HomeIcon';
 import MarketplaceIcon from '@/components/icons/MarketplaceIcon';
 import ProfileIcon from '@/components/icons/ProfileIcon';
 import TaskIcon from '@/components/icons/TaskIcon';
+import ProfileStack from '@/navigation/ProfileStack';
 import FileCollectionScreen from '@/screens/app/FileCollectionScreen';
 import GuideScreen from '@/screens/app/GuideScreen';
 import HomeScreen from '@/screens/app/HomeScreen';
 import MarketplaceScreen from '@/screens/app/MarketplaceScreen';
-import TaskScreen from '@/screens/app/TaskScreen';
-import ProfileStack from '@/navigation/ProfileStack';
+import TaskScreen from '@/screens/app/tasks/TaskScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import React from 'react';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,8 +50,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Marketplace" component={MarketplaceScreen} />
       <Tab.Screen name="Files" component={FileCollectionScreen} />
       <Tab.Screen name="Profile" component={ProfileStack} />
-
-    </Tab.Navigator >
+    </Tab.Navigator>
   );
 };
 

@@ -1,4 +1,5 @@
 import { View } from 'native-base';
+
 import React, { useState } from 'react';
 import {
   heightPercentageToDP as h,
@@ -30,7 +31,7 @@ export default function TaskTagGrid(props: TaskTagGridProps) {
   };
 
   return (
-    <View flexDirection={'row'} flexWrap={'wrap'} mt={h('2%')}>
+    <View flexDirection={'row'} flexWrap={'wrap'} mt={h('1%')} width={w('100%')}>
       <TaskTag
         taskText={'Emotional'}
         taskPressed={selectedTags.includes('Emotional')}

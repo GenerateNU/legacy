@@ -1,5 +1,6 @@
-import { IModel } from './IModel';
 import { z } from 'zod';
+
+import { IModel } from './IModel';
 
 /* Example of data validation with zod */
 export const UserSchema = z.object({
@@ -10,7 +11,7 @@ export const UserSchema = z.object({
   email: z.string().email(),
   password: z.string(),
   persona_id: z.number().optional(),
-  firebase_id: z.string(),
+  firebase_id: z.string()
 });
 
 export type User = z.infer<typeof UserSchema>;
@@ -22,4 +23,3 @@ export interface IUser extends IModel {
   persona_id?: number;
   firebase_id: string;
 }
-

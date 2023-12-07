@@ -3,6 +3,7 @@ import { color } from 'native-base/lib/typescript/theme/styled-system';
 
 import React from 'react';
 import Svg, { Path } from 'react-native-svg';
+
 import BackArrowIcon from '../icons/BackArrow';
 
 export type LegacyWordmarkWithBackArrowProps = {

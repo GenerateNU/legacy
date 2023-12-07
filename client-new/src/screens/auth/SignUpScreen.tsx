@@ -6,6 +6,7 @@ import ScreenWideInput from '@/components/reusable/ScreenWideInput';
 import SmallRoundedButton from '@/components/reusable/SmallRoundedButton';
 import { useUser } from '@/contexts/UserContext';
 import { View } from 'native-base';
+import { z } from 'zod';
 
 import { useEffect, useState } from 'react';
 import React from 'react';
@@ -14,7 +15,6 @@ import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
-import { z } from 'zod';
 
 type SignupData = {
   username: string;
@@ -28,7 +28,9 @@ export default function SignUpScreen({ route, navigation }) {
   const { createAccount } = useUser();
 
   const emailSchema = z.string().email('Invalid email format');
-  const passwordSchema = z.string().min(8, 'Password must be at least 8 characters long');
+  const passwordSchema = z
+    .string()
+    .min(8, 'Password must be at least 8 characters long');
 
   const [signupData, setSignupData] = useState<SignupData>({
     username: '',
@@ -54,12 +56,12 @@ export default function SignUpScreen({ route, navigation }) {
           Alert.alert('Error', error.issues[0].message);
           return;
         }
-      } 
+      }
 
       // TODO: Date doesnt actually get passed through
-      const response = await createAccount(username, email, password)
+      const response = await createAccount(username, email, password);
       if (response instanceof Error) {
-        Alert.alert('Error', response.message)
+        Alert.alert('Error', response.message);
         setSignupData({
           username: '',
           email: '',
@@ -70,18 +72,18 @@ export default function SignUpScreen({ route, navigation }) {
       }
       navigation.setOptions();
       navigation.navigate('Onboarding Stack');
-    }
+    };
 
     signup();
   };
 
   // for debugging
-  useEffect(() => {
-    console.log('username: ', signupData.username)
-    console.log('email: ', signupData.email)
-    console.log('password: ', signupData.password)
-    console.log('date: ', signupData.date)
-  }, [signupData]);
+  // useEffect(() => {
+  //   console.log('username: ', signupData.username);
+  //   console.log('email: ', signupData.email);
+  //   console.log('password: ', signupData.password);
+  //   console.log('date: ', signupData.date);
+  // }, [signupData]);
 
   const switchToLogin = () => {
     navigation.navigate('Login Screen');
@@ -109,7 +111,9 @@ export default function SignUpScreen({ route, navigation }) {
             placeholderText="Example"
             title="Full Name"
             iconName="user-o"
-            onChangeText={(value) => setSignupData({ ...signupData, username: value })}
+            onChangeText={(value) =>
+              setSignupData({ ...signupData, username: value })
+            }
             value={signupData.username}
           />
           <View paddingTop={h('3%')}>
@@ -117,7 +121,9 @@ export default function SignUpScreen({ route, navigation }) {
               placeholderText="example@email.com"
               title="Email"
               iconName="envelope-o"
-              onChangeText={(value) => setSignupData({ ...signupData, email: value })}
+              onChangeText={(value) =>
+                setSignupData({ ...signupData, email: value })
+              }
               value={signupData.email}
             />
           </View>
@@ -127,7 +133,9 @@ export default function SignUpScreen({ route, navigation }) {
               title="Password"
               iconName="lock"
               password={true}
-              onChangeText={(value) => setSignupData({ ...signupData, password: value })}
+              onChangeText={(value) =>
+                setSignupData({ ...signupData, password: value })
+              }
               value={signupData.password}
             />
           </View>

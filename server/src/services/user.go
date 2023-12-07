@@ -40,7 +40,7 @@ func (u *UserService) GetAllUsers() ([]models.User, error) {
 
 func (u *UserService) GetUser(id string) (models.User, error) {
 	var user models.User
-	if err := u.DB.Omit("password").First(&user, id).Error; err != nil {
+	if err := u.DB.First(&user, id).Omit("password").Error; err != nil {
 		return models.User{}, err
 	}
 
@@ -90,7 +90,7 @@ func (u *UserService) GetUserTasks(id string) ([]models.Task, error) {
 		return nil, err
 	}
 
-	if err := u.DB.Model(&persona).Association("Tasks").Find(&tasks); err != nil {
+	if err := u.DB.Model(&persona).Preload("Profile").Association("Tasks").Find(&tasks); err != nil {
 		return nil, err
 	}
 

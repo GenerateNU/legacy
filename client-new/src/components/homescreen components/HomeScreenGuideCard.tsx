@@ -1,11 +1,12 @@
 import { IGuide } from '@/interfaces/IGuide';
 import { Text, View } from 'native-base';
+
 import React from 'react';
 
 type HSGCProps = {
   guide: IGuide;
 };
-const HomeScreenGuideCard: React.FC<HSGCProps> = (props) => {
+const HomeScreenGuideCard: React.FC<HSGCProps> = ({ guide }) => {
   return (
     <View
       style={{
@@ -29,7 +30,7 @@ const HomeScreenGuideCard: React.FC<HSGCProps> = (props) => {
             marginBottom: 4
           }}
         >
-          {props.guide.title}
+          {guide.title}
         </Text>
         <Text
           style={{
@@ -39,7 +40,7 @@ const HomeScreenGuideCard: React.FC<HSGCProps> = (props) => {
             width: '80%'
           }}
         >
-          {props.guide.sub_title}
+          {guide.sub_title}
         </Text>
       </View>
     </View>

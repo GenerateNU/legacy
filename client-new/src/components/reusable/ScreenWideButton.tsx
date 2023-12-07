@@ -21,8 +21,8 @@ export default function ScreenWideButton(props: ScreenWideButtonProps) {
       <Button
         backgroundColor={props.backgroundColor}
         width={props.width ? props.width : w('80%')}
-        height={h("5%")}
-        borderRadius={w("80%") / 2}
+        height={h('5%')}
+        borderRadius={w('80%') / 2}
         onPress={props.onClick}
         borderColor={props.borderColor}
         borderWidth={1}

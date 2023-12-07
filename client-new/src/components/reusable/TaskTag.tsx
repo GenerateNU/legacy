@@ -28,11 +28,12 @@ export default function TaskTag(props: TaskTagProps) {
       paddingTop={h('1%')}
       paddingBottom={h('1%')}
       marginBottom={h('1%')}
+      width={'auto'}
     >
       <Text
         fontFamily={'inter'}
         fontWeight={'600'}
-        fontSize={moderateScale(12)}
+        fontSize={moderateScale(11)}
         color={props.taskPressed ? '#FFFFFF' : 'deepEvergreen'}
       >
         {props.taskText}

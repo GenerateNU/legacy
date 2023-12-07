@@ -23,12 +23,8 @@ export default function SignUpTransitionScreen({ route, navigation }) {
     navigation.push(nextPage.page, { props: nextPage.props });
   };
   return (
-    <SafeAreaView style={{backgroundColor: "#FFF9EE"}} >
-      <View
-        alignItems="center"
-        height={'100%'}
-        width={'100%'}
-      >
+    <SafeAreaView style={{ backgroundColor: '#FFF9EE' }}>
+      <View alignItems="center" height={'100%'} width={'100%'}>
         <View paddingTop={'7%'} />
 
         <LegacyWordmark />

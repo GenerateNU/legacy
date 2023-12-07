@@ -68,6 +68,8 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         questionNumber: '1',
         question:
           'Do you meticulously plan for future events, or do you prefer to adapt as situations unfold?',
+        upperSpectrumValue: 'Proactive',
+        lowerSpectrumValue: 'Spontaneous'
       }
     },
     {
@@ -78,7 +80,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Do you strive for perfection in everything you do, or are you satisfied once a task meets essential standards?'
+          'Do you strive for perfection in everything you do, or are you satisfied once a task meets essential standards?',
+        upperSpectrumValue: 'Perfectionist',
+        lowerSpectrumValue: 'Pragmatist'
       }
     },
     {
@@ -89,7 +93,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 2,
         questionNumber: '3',
         question:
-          'Do you actively seek self-improvement at all ages, or do you feel content with your current capabilities?'
+          'Do you actively seek self-improvement at all ages, or do you feel content with your current capabilities?',
+        upperSpectrumValue: 'Self-Improver',
+        lowerSpectrumValue: 'Content'
       }
     },
     {
@@ -100,7 +106,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 3,
         questionNumber: '4',
         question:
-          'How often do you embrace new learning opportunities and step outside your comfort zone?'
+          'How often do you embrace new learning opportunities and step outside your comfort zone?',
+        upperSpectrumValue: 'Learner',
+        lowerSpectrumValue: 'Stability'
       }
     },
     {
@@ -111,7 +119,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 4,
         questionNumber: '5',
         question:
-          'Do you tend to concentrate on what you lack, or do you focus more on what you can provide to your loved ones?'
+          'Do you tend to concentrate on what you lack, or do you focus more on what you can provide to your loved ones?',
+        upperSpectrumValue: 'Deficiencies',
+        lowerSpectrumValue: 'Contributions'
       }
     },
     {
@@ -122,7 +132,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 5,
         questionNumber: '6',
         question:
-          'Do you actively plan ahead for future scenarios, or do you tend to plan only when circumstances require it?'
+          'Do you actively plan ahead for future scenarios, or do you tend to plan only when circumstances require it?',
+        upperSpectrumValue: 'Proactive',
+        lowerSpectrumValue: 'Reactive'
       }
     },
     {
@@ -141,7 +153,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         totalCircles: 3,
         completedCircles: 0,
         questionNumber: '1',
-        question: 'On an average day, do you feel more anxious or calm?'
+        question: 'On an average day, do you feel more anxious or calm?',
+        upperSpectrumValue: 'Anxious',
+        lowerSpectrumValue: 'Calm'
       }
     },
     {
@@ -152,7 +166,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Do you generally see the positive aspects of situations (glass half full), or do you focus on the negatives (glass half empty)?'
+          'Do you generally see the positive aspects of situations (glass half full), or do you focus on the negatives (glass half empty)?',
+        upperSpectrumValue: 'Optimist',
+        lowerSpectrumValue: 'Pessimist'
       }
     },
     {
@@ -163,7 +179,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 2,
         questionNumber: '3',
         question:
-          'When making decisions, how often do you consider the emotional impact on those close to you?'
+          'When making decisions, how often do you consider the emotional impact on those close to you?',
+        upperSpectrumValue: 'Considerate',
+        lowerSpectrumValue: 'Self-focused'
       }
     },
     {
@@ -183,7 +201,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 0,
         questionNumber: '1',
         question:
-          "In your work, do you focus on one task at a time, or do you prefer juggling multiple tasks simultaneously?"
+          'In your work, do you focus on one task at a time, or do you prefer juggling multiple tasks simultaneously?',
+        upperSpectrumValue: 'Single-task',
+        lowerSpectrumValue: 'Multitasking'
       }
     },
     {
@@ -194,7 +214,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Are you self-driven to complete tasks, or do you rely on external cues and reminders?'
+          'Are you self-driven to complete tasks, or do you rely on external cues and reminders?',
+        upperSpectrumValue: 'Self Driven',
+        lowerSpectrumValue: 'External Cues'
       }
     },
     {
@@ -205,7 +227,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 2,
         questionNumber: '3',
         question:
-          'Do you prefer to handle tasks bit by bit over time, or do you like to tackle everything in one go?'
+          'Do you prefer to handle tasks bit by bit over time, or do you like to tackle everything in one go?',
+        upperSpectrumValue: 'Incremental',
+        lowerSpectrumValue: 'Bulk'
       }
     },
     {
@@ -216,10 +240,12 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 3,
         questionNumber: '4',
         question:
-          'When making important decisions, do you seek in-depth, detailed information, or do you prefer concise, straightforward advice?'
+          'When making important decisions, do you seek in-depth, detailed information, or do you prefer concise, straightforward advice?',
+        upperSpectrumValue: 'Detailed',
+        lowerSpectrumValue: 'Concise'
       }
     },
-
+    
     {
       page: 'Quiz Section Intro Screen',
       props: {
@@ -238,7 +264,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 0,
         questionNumber: '1',
         question:
-          'Is discussing sensitive topics like death as natural for you as casual conversation, or do you tend to avoid such topics?'
+          'Is discussing sensitive topics like death as natural for you as casual conversation, or do you tend to avoid such topics?',
+        upperSpectrumValue: 'Comfortable',
+        lowerSpectrumValue: 'Avoidant'
       }
     },
     {
@@ -249,7 +277,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Are you often the person friends and family turn to for help with difficult decisions, or do you prefer to let others take the lead?'
+          'Are you often the person friends and family turn to for help with difficult decisions, or do you prefer to let others take the lead?',
+        upperSpectrumValue: 'Advisor',
+        lowerSpectrumValue: 'Supportive'
       }
     },
     {
@@ -260,7 +290,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 2,
         questionNumber: '3',
         question:
-          'Do you primarily focus on addressing your own issues, or are you more inclined to assist others with their problems?'
+          'Do you primarily focus on addressing your own issues, or are you more inclined to assist others with their problems?',
+        upperSpectrumValue: 'Self-focused',
+        lowerSpectrumValue: 'Others-focused'
       }
     },
 
@@ -281,7 +313,9 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 0,
         questionNumber: '1',
         question:
-          "Are you highly knowledgeable about end-of-life planning, or do you feel like you have much to learn in this area?"
+          'Are you highly knowledgeable about end-of-life planning, or do you feel like you have much to learn in this area?',
+        upperSpectrumValue: 'Well-informed',
+        lowerSpectrumValue: 'Unfamiliar'
       }
     },
     {
@@ -292,13 +326,15 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         completedCircles: 1,
         questionNumber: '2',
         question:
-          'Is your approach to end-of-life planning proactive and immediate, or is it something you plan to address later?'
+          'Is your approach to end-of-life planning proactive and immediate, or is it something you plan to address later?',
+        upperSpectrumValue: 'Proactive',
+        lowerSpectrumValue: 'Deferred'
       }
     },
     {
       page: 'Persona Screen',
       props: {}
-    },
+    }
   ];
 
   const handleChange = (name: string, value: any) => {
