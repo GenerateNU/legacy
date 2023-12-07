@@ -23,7 +23,6 @@ import {
 } from 'firebase/auth';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Alert } from 'react-native';
 
 type UserContextData = {
   user: IUser | null;
