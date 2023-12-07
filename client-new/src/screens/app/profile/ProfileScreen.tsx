@@ -149,31 +149,21 @@ export default function ProfileScreen({ route, navigation }) {
         />
       </View>
 
-      {/* {shareModal && ( */}
-      {/* // <OurModasl showModal={shareModal} setShowModal={setShareModal}>/ */}
-      {/* </OurModal> */}
-      {/* )} */}
 
-      <View
+      <Button
+        width={w('80%')}
         height={h('5%')}
-        width={w('100%')}
-        position={'absolute'}
-        bottom={h('8%')}
-        flexDirection={'column'}
-        padding={10}
+        borderRadius={w('80%') / 2}
+        borderColor={'#43A573'}
+        borderWidth={1}
+        backgroundColor={'#FFF9EE'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={h('2%')}
+        bottom={0}
+        position="absolute"
+        onPress={handleLogout}
       >
-        <Button
-          onPress={handleLogout}
-          width={w('80%')}
-          height={h('5%')}
-          borderRadius={w('80%') / 2}
-          borderColor={'#43A573'}
-          borderWidth={1}
-          backgroundColor={'#FFF9EE'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          marginBottom={h('1%')}
-        >
           <Text
             color={'#2F1D12'}
             fontFamily={'Inter'}
@@ -182,29 +172,7 @@ export default function ProfileScreen({ route, navigation }) {
           >
             Logout
           </Text>
-        </Button>
-
-        <Button
-          onPress={handleDeleteAccount}
-          width={w('80%')}
-          height={h('5%')}
-          borderRadius={w('80%') / 2}
-          borderColor={'warning.700'}
-          borderWidth={1}
-          backgroundColor={'warning.700'}
-          justifyContent={'center'}
-          alignItems={'center'}
-        >
-          <Text
-            color={'white'}
-            fontFamily={'Inter'}
-            fontWeight={'600'}
-            fontSize={12}
-          >
-            Delete Account
-          </Text>
-        </Button>
-      </View>
+      </Button>
     </SafeAreaView>
   );
 }
