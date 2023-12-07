@@ -1,5 +1,5 @@
 import { useUser } from '@/contexts/UserContext';
-import { IAction, IActionList } from '@/interfaces/IAction';
+import { IAction } from '@/interfaces/IAction';
 import { createFile } from '@/services/CreateFileService';
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   HStack,
   Input,
   Radio,
+  ScrollView,
   Select,
   Text,
   TextArea,
@@ -15,8 +16,15 @@ import {
 } from 'native-base';
 import { heightPercentageToDP as h } from 'react-native-responsive-screen';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ZodIssue, z } from 'zod';
+import InputField from '@/components/task/InputField';
+import SelectField from '@/components/task/SelectField';
+import TextAreaField from '@/components/task/TextAreaField';
+import CheckboxField from './CheckboxField';
+import RadioField from './RadioField';
+import { GestureResponderEvent } from 'react-native';
+
 
 type FormComponentProps = {
   actions: IAction[];
@@ -25,14 +33,15 @@ type FormComponentProps = {
 
 const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
   const [formState, setFormState] = useState({});
-  const [formErrors, setFormErrors] = useState({});
+  const [formErrors, setFormErrors] = useState<ZodIssue[]>([]);
+  const { user } = useUser();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: GestureResponderEvent) => {
     e.preventDefault();
 
-    const { user } = useUser();
 
     try {
+      setFormState({ ...formState, user_id: user?.id, sub_task_name: subTaskName, timestamp: Date.now() })
       await createFile(user?.id, subTaskName, formState);
     }
     catch (err) {
@@ -51,34 +60,47 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
           setFormErrors={setFormErrors}
         />
       case 'select':
-        return <SelectField action={action} index={index} setFormState={setFormState} setFormErrors={setFormErrors} />
+        return <SelectField action={action} index={index} setFormState={setFormState} />
       case 'textarea':
         return <TextAreaField action={action} index={index} setFormState={setFormState} setFormErrors={setFormErrors} />
       case 'checkbox':
-        return <CheckboxField action={action} index={index} setFormState={setFormState} setFormErrors={setFormErrors} />
+        return <CheckboxField action={action} index={index} setFormState={setFormState} />
       case 'radio':
-        return <RadioField action={action} index={index} setFormState={setFormState} formState={formState} setFormErrors={setFormErrors} />
+        return <RadioField action={action} index={index} setFormState={setFormState} formState={formState} />
       default:
         return null;
     }
   };
 
   return (
-    <FormControl isInvalid width={'100%'} marginBottom={h('2%')}>
-      {actions.map((action, index) =>
-        <View
-          key={index}
-          width={'100%'}
-          marginBottom={h('2%')}
-        >
-          {renderField(action, index)}
-        </View>
-      )}
-      <HStack
-        flexDirection="row"
-        justifyContent="center"
-        flex={1}
-        marginTop={'10px'}
+    <View style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 80 }}>
+        {actions.map((action, index) => (
+          <FormControl
+            isRequired={action.required}
+            // isInvalid={formErrors.some((error) => error.path[0] === action.name)}
+            key={index}
+            mt={4}
+          >
+            <FormControl.Label>
+              <Text>{action.label}</Text>
+            </FormControl.Label>
+            {renderField(action, index)}
+          </FormControl>
+        ))}
+      </ScrollView>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          paddingHorizontal: 16,
+          paddingBottom: 16,
+          backgroundColor: '#fff',
+          borderTopWidth: 1,
+          borderTopColor: '#ddd',
+        }}
       >
         <Button
           textDecorationColor={'#FFFFFF'}
@@ -89,211 +111,9 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
         >
           Submit
         </Button>
-      </HStack>
-    </FormControl>
+      </View>
+    </View>
   );
-};
+}
 
 export default FormComponent;
-
-
-const InputField = ({ action, index, setFormState, setFormErrors, formErrors }) => {
-
-  const handleInputChange = (name: string, value: string) => {
-    const errorMessage = validateInput(value);
-
-    setFormState((prevState) => ({ ...prevState, [name]: value }));
-    setFormErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
-  };
-
-  const validateInput = (value: string) => {
-    try {
-      const schema = z.string().min(1).max(10);
-      schema.parse(value);
-      return undefined;
-    } catch (error) {
-      return error.message;
-    }
-  }
-
-
-  return (
-    <View width={'100%'}>
-      <Text
-        fontFamily={'Inter_400Regular'}
-        color={'barkBrown'}
-        fontSize={h('1.5%')}
-      >
-        {action.label}
-      </Text>
-      <View>
-        <Input
-          key={index}
-          placeholder={action.placeholder}
-          type={action.type}
-          onChangeText={(value) => handleInputChange(action.name, value)}
-          borderBottomWidth={h('0.1%')}
-          borderTopWidth={0}
-          borderLeftWidth={0}
-          borderRightWidth={0}
-          borderBottomColor={'Brown'}
-          backgroundColor={'#F5EFE7'}
-        />
-      </View>
-      {formErrors[action.name] && (
-        <Text>Error: {formErrors[action.name]}</Text>
-      )}
-    </View>
-  );
-}
-
-const SelectField = ({ action, index, setFormState, setFormErrors }) => {
-  const handleSelectChange = (name, value) => {
-    setFormState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  return (
-    <View width={'100%'}>
-      <Text
-        fontFamily={'Inter_400Regular'}
-        color={'barkBrown'}
-        fontSize={h('1.5%')}
-      >
-        {action.label}
-      </Text>
-      <View width={'100%'}>
-        <Select
-          minWidth="200"
-          accessibilityLabel={action.placeholder}
-          placeholder={action.placeholder}
-          selectedValue={action.name}
-          onValueChange={(value) => handleSelectChange(action.name, value)}
-          mt={1}
-          backgroundColor={'#F5EFE7'}
-
-        >
-          {action.options.map((option, idx) => (
-            <Select.Item key={idx} label={option} value={option} />
-          ))}
-        </Select>
-      </View>
-    </View>
-  );
-}
-
-const TextAreaField = ({ action, index, setFormState, setFormErrors }) => {
-  const handleTextAreaChange = (name, value) => {
-    setFormState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  return (
-    <View width={'100%'}>
-      <Text
-        fontFamily={'Inter_400Regular'}
-        color={'barkBrown'}
-        fontSize={h('1.5%')}
-      >
-        {action.label}
-      </Text>
-      <View width={'100%'}>
-        <TextArea
-          key={index}
-          area-label={action.label}
-          placeholder={action.placeholder}
-          numberOfLines={4}
-          onChangeText={(value) => handleTextAreaChange(action.name, value)}
-          autoCompleteType="off"
-          backgroundColor={'#F5EFE7'}
-        />
-      </View>
-    </View>
-  );
-}
-
-const CheckboxField = ({ action, index, setFormState, setFormErrors }) => {
-  const handleCheckboxChange = (values, name) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      [name]: values.reduce((obj, value) => {
-        obj[value] = true;
-        return obj;
-      }, {})
-    }));
-  };
-
-  return (
-    <View width={'100%'}>
-      <Text
-        fontFamily={'Inter_400Regular'}
-        color={'barkBrown'}
-        fontSize={12}
-      >
-        {action.label}
-      </Text>
-      <View>
-        <Checkbox.Group
-          color="deepEvergreen"
-          defaultValue={[]}
-          onChange={(values) => handleCheckboxChange(values, action.name)}
-          style={{ flexDirection: 'column' }}
-        >
-          {action.options.map((option: string, idx: number) => (
-            <Checkbox key={idx} value={option} my={1}>
-              <Text
-                fontFamily={'Inter_400Regular'}
-                color={'barkBrown'}
-                fontSize={12}
-              >
-                {option}
-              </Text>
-            </Checkbox>
-          ))}
-        </Checkbox.Group>
-      </View>
-    </View >
-  );
-}
-
-const RadioField = ({ action, index, setFormState, formState, setFormErrors }) => {
-  const handleRadioChange = (name, value) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  return (
-    <>
-      <Text
-        fontFamily={'Inter_400Regular'}
-        color={'barkBrown'}
-        fontSize={12}
-      >
-        {action.label}
-      </Text>
-      <View marginBottom="10px">
-        <Radio.Group
-          name={action.name}
-          defaultValue={formState[action.name] || ''}
-          onChange={(value) => handleRadioChange(action.name, value)}
-          style={{ flexDirection: 'column' }}
-        >
-          {action.options.map((option, idx) => (
-            <Radio key={idx} value={option} colorScheme="deepEvergreen">
-              <Text
-                fontFamily={'Inter_400Regular'}
-                color={'barkBrown'}
-                fontSize={12}
-              >
-                {option}
-              </Text>
-            </Radio>
-          ))}
-        </Radio.Group>
-      </View>
-      {/*<FormControl.HelperText>
-        {action.description}
-        </FormControl.HelperText>*/}
-    </>
-  );
-}

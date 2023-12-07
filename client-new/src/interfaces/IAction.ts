@@ -1,15 +1,11 @@
 export type IAction = IInput | ISelect | ITextArea | ICheckbox | IRadio;
 
-export type IActionList = {
-  actions: IAction[];
-};
-
 export type IInput = {
   action_type: string;
   label: string;
   name: string;
   required: boolean;
-  type: string;
+  type: 'text' | 'password';
   placeholder: string;
   description?: string;
 };

@@ -8,6 +8,7 @@ import HomeScreen from './BottomTabNavigator';
 // import TaskStack from './TaskStack';
 import SubTaskSummaryScreen from '@/screens/app/tasks/SubTaskSummaryScreen';
 import SubTaskScreen from '@/screens/app/tasks/SubTaskScreen';
+import FormComponent from '@/components/task/Actions';
 
 const Stack = createNativeStackNavigator();
 
