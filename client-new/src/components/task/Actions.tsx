@@ -72,35 +72,45 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
     }
   };
 
+  // </View >
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 80 }}>
+    <View>
         {actions.map((action, index) => (
-          <FormControl
-            isRequired={action.required}
-            // isInvalid={formErrors.some((error) => error.path[0] === action.name)}
-            key={index}
-            mt={4}
-          >
-            <FormControl.Label>
-              <Text>{action.label}</Text>
-            </FormControl.Label>
-            {renderField(action, index)}
-          </FormControl>
+          <ScrollView key={index}>
+            <FormControl
+              isRequired={action.required}
+              // isInvalid={formErrors.some((error) => error.path[0] === action.name)}
+              key={index}
+              mt={4}
+            >
+              <FormControl.Label>
+                <Text>{action.label}</Text>
+              </FormControl.Label>
+              {renderField(action, index)}
+            </FormControl>
+          </ScrollView>
         ))}
-      </ScrollView>
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          paddingHorizontal: 16,
-          paddingBottom: 16,
-          backgroundColor: '#fff',
-          borderTopWidth: 1,
-          borderTopColor: '#ddd',
-        }}
+      <SubmitButton handleSubmit={handleSubmit} />
+    </View>
+  );
+}
+
+export default FormComponent;
+
+type SubmitButtonProps = {
+  handleSubmit: (e: GestureResponderEvent) => void
+}
+
+const SubmitButton = ({ handleSubmit }: SubmitButtonProps) => {
+  return (
+    <View
+      marginBottom={h('3%')}
+      flexDirection="row"
+      justifyContent="center"
+      alignItems="center"
+      marginTop={h('3%')}
+      width={'100%'}
+      backgroundColor={'#FFFAF2'}
       >
         <Button
           textDecorationColor={'#FFFFFF'}
@@ -112,8 +122,5 @@ const FormComponent = ({ actions, subTaskName }: FormComponentProps) => {
           Submit
         </Button>
       </View>
-    </View>
-  );
+  )
 }
-
-export default FormComponent;

@@ -8,6 +8,8 @@ import FormComponent from '@/components/task/Actions';
 import { ISubTask } from '@/interfaces/ISubTask';
 import BackArrowIcon from '@/components/icons/BackArrow';
 import ActivityLoader from '@/components/reusable/ActivityLoader';
+import { heightPercentageToDP as h, widthPercentageToDP as w } from 'react-native-responsive-screen';
+import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
 
 type SubTaskScreenProps = {
   route: any
@@ -23,7 +25,7 @@ const SubTaskScreen = ({ route, navigation }: SubTaskScreenProps) => {
 
   return (
       <ScrollView backgroundColor={'#FFFAF2'}>
-        <View margin={'30px'} marginTop={'60px'}>
+      <View marginX={w('5%')} marginTop={h('5%')}>
           <HStack flexDirection="row" justifyContent="center" flex={1}>
           <Pressable flex={1} onPress={() => navigation.goBack()}>
             <BackArrowIcon />
@@ -32,19 +34,33 @@ const SubTaskScreen = ({ route, navigation }: SubTaskScreenProps) => {
             <LegacyWordmark />
           </View>
           </HStack>
-          <View width={'100%'} marginTop={'30px'}>
-            <Text marginBottom= '10px' fontSize='24' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'}>
+        <View
+          width={'100%'}
+          marginTop={h('2%')}
+        >
+          <Text
+            marginBottom={h('1%')}
+            fontSize='24'
+            fontWeight={'400'}
+            fontFamily={"Roca Regular"}
+            color={'barkBrown'}>
               {subtask.sub_task_name}
-              </Text>
-            <Text marginBottom= '20px' fontSize='16' fontWeight={'400'} fontFamily={"Inter_400Regular"} color={'barkBrown'}>
-              {subtask.sub_task_description}
-            </Text>
-          </View>
+          </Text>
+          <Text
+            marginBottom={h('1%')}
+            fontSize={moderateScale(16)}
+            lineHeight={verticalScale(19)}
+            fontWeight={'400'}
+            fontFamily={"Inter_400Regular"}
+            color={'barkBrown'} >
+            {subtask.sub_task_description}
+          </Text>
+        </View>
         {isLoading && <ActivityLoader />}
         {error && <Text> error </Text>}
         {data === null && <Text> null </Text>}
         {data && data.actions && (
-          <View width={"100%"} marginTop= '15px'>
+          <View width={"100%"}>
             <FormComponent actions={data.actions} subTaskName={subtask.sub_task_name} />
           </View>
         )}
