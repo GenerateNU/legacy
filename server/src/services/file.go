@@ -167,10 +167,6 @@ func (f *FileService) CreateFile(id string, file models.File, data *multipart.Fi
 		f.DB.Where("object_key LIKE ?", searchKey).Find(&searchFiles)
 		i := len(searchFiles)
 
-		if i > 5 {
-			return models.File{}, errors.New("maximum 5 duplicate filenames per user")
-		}
-
 		file_num := fmt.Sprintf(" (%v)", i)
 		file.ObjectKey = file_substring + file_num + file_extension
 		file.FileName = file_substring[strings.Index(file_substring, "-")+1:] + file_num + file_extension
