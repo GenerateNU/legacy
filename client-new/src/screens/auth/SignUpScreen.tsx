@@ -109,7 +109,7 @@ export default function SignUpScreen({ route, navigation }) {
         <View alignItems={'center'} paddingTop={h('6.5%')}>
           <ScreenWideInput
             placeholderText="Example"
-            title="Full Name"
+            title="Username"
             iconName="user-o"
             onChangeText={(value) =>
               setSignupData({ ...signupData, username: value })
