@@ -2,7 +2,6 @@ import Markdown from '@ronradtke/react-native-markdown-display';
 import { useQuery } from '@tanstack/react-query';
 import { Box, Image, ScrollView, Text, View } from 'native-base';
 
-import { useEffect, useState } from 'react';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import {
@@ -10,7 +9,6 @@ import {
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
 
-import { IGuide } from '../../interfaces/IGuide';
 import { fetchGuideByName } from '../../services/GuideService';
 import { getMonth } from '../../utils/DateUtils';
 import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
@@ -32,19 +30,20 @@ const MarkdownWrapper: React.FC<any> = ({ children }) => {
 };
 
 type GuideScreenProps = {
-  guideName: string;
   navigation: any;
+  route: any;
 };
 
-const GuideScreen: React.FC<GuideScreenProps> = ({ guideName, navigation }) => {
+const GuideScreen: React.FC<GuideScreenProps> = ({ navigation, route }) => {
   // props should include a guideName field.
+  const { guideName } = route.params;
   const {
     isPending,
     data: guide,
     error
   } = useQuery({
-    queryKey: ['guide'],
-    queryFn: () => fetchGuideByName('Test Guide')
+    queryKey: ['guide', guideName],
+    queryFn: () => fetchGuideByName(guideName)
   });
 
   if (isPending) {

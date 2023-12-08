@@ -5,9 +5,14 @@ import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-
+import { ActivityIndicator, Alert, Modal } from 'react-native';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
 export type PersonaCardProps = {
   image?: string;
+  icon?: React.ReactNode;
   title: string;
   subtitle?: string;
   subheading?: string;
@@ -41,23 +46,20 @@ export default function PersonaCard(props: PersonaCardProps) {
           containerBorderStyle
         ]}
       >
-        {props.image !== undefined && (
+        {props.icon !== undefined && (
           <View
             style={{
-              backgroundColor: '#F7F7F8',
-              width: 60,
-              height: 60,
-              borderRadius: 30,
-              marginLeft: 20
+             
+              width: w('15%'),
+              height: h('10%'),
+              borderRadius: 255,
+              marginLeft: w('3%'),
+              overflow: 'hidden',
+              justifyContent: 'center',
+              alignItems: 'center'
             }}
           >
-            <Image
-              source={{
-                uri: props.image
-              }}
-              alt="Alternate Text"
-              size="100%"
-            />
+           {props.icon}
           </View>
         )}
         <View

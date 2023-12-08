@@ -1,4 +1,5 @@
 import { IModel } from './IModel';
+import { ITag } from './ITag';
 
 export interface IGuide extends IModel {
   guide_name: string;
@@ -9,4 +10,5 @@ export interface IGuide extends IModel {
   mins_read: Number;
   date: Date;
   full_text: string;
+  tags: ITag[];
 }

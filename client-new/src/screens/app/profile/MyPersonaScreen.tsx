@@ -10,6 +10,11 @@ import { Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import personaIcon from '@/utils/PersonaUtils';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
 
 export default function MyPersonaScreen({ route, navigation }) {
   const { user } = useUser();
@@ -35,7 +40,13 @@ export default function MyPersonaScreen({ route, navigation }) {
         <LegacyWordmarkWithBackArrow
           handleOnPress={() => navigation.navigate('Profile Screen')}
         />
-        <Text
+            <View alignItems={'center'} > 
+        <View height={h('40%')} width={w('70%')}>
+        {personaIcon(persona?.persona_title)}
+        </View>
+      
+        </View>
+        {/* <Text
           color="#252525"
           fontFamily="Open Sans"
           fontSize={20}
@@ -45,7 +56,7 @@ export default function MyPersonaScreen({ route, navigation }) {
           marginBottom={5}
         >
           You are an
-        </Text>
+        </Text> */}
         {isPending && <ActivityIndicator size="small" color="#000000" />}
         {error && <Text>Something went wrong ...</Text>}
         {persona && (

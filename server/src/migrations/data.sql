@@ -3,7 +3,7 @@ INSERT INTO personas (persona_title, persona_description) VALUES
 ('Procrastinating Rookie', 'Enjoys a challenge, scarcity mindset, the ultimate planner, a perfectionist, selfish, always on the edge, half-empty glass thinker, externally motivated, all-at-once worker, quick-start guide enthusiast, uncomfortable discussing death, less nurturing, inexperienced with EOLP, racing against time, tight finances, dipping toes in the water.'),
 ('Easygoing Explorer', 'Thrives on adventure, abundance advocate, let''s-see-what-happens future, content with ''good enough,'' empathetic, beach-level tranquility, sunny disposition, internally motivated, explores tasks over time, full novel enthusiast, comfortable discussing death, nurturing, fairly familiar with EOLP, no rush, tight finances, ready to start.'),
 ('Multitasking Dynamo', 'Loves a challenge, abundance believer, the ultimate planner, prefers perfection, selfish, edgy, half-empty glass view, externally motivated, all-at-once worker, quick-start guide fan, uncomfortable discussing death, less nurturing, somewhat familiar with EOLP, procrastinator, comfortable finances, at the starting line.'),
-('Tranquil Trailblzer', 'Adventuresome, abundance thinker, let''s-see-what-happens future, content with ''good enough,'' empathetic, always at the beach, glass-half-full mentality, internally motivated, an explorer of tasks, quick-start guide lover, comfortable discussing death, nurturing, knowledgeable about EOLP, no rush, comfortable finances, ready to start.'),
+('Tranquil Trailblazer', 'Adventuresome, abundance thinker, let''s-see-what-happens future, content with ''good enough,'' empathetic, always at the beach, glass-half-full mentality, internally motivated, an explorer of tasks, quick-start guide lover, comfortable discussing death, nurturing, knowledgeable about EOLP, no rush, comfortable finances, ready to start.'),
 ('Adventurous Optimist', 'Always up for new experiences, believes in abundance, a laid-back planner, a chill perfectionist, empathetic, beach-level calmness, a sunny outlook, internally motivated, explores tasks over time, loves the full novel, comfortable discussing death, nurturing, well-versed in EOLP, has time to plan, financially stable, ready to start.');
 
 -- Creating test users
@@ -227,7 +227,7 @@ INSERT INTO persona_tasks (persona_id, task_id) VALUES
 
 -- Creating test guides
 INSERT INTO guides (guide_name, title, sub_title, author, author_image_url, mins_read, date, full_text) VALUES
-('Test Guide', 'Preserving Your Legacy:', 'Practical Steps for Funeral Affordability', 'Barack Obama', 'https://images1.penguinrandomhouse.com/author/22627', 5, '2023-10-17T23:05:10.4895-04:00',
+('Your Legacy', 'Preserving Your Legacy:', 'Practical Steps for Funeral Affordability', 'Barack Obama', 'https://images1.penguinrandomhouse.com/author/22627', 5, '2023-10-17T23:05:10.4895-04:00',
 'In the grand symphony of life, there are few certainties. Among them, one stands out starkly: our time here is finite. Yet, it''s the inevitability of our final encore that many of us prefer not to dwell on. This is entirely human, but it''s a fact that can''t be brushed aside indefinitely. End-of-life planning, while often seen as daunting, can be transformed into an empowering process—a legacy of care and love for our loved ones.  
   
 **The Price of Peace of Mind**
@@ -254,7 +254,47 @@ With your end-of-life plans in place, you can embrace the present with newfound 
   
 In Conclusion  
 Preserving your legacy is a journey of love and responsibility. It''s about ensuring that your final chapter is both a celebration of life and a testament to your care for those who will remember you. Legacy is your partner in this journey, offering expertise, affordability, and a deep commitment to making the end-of-life planning process as smooth as possible.  
-As you reflect on your life''s journey, consider the importance of end-of-life planning. Embrace the joyful urgency of today, and gift your loved ones the solace of knowing your final wishes are honored.');
+As you reflect on your life''s journey, consider the importance of end-of-life planning. Embrace the joyful urgency of today, and gift your loved ones the solace of knowing your final wishes are honored.'),
+('Writing Wills', 'Writing a will:', 'Ensuring your wishes are carried out', 'Hilary Clinton', 'https://m.media-amazon.com/images/M/MV5BNmQ1OTJhMzItNWIzOC00ZjdlLWEwNDgtODRiYjczNTkyZjc5XkEyXkFqcGdeQXVyMTExNDQ2MTI@._V1_FMjpg_UX1000_.jpg', 15, '2023-10-17T23:05:10.4895-04:00',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum justo sollicitudin tortor congue luctus. Suspendisse ultricies felis et quam bibendum rutrum. Vivamus porta tellus ligula, vel ullamcorper tellus pulvinar ut. Phasellus tempor eleifend ipsum vitae hendrerit. Vestibulum elementum euismod dapibus. Pellentesque faucibus orci a pulvinar pulvinar. Morbi viverra odio convallis mi commodo sodales. Maecenas aliquam velit diam, ut aliquam ante semper id.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum justo sollicitudin tortor congue luctus. Suspendisse ultricies felis et quam bibendum rutrum. Vivamus porta tellus ligula, vel ullamcorper tellus pulvinar ut. Phasellus tempor eleifend ipsum vitae hendrerit. Vestibulum elementum euismod dapibus. Pellentesque faucibus orci a pulvinar pulvinar. Morbi viverra odio convallis mi commodo sodales. Maecenas aliquam velit diam, ut aliquam ante semper id.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum justo sollicitudin tortor congue luctus. Suspendisse ultricies felis et quam bibendum rutrum. Vivamus porta tellus ligula, vel ullamcorper tellus pulvinar ut. Phasellus tempor eleifend ipsum vitae hendrerit. Vestibulum elementum euismod dapibus. Pellentesque faucibus orci a pulvinar pulvinar. Morbi viverra odio convallis mi commodo sodales. Maecenas aliquam velit diam, ut aliquam ante semper id.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum justo sollicitudin tortor congue luctus. Suspendisse ultricies felis et quam bibendum rutrum. Vivamus porta tellus ligula, vel ullamcorper tellus pulvinar ut. Phasellus tempor eleifend ipsum vitae hendrerit. Vestibulum elementum euismod dapibus. Pellentesque faucibus orci a pulvinar pulvinar. Morbi viverra odio convallis mi commodo sodales. Maecenas aliquam velit diam, ut aliquam ante semper idLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum justo sollicitudin tortor congue luctus. Suspendisse ultricies felis et quam bibendum rutrum. Vivamus porta tellus ligula, vel ullamcorper tellus pulvinar ut. Phasellus tempor eleifend ipsum vitae hendrerit. Vestibulum elementum euismod dapibus. Pellentesque faucibus orci a pulvinar pulvinar. Morbi viverra odio convallis mi commodo sodales. Maecenas aliquam velit diam, ut aliquam ante semper idLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum justo sollicitudin tortor congue luctus. Suspendisse ultricies felis et quam bibendum rutrum. Vivamus porta tellus ligula, vel ullamcorper tellus pulvinar ut. Phasellus tempor eleifend ipsum vitae hendrerit. Vestibulum elementum euismod dapibus. Pellentesque faucibus orci a pulvinar pulvinar. Morbi viverra odio convallis mi commodo sodales. Maecenas aliquam velit diam, ut aliquam ante semper id.'),
+('Electronic Wills', 'The Benefits of Electronic Will Writing:', 'A Comprehensive Guide', 'Akshay Dupuguntla', 'https://media.licdn.com/dms/image/D4E03AQGpN8PB7pGUlg/profile-displayphoto-shrink_800_800/0/1694390002762?e=2147483647&v=beta&t=_jM-7ElsPpNEFFWQQa19VBwMjdjf0XdM3f-JCcX1oO0', 9, '2023-12-06T23:05:10.4895-04:00',
+'**Introduction:**
+Writing a will is a crucial step in ensuring that your assets are distributed according to your wishes after you pass away. Traditionally, wills were handwritten or typed on paper, but with advancements in technology, electronic will writing has become an increasingly popular and efficient option. In this guide, we will explore the numerous benefits of electronic will writing and why it is a good choice for modern individuals.
+
+**Accessibility and Convenience:**
+One of the primary advantages of electronic will writing is the ease of accessibility. Electronic wills can be created, stored, and accessed online, allowing individuals to update their wills conveniently from the comfort of their homes. This accessibility ensures that your will is always current and reflects your most recent intentions.
+
+**Time and Cost Efficiency:**
+Electronic will writing can significantly reduce the time and cost associated with the traditional will-making process. With online platforms and software, individuals can create a legally valid will in a relatively short amount of time, without the need for multiple appointments with legal professionals. This can be particularly advantageous for those with busy schedules or those looking to minimize legal expenses.
+
+**Legal Validity:**
+Many electronic will-writing platforms adhere to legal standards and regulations, ensuring that the resulting documents are legally valid. By using reputable online services, individuals can create wills that meet the legal requirements of their jurisdiction. It''s essential to choose a platform that complies with the necessary legal standards and provides guidance throughout the process.
+
+**Flexibility and Customization:**
+Electronic wills offer a high level of flexibility and customization. Online platforms often provide templates that can be tailored to suit individual needs. This flexibility allows individuals to include specific instructions regarding the distribution of assets, guardianship of minors, and other personalized details. The ability to customize the document ensures that your wishes are accurately reflected in your will.
+
+**Secure Storage:**
+Electronic wills can be securely stored in the cloud or on dedicated platforms, protecting them from physical damage, loss, or theft. This digital storage ensures that your will is easily accessible by designated individuals, such as executors or family members, while maintaining the confidentiality of the document during your lifetime.
+
+**Easy Updates and Amendments:**
+Life circumstances change, and it''s crucial to update your will accordingly. Electronic wills make the process of updating and amending documents straightforward. Whether you experience a change in financial status, family structure, or other significant life events, electronic platforms typically allow users to make revisions easily and ensure that their wills remain current.
+
+**Conclusion:**
+In conclusion, electronic will writing offers a range of benefits that cater to the needs of modern individuals. From accessibility and cost efficiency to legal validity and easy updates, electronic wills provide a streamlined and secure way to plan for the future. As technology continues to advance, embracing electronic will writing can be a prudent choice for those seeking a convenient and effective means of safeguarding their assets and ensuring their wishes are fulfilled.'),
+('Lorem Ipsum', 'Lorem Ipsum Dolor:', 'sit amet consectetur adipiscing elit', 'Greta Thunberg', 'https://media.npr.org/assets/img/2019/09/23/greta-thunberg-6885688c48a13abb7172110ca7d032b562589699-s1600-c85.webp', 3, '2023-10-17T23:05:10.4895-04:00',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum justo sollicitudin tortor congue luctus. Suspendisse ultricies felis et quam bibendum rutrum. Vivamus porta tellus ligula, vel ullamcorper tellus pulvinar ut. Phasellus tempor eleifend ipsum vitae hendrerit. Vestibulum elementum euismod dapibus. Pellentesque faucibus orci a pulvinar pulvinar. Morbi viverra odio convallis mi commodo sodales. Maecenas aliquam velit diam, ut aliquam ante semper id.
+
+**Lorem ipsum dolor sit amet**
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum justo sollicitudin tortor congue luctus. Suspendisse ultricies felis et quam bibendum rutrum. Vivamus porta tellus ligula, vel ullamcorper tellus pulvinar ut. Phasellus tempor eleifend ipsum vitae hendrerit. Vestibulum elementum euismod dapibus. Pellentesque faucibus orci a pulvinar pulvinar. Morbi viverra odio convallis mi commodo sodales. Maecenas aliquam velit diam, ut aliquam ante semper id. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum justo sollicitudin tortor congue luctus. Suspendisse ultricies felis et quam bibendum rutrum. Vivamus porta tellus ligula, vel ullamcorper tellus pulvinar ut. Phasellus tempor eleifend ipsum vitae hendrerit. Vestibulum elementum euismod dapibus. Pellentesque faucibus orci a pulvinar pulvinar. Morbi viverra odio convallis mi commodo sodales. Maecenas aliquam velit diam, ut aliquam ante semper id.');
+
+-- Linking tags to guides
+INSERT INTO guide_tags (guide_id, tag_id) VALUES
+(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (2, 4), (3, 1), (3, 3), (3, 4), (4, 1), (4, 2);
 
 -- Creating test files
 

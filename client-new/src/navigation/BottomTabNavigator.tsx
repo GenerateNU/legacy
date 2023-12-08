@@ -13,6 +13,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import React from 'react';
 
+import GuideCollectionScreen from '../screens/app/GuideCollectionScreen';
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -40,7 +42,7 @@ const TabNavigator = () => {
           backgroundColor: '#FFF9EE',
           borderTopWidth: 1,
           paddingTop: 10,
-          paddingBottom: 10,
+          paddingBottom: 10
         },
         tabBarLabel: ''
       })}
