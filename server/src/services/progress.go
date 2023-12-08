@@ -22,7 +22,6 @@ type ProgressServiceInterface interface {
 	CreateTaskProgress(taskProgress models.TaskProgress) (models.TaskProgress, error)
 	CreateSubTaskProgress(subTaskProgress models.SubTaskProgress) (models.SubTaskProgress, error)
 
-	CompleteTaskProgress(uid string, tid string) (models.TaskProgress, error)
 	CompleteSubTaskProgress(uid string, sid string) (models.SubTaskProgress, error)
 
 	DeleteTaskProgress(id string) error
@@ -122,9 +121,9 @@ func (p *ProgressService) CreateAllTaskProgress(id string) ([]models.TaskProgres
 
 	for _, task := range tasks {
 		taskProgress, err := p.CreateTaskProgress(models.TaskProgress{
-			TaskID:    task.ID,
-			UserID:    uint(userIDInt),
-			Completed: false,
+			TaskID:   task.ID,
+			UserID:   uint(userIDInt),
+			Progress: 0,
 		})
 		if err != nil {
 			return nil, errors.New("failed to create task progress")
@@ -182,33 +181,79 @@ func (p *ProgressService) CreateSubTaskProgress(subTaskProgress models.SubTaskPr
 	return subTaskProgress, nil
 }
 
-func (p *ProgressService) CompleteTaskProgress(uid string, tid string) (models.TaskProgress, error) {
-	var existingTaskProgress models.TaskProgress
-
-	if err := p.DB.Model(&existingTaskProgress).Where("user_id = ? and task_id = ?", uid, tid).Update("completed", "true").Error; err != nil {
-		return models.TaskProgress{}, err
-	}
-
-	if err := p.DB.Where("user_id = ? and task_id = ?", uid, tid).Find(&existingTaskProgress).Error; err != nil {
-		return models.TaskProgress{}, err
-	}
-
-	return existingTaskProgress, nil
-
-}
-
-func (p *ProgressService) CompleteSubTaskProgress(uid string, sid string) (models.SubTaskProgress, error) {
+func (p *ProgressService) CompleteSubTaskProgress(userID string, subTaskID string) (models.SubTaskProgress, error) {
 	var existingSubTaskProgress models.SubTaskProgress
 
-	if err := p.DB.Model(&existingSubTaskProgress).Where("user_id = ? and sub_task_id = ?", uid, sid).Update("completed", "true").Error; err != nil {
+	if err := p.DB.Model(&existingSubTaskProgress).Where("user_id = ? and sub_task_id = ?", userID, subTaskID).Update("completed", "true").Error; err != nil {
 		return models.SubTaskProgress{}, err
 	}
 
-	if err := p.DB.Where("user_id = ? and sub_task_id = ?", uid, sid).Find(&existingSubTaskProgress).Error; err != nil {
+	if err := p.DB.Where("user_id = ? and sub_task_id = ?", userID, subTaskID).Find(&existingSubTaskProgress).Error; err != nil {
+		return models.SubTaskProgress{}, err
+	}
+
+	if err := UpdateTaskProgress(p, userID, subTaskID); err != nil {
 		return models.SubTaskProgress{}, err
 	}
 
 	return existingSubTaskProgress, nil
+}
+
+func UpdateTaskProgress(p *ProgressService, userID string, subTaskID string) error {
+
+	// Get the associated SubTask based on subTaskID
+	var subTask models.SubTask
+	if err := p.DB.Where("id = ?", subTaskID).First(&subTask).Error; err != nil {
+		return err
+	}
+
+	// Retrieve the TaskID from the SubTask
+	taskID := subTask.TaskID
+
+	// Get the associated Task using TaskID
+	var task models.Task
+	if err := p.DB.Where("id = ?", taskID).First(&task).Error; err != nil {
+		return err
+	}
+
+	var completedCount int
+
+	// Find the total number of subtasks for the associated task
+	var subTasksProgres []models.SubTaskProgress
+	subTasksProgres, err := p.GetAllSubTaskProgressOfTask(userID, strconv.Itoa(int(taskID)))
+	if err != nil {
+		return err
+	}
+
+	totalSubTasks := len(subTasksProgres)
+
+	// Count the number of completed subtasks for the associated task
+	for _, subTaskProgress := range subTasksProgres {
+		if subTaskProgress.Completed {
+			completedCount++
+		}
+	}
+
+	// Calculate the progress percentage round to the nearest whole number
+	var progress uint
+	if totalSubTasks > 0 {
+		progress = uint((float64(completedCount) / float64(totalSubTasks)) * 100)
+	} else {
+		progress = 0
+	}
+
+	// Get the associated TaskProgress using userID and taskID
+	var taskProgress models.TaskProgress
+	if err := p.DB.Where("user_id = ? AND task_id = ?", userID, taskID).First(&taskProgress).Error; err != nil {
+		return err
+	}
+
+	// Update the TaskProgress with the new progress percentage
+	if err := p.DB.Model(&taskProgress).Where("user_id = ? AND task_id = ?", userID, taskID).Update("progress", progress).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (p *ProgressService) DeleteTaskProgress(id string) error {

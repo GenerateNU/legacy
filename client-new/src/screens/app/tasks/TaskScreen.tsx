@@ -11,6 +11,8 @@ import { ActivityIndicator, Pressable, RefreshControl } from 'react-native';
 import { ITask } from '@/interfaces/ITask';
 import BackArrowIcon from '@/components/icons/BackArrow';
 import TaskTagGrid from '@/components/reusable/TaskTagGrid';
+import SearchBar from '@/components/reusable/SearchBar';
+import Fuse from 'fuse.js';
 
 type TaskScreenProps = {
   navigation: any;
@@ -28,6 +30,20 @@ export default function TaskScreen({ navigation }: TaskScreenProps) {
     queryFn: async () => await fetchUserTasks(user?.id, selectedTags),
     staleTime: 60000 // TEMP, unsolved refetch when unncessary
   });
+
+  const filterTasks = (tasks: ITask[], keys: string[]): ITask[] => {
+    if (search.length > 0) {
+      const options = {
+        keys: keys,
+        threshold: 0.2
+      };
+      const fuse = new Fuse(tasks, options);
+      const fuseResponse = fuse.search(search);
+      return fuseResponse.map((item) => item.item);
+    } else {
+      return tasks;
+    }
+  }
 
   return (
     <>
@@ -60,18 +76,17 @@ export default function TaskScreen({ navigation }: TaskScreenProps) {
               All Tasks
             </Text>
             <View>
-              <Input
-                placeholder="Search"
-                size="md"
-                isDisabled={isPending ? true : false}
+              <SearchBar
+                isPending={isPending}
+                inputSearch={search}
+                keys={['task_name']}
+                updateSearchValue={setSearch}
+                filterItems={filterTasks}
+                filteringType={tasks}
+                updateFilteredValues={setFilteredTasks}
                 width={'100%'}
-                backgroundColor={'#F2F2F2'}
-                borderRadius={'10px'}
-                paddingLeft={'10px'}
-                paddingRight={'10px'}
-                marginBottom={'20px'}
-                value={search}
-                onChangeText={(text) => setSearch(text)}
+                justifyContent={'center'}
+                alignItems={'center'}
               />
             </View>
             <View flexDirection={'row'}>
@@ -85,8 +100,8 @@ export default function TaskScreen({ navigation }: TaskScreenProps) {
           >
             {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
             {error && <Text>Error: {error.message}</Text>}
-            {tasks && tasks.length === 0 && <Text>No tasks found</Text>}
-            {tasks && tasks.map((item: ITask, index: number) =>
+            {fileteredTasks && fileteredTasks.length === 0 && <Text>No tasks found</Text>}
+            {fileteredTasks && fileteredTasks.map((item: ITask, index: number) =>
               <View key={index} mb={0}>
                 <HomeScreenTaskCard task={item} isAllTasks={false} handleOnPress={() => navigation.navigate('SubTask Summary Screen', { task: item })} />
               </View> 

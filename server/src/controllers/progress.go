@@ -39,18 +39,6 @@ func (p *ProgressController) GetSubTaskProgress(c echo.Context) error {
 	return c.JSON(http.StatusOK, subTaskProgress)
 }
 
-func (p *ProgressController) CompleteTaskProgress(c echo.Context) error {
-	userID := c.Param("uid")
-	taskID := c.Param("tid")
-	taskProgress, err := p.progressService.CompleteTaskProgress(userID, taskID)
-
-	if err != nil {
-		return c.JSON(http.StatusNotFound, "failed to complete task progress")
-	}
-
-	return c.JSON(http.StatusOK, taskProgress)
-}
-
 func (p *ProgressController) CompleteSubTaskProgress(c echo.Context) error {
 	userID := c.Param("uid")
 	subTaskID := c.Param("sid")

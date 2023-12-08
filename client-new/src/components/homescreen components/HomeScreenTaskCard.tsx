@@ -1,12 +1,21 @@
 import { ITask } from '@/interfaces/ITask';
-import { fetchTaskTag } from '@/services/TaskService';
+import { fetchTaskTag, getTaskProgress } from '@/services/TaskService';
 import { Text, View } from 'native-base';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Pressable, TouchableOpacity } from 'react-native';
 
 import RightArrowIcon from '../icons/RightArrowIcon';
 import CircleProgress from '../reusable/CircleProgress';
+import { useQuery } from '@tanstack/react-query';
+import { useUser } from '@/contexts/UserContext';
+import { useIsFocused } from '@react-navigation/native';
+import { color } from 'native-base/lib/typescript/theme/styled-system';
+import {
+  heightPercentageToDP as h,
+  widthPercentageToDP as w
+} from 'react-native-responsive-screen';
+
 
 type HSTCProps = {
   task: ITask;
@@ -15,9 +24,27 @@ type HSTCProps = {
 };
 
 const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks, handleOnPress }) => {
+  const { user } = useUser();
+  const isFocused = useIsFocused(); 
   const [tag, setTag] = useState<string | null>(null);
   const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+
+  const { isLoading, error: completeError, data: complete, refetch } = useQuery({
+    queryKey: ['fetchTaskProgress', user?.id, task?.id],
+    queryFn: () => getTaskProgress(user?.id, task?.id)
+  });
+
+  const refreshData = useCallback(async () => {
+    await refetch();
+  }, [refetch]);
+
+
+  useEffect(() => {
+    if (isFocused) {
+      refreshData();
+    }
+  }, [isFocused, refetch]);
 
   useEffect(() => {
     if (!isAllTasks) {
@@ -37,10 +64,19 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks, handleOnPre
     }
   }, [isAllTasks, task.id]);
 
-  const progress = Math.floor(Math.random() * 100) + 1;
+  if (isLoading) {
+    return <Text>Loading...</Text>
+  };
+
+  if (completeError) {
+    return <Text>Error</Text>
+  };
 
   return (
-    <TouchableOpacity onPress={handleOnPress}>
+    <TouchableOpacity
+      onPress={handleOnPress}
+      disabled={complete?.progress === 100}
+    >
       <View
         paddingLeft={5}
         paddingTop={6}
@@ -76,19 +112,18 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks, handleOnPre
                 fontWeight: '600',
                 marginBottom: 5
               }}
+              color={complete?.progress === 100 ? '#00000033' : '#2F1D12'}
             >
               {task.task_name}
             </Text>
             <Text
-              style={{
-                fontSize: 14,
-                color: '#2F1D12'
-              }}
+              fontSize={h('1.7%')}
+              color={complete?.progress === 100 ? '#00000033' : '#2F1D12'}
             >
               {task.task_description}
             </Text>
           </View>
-          <CircleProgress progress={progress} />
+          <CircleProgress task={task} />
           <View
             style={{
               alignSelf: 'flex-end',
