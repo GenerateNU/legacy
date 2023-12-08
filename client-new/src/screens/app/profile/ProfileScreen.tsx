@@ -16,6 +16,8 @@ import {
   widthPercentageToDP as w
 } from 'react-native-responsive-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import personaIcon from '@/utils/PersonaUtils';
+import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 
 /**
  * Screen to render the user's profile
@@ -106,7 +108,7 @@ export default function ProfileScreen({ route, navigation }) {
     >
       <View width={340} marginTop={50} height={'auto'}>
         {/* TODO: FIX this */}
-        <LegacyWordmarkWithBackArrow handleOnPress={() => {}} />
+        <LegacyWordmark/>
         <Text
           color={'#252525'}
           fontSize={24}
@@ -126,6 +128,7 @@ export default function ProfileScreen({ route, navigation }) {
             subtitle={persona?.persona_title}
             subheading={'View My Persona'}
             image="https://i.postimg.cc/44Qn7BWC/temp-Image-KY7-Maq.jpg"
+            icon={personaIcon(persona?.persona_title)}
             border={true}
             backgroundColor="white"
             handleOnPress={() => navigation.navigate('My Persona Screen')}
