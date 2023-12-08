@@ -18,8 +18,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { LogBox } from 'react-native';
 
 // Ignore log notification by message:
-// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-// LogBox.ignoreAllLogs();//Ignore all log notifications
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const queryClient = new QueryClient({
   defaultOptions: {
