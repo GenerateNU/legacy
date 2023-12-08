@@ -5,6 +5,11 @@ import ProcrastinatingRookieIcon from "@/components/icons/ProcrastinatingRookieI
 import TranquilTrailblazarIcon from "@/components/icons/TranquilTrailblazarIcon"
 import React from "react"
 
+/**
+ * Function to return the icon for the persona
+ * @param persona 
+ * @returns 
+ */
  const personaIcon = (persona:string) => {
   if (persona === 'Adventurous Optimist') {
     return <AdventuringOptimistIcon />;
