@@ -229,7 +229,20 @@ func (f *FileService) GeneratePDF(uid string, subtaskName string, fileJSON strin
 			}
 
 		default:
-			pdf.Text(x, y, fmt.Sprintf("%v: %v", key, value))
+			if key == "additional_comments" {
+				if stringValue, ok := value.(string); ok {
+					lines := pdf.SplitText("additional comments: "+stringValue, 170)
+					for _, words := range lines {
+						pdf.Text(x, y, words)
+						y += 6.0
+					}
+					y -= 6.0
+				} else {
+					return nil, nil, errors.New("unexpected input")
+				}
+			} else {
+				pdf.Text(x, y, fmt.Sprintf("%v: %v", key, value))
+			}
 			y += 10.0
 		}
 	}
