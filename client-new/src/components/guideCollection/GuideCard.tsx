@@ -13,9 +13,10 @@ import SittingIcon from '../icons/SittingIcon';
 
 type GuideCardProps = {
   guideName: string;
+  randomNumber: number;
 };
 
-const GuideCard: React.FC<GuideCardProps> = ({ guideName }) => {
+const GuideCard: React.FC<GuideCardProps> = ({ guideName, randomNumber }) => {
   const couple = (
     <View paddingTop={h('2.7%')} paddingBottom={h('1.3%')}>
       <CoupleIcon />
@@ -35,7 +36,6 @@ const GuideCard: React.FC<GuideCardProps> = ({ guideName }) => {
   );
 
   const randomIcon = () => {
-    const randomNumber = Math.floor(Math.random() * 3); // 0, 1, 2
     if (randomNumber == 0) {
       return couple;
     } else if (randomNumber == 1) {
