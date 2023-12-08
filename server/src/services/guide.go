@@ -21,13 +21,15 @@ type GuideService struct {
 }
 
 func (g *GuideService) GetAllGuides() ([]models.Guide, error) {
-	var guide []models.Guide
+	var guides []models.Guide
 
-	if err := g.DB.Find(&guide).Error; err != nil {
+	if err := g.DB.Model(&models.Guide{}).
+		Preload("Tags").
+		Find(&guides).Error; err != nil {
 		return nil, err
 	}
 
-	return guide, nil
+	return guides, nil
 }
 
 func (g *GuideService) GetGuide(name string) (models.Guide, error) {
