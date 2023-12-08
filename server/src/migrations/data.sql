@@ -1,3 +1,4 @@
+-- Active: 1702078735201@@127.0.0.1@5432@legacy
 -- Creating test personas
 INSERT INTO personas (persona_title, persona_description) VALUES 
 ('Procrastinating Rookie', 'Enjoys a challenge, scarcity mindset, the ultimate planner, a perfectionist, selfish, always on the edge, half-empty glass thinker, externally motivated, all-at-once worker, quick-start guide enthusiast, uncomfortable discussing death, less nurturing, inexperienced with EOLP, racing against time, tight finances, dipping toes in the water.'),
@@ -329,7 +330,7 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VA
 '{
     "actions": [
         {
-            "action_type": "input"
+            "action_type": "input",
             "label": "Legacy Statement",
             "placeholder": "Title",
             "name": "legacy_statement_title",
