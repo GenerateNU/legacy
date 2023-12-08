@@ -1,13 +1,13 @@
 import { IFile } from '@/interfaces/IFile';
-import { fetchFileURL } from '@/services/FileService';
+import { deleteFile, fetchFileURL } from '@/services/FileService';
 import { ConvertFileSize } from '@/utils/FileUtils';
 import { useQuery } from '@tanstack/react-query';
+import * as FileSystem from 'expo-file-system';
 import { Text, View } from 'native-base';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, Linking, Pressable } from 'react-native';
 import FileViewer from 'react-native-file-viewer';
-import * as FileSystem from 'expo-file-system';
 import {
   heightPercentageToDP as h,
   widthPercentageToDP as w
@@ -20,24 +20,24 @@ import OpenLinkButton from '../reusable/OpenLinkButton';
 
 type FileRowProps = {
   file: IFile;
+  refetch: Function;
 };
 
-const FileRow: React.FC<FileRowProps> = ({ file }) => {
+const FileRow: React.FC<FileRowProps> = ({ file, refetch }) => {
   const size = ConvertFileSize(file.file_size);
   const lastDotIndex = file.file_name.lastIndexOf('.');
   const fileName = file.file_name.substring(0, lastDotIndex);
   const fileExtension = file.file_name.substring(lastDotIndex + 1);
 
   const truncatedName =
-    fileName.length > 50
-      ? fileName.substring(0, 50) + '...'
-      : fileName;
+    fileName.length > 50 ? fileName.substring(0, 50) + '...' : fileName;
 
   const handlePress = async () => {
     const url = await fetchFileURL(file.id);
 
-    const downloadResumable = FileSystem.createDownloadResumable(url,
-      FileSystem.cacheDirectory + file.file_name,
+    const downloadResumable = FileSystem.createDownloadResumable(
+      url,
+      FileSystem.cacheDirectory + file.file_name
     );
 
     try {
@@ -45,52 +45,62 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
       console.log('Finished downloading to ', uri);
       FileViewer.open(uri, {
         showOpenWithDialog: true,
-        showAppsSuggestions: true,
+        showAppsSuggestions: true
       });
     } catch (e) {
       console.error(e);
     }
+  };
 
-  }
+  const handleDelete = async () => {
+    const result = await deleteFile(file.id);
+    if (result != 200) {
+      console.log('Did not successfully delete the file');
+    }
+  };
 
   // Example of setup fileOptions
   const fileOptions = (fileId: number) => {
-    Alert.alert(
-      'File Options',
-      'What would you like to do with this file?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-          onPress: () => console.log('Cancel Pressed')
-        },
-        {
-          text: 'Download',
-          style: 'default',
-          onPress: () => {
-            handlePress();
-          }
-        },
-        {
-          text: 'Open in Browser',
-          style: 'default',
-          onPress: async () => {
-            const url = await fetchFileURL(file.id);
-            Linking.openURL(url);
-          }
-        },
-        {
-          text: 'Share',
-          style: 'default',
-          onPress: () => console.log('Share Pressed')
-        },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => console.log('Delete Pressed')
+    Alert.alert('File Options', 'What would you like to do with this file?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+        onPress: () => console.log('Cancel Pressed')
+      },
+      {
+        text: 'Download',
+        style: 'default',
+        onPress: () => {
+          handlePress();
         }
-      ]
-    );
+      },
+      {
+        text: 'Open in Browser',
+        style: 'default',
+        onPress: async () => {
+          const url = await fetchFileURL(file.id);
+          Linking.openURL(url);
+        }
+      },
+      {
+        text: 'Share',
+        style: 'default',
+        onPress: async () => {
+          // Doesn't work on simulator
+          const url = await fetchFileURL(file.id);
+          Linking.openURL(`mailto:subject=SendMail&body=${url}`);
+        }
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          await handleDelete();
+          refetch();
+        }
+        // console.log('Delete Pressed')
+      }
+    ]);
   };
 
   return (
@@ -110,14 +120,19 @@ const FileRow: React.FC<FileRowProps> = ({ file }) => {
           marginTop={h('1%')}
         >
           <Text style={{ width: w('60%') }}>{truncatedName}</Text>
-          <Text>{fileExtension} ∙ {size}</Text>
+          <Text>
+            {fileExtension} ∙ {size}
+          </Text>
         </View>
         <View
           paddingRight={0}
           justifyContent={'center'}
           paddingBottom={h('1.5%')}
         >
-          <Pressable onPress={() => fileOptions(file.id)} style={{ transform: [{ rotate: '90deg' }] }} >
+          <Pressable
+            onPress={() => fileOptions(file.id)}
+            style={{ transform: [{ rotate: '90deg' }] }}
+          >
             <ThreeDotsIcon />
           </Pressable>
         </View>
