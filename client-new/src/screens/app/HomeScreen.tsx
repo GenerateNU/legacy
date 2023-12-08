@@ -12,20 +12,15 @@ import {
   View
 } from 'native-base';
 
-import { useEffect, useState } from 'react';
 import React from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { RefreshControl } from 'react-native';
-import {
-  heightPercentageToDP as h,
-  widthPercentageToDP as w
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as w } from 'react-native-responsive-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SvgUri } from 'react-native-svg';
 
 import HomeScreenGuides from '../../components/homescreen components/HomeScreenGuides';
 import HomeScreenTasks from '../../components/homescreen components/HomeScreenTasks';
-import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
+import { moderateScale } from '../../utils/FontSizeUtils';
 
 export default function HomeScreen({ navigation }) {
   const { user, refetchUser } = useUser();
@@ -41,10 +36,16 @@ export default function HomeScreen({ navigation }) {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9EE' }}
-      edges={['top', 'left', 'right']}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: '#FFF9EE' }}
+      edges={['top', 'left', 'right']}
+    >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
@@ -142,7 +143,9 @@ export default function HomeScreen({ navigation }) {
             </View>
             {isPending && <ActivityIndicator style={{ marginTop: 50 }} />}
             {error && <Text>Error: {error.message}</Text>}
-            {guides && <HomeScreenGuides guides={guides} />}
+            {guides && (
+              <HomeScreenGuides guides={guides} navigation={navigation} />
+            )}
           </View>
         </View>
       </ScrollView>

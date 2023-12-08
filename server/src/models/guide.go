@@ -15,4 +15,5 @@ type Guide struct {
 	MinsRead       uint      `json:"mins_read"`
 	Date           time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP" json:"date"`
 	FullText       string    `gorm:"type:text" json:"full_text" validate:"required"`
+	Tags           []*Tag    `gorm:"many2many:guide_tags;" json:"tags"`
 }
