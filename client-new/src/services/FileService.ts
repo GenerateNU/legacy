@@ -77,3 +77,20 @@ export const uploadFile = async (file: DocumentPicker.DocumentPickerAsset, userI
     throw new Error('Error uploading file');
   }
 }
+
+
+/**
+ * Deletes a file url from the server
+ * @param fileId the id of the file to delete
+ * @returns the response status
+ */
+export const deleteFile = async (fileId: number) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/files/${fileId}`);
+    console.log(response.status)
+    return response.status;
+  } catch (error) {
+    console.log('Error deleting the file', error);
+    throw new Error('Error deleting the file');
+  }
+};
