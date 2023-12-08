@@ -22,7 +22,7 @@ type ProgressServiceInterface interface {
 	CreateTaskProgress(taskProgress models.TaskProgress) (models.TaskProgress, error)
 	CreateSubTaskProgress(subTaskProgress models.SubTaskProgress) (models.SubTaskProgress, error)
 
-	CompleteTaskProgress(uid string, tid string) (models.TaskProgress, error)
+	// CompleteTaskProgress(uid string, tid string) (models.TaskProgress, error)
 	CompleteSubTaskProgress(uid string, sid string) (models.SubTaskProgress, error)
 
 	DeleteTaskProgress(id string) error
@@ -122,9 +122,9 @@ func (p *ProgressService) CreateAllTaskProgress(id string) ([]models.TaskProgres
 
 	for _, task := range tasks {
 		taskProgress, err := p.CreateTaskProgress(models.TaskProgress{
-			TaskID:    task.ID,
-			UserID:    uint(userIDInt),
-			Completed: false,
+			TaskID:   task.ID,
+			UserID:   uint(userIDInt),
+			Progress: 0,
 		})
 		if err != nil {
 			return nil, errors.New("failed to create task progress")
@@ -182,20 +182,19 @@ func (p *ProgressService) CreateSubTaskProgress(subTaskProgress models.SubTaskPr
 	return subTaskProgress, nil
 }
 
-func (p *ProgressService) CompleteTaskProgress(uid string, tid string) (models.TaskProgress, error) {
-	var existingTaskProgress models.TaskProgress
+// func (p *ProgressService) CompleteTaskProgress(uid string, tid string) (models.TaskProgress, error) {
+// 	var existingTaskProgress models.TaskProgress
 
-	if err := p.DB.Model(&existingTaskProgress).Where("user_id = ? and task_id = ?", uid, tid).Update("completed", "true").Error; err != nil {
-		return models.TaskProgress{}, err
-	}
+// 	if err := p.DB.Model(&existingTaskProgress).Where("user_id = ? and task_id = ?", uid, tid).Update("completed", "true").Error; err != nil {
+// 		return models.TaskProgress{}, err
+// 	}
 
-	if err := p.DB.Where("user_id = ? and task_id = ?", uid, tid).Find(&existingTaskProgress).Error; err != nil {
-		return models.TaskProgress{}, err
-	}
+// 	if err := p.DB.Where("user_id = ? and task_id = ?", uid, tid).Find(&existingTaskProgress).Error; err != nil {
+// 		return models.TaskProgress{}, err
+// 	}
 
-	return existingTaskProgress, nil
-
-}
+// 	return existingTaskProgress, nil
+// }
 
 func (p *ProgressService) CompleteSubTaskProgress(uid string, sid string) (models.SubTaskProgress, error) {
 	var existingSubTaskProgress models.SubTaskProgress

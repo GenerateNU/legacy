@@ -13,7 +13,7 @@ func ProgressRoutes(g *echo.Group, progressService services.ProgressServiceInter
 	g.GET("/task/:uid/:tid", progressController.GetTaskProgress)
 	g.GET("/subtask/:uid/:sid", progressController.GetSubTaskProgress)
 	g.GET("/:uid/:tid", progressController.GetAllSubTaskProgressOfTask)
-	g.POST("/task/:uid/:tid", progressController.CompleteTaskProgress)
-	g.POST("/subtask/:uid/:sid", progressController.CompleteSubTaskProgress)
+	// g.PUT("/task/:uid/:tid/complete", progressController.CompleteTaskProgress)
+	g.PUT("/subtask/:uid/:sid/complete", progressController.CompleteSubTaskProgress)
 
 }

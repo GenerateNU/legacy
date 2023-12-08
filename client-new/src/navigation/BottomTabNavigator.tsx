@@ -29,8 +29,8 @@ const TabNavigator = () => {
             iconComponent = <GuidesIcon focused={focused} />;
           } else if (route.name === 'Files') {
             iconComponent = <TaskIcon focused={focused} />;
-          } else if (route.name === 'Marketplace') {
-            iconComponent = <MarketplaceIcon focused={focused} />;
+            // } else if (route.name === 'Marketplace') {
+            //   iconComponent = <MarketplaceIcon focused={focused} />;
           } else if (route.name === 'Profile') {
             iconComponent = <ProfileIcon focused={focused} />;
           }
@@ -47,7 +47,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Guides" component={GuideScreen} />
-      <Tab.Screen name="Marketplace" component={MarketplaceScreen} />
+      {/* <Tab.Screen name="Marketplace" component={MarketplaceScreen} /> */}
       <Tab.Screen name="Files" component={FileCollectionScreen} />
       <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>

@@ -37,8 +37,6 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks, handleOnPre
     }
   }, [isAllTasks, task.id]);
 
-  const progress = Math.floor(Math.random() * 100) + 1;
-
   return (
     <TouchableOpacity onPress={handleOnPress}>
       <View
@@ -88,7 +86,7 @@ const HomeScreenTaskCard: React.FC<HSTCProps> = ({ task, isAllTasks, handleOnPre
               {task.task_description}
             </Text>
           </View>
-          <CircleProgress progress={progress} />
+          <CircleProgress task={task} />
           <View
             style={{
               alignSelf: 'flex-end',

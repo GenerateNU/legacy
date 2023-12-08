@@ -98,7 +98,7 @@ export default function FileCollectionScreen() {
               refetch();
             }}
             colors={['#ff0000', '#00ff00', '#0000ff']}
-            tintColor={'#ff0000'}
+            tintColor={'grey'}
           />
         }
       >

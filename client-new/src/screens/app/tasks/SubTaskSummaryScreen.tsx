@@ -13,7 +13,7 @@ import { ISubTask } from '@/interfaces/ISubTask';
 import { RefreshControl } from 'react-native';
 import { heightPercentageToDP as h, widthPercentageToDP as w } from 'react-native-responsive-screen';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
-import SubTask from '@/components/task/Subtask';
+import SubTaskCard from '@/components/task/SubTaskCard';
 
 type SubTaskSummaryScreenProps = {
   route: any
@@ -79,7 +79,7 @@ const SubTaskSummaryScreen = ({ route, navigation }: SubTaskSummaryScreenProps) 
             textAlign={"center"}>
             {task?.task_description}
           </Text>
-          <CircleProgressSubtask progress={progress ? progress : 0} />
+          <CircleProgressSubtask task={task} />
           <Text marginTop='25px' fontSize='24' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'}>
             Upcoming Tasks
           </Text>
@@ -94,9 +94,7 @@ const SubTaskSummaryScreen = ({ route, navigation }: SubTaskSummaryScreenProps) 
             {error && <Text>Error: {error.message}</Text>}
             {subtasks?.length === 0 && <Text>No subtasks found</Text>}
             {subtasks?.map((item, index) => (
-              <Pressable key={index} onPress={() => navigation.navigate('Subtask Screen', { subtask: item })}>
-                <SubTask subtasks={item} />
-              </Pressable>
+              <SubTaskCard subtask={item} navigation={navigation} key={index} />
             ))}
           </View>
         </View>

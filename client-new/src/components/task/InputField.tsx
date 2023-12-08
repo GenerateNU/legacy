@@ -24,7 +24,7 @@ const InputField: React.FC<InputFieldProps> = (InputFieldProps) => {
 
   const validateInput = (value: string) => {
     try {
-      const schema = z.string().min(1).max(20);
+      const schema = z.string().min(1).max(50);
       schema.parse(value);
       return undefined;
     } catch (error) {

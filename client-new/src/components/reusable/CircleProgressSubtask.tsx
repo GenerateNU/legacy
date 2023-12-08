@@ -1,31 +1,51 @@
-import React, { useEffect, useRef } from 'react';
+import { useUser } from '@/contexts/UserContext';
+import { ITask } from '@/interfaces/ITask';
+import { getTaskProgress } from '@/services/TaskService';
+import { useQuery } from '@tanstack/react-query';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-const CircleProgress = ({ progress }) => {
-  const animatedValue = useRef(new Animated.Value(0)).current;
+type CircleProgressProps = {
+  task: ITask;
+};
 
+const CircleProgress = ({ task }: CircleProgressProps) => {
+  const { user } = useUser();
+
+  const { isLoading, error, data: progress, refetch } = useQuery({
+    queryKey: ['fetchTaskProgress', task?.id],
+    queryFn: () => getTaskProgress(user?.id, task?.id)
+  });
+
+  const animatedValue = useRef(new Animated.Value(0)).current;
   const strokeWidth = 13;
   const radius = 50 - strokeWidth / 2;
   const circumference = 2 * Math.PI * radius;
-  const progressStrokeDashoffset = ((progress / 100) * circumference) / 100;
+  const [progressStrokeDashoffset, setProgressStrokeDashoffset] = useState(0);
 
   useEffect(() => {
-    Animated.timing(animatedValue, {
-      toValue: progress,
+
+    const offset = ((progress.progress / 100) * circumference) / 100;
+    setProgressStrokeDashoffset(offset);
+
+    Animated?.timing(animatedValue, {
+      toValue: progress?.progress,
       duration: 1000,
       useNativeDriver: true
     }).start();
-  }, [animatedValue, progress]);
+  }, [animatedValue, progress?.progress]);
 
   const { left, top } =
-    progress < 10
+    progress?.progress < 10
       ? { left: 165, top: 41 }
-      : progress >= 100
+      : progress?.progress < 100
         ? { left: 156, top: 41 }
         : { left: 159, top: 41 };
+
+  console.log('Progress:', progress);
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
       <Svg height="110" width="110" viewBox="0 0 100 100">
@@ -48,7 +68,7 @@ const CircleProgress = ({ progress }) => {
           strokeDasharray={circumference}
           strokeDashoffset={animatedValue.interpolate({
             inputRange: [0, 100],
-            outputRange: [circumference, progressStrokeDashoffset]
+            outputRange: [circumference, progressStrokeDashoffset ? progressStrokeDashoffset : 0]
           })}
           strokeLinecap="round"
           fill="transparent"
@@ -64,12 +84,12 @@ const CircleProgress = ({ progress }) => {
           fontSize: 20
         }}
       >
-        {`${progress}%`}
+        {isLoading ? '0%' : ''}
+        {error ? '0%' : ''}
+        {progress ? `${progress?.progress}%` : ''}
       </Text>
     </View>
   );
 };
 
 export default CircleProgress;
-
-//style={{ position: 'absolute', top: top, left: left, zIndex: 2, fontSize: 15 }}
