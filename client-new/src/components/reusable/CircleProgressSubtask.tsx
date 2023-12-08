@@ -57,7 +57,7 @@ const CircleProgress = ({ task }: CircleProgressProps) => {
   });
 
   const textPosition = {
-    left: 55 - (progress?.progress < 10 ? 6 : 10),
+    left: 53 - (progress?.progress < 10 ? 6 : 10),
     top: 45 - (progress?.progress < 10 ? 6 : 10)
   };
 

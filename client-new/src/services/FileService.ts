@@ -103,8 +103,13 @@ export const createFile = async (
 export const deleteFile = async (fileId: number) => {
   try {
     const response = await axios.delete(`${API_BASE_URL}/files/${fileId}`);
-    console.log(response.status)
-    return response.status;
+    if (response.status === 200) {
+      console.log('File deleted!');
+      return response.status;
+    } 
+    
+    console.log('Delete failed!');
+    throw new Error('Delete failed!');
   } catch (error) {
     console.log('Error deleting the file', error);
     throw new Error('Error deleting the file');

@@ -208,10 +208,10 @@ export default function FileCollectionScreen() {
         </ScreenBody>
       </ScrollView>
       <TouchableOpacity onPress={handlePress} >
-      <View style={{
+        {/* <View style={{
         position: 'absolute',
         bottom: 40, // Adjust as needed
-        right: 20, 
+        right: 20,
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -220,9 +220,9 @@ export default function FileCollectionScreen() {
         backgroundColor: 'green',
         borderRadius: 50,
         }}>
-        
+
       {gallery ? <Rows /> : <Grid />}
-      </View>
+      </View> */}
 
       </TouchableOpacity>
 

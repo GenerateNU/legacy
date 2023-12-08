@@ -10,7 +10,9 @@ import {
   Select,
   Text,
   View,
-  Pressable
+  Pressable,
+  Input,
+  DeleteIcon
 } from 'native-base';
 import { heightPercentageToDP as h, widthPercentageToDP as w } from 'react-native-responsive-screen';
 
@@ -21,7 +23,7 @@ import SelectField from '@/components/task/SelectField';
 import TextAreaField from '@/components/task/TextAreaField';
 import CheckboxField from '../../../components/task/CheckboxField';
 import RadioField from '../../../components/task/RadioField';
-import { GestureResponderEvent } from 'react-native';
+import { Alert, GestureResponderEvent } from 'react-native';
 import { ISubTask } from '@/interfaces/ISubTask';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getActions } from '@/services/ActionsService';
@@ -32,6 +34,7 @@ import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
 import { fetchTask } from '@/services/TaskService';
 import { completeSubTask } from '@/services/SubTasksService';
+import ListField from '@/components/task/ListField';
 
 type ActionScreenProps = {
   navigation: any;
@@ -56,17 +59,37 @@ const ActionScreen = ({ navigation, route }: ActionScreenProps) => {
 
 
     try {
+      try {
+        validateFormState();
+      } catch (err: string | any) {
+        // remove underscore from field name
+        const errorResponse = err.message;
+        const errorField = errorResponse.split(' ')[1].replace(/_/g, ' ');
+
+        Alert.alert('Error', `Please fill out the ${errorField} field.`);
+        return;
+      }
       setDisabled(true);
       setFormState({ ...formState, user_id: user?.id, sub_task_name: subtask.sub_task_name, timestamp: Date.now() })
       await createFile(user?.id, subtask.sub_task_name, formState);
       await completeSubTask(user?.id, subtask?.id)
       const task = await fetchTask(subtask?.task_id);
       navigation.navigate('SubTask Summary Screen', { task: task });
-    }
-    catch (err) {
+
+    } catch (err) {
       console.log(err);
     }
   }
+
+  const validateFormState = useCallback(() => {
+    for (const action of actions['actions']) {
+      if (action.required && (!formState[action.name] || formState[action.name] === '')) {
+        throw new Error(`Field '${action.name}' is required but not filled.`);
+      }
+    }
+    return true; // Return true if all validations pass
+  }, [formState, actions]);
+
 
   const renderField = (action, index: number) => {
     switch (action.action_type) {
@@ -80,6 +103,8 @@ const ActionScreen = ({ navigation, route }: ActionScreenProps) => {
         return <CheckboxField action={action} index={index} setFormState={setFormState} />
       case 'radio':
         return <RadioField action={action} index={index} setFormState={setFormState} formState={formState} />
+      case 'list':
+        return <ListField action={action} index={index} setFormState={setFormState} />
       default:
         return null;
     }
@@ -153,7 +178,6 @@ const ActionScreen = ({ navigation, route }: ActionScreenProps) => {
               <ScrollView key={index}>
                 <FormControl
                   isRequired={action.required}
-                  // isInvalid={formErrors.some((error) => error.path[0] === action.name)}
                   key={index}
                   mt={4}
                 >

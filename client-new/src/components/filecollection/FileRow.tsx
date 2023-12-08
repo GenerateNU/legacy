@@ -1,7 +1,7 @@
 import { IFile } from '@/interfaces/IFile';
 import { deleteFile, fetchFileURL } from '@/services/FileService';
 import { ConvertFileSize } from '@/utils/FileUtils';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import * as FileSystem from 'expo-file-system';
 import { Text, View } from 'native-base';
 
@@ -28,7 +28,6 @@ const FileRow: React.FC<FileRowProps> = ({ file, refetch }) => {
   const lastDotIndex = file.file_name.lastIndexOf('.');
   const fileName = file.file_name.substring(0, lastDotIndex);
   const fileExtension = file.file_name.substring(lastDotIndex + 1);
-
   const truncatedName =
     fileName.length > 50 ? fileName.substring(0, 50) + '...' : fileName;
 
@@ -52,14 +51,10 @@ const FileRow: React.FC<FileRowProps> = ({ file, refetch }) => {
     }
   };
 
-  const handleDelete = async () => {
-    const result = await deleteFile(file.id);
-    if (result != 200) {
-      console.log('Did not successfully delete the file');
-    }
-  };
+  const handleDelete = useMutation({
+    mutationFn: async (fileId: number) => await deleteFile(fileId)
+  })
 
-  // Example of setup fileOptions
   const fileOptions = (fileId: number) => {
     Alert.alert('File Options', 'What would you like to do with this file?', [
       {
@@ -95,10 +90,15 @@ const FileRow: React.FC<FileRowProps> = ({ file, refetch }) => {
         text: 'Delete',
         style: 'destructive',
         onPress: async () => {
-          await handleDelete();
-          refetch();
+          handleDelete.mutate(fileId, {
+            onSuccess: () => {
+              refetch();
+            },
+            onError: (error) => {
+              Alert.alert('Error deleting file', error.message);
+            }
+          });
         }
-        // console.log('Delete Pressed')
       }
     ]);
   };

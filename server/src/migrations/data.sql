@@ -57,62 +57,61 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VA
 '{
     "actions": [
         {
-            "action_type": "input",
-            "label": "Full Legal Name",
-            "placeholder": "Enter your full legal name",
             "name": "full_name",
             "type": "text",
-            "required": true
+            "label": "Full Legal Name",
+            "required": true,
+            "action_type": "input",
+            "placeholder": "Enter your full legal name"
         },
         {
-            "action_type": "input",
-            "label": "Date of Birth",
-            "placeholder": "MM/DD/YYYY",
             "name": "date_of_birth",
             "type": "date",
+            "label": "Date of Birth",
             "required": true,
-            "description": "Please enter your date of birth in the format: MM/DD/YYYY"
+            "action_type": "input",
+            "description": "Please enter your date of birth in the format: MM/DD/YYYY",
+            "placeholder": "MM/DD/YYYY"
         },
         {
-            "action_type": "input",
-            "label": "Social Security Number",
-            "placeholder": "Enter your social security number",
             "name": "ssn",
             "type": "text",
+            "label": "Social Security Number",
             "required": true,
-            "description": "Please provide your 9-digit social security number"
+            "action_type": "input",
+            "description": "Please provide your 9-digit social security number",
+            "placeholder": "Enter your social security number"
         },
         {
-            "action_type": "input",
-            "label": "Current Address",
-            "placeholder": "Enter your current address",
             "name": "current_address",
             "type": "text",
+            "label": "Current Address",
             "required": true,
-            "description": "Please provide your complete current residential address"
+            "action_type": "input",
+            "description": "Please provide your complete current residential address",
+            "placeholder": "Enter your current address"
         },
         {
-            "action_type": "input",
-            "label": "Phone Number",
-            "placeholder": "Enter your phone number",
             "name": "phone_number",
             "type": "tel",
+            "label": "Phone Number",
             "required": true,
-            "description": "Please provide a valid phone number where you can be reached"
+            "action_type": "input",
+            "description": "Please provide a valid phone number where you can be reached",
+            "placeholder": "Enter your phone number"
         },
         {
-            "action_type": "input",
-            "label": "Email Address",
-            "placeholder": "Enter your email address",
             "name": "email",
             "type": "email",
+            "label": "Email Address",
             "required": true,
-            "description": "Please provide a valid email address for communication purposes"
+            "action_type": "input",
+            "description": "Please provide a valid email address for communication purposes",
+            "placeholder": "Enter your email address"
         },
         {
-            "action_type": "select",
-            "label": "Marital Status",
             "name": "marital_status",
+            "label": "Marital Status",
             "options": [
                 "Married",
                 "Single",
@@ -120,41 +119,17 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VA
                 "Widowed"
             ],
             "required": true,
-            "placeholder": "Select your marital status",
-            "description": "Please select your current marital status from the options provided"
+            "action_type": "select",
+            "description": "Please select your current marital status from the options provided",
+            "placeholder": "Select your marital status"
         },
         {
-            "action_type": "textarea",
-            "label": "Additional Comments",
-            "placeholder": "Enter any additional comments",
             "name": "additional_comments",
+            "label": "Additional Comments",
             "required": false,
-            "description": "Feel free to provide any additional information or comments here"
-        },
-        {
-            "action_type": "checkbox",
-            "label": "Select Services",
-            "name": "services",
-            "options": [
-                "Service 1",
-                "Service 2",
-                "Service 3"
-            ],
-            "required": true,
-            "description": "Select the services you require"
-        },
-        {
-            "action_type": "radio",
-            "label": "Select Payment Method",
-            "name": "payment_method",
-            "options": [
-                "Credit Card",
-                "Debit Card",
-                "Cash",
-                "Check"
-            ],
-            "required": true,
-            "description": "Select your preferred method of payment"
+            "action_type": "textarea",
+            "description": "Feel free to provide any additional information or comments here",
+            "placeholder": "Enter any additional comments"
         }
     ]
 }'),
@@ -175,7 +150,7 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VA
 '{
     "actions": [
         {
-            "action_type": "textarea",
+            "action_type": "list",
             "label": "List your personal values",
             "placeholder": "Enter your personal values",
             "name": "personal_values",
@@ -263,6 +238,30 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VA
             ],
             "required": true,
             "description": "Please select your preferred burial or cremation choice"
+        },
+        {
+            "action_type": "textarea",
+            "label": "Funeral/Memorial Preferences",
+            "placeholder": "Enter your funeral/memorial preferences",
+            "name": "funeral_memorial_preferences",
+            "required": false,
+            "description": "Please provide your funeral/memorial preferences"
+        },
+        {
+            "action_type": "input",
+            "label": "Funeral/Memorial Location",
+            "placeholder": "Enter your funeral/memorial location",
+            "name": "funeral_memorial_location",
+            "required": false,
+            "description": "Please provide your funeral/memorial location"
+        },
+        {
+            "action_type": "input",
+            "label": "Funeral/Memorial Date",
+            "placeholder": "Enter your funeral/memorial date",
+            "name": "funeral_memorial_date",
+            "required": false,
+            "description": "Please provide your funeral/memorial date"
         }
     ]
 }'),
@@ -278,6 +277,169 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VA
             "description": "Please provide your eulogy"
         }
     ]
+}'),
+(4, 'Draft Intentions', 'Draft a simple letter of intent outlining your wishes for end-of-life care.',
+'{
+    "actions": [
+        {
+            "action_type": "textarea",
+            "label": "Letter of Intent",
+            "placeholder": "Enter your letter of intent",
+            "name": "letter_of_intent",
+            "required": true,
+            "description": "Please provide your letter of intent"
+        }
+    ]
+}'),
+(4, 'Legal Plans', 'Complete healthcare proxies and power of attorney agents.',
+'{
+    "actions": [
+        {
+            "action_type": "input",
+            "label": "Healthcare Proxies",
+            "placeholder": "Enter your healthcare proxies",
+            "name": "healthcare_proxies",
+            "required": true,
+            "description": "Please provide your healthcare proxies"
+        },
+        {
+            "action_type": "input",
+            "label": "Power of Attorney Agents",
+            "placeholder": "Enter your power of attorney agents",
+            "name": "power_of_attorney_agents",
+            "required": true,
+            "description": "Please provide your power of attorney agents"
+        }
+    ]
+}'),
+(3, 'Causes to Support', 'Identify specific causes or charities you would like to support.',
+'{
+    "actions": [
+        {
+            "action_type": "textarea",
+            "label": "Causes to Support",
+            "placeholder": "Enter your causes to support",
+            "name": "causes_to_support",
+            "required": true,
+            "description": "Please provide your causes to support"
+        }
+    ]
+}'),
+(3, 'Legacy Statement', 'Write a legacy statement or ethical will to pass on your values to loved ones.',
+'{
+    "actions": [
+        {
+            "action_type": "input"
+            "label": "Legacy Statement",
+            "placeholder": "Title",
+            "name": "legacy_statement_title",
+            "required": true,
+            "description": "Please provide a title for your legacy statement"
+        },
+        {
+            "action_type": "textarea",
+            "label": "Legacy Statement",
+            "placeholder": "Enter your legacy statement",
+            "name": "legacy_statement",
+            "required": true,
+            "description": "Please provide your legacy statement"
+        }
+    ]
+}'), 
+(3, 'Your Values', 'Write down your personal values and beliefs.',
+'{
+    "actions": [
+        {
+            "action_type": "textarea",
+            "label": "Personal Values",
+            "placeholder": "Enter your personal values",
+            "name": "personal_values",
+            "required": true,
+            "description": "Please provide your personal values"
+        }
+    ]
+}'),
+(5, 'Financial Inventory', 'Conduct a thorough inventory of all financial accounts and assets.',
+'{
+    "actions": [
+        {
+            "action_type": "input",
+            "label": "Financial Accounts",
+            "placeholder": "Enter your financial accounts",
+            "name": "financial_accounts",
+            "required": true,
+            "description": "Please provide your financial accounts"
+        },
+        {
+            "action_type": "input",
+            "label": "Financial Assets",
+            "placeholder": "Enter your financial assets",
+            "name": "financial_assets",
+            "required": true,
+            "description": "Please provide your financial assets"
+        },
+        {
+            "action_type": "input",
+            "label": "Financial Liabilities",
+            "placeholder": "Enter your financial liabilities",
+            "name": "financial_liabilities",
+            "required": true,
+            "description": "Please provide your financial liabilities"
+        }
+    ]
+}'),
+(5, 'Life Insurance', 'Review and update your life insurance policies, including coverage amounts and beneficiaries.',
+'{
+    "actions": [
+        {
+            "action_type": "input",
+            "label": "Life Insurance",
+            "placeholder": "Enter your life insurance policies",
+            "name": "life_insurance",
+            "required": true,
+            "description": "Please provide your life insurance policies"
+        },
+        {
+            "action_type": "input",
+            "label": "Life Insurance Beneficiaries",
+            "placeholder": "Enter your life insurance beneficiaries",
+            "name": "life_insurance_beneficiaries",
+            "required": true,
+            "description": "Please provide your life insurance beneficiaries"
+        },
+        {
+            "action_type": "input",
+            "label": "Life Insurance Coverage Amounts",
+            "placeholder": "Enter your life insurance coverage amounts",
+            "name": "life_insurance_coverage_amounts",
+            "required": true,
+            "description": "Please provide your life insurance coverage amounts"
+        },
+        {
+            "action_type": "checkbox",
+            "label": "Life Insurance Policy Review",    
+            "name": "life_insurance_policy_review",
+            "options": [
+                "Yes",
+                "No"
+            ],
+            "required": true,
+            "description": "Please select whether you have reviewed your life insurance policy"
+        }
+    ]
+}'),
+(5, 'Financial Documents Storage', 'Store digital copies of important financial documents in a secure location.',
+'{
+    "actions": [
+        {
+            "action_type": "input",
+            "label": "Financial Documents Location",
+            "placeholder": "Enter your financial documents",
+            "name": "financial_documents_location", 
+            "required": true,
+            "description": "Please provide the location of your financial documents"
+        }
+    ]
 }');
 
 -- Creating test subtasks
@@ -285,14 +447,6 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description) VALUES
 (1, 'Research Fear', 'Research books, articles, or podcasts on overcoming fear of death.'), 
 (1, 'Connect With Support', 'Connect with a local support group for individuals facing similar fears.'),
 (1, 'Manage Anxiety', 'Explore mindfulness or meditation practices to help manage anxiety related to end-of-life topics.'),
-(3, 'Your Values', 'Write down your personal values and beliefs.'),
-(3, 'Causes to Support', 'Identify specific causes or charities you would like to support'),
-(3, 'Legacy Statement', 'Legacy statement or ethical will to pass on your values to loved ones.'),
-(4, 'Draft Intentions', 'Draft a simple letter of intent outlining your wishes for end-of-life care.'),
-(4, 'Legal Plans', 'Complete healthcare proxies and power of attorney agents.'),
-(5, 'Financial Inventory', 'Conduct a thorough inventory of all financial accounts and assets.'),
-(5, 'Life Insurance', 'Review and update your life insurance policies, including coverage amounts and beneficiaries.'),
-(5, 'Financial Document Storage', 'Store digital copies of important financial documents in a secure location.'),
 (7, 'Asset Distribution', 'Leverage draft specific clauses regarding asset distribution, including any conditional bequests.'),
 (7, 'Minor Children', 'Designate a guardian for minor children and establish trusts for their care.'),
 (7, 'Digital Assets', 'Include provisions for digital assets, such as passwords and access instructions.'),
