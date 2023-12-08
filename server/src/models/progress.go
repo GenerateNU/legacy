@@ -6,11 +6,11 @@ import (
 
 type TaskProgress struct {
 	types.Model
-	Completed bool  `gorm:"default:false" json:"completed"`
-	UserID    uint  `json:"user_id"`
-	TaskID    uint  `json:"task_id"`
-	User      *User `gorm:"foreignkey:UserID" json:"-"`
-	Task      *Task `gorm:"foreignkey:TaskID" json:"-"`
+	Progress uint  `gorm:"default:0" json:"progress"`
+	UserID   uint  `json:"user_id"`
+	TaskID   uint  `json:"task_id"`
+	User     *User `gorm:"foreignkey:UserID" json:"-"`
+	Task     *Task `gorm:"foreignkey:TaskID" json:"-"`
 }
 
 type SubTaskProgress struct {

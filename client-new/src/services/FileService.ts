@@ -77,3 +77,20 @@ export const uploadFile = async (file: DocumentPicker.DocumentPickerAsset, userI
     throw new Error('Error uploading file');
   }
 }
+
+export const createFile = async (
+  userID: number,
+  sub_task_name: string,
+  data: object
+) => {
+  try {
+    const res = await axios.post(
+      `${API_BASE_URL}/files/makepdf/${userID}/${sub_task_name}`,
+      data
+    );
+
+    console.log('Response:', res.data);
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};

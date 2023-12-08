@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Box, Image, ScrollView, Text, View } from 'native-base';
 
 import React from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Pressable } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
@@ -12,6 +12,8 @@ import {
 import { fetchGuideByName } from '../../services/GuideService';
 import { getMonth } from '../../utils/DateUtils';
 import { moderateScale, verticalScale } from '../../utils/FontSizeUtils';
+import BackArrowIcon from '@/components/icons/BackArrow';
+import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 
 const MarkdownWrapper: React.FC<any> = ({ children }) => {
   return (
@@ -75,9 +77,35 @@ const GuideScreen: React.FC<GuideScreenProps> = ({ navigation, route }) => {
   return (
     guide && (
       <ScrollView>
-        <View bg="#FFB017" w={wp('100%')}>
+        <View bg="#FFB017" w={wp('100%')} height={hp('100%')}>
+          <View
+            flexDirection={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            px={wp('5%')}
+            py={hp('2.5%')}
+            marginTop={hp('5%')}
+          >
+            <Pressable onPress={() => navigation.goBack()}>
+              <View flexDirection={'row'} alignItems={'center'}>
+                <BackArrowIcon />
+                <Text
+                  fontFamily={'dmSans'}
+                  fontWeight={'Bold'}
+                  fontStyle={'normal'}
+                  fontSize={moderateScale(14)}
+                  color={'deepEvergreen'}
+                >
+                  Back
+                </Text>
+              </View>
+            </Pressable>
+            <View>
+              <LegacyWordmark />
+            </View>
+          </View>
           <View alignItems={'center'}>
-            <View pt={hp('12%')} flexDirection={'column'} w={wp('75%')}>
+            <View flexDirection={'column'} w={wp('75%')}>
               <Text
                 maxW={wp('90%')}
                 py={hp('1.25%')}

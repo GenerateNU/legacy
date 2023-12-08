@@ -157,6 +157,127 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description, actions) VA
             "description": "Select your preferred method of payment"
         }
     ]
+}'),
+(2, 'Create Checklist', 'Create a checklist of basic personal information needed for end-of-life planning.', 
+'{
+    "actions": [
+        {
+            "action_type": "textarea",
+            "label": "List your personal information",
+            "placeholder": "Enter your personal information",
+            "name": "personal_information",
+            "required": true,
+            "description": "Please provide a list of your personal information"
+        }
+    ]
+}'),
+(6, 'Personal Values', 'Create a comprehensive list of your personal values, preferences, and priorities.',
+'{
+    "actions": [
+        {
+            "action_type": "textarea",
+            "label": "List your personal values",
+            "placeholder": "Enter your personal values",
+            "name": "personal_values",
+            "required": true,
+            "description": "Please provide a list of your personal values"
+        }
+    ]
+}'),
+(6, 'Important Contacts', 'Select 3-5 important contacts to be notified in the event of an emergency.',
+'{
+    "actions": [
+        {
+            "action_type": "input",
+            "label": "Contact 1",
+            "placeholder": "Enter contact 1",
+            "name": "contact_1",
+            "type": "text",
+            "required": true,
+            "description": "Please provide the name of your first contact"
+        },
+        {
+            "action_type": "input",
+            "label": "Contact 2",
+            "placeholder": "Enter contact 2",
+            "name": "contact_2",
+            "type": "text",
+            "required": true,
+            "description": "Please provide the name of your second contact"
+        },
+        {
+            "action_type": "input",
+            "label": "Contact 3",
+            "placeholder": "Enter contact 3",
+            "name": "contact_3",
+            "type": "text",
+            "required": true,
+            "description": "Please provide the name of your third contact"
+        },
+        {
+            "action_type": "input",
+            "label": "Contact 4",
+            "placeholder": "Enter contact 4",
+            "name": "contact_4",
+            "type": "text",
+            "required": false,
+            "description": "Please provide the name of your fourth contact"
+        },
+        {
+            "action_type": "input",
+            "label": "Contact 5",
+            "placeholder": "Enter contact 5",
+            "name": "contact_5",
+            "type": "text",
+            "required": false,
+            "description": "Please provide the name of your fifth contact"
+        }
+    ]
+}'),
+(6, 'Organ Donation', 'Document your preferred organ donation choices.',
+'{
+    "actions": [
+        {
+            "action_type": "radio",
+            "label": "Organ Donation",
+            "name": "organ_donation",
+            "options": [
+                "Yes",
+                "No"
+            ],
+            "required": true,
+            "description": "Please select your preferred organ donation choice"
+        }
+    ]
+}'),
+(6, 'Burial/Cremation', 'Document your preferred burial or cremation preferences.',
+'{
+    "actions": [
+        {
+            "action_type": "radio",
+            "label": "Burial or Cremation",
+            "name": "burial_or_cremation",
+            "options": [
+                "Burial",
+                "Cremation"
+            ],
+            "required": true,
+            "description": "Please select your preferred burial or cremation choice"
+        }
+    ]
+}'),
+(6, 'Eulogy', 'Create a eulogy for yourself.',
+'{
+    "actions": [
+        {
+            "action_type": "textarea",
+            "label": "Eulogy",
+            "placeholder": "Enter your eulogy",
+            "name": "eulogy",
+            "required": true,
+            "description": "Please provide your eulogy"
+        }
+    ]
 }');
 
 -- Creating test subtasks
@@ -164,7 +285,6 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description) VALUES
 (1, 'Research Fear', 'Research books, articles, or podcasts on overcoming fear of death.'), 
 (1, 'Connect With Support', 'Connect with a local support group for individuals facing similar fears.'),
 (1, 'Manage Anxiety', 'Explore mindfulness or meditation practices to help manage anxiety related to end-of-life topics.'),
-(2, 'Create Checklist', 'Create a checklist of basic personal information needed for end-of-life planning.'),
 (3, 'Your Values', 'Write down your personal values and beliefs.'),
 (3, 'Causes to Support', 'Identify specific causes or charities you would like to support'),
 (3, 'Legacy Statement', 'Legacy statement or ethical will to pass on your values to loved ones.'),
@@ -173,11 +293,6 @@ INSERT INTO sub_tasks (task_id, sub_task_name, sub_task_description) VALUES
 (5, 'Financial Inventory', 'Conduct a thorough inventory of all financial accounts and assets.'),
 (5, 'Life Insurance', 'Review and update your life insurance policies, including coverage amounts and beneficiaries.'),
 (5, 'Financial Document Storage', 'Store digital copies of important financial documents in a secure location.'),
-(6, 'Personal Values', 'Create a comprehensive list of your personal values, preferences'),
-(6, 'Important Contacts', 'Create a comprehensive list of  important contacts.'),
-(6, 'Organ Donation', 'Document your preferred organ donation choices'),
-(6, 'Burial/Cremation', 'Document your preferred  burial or cremation preferences.'),
-(6, 'Eulogy', 'Create a eulogy for yourself'),
 (7, 'Asset Distribution', 'Leverage draft specific clauses regarding asset distribution, including any conditional bequests.'),
 (7, 'Minor Children', 'Designate a guardian for minor children and establish trusts for their care.'),
 (7, 'Digital Assets', 'Include provisions for digital assets, such as passwords and access instructions.'),

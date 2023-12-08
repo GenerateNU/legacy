@@ -1,7 +1,7 @@
 import { IInput } from "@/interfaces/IAction";
 import { Input, View, Text } from "native-base";
 import { ZodIssue, z } from "zod";
-import React from "react";
+import React, { useCallback } from "react";
 import { heightPercentageToDP as h } from "react-native-responsive-screen";
 
 type InputFieldProps = {
@@ -15,16 +15,16 @@ type InputFieldProps = {
 const InputField: React.FC<InputFieldProps> = (InputFieldProps) => {
   const { action, index, setFormState, setFormErrors, formErrors } = InputFieldProps;
 
-  const handleInputChange = (name: string, value: string) => {
+  const handleInputChange = useCallback((name: string, value: string) => {
     const errorMessage = validateInput(value);
 
     setFormState((prevState) => ({ ...prevState, [name]: value }));
     setFormErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
-  };
+  }, []);
 
   const validateInput = (value: string) => {
     try {
-      const schema = z.string().min(1).max(20);
+      const schema = z.string().min(1).max(50);
       schema.parse(value);
       return undefined;
     } catch (error) {

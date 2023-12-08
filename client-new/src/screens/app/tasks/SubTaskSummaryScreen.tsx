@@ -1,7 +1,7 @@
 import { getAllSubTasks } from '@/services/SubTasksService';
 import { Button, HStack, Pressable, ScrollView, Text, View } from 'native-base';
 import Icon from "react-native-vector-icons/Ionicons";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { useQuery } from '@tanstack/react-query';
 import LegacyWordmark from '@/components/reusable/LegacyWordmark';
 import CircleProgressSubtask from '@/components/reusable/CircleProgressSubtask';
@@ -13,7 +13,8 @@ import { ISubTask } from '@/interfaces/ISubTask';
 import { RefreshControl } from 'react-native';
 import { heightPercentageToDP as h, widthPercentageToDP as w } from 'react-native-responsive-screen';
 import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
-import SubTask from '@/components/task/Subtask';
+import SubTaskCard from '@/components/task/SubTaskCard';
+import { useIsFocused } from '@react-navigation/native'; // Import useIsFocused hook
 
 type SubTaskSummaryScreenProps = {
   route: any
@@ -22,13 +23,22 @@ type SubTaskSummaryScreenProps = {
 
 const SubTaskSummaryScreen = ({ route, navigation }: SubTaskSummaryScreenProps) => {
   const { task } = route.params as { task: ITask };
-
-  const progress = Math.floor(Math.random() * 100) + 1;
+  const isFocused = useIsFocused(); // Hook to check if screen is focused
 
   const { isLoading, error, data: subtasks, refetch } = useQuery({
     queryKey: ['fetchSubTasks', task?.id],
     queryFn: () => getAllSubTasks(task?.id)
   });
+
+  const refreshData = useCallback(async () => {
+    await refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if (isFocused) {
+      refreshData();
+    }
+  }, [isFocused, refreshData]);
 
   return (
     <ScrollView backgroundColor={'#FFFAF2'}
@@ -79,7 +89,7 @@ const SubTaskSummaryScreen = ({ route, navigation }: SubTaskSummaryScreenProps) 
             textAlign={"center"}>
             {task?.task_description}
           </Text>
-          <CircleProgressSubtask progress={progress ? progress : 0} />
+          <CircleProgressSubtask task={task} />
           <Text marginTop='25px' fontSize='24' fontWeight={'400'} fontFamily={"Roca Regular"} color={'barkBrown'}>
             Upcoming Tasks
           </Text>
@@ -94,9 +104,7 @@ const SubTaskSummaryScreen = ({ route, navigation }: SubTaskSummaryScreenProps) 
             {error && <Text>Error: {error.message}</Text>}
             {subtasks?.length === 0 && <Text>No subtasks found</Text>}
             {subtasks?.map((item, index) => (
-              <Pressable key={index} onPress={() => navigation.navigate('Subtask Screen', { subtask: item })}>
-                <SubTask subtasks={item} />
-              </Pressable>
+              <SubTaskCard subtask={item} navigation={navigation} key={index} />
             ))}
           </View>
         </View>

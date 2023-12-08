@@ -128,7 +128,7 @@ export default function HomeScreen({ navigation }) {
               >
                 Guides
               </Text>
-              <Pressable onPress={() => navigation.navigate('Guide Screen')}>
+              <Pressable onPress={() => navigation.navigate('Guide Collection Screen')}>
                 <Text
                   color={'#909090'}
                   fontSize={15}
