@@ -23,7 +23,7 @@ import CheckboxField from '../../../components/task/CheckboxField';
 import RadioField from '../../../components/task/RadioField';
 import { GestureResponderEvent } from 'react-native';
 import { ISubTask } from '@/interfaces/ISubTask';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getActions } from '@/services/ActionsService';
 import BackArrowIcon from '@/components/icons/BackArrow';
 import NoTaskIcon from '@/components/icons/NoTaskIcon';
@@ -33,10 +33,7 @@ import { moderateScale, verticalScale } from '@/utils/FontSizeUtils';
 import { fetchTask } from '@/services/TaskService';
 import { completeSubTask } from '@/services/SubTasksService';
 
-
 type ActionScreenProps = {
-  // actions: IAction[];
-  // subTaskName: string;
   navigation: any;
   route: any
 };
@@ -44,6 +41,7 @@ type ActionScreenProps = {
 const ActionScreen = ({ navigation, route }: ActionScreenProps) => {
   const [formState, setFormState] = useState({});
   const [formErrors, setFormErrors] = useState<ZodIssue[]>([]);
+  const [disabled, setDisabled] = useState<boolean>(false);
   const { user } = useUser();
   const { subtask } = route.params as { subtask: ISubTask };
 
@@ -58,11 +56,11 @@ const ActionScreen = ({ navigation, route }: ActionScreenProps) => {
 
 
     try {
+      setDisabled(true);
       setFormState({ ...formState, user_id: user?.id, sub_task_name: subtask.sub_task_name, timestamp: Date.now() })
       await createFile(user?.id, subtask.sub_task_name, formState);
       await completeSubTask(user?.id, subtask?.id)
       const task = await fetchTask(subtask?.task_id);
-
       navigation.navigate('SubTask Summary Screen', { task: task });
     }
     catch (err) {
@@ -166,7 +164,7 @@ const ActionScreen = ({ navigation, route }: ActionScreenProps) => {
                 </FormControl>
               </ScrollView>
             ))}
-            <SubmitButton handleSubmit={handleSubmit} />
+              <SubmitButton handleSubmit={handleSubmit} isDisabled={disabled} />
           </View>
         )}
       </View>
@@ -178,9 +176,10 @@ export default ActionScreen;
 
 type SubmitButtonProps = {
   handleSubmit: (e: GestureResponderEvent) => void
+  isDisabled?: boolean
 }
 
-const SubmitButton = ({ handleSubmit }: SubmitButtonProps) => {
+const SubmitButton = ({ handleSubmit, isDisabled }: SubmitButtonProps) => {
   return (
     <View
       marginBottom={h('3%')}
@@ -197,6 +196,7 @@ const SubmitButton = ({ handleSubmit }: SubmitButtonProps) => {
         borderColor={'#43A573'}
         onPress={handleSubmit}
         flex={0.9}
+        isDisabled={isDisabled ? isDisabled : false}
       >
         Submit
       </Button>

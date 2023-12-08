@@ -131,7 +131,7 @@ export default function GuideCollectionScreen({ navigation }) {
           </View>
           <View paddingTop={h('2%')} paddingBottom={h('4%')}>
             {[...tagsGuides.keys()].map((tag, key) => (
-              <View flexDirection={'column'}>
+              <View flexDirection={'column'} key={key}>
                 <Text
                   fontSize={moderateScale(20)}
                   fontFamily={'rocaOne'}
@@ -152,6 +152,7 @@ export default function GuideCollectionScreen({ navigation }) {
                             guideName: guide.guide_name
                           })
                         }
+                        key={key2}
                       >
                         <View paddingLeft={key2 === 0 ? 0 : h('1.5%')}>
                           <GuideCard

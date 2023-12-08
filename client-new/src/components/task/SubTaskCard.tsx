@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View, Text, Pressable, Button } from 'native-base'
 import { moderateScale } from '@/utils/FontSizeUtils'
 import { heightPercentageToDP as h, widthPercentageToDP as w } from 'react-native-responsive-screen'
@@ -8,6 +8,7 @@ import { isLoading } from 'expo-font';
 import { useQuery } from '@tanstack/react-query'
 import { getSubtaskProgress } from '@/services/SubTasksService'
 import { useUser } from '@/contexts/UserContext'
+import { useIsFocused } from '@react-navigation/native'; // Import useIsFocused hook
 
 type SubTasksProps = {
     subtask: ISubTask
@@ -16,8 +17,9 @@ type SubTasksProps = {
 
 const SubTaskCard = ({ subtask, navigation }: SubTasksProps) => {
     const { user } = useUser();
+    const isFocused = useIsFocused(); // Hook to check if screen is focused
 
-    const { isLoading, error, data: complete } = useQuery({
+    const { isLoading, error, data: complete, refetch } = useQuery({
         queryKey: ['fetchSubtaskProgress', user?.id, subtask?.id],
         queryFn: () => getSubtaskProgress(user?.id, subtask?.id)
     });
@@ -30,11 +32,25 @@ const SubTaskCard = ({ subtask, navigation }: SubTasksProps) => {
         return <Text>Error</Text>
     };
 
+    const refreshData = useCallback(async () => {
+        // Refetch subtasks data here
+        console.log('[SubTaskSummaryScreen] Refreshing data...')
+        console.log(complete)
+        await refetch();
+    }, [refetch]);
+
+
+    useEffect(() => {
+        if (isFocused) {
+            console.log('[SubTaskCard] Refreshing data...')
+            refreshData(); // Refresh data when screen gains focus
+        }
+    }, [isFocused, refetch]);
     console.log('Subtask Progress:', complete)
 
     return (
         <Pressable
-            onPress={() => navigation.navigate('Subtask Screen', { subtask: subtask })}
+            onPress={() => navigation.navigate('Action Screen', { subtask: subtask })}
             isDisabled={complete?.completed}
         >
             <View
