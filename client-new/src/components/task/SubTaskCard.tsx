@@ -17,12 +17,23 @@ type SubTasksProps = {
 
 const SubTaskCard = ({ subtask, navigation }: SubTasksProps) => {
     const { user } = useUser();
-    const isFocused = useIsFocused(); // Hook to check if screen is focused
+    const isFocused = useIsFocused();
 
     const { isLoading, error, data: complete, refetch } = useQuery({
         queryKey: ['fetchSubtaskProgress', user?.id, subtask?.id],
         queryFn: () => getSubtaskProgress(user?.id, subtask?.id)
     });
+
+    const refreshData = useCallback(async () => {
+        await refetch();
+    }, [refetch]);
+
+
+    useEffect(() => {
+        if (isFocused) {
+            refreshData();
+        }
+    }, [isFocused, refetch]);
 
     if (isLoading) {
         return <Text>Loading...</Text>
@@ -31,22 +42,6 @@ const SubTaskCard = ({ subtask, navigation }: SubTasksProps) => {
     if (error) {
         return <Text>Error</Text>
     };
-
-    const refreshData = useCallback(async () => {
-        // Refetch subtasks data here
-        console.log('[SubTaskSummaryScreen] Refreshing data...')
-        console.log(complete)
-        await refetch();
-    }, [refetch]);
-
-
-    useEffect(() => {
-        if (isFocused) {
-            console.log('[SubTaskCard] Refreshing data...')
-            refreshData(); // Refresh data when screen gains focus
-        }
-    }, [isFocused, refetch]);
-    console.log('Subtask Progress:', complete)
 
     return (
         <Pressable

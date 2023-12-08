@@ -99,7 +99,7 @@ const ActionScreen = ({ navigation, route }: ActionScreenProps) => {
 
   return (
     <ScrollView backgroundColor={'#FFFAF2'}>
-      <View marginX={w('5%')} marginTop={h('5%')}>
+      <View marginX={w('5%')} marginTop={h('8%')}>
         <HStack flexDirection="row" justifyContent="center" flex={1}>
           <Pressable flex={1} onPress={() => navigation.goBack()}>
             <BackArrowIcon />

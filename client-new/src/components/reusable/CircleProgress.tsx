@@ -75,6 +75,7 @@ const CircleProgress = ({ task }: CircleProgressProps) => {
         position={'absolute'}
         left={`${textPosition.left}%`}
         top={`${textPosition.top}%`}
+        color={progress?.progress === 100 ? '#00000033' : '#2F1D12'}
       >
         {progress?.progress || 0}%
       </Text>

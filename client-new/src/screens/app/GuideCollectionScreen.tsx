@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { moderateScale } from '../../utils/FontSizeUtils';
+import BackArrowIcon from '@/components/icons/BackArrow';
 
 export default function GuideCollectionScreen({ navigation }) {
   const [tagsGuides, setTagsGuides] = useState<Map<string, IGuide[]>>(
@@ -105,7 +106,12 @@ export default function GuideCollectionScreen({ navigation }) {
           paddingLeft={w('1.5%')}
           paddingRight={w('1.5%')}
         >
-          <View alignItems={'center'}>
+          <View width={'100%'} marginTop={h('2%')} marginBottom={h('2%')} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+            <Pressable onPress={() => navigation.goBack()}>
+              <View flexDirection={'row'} alignItems={'center'}>
+                <BackArrowIcon />
+              </View>
+            </Pressable>
             <Text
               fontSize={moderateScale(32)}
               fontFamily={'rocaOne'}
@@ -113,9 +119,13 @@ export default function GuideCollectionScreen({ navigation }) {
               fontStyle={'normal'}
               color={'barkBrown'}
               margin={h('2%')}
+              alignSelf={'center'}
+              justifyContent={'center'}
+              alignItems={'center'}
             >
               Guides
             </Text>
+          </View>
 
             <View>
               <Input
@@ -126,8 +136,7 @@ export default function GuideCollectionScreen({ navigation }) {
                 backgroundColor={'creamyCanvas'}
                 borderRadius={20}
                 marginBottom={'20px'}
-              />
-            </View>
+            />
           </View>
           <View paddingTop={h('2%')} paddingBottom={h('4%')}>
             {[...tagsGuides.keys()].map((tag, key) => (

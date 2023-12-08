@@ -28,7 +28,7 @@ export default function AppStack() {
         <Stack.Screen name="SubTask Summary Screen" component={SubTaskSummaryScreen} />
         <Stack.Screen name="Action Screen" component={ActionScreen} />
       </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+      <Stack.Group>
         <Stack.Screen name="Guide Collection Screen" component={GuideCollectionScreen} />
         <Stack.Screen name="Home Screen Guides" component={HomeScreenGuides} />
         <Stack.Screen name="Guide Screen" component={GuideScreen} />
