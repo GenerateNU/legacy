@@ -76,8 +76,8 @@ const GuideScreen: React.FC<GuideScreenProps> = ({ navigation, route }) => {
 
   return (
     guide && (
-      <ScrollView>
-        <View bg="#FFB017" w={wp('100%')} height={hp('100%')}>
+      <ScrollView bg="#FFB017" w={wp('100%')} height={hp('100%')}>
+        <View>
           <View
             flexDirection={'row'}
             justifyContent={'space-between'}
