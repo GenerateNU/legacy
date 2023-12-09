@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "Legacy",
+    "slug": "legacy",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icon.png",
+    "icon": "./assets/app-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/splash.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fffaf2"
+      "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,18 +20,20 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.davidoduneye.client"
+      "package": "com.legacy"
     },
     "web": {
-      "favicon": "./src/assets/favicon.png"
+      "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "57aafa2e-4023-4046-b22f-478e3146cae0"
+        "projectId": "a5781a9c-e61b-4767-9f58-039b69e13032"
       }
-    }
+    },
+    "expo": {},
+    "owner": "legacy-dev"
   }
 }

@@ -12,8 +12,8 @@ module.exports = function (api) {
             '@/screens': './src/screens',
             '@/utils': './src/utils',
             '@/assets': './src/assets',
-            '@/types': './src/types',
-            '@/context': './src/context',
+            '@/interfaces': './src/interfaces',
+            '@/contexts': './src/contexts',
             '@/services': './src/services',
             '@/navigation': './src/navigation'
           }
