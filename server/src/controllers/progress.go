@@ -26,7 +26,7 @@ func NewProgressController(progressService services.ProgressServiceInterface) *P
 // 	@Produce json
 // 	@Success 200 {object} models.TaskProgress
 // 	@Failure 404 {string} string "Failed to fetch task progress"
-// 	@Router /api/progress/{uid}/tasks/{tid} [get]
+// 	@Router /api/progresses/task/{uid}/{tid} [get]
 func (p *ProgressController) GetTaskProgress(c echo.Context) error {
 	userID := c.Param("uid")
 	taskID := c.Param("tid")
@@ -49,8 +49,8 @@ func (p *ProgressController) GetTaskProgress(c echo.Context) error {
 // 	@Param sid path string true "Subtask ID"
 // 	@Produce json
 // 	@Success 200 {object} models.SubTaskProgress
-//	 @Failure 404 {string} string "Failed to fetch subtask progress"
-//	 @Router /api/progress/{uid}/subtasks/{sid} [get]
+//	@Failure 404 {string} string "Failed to fetch subtask progress"
+//	@Router /api/progresses/subtask/{uid}/{sid} [get]
 func (p *ProgressController) GetSubTaskProgress(c echo.Context) error {
 	userID := c.Param("uid")
 	subTaskID := c.Param("sid")
@@ -74,7 +74,7 @@ func (p *ProgressController) GetSubTaskProgress(c echo.Context) error {
 // 	@Produce json
 // 	@Success 200 {object} models.SubTaskProgress
 // 	@Failure 404 {string} string "Failed to complete subtask progress"
-// 	@Router /api/progress/{uid}/subtasks/{sid}/complete [put]
+// 	@Router /api/progresses/subtask/{uid}/{sid}/complete [put]
 func (p *ProgressController) CompleteSubTaskProgress(c echo.Context) error {
 	userID := c.Param("uid")
 	subTaskID := c.Param("sid")
@@ -98,7 +98,7 @@ func (p *ProgressController) CompleteSubTaskProgress(c echo.Context) error {
 // 	@Produce json
 // 	@Success 200 {object} []models.SubTaskProgress
 // 	@Failure 404 {string} string "Failed to fetch all subtask progresses of task"
-// 	@Router /api/progress/{uid}/tasks/{tid}/subtasks [get]
+// 	@Router /api/progresses/{uid}/{tid} [get]
 func (p *ProgressController) GetAllSubTaskProgressOfTask(c echo.Context) error {
 	userID := c.Param("uid")
 	taskID := c.Param("tid")
