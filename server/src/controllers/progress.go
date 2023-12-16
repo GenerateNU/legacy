@@ -15,6 +15,18 @@ func NewProgressController(progressService services.ProgressServiceInterface) *P
 	return &ProgressController{progressService: progressService}
 }
 
+// GetTaskProgress godoc
+//
+// 	@Summary Get task progress
+// 	@Description Get progress of a specific task for a user
+// 	@ID get-task-progress
+// 	@Tags progress
+// 	@Param uid path string true "User ID"
+// 	@Param tid path string true "Task ID"
+// 	@Produce json
+// 	@Success 200 {object} models.TaskProgress
+// 	@Failure 404 {string} string "Failed to fetch task progress"
+// 	@Router /api/progress/{uid}/tasks/{tid} [get]
 func (p *ProgressController) GetTaskProgress(c echo.Context) error {
 	userID := c.Param("uid")
 	taskID := c.Param("tid")
@@ -27,6 +39,18 @@ func (p *ProgressController) GetTaskProgress(c echo.Context) error {
 	return c.JSON(http.StatusOK, taskProgress)
 }
 
+// GetSubTaskProgress godoc
+// 
+// 	@Summary Get subtask progress
+// 	@Description Get progress of a specific subtask for a user
+// 	@ID get-subtask-progress
+// 	@Tags progress
+// 	@Param uid path string true "User ID"
+// 	@Param sid path string true "Subtask ID"
+// 	@Produce json
+// 	@Success 200 {object} models.SubTaskProgress
+//	 @Failure 404 {string} string "Failed to fetch subtask progress"
+//	 @Router /api/progress/{uid}/subtasks/{sid} [get]
 func (p *ProgressController) GetSubTaskProgress(c echo.Context) error {
 	userID := c.Param("uid")
 	subTaskID := c.Param("sid")
@@ -39,6 +63,18 @@ func (p *ProgressController) GetSubTaskProgress(c echo.Context) error {
 	return c.JSON(http.StatusOK, subTaskProgress)
 }
 
+// CompleteSubTaskProgress godoc
+// 
+// 	@Summary Complete subtask progress
+// 	@Description Mark a subtask as completed for a user
+//	@ID complete-subtask-progress
+//	@Tags progress
+// 	@Param uid path string true "User ID"
+// 	@Param sid path string true "Subtask ID"
+// 	@Produce json
+// 	@Success 200 {object} models.SubTaskProgress
+// 	@Failure 404 {string} string "Failed to complete subtask progress"
+// 	@Router /api/progress/{uid}/subtasks/{sid}/complete [put]
 func (p *ProgressController) CompleteSubTaskProgress(c echo.Context) error {
 	userID := c.Param("uid")
 	subTaskID := c.Param("sid")
@@ -51,6 +87,18 @@ func (p *ProgressController) CompleteSubTaskProgress(c echo.Context) error {
 	return c.JSON(http.StatusOK, subTaskProgress)
 }
 
+// GetAllSubTaskProgressOfTask godoc
+//
+// 	@Summary Get all subtask progresses of a task
+//	@Description Get all subtask progresses for a specific task of a user
+// 	@ID get-all-subtask-progress
+// 	@Tags progress
+// 	@Param uid path string true "User ID"
+// 	@Param tid path string true "Task ID"
+// 	@Produce json
+// 	@Success 200 {object} []models.SubTaskProgress
+// 	@Failure 404 {string} string "Failed to fetch all subtask progresses of task"
+// 	@Router /api/progress/{uid}/tasks/{tid}/subtasks [get]
 func (p *ProgressController) GetAllSubTaskProgressOfTask(c echo.Context) error {
 	userID := c.Param("uid")
 	taskID := c.Param("tid")
