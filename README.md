@@ -10,7 +10,6 @@ An all-encompassing end-of-life planning app.
 - [yarn](https://yarnpkg.com/en/)
 - [expo](https://expo.io/)
 - [golang](https://golang.org/)
-- [docker](https://www.docker.com/)
 - [postgresql](https://www.postgresql.org/)
 - [taskfile](https://taskfile.dev/#/installation?id=installation)
 
